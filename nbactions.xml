@@ -21,9 +21,6 @@
         <goals>
             <goal>javafx:run</goal>
         </goals>
-        <properties>
-            <exec.mainClass>spp.App</exec.mainClass>
-        </properties>
     </action>
 
     <!-- PROFILE (opcional, pero limpio) -->
