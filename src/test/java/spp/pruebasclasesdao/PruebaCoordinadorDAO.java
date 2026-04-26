@@ -28,10 +28,10 @@ public class PruebaCoordinadorDAO {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         usuario.setNombre("Juan Carlos");
-        usuario.setApellidos("Perez Arriaga");
+        usuario.setApellidoPaterno("Perez Arriaga");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
-        idUsuario = usuarioDao.registrarUsuario(usuario);
+        idUsuario = usuarioDao.insertarUsuario(usuario);
         
     }
     
@@ -44,7 +44,7 @@ public class PruebaCoordinadorDAO {
         coordinador.setIdUsuario(idUsuario);
         coordinador.setNumeroDePersonal("p2401");
         
-        boolean registroExitoso = coordinadorDao.registrarCoordinador(coordinador);
+        boolean registroExitoso = coordinadorDao.insertarCoordinador(coordinador);
         assertTrue(registroExitoso);
         
     }

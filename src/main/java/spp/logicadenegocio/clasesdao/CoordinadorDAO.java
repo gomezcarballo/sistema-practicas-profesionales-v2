@@ -20,7 +20,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class CoordinadorDAO implements ICoordinadorDAO {
 
     @Override
-    public boolean registrarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
+    public boolean insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
         
         boolean registroExitoso = false;
         

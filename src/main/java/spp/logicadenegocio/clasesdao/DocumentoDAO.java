@@ -21,13 +21,11 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class DocumentoDAO implements IDocumentoDAO {
 
     @Override
-    public boolean registrarDocumento(Documento documento) throws OperacionesDeDaoExcepcion{
+    public boolean insertarDocumento(Documento documento) throws OperacionesDeDaoExcepcion{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = """
-                INSERT INTO Documento 
-                (nombre, tipo, ruta, Usuario_idUsuario) VALUES (?, ?, ?, ?)""";
+        String consultaSQL = "INSERT INTO Documento (nombre, tipo, ruta, Usuario_idUsuario) VALUES (?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {

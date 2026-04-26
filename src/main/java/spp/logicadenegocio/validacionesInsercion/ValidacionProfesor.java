@@ -16,12 +16,12 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class ValidacionProfesor {
     
-    public String insertarProfesor(Profesor profesor){
+    public String registrarProfesor(Profesor profesor){
         
         Usuario usuario = new Usuario();
         
         usuario.setNombre(profesor.getNombre());
-        usuario.setApellidos(profesor.getApellidos());
+        usuario.setApellidoPaterno(profesor.getApellidoPaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         
@@ -30,10 +30,10 @@ public class ValidacionProfesor {
         
         try{
             
-            int idUsuario = usuarioDao.registrarUsuario(usuario);
+            int idUsuario = usuarioDao.insertarUsuario(usuario);
             
             profesor.setIdUsuario(idUsuario);
-            profesorDao.registrarProfesor(profesor);
+            profesorDao.insertarProfesor(profesor);
             return "Profesor registrado correctamente";
             
         }catch(OperacionesDeDaoExcepcion e){

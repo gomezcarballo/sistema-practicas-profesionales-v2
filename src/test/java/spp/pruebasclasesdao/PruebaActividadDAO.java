@@ -37,7 +37,7 @@ public class PruebaActividadDAO {
         profesor.setIdUsuario(2);
         actividadInsertada.setProfesor(profesor);
         
-        boolean registroExitoso = actividadDao.registrarActividad(actividadInsertada);
+        boolean registroExitoso = actividadDao.insertarActividad(actividadInsertada);
         assertTrue("Registro de actividad exitoso es: ", registroExitoso);
         
     }

@@ -16,10 +16,10 @@ public class Coordinador extends Usuario{
         
     }
     
-    public Coordinador (int idUsuario, String nombre, String apellidos, String contraseña,
-           boolean esActivo, String numeroDePersonal){
+    public Coordinador (int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
+            String contraseña, boolean esActivo, String numeroDePersonal){
         
-        super(idUsuario,nombre,apellidos,contraseña,esActivo);
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, contraseña, esActivo);
         this.numeroDePersonal = numeroDePersonal;
         
     }

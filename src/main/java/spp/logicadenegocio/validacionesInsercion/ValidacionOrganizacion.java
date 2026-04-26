@@ -14,14 +14,14 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class ValidacionOrganizacion {
     
-    public String insertarOrganizacion(Organizacion organizacion){
+    public String registrarOrganizacion(Organizacion organizacion){
         
         OrganizacionDAO organizacionDao = new OrganizacionDAO();
         organizacion.setEsActivo(true);
         
         try{
             
-            organizacionDao.registrarOrganizacion(organizacion);
+            organizacionDao.insertarOrganizacion(organizacion);
             return "Organización registrado correctamente";
             
         }catch(OperacionesDeDaoExcepcion e){

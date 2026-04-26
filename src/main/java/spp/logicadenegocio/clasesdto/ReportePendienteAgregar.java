@@ -8,6 +8,6 @@ package spp.logicadenegocio.clasesdto;
  *
  * @author Luz Fernanda H J
  */
-public class Reporte {
+public class ReportePendienteAgregar {
     
 }

@@ -15,12 +15,13 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author Luz Fernanda H J
  */
 public class ValidacionCoordinador {
-    public String insertarCoordinador(Coordinador coordinador){
+    
+    public String registrarCoordinador(Coordinador coordinador){
         
         Usuario usuario = new Usuario();
        
         usuario.setNombre(coordinador.getNombre());
-        usuario.setApellidos(coordinador.getApellidos());
+        usuario.setApellidoPaterno(coordinador.getApellidoPaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         
@@ -29,10 +30,10 @@ public class ValidacionCoordinador {
         
         try{
             
-            int idUsuario = usuarioDao.registrarUsuario(usuario);
+            int idUsuario = usuarioDao.insertarUsuario(usuario);
             
             coordinador.setIdUsuario(idUsuario);
-            coordinadorDao.registrarCoordinador(coordinador);
+            coordinadorDao.insertarCoordinador(coordinador);
             return "Coordinador registrado correctamente";
             
         }catch(OperacionesDeDaoExcepcion e){
