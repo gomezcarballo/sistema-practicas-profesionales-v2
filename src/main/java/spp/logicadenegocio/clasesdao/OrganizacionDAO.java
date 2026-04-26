@@ -21,13 +21,11 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class OrganizacionDAO implements IOrganizacionDAO{
     
     @Override
-    public boolean registrarOrganizacion(Organizacion organizacion) throws OperacionesDeDaoExcepcion{
+    public boolean insertarOrganizacion(Organizacion organizacion) throws OperacionesDeDaoExcepcion{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = """
-                INSERT INTO Organizacion(nombre, direccion, sector, estado) 
-                             VALUES (?, ?, ?, ?)""";
+        String consultaSQL = "INSERT INTO Organizacion(nombre, direccion, sector, estado) VALUES (?, ?, ?, ?)";
         
         try (Connection conexion = ConexionBD.getConexion(); 
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
@@ -119,8 +117,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE Organizacion SET nombre = ?, direccion = ?, "
-                + "sector = ?, estado = ? "
-                + "WHERE nombre = ?";
+                + "sector = ? WHERE nombre = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -128,8 +125,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
             consultaPreparada.setString(1, organizacion.getNombre());
             consultaPreparada.setString(2, organizacion.getDireccion());
             consultaPreparada.setString(3, organizacion.getSector());
-            consultaPreparada.setBoolean(4, organizacion.getEsActivo());
-            consultaPreparada.setString(5, organizacion.getNombre());
+            consultaPreparada.setString(4, organizacion.getNombre());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

@@ -28,10 +28,10 @@ public class PruebaProfesorDAO {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         usuario.setNombre("Lizbeth");
-        usuario.setApellidos("Hernandez Gonzalez");
+        usuario.setApellidoPaterno("Hernandez Gonzalez");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
-        idUsuario = usuarioDao.registrarUsuario(usuario);
+        idUsuario = usuarioDao.insertarUsuario(usuario);
         
     }
     
@@ -44,7 +44,7 @@ public class PruebaProfesorDAO {
         profesor.setIdUsuario(usuario.getIdUsuario());
         profesor.setNumeroDePersonal("p2402");
         
-        boolean registroExitoso = profesorDao.registrarProfesor(profesor);
+        boolean registroExitoso = profesorDao.insertarProfesor(profesor);
         assertTrue(registroExitoso);
         
     }

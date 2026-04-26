@@ -20,11 +20,11 @@ public class Practicante extends Usuario {
     public Practicante() {
     }
 
-    public Practicante(int idUsuario, String nombre, String apellidos, String contraseña,
-           boolean esActivo,String matricula,String genero, Date fechaNacimiento, 
+    public Practicante(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
+           String contraseña, boolean esActivo, String matricula, String genero, Date fechaNacimiento, 
            boolean hablaLenguaIndigena) {
         
-        super(idUsuario, nombre, apellidos, contraseña,esActivo);
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, contraseña,esActivo);
         this.matricula = matricula;
         this.genero = genero;
         this.fechaNacimiento = fechaNacimiento;

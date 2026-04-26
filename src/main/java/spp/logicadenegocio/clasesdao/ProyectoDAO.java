@@ -22,14 +22,12 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class ProyectoDAO implements IProyectoDAO {
     
     @Override
-    public boolean registrarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion{
+    public boolean insertarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = """
-                INSERT INTO Proyecto 
-                (nombre, descripcion, nombreResponsable, cupoMaximo, estado, 
-                  Organizacion_idOrganizacion) VALUES (?, ?, ?, ?, ?, ?)""";
+        String consultaSQL = "INSERT INTO Proyecto (nombre, descripcion, nombreResponsable, "
+                + "cupoMaximo, estado, Organizacion_idOrganizacion) VALUES (?, ?, ?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
@@ -131,8 +129,7 @@ public class ProyectoDAO implements IProyectoDAO {
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE PROYECTO SET nombre = ?, descripcion = ?, "
-                + "nombreResponsable = ?, cupoMaximo = ?, estado = ?, Organizacion_idOrganizacion = ? "
-                + "WHERE nombre = ? ";
+                + "nombreResponsable = ?, cupoMaximo = ? WHERE nombre = ? ";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -141,9 +138,7 @@ public class ProyectoDAO implements IProyectoDAO {
             consultaPreparada.setString(2, proyecto.getDescripcion());
             consultaPreparada.setString(3, proyecto.getNombreResponsable());
             consultaPreparada.setInt(4, proyecto.getCupoMaximo());
-            consultaPreparada.setBoolean(5, proyecto.getEsActivo());
-            consultaPreparada.setInt(6, proyecto.getOrganizacion().getIdOrganizacion());
-            consultaPreparada.setString(7, proyecto.getNombre());
+            consultaPreparada.setString(5, proyecto.getNombre());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

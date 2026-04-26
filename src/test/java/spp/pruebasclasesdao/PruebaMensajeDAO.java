@@ -31,7 +31,7 @@ public class PruebaMensajeDAO {
         LocalDateTime fechaFormateada = LocalDateTime.parse("25-10-2004 14:30", formatoFecha);
         mensaje.setFecha(fechaFormateada); 
         
-        boolean registroExitoso = mensajeDao.registrarMensaje(mensaje);
+        boolean registroExitoso = mensajeDao.insertarMensaje(mensaje);
         assertTrue(registroExitoso);
         
     }

@@ -28,10 +28,10 @@ public class PruebaDocumentoDAO {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         usuario.setNombre("Jorge Octavio");
-        usuario.setApellidos("Ocharan Hernandez");
+        usuario.setApellidoPaterno("Ocharan Hernandez");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
-        idUsuario = usuarioDao.registrarUsuario(usuario);
+        idUsuario = usuarioDao.insertarUsuario(usuario);
         
     }
     
@@ -46,7 +46,7 @@ public class PruebaDocumentoDAO {
         documento.setTipo("Actividad");
         documento.setUsuario(usuario);
         
-        boolean registroExitoso = documentoDao.registrarDocumento(documento);
+        boolean registroExitoso = documentoDao.insertarDocumento(documento);
         assertTrue(registroExitoso);
         
     }

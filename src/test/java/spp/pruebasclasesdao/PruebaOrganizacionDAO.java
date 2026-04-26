@@ -27,7 +27,7 @@ public class PruebaOrganizacionDAO {
         organizacion.setSector("Privado");
         organizacion.setEsActivo(true);
         
-        boolean registroExitoso = organizacionDao.registrarOrganizacion(organizacion);
+        boolean registroExitoso = organizacionDao.insertarOrganizacion(organizacion);
         assertTrue(registroExitoso);
         
     }

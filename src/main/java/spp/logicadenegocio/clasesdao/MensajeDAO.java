@@ -10,9 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import spp.accesoadatos.ConexionBD;
-import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.Mensaje;
-import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IMensajeDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -23,7 +21,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class MensajeDAO implements IMensajeDAO{
 
     @Override
-    public boolean registrarMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
+    public boolean insertarMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
         boolean registroExitoso = false;
         
         String consultaSQL = """
@@ -44,8 +42,8 @@ public class MensajeDAO implements IMensajeDAO{
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
-    return registroExitoso;
-    
+        
+    return registroExitoso;  
     }
 
     @Override

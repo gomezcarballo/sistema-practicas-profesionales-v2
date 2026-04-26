@@ -20,12 +20,11 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
     
     @Override
-    public boolean registrarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion{
+    public boolean insertarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = """
-                INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?)""";
+        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {

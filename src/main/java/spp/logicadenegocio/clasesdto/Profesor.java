@@ -17,10 +17,10 @@ public class Profesor extends Usuario{
     public Profesor() {
     }
 
-    public Profesor(int idUsuario, String nombre, String apellidos, 
+    public Profesor(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno,
            String contraseña, boolean esActivo,String numeroDePersonal) {
         
-        super(idUsuario, nombre, apellidos, contraseña, esActivo);
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, contraseña, esActivo);
         this.numeroDePersonal = numeroDePersonal;
         
     }

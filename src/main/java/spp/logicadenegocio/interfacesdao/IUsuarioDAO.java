@@ -12,7 +12,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface IUsuarioDAO {
-    public int registrarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion;
+    public int insertarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion;
     public Usuario consultarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean eliminarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean actualizarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion;

@@ -1,0 +1,12 @@
+# Compilados de Java
+target/
+*.class
+
+# Archivos de NetBeans
+nbproject/
+nb-configuration.xml
+nbactions.xml
+nb-build-private/
+
+# Otros
+.DS_Store
