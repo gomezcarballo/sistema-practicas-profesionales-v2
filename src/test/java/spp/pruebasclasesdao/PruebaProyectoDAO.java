@@ -30,7 +30,7 @@ public class PruebaProyectoDAO {
         organizacion.setSector("Privado");
         organizacion.setEsActivo(true);
         
-        organizacionDao.registrarOrganizacion(organizacion);
+        organizacionDao.insertarOrganizacion(organizacion);
         
     }
     
@@ -47,7 +47,7 @@ public class PruebaProyectoDAO {
         proyecto.setOrganizacion(organizacion);
         proyecto.setEsActivo(true);
         
-        boolean registroExitoso = proyectoDao.registrarProyecto(proyecto);
+        boolean registroExitoso = proyectoDao.insertarProyecto(proyecto);
         assertTrue(registroExitoso);
         
     }

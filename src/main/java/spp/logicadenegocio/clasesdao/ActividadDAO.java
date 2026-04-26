@@ -22,14 +22,12 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class ActividadDAO implements IActividadDAO{
 
     @Override
-    public boolean registrarActividad(Actividad actividad) throws OperacionesDeDaoExcepcion {
+    public boolean insertarActividad(Actividad actividad) throws OperacionesDeDaoExcepcion {
         
         boolean registroExitoso = false;
         
-        String consultaSQL = """
-                INSERT INTO Actividad 
-                (titulo, descripcion, fechaLimite, Profesor_idUsuario) 
-                VALUES (?, ?, ?, ?)""";
+        String consultaSQL = "INSERT INTO Actividad (titulo, descripcion, "
+                + "fechaLimite, Profesor_idUsuario) VALUES (?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada 

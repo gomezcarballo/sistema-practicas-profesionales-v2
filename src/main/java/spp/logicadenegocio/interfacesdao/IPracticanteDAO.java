@@ -12,7 +12,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface IPracticanteDAO {
-    public boolean registrarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion;
+    public boolean insertarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion;
     public Practicante consultarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
     public boolean eliminarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
     public boolean actualizarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion;

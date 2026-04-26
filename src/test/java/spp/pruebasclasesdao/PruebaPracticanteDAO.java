@@ -34,7 +34,7 @@ public class PruebaPracticanteDAO {
         usuario.setApellidoPaterno("Morales Juarez");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
-        idUsuario = usuarioDao.registrarUsuario(usuario);
+        idUsuario = usuarioDao.insertarUsuario(usuario);
         
     }
     
@@ -55,7 +55,7 @@ public class PruebaPracticanteDAO {
 
         practicante.setFechaNacimiento(fecha);
 
-        boolean registroExitoso = practicanteDao.registrarPracticante(practicante);
+        boolean registroExitoso = practicanteDao.insertarPracticante(practicante);
         assertTrue(registroExitoso);
         
     }

@@ -21,13 +21,12 @@ import java.sql.SQLException;
 public class UsuarioDAO implements IUsuarioDAO {
     
     @Override
-    public int registrarUsuario(Usuario usuario) throws OperacionesDeDaoExcepcion{
+    public int insertarUsuario(Usuario usuario) throws OperacionesDeDaoExcepcion{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = """
-                INSERT INTO Usuario (nombre, apellidoPaterno, apellidoMaterno, contrasena, estado) 
-                VALUES (?, ?, ?, ?, ?)""";
+        String consultaSQL = "INSERT INTO Usuario (nombre, apellidoPaterno, apellidoMaterno, "
+                + "contrasena, estado) VALUES (?, ?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement
@@ -134,8 +133,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE Usuario SET nombre = ?, apellidoPaterno = ?, "
-                + "apellidoMaterno = ?, contrasena = ?, estado = ? "
-                + "WHERE idUsuario = ?";
+                + "apellidoMaterno = ? WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -143,9 +141,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             consultaPreparada.setString(1, usuario.getNombre());
             consultaPreparada.setString(2, usuario.getApellidoPaterno());
             consultaPreparada.setString(3, usuario.getApellidoMaterno());
-            consultaPreparada.setString(4, usuario.getContraseña());
-            consultaPreparada.setBoolean(5, usuario.getEsActivo());
-            consultaPreparada.setInt(6, usuario.getIdUsuario());
+            consultaPreparada.setInt(4, usuario.getIdUsuario());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

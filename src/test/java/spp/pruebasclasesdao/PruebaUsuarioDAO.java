@@ -27,7 +27,7 @@ public class PruebaUsuarioDAO {
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         
-        int idGenerado = usuarioDao.registrarUsuario(usuario);
+        int idGenerado = usuarioDao.insertarUsuario(usuario);
         assertTrue("No se generó un ID válido", idGenerado > 0);
         
     }

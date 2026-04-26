@@ -12,6 +12,6 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface IDocumentoDAO {
-    public boolean registrarDocumento(Documento documento)throws OperacionesDeDaoExcepcion;
+    public boolean insertarDocumento(Documento documento)throws OperacionesDeDaoExcepcion;
     public Documento consultarDocumento(String nombre)throws OperacionesDeDaoExcepcion;
 }
