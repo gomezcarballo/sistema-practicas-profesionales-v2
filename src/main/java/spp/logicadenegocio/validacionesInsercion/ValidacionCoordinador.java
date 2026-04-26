@@ -20,7 +20,7 @@ public class ValidacionCoordinador {
         Usuario usuario = new Usuario();
        
         usuario.setNombre(coordinador.getNombre());
-        usuario.setApellidos(coordinador.getApellidos());
+        usuario.setApellidoPaterno(coordinador.getApellidoPaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         

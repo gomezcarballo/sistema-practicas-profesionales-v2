@@ -31,7 +31,7 @@ public class PruebaPracticanteDAO {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         usuario.setNombre("Brian Arturo");
-        usuario.setApellidos("Morales Juarez");
+        usuario.setApellidoPaterno("Morales Juarez");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         idUsuario = usuarioDao.registrarUsuario(usuario);

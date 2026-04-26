@@ -23,7 +23,7 @@ public class PruebaUsuarioDAO {
         UsuarioDAO usuarioDao = new UsuarioDAO();
         
         usuario.setNombre("Jorge Octavio");
-        usuario.setApellidos("Ocharan Hernandez");
+        usuario.setApellidoPaterno("Ocharan Hernandez");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         

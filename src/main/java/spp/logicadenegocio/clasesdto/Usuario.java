@@ -12,19 +12,21 @@ public class Usuario {
     
     private int idUsuario;
     private String nombre;
-    private String apellidos;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String contraseña;
     private boolean esActivo;
 
     public Usuario(){
     }
     
-    public Usuario(int idUsuario, String nombre, String apellidos, 
+    public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
            String contraseña, boolean esActivo) {
         
         this.idUsuario = idUsuario;
         this.nombre = nombre;
-        this.apellidos = apellidos;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.contraseña = contraseña;
         this.esActivo=esActivo;
         
@@ -46,14 +48,22 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
     }
-
+    
+    public String getApellidoMaterno(){
+        return apellidoMaterno;
+    }
+    
+    public void setApellidoMaterno(String apellidoMaterno){
+        this.apellidoMaterno = apellidoMaterno;
+    }
+    
     public String getContraseña() {
         return contraseña;
     }

@@ -28,7 +28,7 @@ public class PruebaCoordinadorDAO {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         usuario.setNombre("Juan Carlos");
-        usuario.setApellidos("Perez Arriaga");
+        usuario.setApellidoPaterno("Perez Arriaga");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         idUsuario = usuarioDao.registrarUsuario(usuario);

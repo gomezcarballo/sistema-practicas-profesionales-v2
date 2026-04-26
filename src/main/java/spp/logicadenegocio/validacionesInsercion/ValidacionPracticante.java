@@ -21,7 +21,7 @@ public class ValidacionPracticante {
         Usuario usuario = new Usuario();
         
         usuario.setNombre(practicante.getNombre());
-        usuario.setApellidos(practicante.getApellidos());
+        usuario.setApellidoPaterno(practicante.getApellidoPaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         

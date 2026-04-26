@@ -28,7 +28,7 @@ public class PruebaDocumentoDAO {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         usuario.setNombre("Jorge Octavio");
-        usuario.setApellidos("Ocharan Hernandez");
+        usuario.setApellidoPaterno("Ocharan Hernandez");
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         idUsuario = usuarioDao.registrarUsuario(usuario);

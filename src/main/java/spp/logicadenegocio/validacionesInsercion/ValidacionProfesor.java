@@ -21,7 +21,7 @@ public class ValidacionProfesor {
         Usuario usuario = new Usuario();
         
         usuario.setNombre(profesor.getNombre());
-        usuario.setApellidos(profesor.getApellidos());
+        usuario.setApellidoPaterno(profesor.getApellidoPaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         
