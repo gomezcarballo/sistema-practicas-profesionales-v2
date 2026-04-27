@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorRegistroPracticante">
+   <children>
+      <Label fx:id="textoFormulario" layoutX="215.0" layoutY="29.0" prefHeight="27.0" prefWidth="170.0" text="Registrar Practicante">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="textoNombre" layoutX="75.0" layoutY="91.0" text="Nombre del Practicante:" />
+      <Label fx:id="textoApellidoPaterno" layoutX="70.0" layoutY="163.0" text="Apellido paterno del Practicante:" />
+      <Label fx:id="textoApellidoMaterno" layoutX="69.0" layoutY="200.0" text="Apellido materno del Practicante:" />
+      <Label fx:id="textoGenero" layoutX="72.0" layoutY="240.0" text="Género del Practicante:" />
+      <Label fx:id="textoFechaNacimiento" layoutX="71.0" layoutY="274.0" prefHeight="18.0" prefWidth="156.0" text="Fecha de nacimiento:" />
+      <Label fx:id="textoLenguaIndigena" layoutX="71.0" layoutY="309.0" text="¿Habla alguna lengua indígena?:" />
+      <Label fx:id="textoMatricula" layoutX="72.0" layoutY="130.0" text="Matricula del Practicante:" />
+      <TextField fx:id="ingresaNombre" layoutX="253.0" layoutY="87.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese nombre" />
+      <TextField fx:id="ingresaMatricula" layoutX="253.0" layoutY="125.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese matricula Ej. S24012345" />
+      <TextField fx:id="ingresaApellidoPaterno" layoutX="253.0" layoutY="159.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese apellido paterno" />
+      <TextField fx:id="ingresaApellidoMaterno" layoutX="253.0" layoutY="196.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese apellido materno" />
+      <ComboBox fx:id="opcionesGenero" layoutX="253.0" layoutY="236.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese género" />
+      <DatePicker fx:id="calendarioFechaNacimiento" layoutX="253.0" layoutY="270.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese fecha de nacimiento" />
+      <ComboBox fx:id="opcionesLenguaIndigena" layoutX="253.0" layoutY="305.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese valor" />
+      <Button fx:id="botonRegistrar" layoutX="217.0" layoutY="349.0" mnemonicParsing="false" text="Registrar" />
+      <Button fx:id="botonCancelar" layoutX="314.0" layoutY="349.0" mnemonicParsing="false" text="Cancelar" />
+      <Label fx:id="textoInstruccion" layoutX="215.0" layoutY="56.0" text="Ingrese los campos solicitados" />
+   </children>
+</AnchorPane>
