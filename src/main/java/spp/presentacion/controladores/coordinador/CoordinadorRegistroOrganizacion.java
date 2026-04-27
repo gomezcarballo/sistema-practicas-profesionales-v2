@@ -5,11 +5,14 @@
 package spp.presentacion.controladores.coordinador;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validacionesInsercion.ValidacionOrganizacion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -110,4 +113,13 @@ public class CoordinadorRegistroOrganizacion {
             
         }
     }
+    
+    @FXML
+    public void cancelar(ActionEvent evento) {
+        
+        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+        ventanaActual.close();
+        
+    }
+    
 }

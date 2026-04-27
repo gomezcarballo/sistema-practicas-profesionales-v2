@@ -4,10 +4,13 @@
  */
 package spp.presentacion.controladores.administrador;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProfesor;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -105,6 +108,14 @@ public class ControladorRegistroProfesor {
             alert.showAndWait();
             
         }
+    }
+    
+    @FXML
+    public void cancelar(ActionEvent evento) {
+        
+        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+        ventanaActual.close();
+        
     }
     
 }

@@ -4,7 +4,7 @@
  */
 package spp.presentacion.controladores.coordinador;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -54,6 +54,7 @@ public class ControladorRegistroPracticante {
         
         opcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo"));
         opcionesLenguaIndigena.setItems(FXCollections.observableArrayList("Sí", "No"));
+        calendarioFechaNacimiento.setEditable(false);
         
     }
     
@@ -149,5 +150,14 @@ public class ControladorRegistroPracticante {
         }
         
    }
+   
+   @FXML
+    public void cancelar(ActionEvent evento) {
+        
+        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+        ventanaActual.close();
+        
+    }
+    
     
 }

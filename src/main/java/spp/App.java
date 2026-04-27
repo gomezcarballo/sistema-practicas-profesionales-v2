@@ -15,16 +15,18 @@ import javafx.stage.Stage;
  * @author gomes
  */
 public class App extends Application{
+    
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage escenarioPrincipal) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuEntrega.fxml"));
-        Parent root = loader.load();
+        FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/MenuEntrega.fxml"));
+        Parent raiz = cargadorFXML.load();
 
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Sistema Principal");
-        primaryStage.show();
+        Scene vistaPrincipal = new Scene(raiz);
+        escenarioPrincipal.setScene(vistaPrincipal);
+        escenarioPrincipal.setTitle("Sistema Principal");
+        escenarioPrincipal.show();
+        
     }
 
     public static void main(String[] args) {

@@ -30,7 +30,7 @@
       <DatePicker fx:id="calendarioFechaNacimiento" layoutX="253.0" layoutY="270.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese fecha de nacimiento" />
       <ComboBox fx:id="opcionesLenguaIndigena" layoutX="253.0" layoutY="305.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese valor" />
       <Button fx:id="botonRegistrar" layoutX="217.0" layoutY="349.0" mnemonicParsing="false" onAction="#leerDatosDePracticante" text="Registrar" />
-      <Button fx:id="botonCancelar" layoutX="314.0" layoutY="349.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="botonCancelar" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
       <Label fx:id="textoInstruccion" layoutX="215.0" layoutY="56.0" text="Ingrese los campos solicitados" />
    </children>
 </AnchorPane>

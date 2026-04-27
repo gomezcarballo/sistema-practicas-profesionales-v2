@@ -5,6 +5,8 @@
 package spp.presentacion.menus;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +18,8 @@ import javafx.stage.Stage;
  * @author gomes
  */
 public class ControladorMenu {
+    
+    private static final Logger bitacora = Logger.getLogger(ControladorMenu.class.getName());
     
     @FXML
     private void abrirRegistrarPracticante() {
@@ -46,11 +50,11 @@ public class ControladorMenu {
     }
     
     
-    private void cargarVentana(String Archivofxml, String titulo) {
+    private void cargarVentana(String archivoFXML, String titulo) {
         
         try {
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Archivofxml));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(archivoFXML));
             Parent root = loader.load();
 
             Stage ventana = new Stage();
@@ -59,8 +63,9 @@ public class ControladorMenu {
             ventana.show();
 
         } catch (IOException e) {
-           System.out.println("Error cargando FXML: " + Archivofxml);
-            e.printStackTrace();
+           
+           bitacora.log(Level.SEVERE, "Error al cargar la ventana: " + archivoFXML, e); 
+           
         }
         
     }

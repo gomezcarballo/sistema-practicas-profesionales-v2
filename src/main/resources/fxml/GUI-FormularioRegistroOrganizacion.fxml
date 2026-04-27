@@ -26,6 +26,6 @@
       <TextField fx:id="ingresaDireccion" layoutX="242.0" layoutY="188.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa la dirección" />
       <ComboBox fx:id="opcionesSector" layoutX="242.0" layoutY="244.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa el sector" />
       <Button fx:id="botonRegistrar" layoutX="216.0" layoutY="327.0" mnemonicParsing="false" onAction="#leerDatosDeOrganizacion" text="Registrar" />
-      <Button fx:id="botonCancelar" layoutX="317.0" layoutY="327.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="botonCancelar" layoutX="317.0" layoutY="327.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
    </children>
 </AnchorPane>
