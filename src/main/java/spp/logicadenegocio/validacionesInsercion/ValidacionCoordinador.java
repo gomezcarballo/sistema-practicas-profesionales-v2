@@ -4,6 +4,8 @@
  */
 package spp.logicadenegocio.validacionesInsercion;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.CoordinadorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Coordinador;
@@ -15,9 +17,9 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author Luz Fernanda H J
  */
 public class ValidacionCoordinador {
-    
+    private static final Logger bitacora = Logger.getLogger(ValidacionCoordinador.class.getName());
+
     public void ingresarCoordinador(Coordinador coordinador){
-        
         
         Usuario usuario = new Usuario();
        
@@ -38,7 +40,13 @@ public class ValidacionCoordinador {
             coordinadorDao.insertarCoordinador(coordinador);
             
         }catch(OperacionesDeDaoExcepcion e){
+
            //throw new excepcion personalizada o de java. Se manda el mensaje que no se pudo insertar
+
+            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
+            
+            //return "No se pudo registrar. Intente más tarde.";
+
             
         }
     }
