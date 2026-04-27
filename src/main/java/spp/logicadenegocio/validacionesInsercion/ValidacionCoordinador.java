@@ -6,6 +6,7 @@ package spp.logicadenegocio.validacionesInsercion;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import spp.logicadenegocio.clasesdao.CoordinadorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Coordinador;
@@ -33,21 +34,22 @@ public class ValidacionCoordinador {
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-        boolean registroExistoso;
+        boolean registroExitoso;
         
         try{
             
             int idUsuario = usuarioDao.insertarUsuario(usuario);
             
             coordinador.setIdUsuario(idUsuario);
-            registroExistoso = coordinadorDao.insertarCoordinador(coordinador);
+            registroExitoso = coordinadorDao.insertarCoordinador(coordinador);
             
         }catch(OperacionesDeDaoExcepcion e){
             
             bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
+            
             throw new ReglaDeNegocioExcepcion("",e);
             
         }
-        return registroExistoso;
+        return registroExitoso;
     }
 }

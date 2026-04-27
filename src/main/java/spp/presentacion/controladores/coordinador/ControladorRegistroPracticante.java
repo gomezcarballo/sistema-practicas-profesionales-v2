@@ -4,15 +4,20 @@
  */
 package spp.presentacion.controladores.coordinador;
 
+import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.validacionesInsercion.ValidacionPracticante;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -47,7 +52,7 @@ public class ControladorRegistroPracticante {
     @FXML
     public void initialize() {
         
-        opcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Otro"));
+        opcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo"));
         opcionesLenguaIndigena.setItems(FXCollections.observableArrayList("Sí", "No"));
         
     }
@@ -70,6 +75,7 @@ public class ControladorRegistroPracticante {
             Practicante practicante = new Practicante();
             practicante.setNombre(nombre);
             practicante.setApellidoPaterno(apellidoPaterno);
+         
             practicante.setApellidoMaterno(apellidoMaterno);
             practicante.setMatricula(matricula);
             practicante.setGenero(genero);
@@ -78,7 +84,15 @@ public class ControladorRegistroPracticante {
             
             registrarPracticante(practicante);
         
-        }   
+        }else {
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Datos faltantes");
+            alert.setHeaderText(null);
+            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
+            alert.showAndWait();
+            
+        }
         
     }
         
@@ -89,25 +103,49 @@ public class ControladorRegistroPracticante {
         boolean sonCamposValidos = true; 
 
         if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() || 
-          ingresaApellidoMaterno.getText().isBlank() || ingresaMatricula.getText().isBlank() ||
-          calendarioFechaNacimiento.getValue() == null || opcionesLenguaIndigena.getValue() == null){
+            ingresaMatricula.getText().isBlank() ||calendarioFechaNacimiento.getValue() == null ||
+            opcionesLenguaIndigena.getValue() == null){
             
             sonCamposValidos = false; 
 
         }
+        if(ingresaApellidoMaterno.getText().isBlank()){
+            
+            ingresaApellidoMaterno.setText(null);
+            
+        }
         return sonCamposValidos; 
+        
     }
    
    @FXML 
    private void registrarPracticante(Practicante practicante){
        
+        boolean ingresoExitoso;
+       
         try{
             
             ValidacionPracticante validacion = new ValidacionPracticante();
-            validacion.ingresarPracticante(practicante);
+            ingresoExitoso = validacion.ingresarPracticante(practicante);
             
-        }catch(Exception e){
-            System.out.println("no se pudo");
+            if(ingresoExitoso){
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Registro Exitoso");
+                alert.setHeaderText(null);
+                alert.setContentText("Practicante registrado correctamente");
+                alert.showAndWait();
+                
+            }
+            
+        }catch(ReglaDeNegocioExcepcion e){
+            
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Registro fallido");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo registrar al Practicante, intente más tarde");
+            alert.showAndWait();
+            
         }
         
    }

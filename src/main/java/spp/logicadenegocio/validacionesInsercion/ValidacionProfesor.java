@@ -11,6 +11,7 @@ import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -20,30 +21,34 @@ public class ValidacionProfesor {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionProfesor.class.getName());
     
-    public void ingresarProfesor(Profesor profesor){
+    public boolean ingresarProfesor(Profesor profesor)throws ReglaDeNegocioExcepcion{
         
         Usuario usuario = new Usuario();
         
         usuario.setNombre(profesor.getNombre());
         usuario.setApellidoPaterno(profesor.getApellidoPaterno());
+        usuario.setApellidoMaterno(profesor.getApellidoMaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         ProfesorDAO profesorDao = new ProfesorDAO();
+        boolean registroExitoso;
         
         try{
             
             int idUsuario = usuarioDao.insertarUsuario(usuario);
             
             profesor.setIdUsuario(idUsuario);
-            profesorDao.insertarProfesor(profesor);
+            registroExitoso = profesorDao.insertarProfesor(profesor);
             
         }catch(OperacionesDeDaoExcepcion e){
             
            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);
+           
+           throw new ReglaDeNegocioExcepcion("", e);
             
         }
-        
+        return registroExitoso;
     }
 }

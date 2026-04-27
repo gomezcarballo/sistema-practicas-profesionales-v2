@@ -6,11 +6,13 @@ package spp.presentacion.controladores.coordinador;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validacionesInsercion.ValidacionOrganizacion;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -53,6 +55,14 @@ public class CoordinadorRegistroOrganizacion {
         
         registrarOrganizacion(organizacion);
         
+        }else{
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Datos faltantes");
+            alert.setHeaderText(null);
+            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
+            alert.showAndWait();
+            
         }
     }
     
@@ -72,13 +82,32 @@ public class CoordinadorRegistroOrganizacion {
     
     @FXML 
     private void registrarOrganizacion(Organizacion organizacion){
+        
+        boolean ingresoExitoso;
+        
         try{
             
             ValidacionOrganizacion validacion = new ValidacionOrganizacion();
-            validacion.ingresarOrganizacion(organizacion);
+            ingresoExitoso = validacion.ingresarOrganizacion(organizacion);
             
-        }catch(Exception e){
-            System.out.println("no se pudo");
+            if(ingresoExitoso){
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Registro Exitoso");
+                alert.setHeaderText(null);
+                alert.setContentText("Organización registrada correctamente");
+                alert.showAndWait();
+                
+            }
+            
+        }catch(ReglaDeNegocioExcepcion e){
+            
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Registro fallido");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo registrar a la Organización, intente más tarde");
+            alert.showAndWait();
+            
         }
     }
 }

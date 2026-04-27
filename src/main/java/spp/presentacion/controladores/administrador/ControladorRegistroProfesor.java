@@ -5,10 +5,12 @@
 package spp.presentacion.controladores.administrador;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProfesor;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -49,6 +51,14 @@ public class ControladorRegistroProfesor {
         
         registrarProfesor(profesor);
         
+        }else{
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Datos faltantes");
+            alert.setHeaderText(null);
+            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
+            alert.showAndWait();
+            
         }
     }
     
@@ -68,13 +78,32 @@ public class ControladorRegistroProfesor {
     
     @FXML 
     private void registrarProfesor(Profesor profesor){
+        
+        boolean ingresoExitoso;
+        
         try{
             
             ValidacionProfesor validacion = new ValidacionProfesor();
-            validacion.ingresarProfesor(profesor);
+            ingresoExitoso = validacion.ingresarProfesor(profesor);
             
-        }catch(Exception e){
-            System.out.println("no se pudo");
+            if(ingresoExitoso){
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Registro exitoso");
+                alert.setHeaderText(null);
+                alert.setContentText("Profesor registrado exitosamente");
+                alert.showAndWait();
+                
+            }
+            
+        }catch(ReglaDeNegocioExcepcion e){
+           
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Registro fallido");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo registrar al Profesor, intente más tarde");
+            alert.showAndWait();
+            
         }
     }
     

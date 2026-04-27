@@ -5,6 +5,7 @@
 package spp.presentacion.controladores.administrador;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
@@ -51,6 +52,12 @@ public class ControladorRegistroCoordinador {
            
         }else{
             
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Datos faltantes");
+            alert.setHeaderText(null);
+            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
+            alert.showAndWait();
+            
         }
         
     }
@@ -62,7 +69,9 @@ public class ControladorRegistroCoordinador {
         
         if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() ||
             ingresaNumeroPersonal.getText().isBlank()){
+            
             sonCamposValidos = false; 
+            
         }
         
         return sonCamposValidos; 
@@ -71,13 +80,32 @@ public class ControladorRegistroCoordinador {
     
     @FXML 
     private void registrarCoordinador(Coordinador coordinador){
+        
         boolean ingresoExitoso;
+        
         try{
             
             ValidacionCoordinador validacion = new ValidacionCoordinador();
             ingresoExitoso = validacion.ingresarCoordinador(coordinador);
             
+            if(ingresoExitoso){
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Registro exitoso");
+                alert.setHeaderText(null);
+                alert.setContentText("Coordinador registrado exitosamente");
+                alert.showAndWait();
+                
+            }
+            
         }catch(ReglaDeNegocioExcepcion e){
+            
+            
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Registro fallido");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo registrar al Coordinador, intente más tarde");
+            alert.showAndWait();
             
         }
         
