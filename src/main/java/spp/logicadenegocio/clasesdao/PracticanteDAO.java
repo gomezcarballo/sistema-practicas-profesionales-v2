@@ -35,7 +35,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setString(3, practicante.getGenero());
             consultaPreparada.setBoolean(4, practicante.gethablaLenguaIndigena());
 
-            java.sql.Date fechaParaBD = new java.sql.Date(practicante.getFechaNacimiento().getTime());
+            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());;
             consultaPreparada.setDate(5, fechaParaBD);
             
             consultaPreparada.executeUpdate();
@@ -72,7 +72,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
                 practicante.setMatricula(resultadosConsulta.getString("matricula"));
                 practicante.setGenero(resultadosConsulta.getString("genero"));
                 practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
-                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento"));
+                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
 
             }
 
@@ -124,7 +124,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setString(1, practicante.getMatricula());
             consultaPreparada.setString(2, practicante.getGenero());
             consultaPreparada.setBoolean(3, practicante.gethablaLenguaIndigena());
-            java.sql.Date fechaParaBD = new java.sql.Date(practicante.getFechaNacimiento().getTime());
+            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
             consultaPreparada.setDate(4, fechaParaBD);
             consultaPreparada.setString(5, practicante.getMatricula());
 

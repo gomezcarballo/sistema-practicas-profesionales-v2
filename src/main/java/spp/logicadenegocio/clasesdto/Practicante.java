@@ -4,7 +4,7 @@
  */
 package spp.logicadenegocio.clasesdto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,14 +14,14 @@ public class Practicante extends Usuario {
     
     private String matricula; 
     private String genero;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private boolean hablaLenguaIndigena;
 
     public Practicante() {
     }
 
     public Practicante(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
-           String contraseña, boolean esActivo, String matricula, String genero, Date fechaNacimiento, 
+           String contraseña, boolean esActivo, String matricula, String genero, LocalDate fechaNacimiento, 
            boolean hablaLenguaIndigena) {
         
         super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, contraseña,esActivo);
@@ -48,11 +48,11 @@ public class Practicante extends Usuario {
         this.genero = genero;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

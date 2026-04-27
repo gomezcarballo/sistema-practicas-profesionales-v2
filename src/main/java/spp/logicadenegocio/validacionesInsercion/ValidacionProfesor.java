@@ -16,7 +16,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class ValidacionProfesor {
     
-    public String registrarProfesor(Profesor profesor){
+    public void ingresarProfesor(Profesor profesor){
         
         Usuario usuario = new Usuario();
         
@@ -34,11 +34,10 @@ public class ValidacionProfesor {
             
             profesor.setIdUsuario(idUsuario);
             profesorDao.insertarProfesor(profesor);
-            return "Profesor registrado correctamente";
             
         }catch(OperacionesDeDaoExcepcion e){
             
-           return "No se pudo registrar. Intente más tarde.";
+           //
             
         }
         

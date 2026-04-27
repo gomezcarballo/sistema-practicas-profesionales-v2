@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.validacionesInsercion.ValidacionProfesor;
 
 /**
  *
@@ -25,25 +26,56 @@ public class ControladorRegistroProfesor {
     private TextField ingresaApellidoMaterno;
     
     @FXML
-    private TextField ingresaNoPersonal;
+    private TextField ingresaNumeroPersonal;
        
     @FXML
     private Button botonCancelar;
     
     @FXML
-    private void leerProfesor(){
+    private void leerDatosDelProfesor(){
         
+        if(camposValidos()){
+            
         String nombre = ingresaNombre.getText();
         String apellidoPaterno = ingresaApellidoPaterno.getText();
         String apellidoMaterno = ingresaApellidoMaterno.getText();
-        String noPersonal = ingresaNoPersonal.getText();
+        String numeroPersonal = ingresaNumeroPersonal.getText();
         
         Profesor profesor = new Profesor();
         profesor.setNombre(nombre);
         profesor.setApellidoPaterno(apellidoPaterno);
         profesor.setApellidoMaterno(apellidoMaterno);
-        profesor.setNumeroDePersonal(noPersonal);
-       
+        profesor.setNumeroDePersonal(numeroPersonal);
+        
+        registrarProfesor(profesor);
+        
+        }
+    }
+    
+    @FXML
+    private boolean camposValidos(){
+        
+        boolean sonCamposValidos = true; 
+        
+        if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() ||
+            ingresaNumeroPersonal.getText().isBlank()){
+           
+            sonCamposValidos = false; 
+            
+        }
+        return sonCamposValidos; 
+    }
+    
+    @FXML 
+    private void registrarProfesor(Profesor profesor){
+        try{
+            
+            ValidacionProfesor validacion = new ValidacionProfesor();
+            validacion.ingresarProfesor(profesor);
+            
+        }catch(Exception e){
+            System.out.println("no se pudo");
+        }
     }
     
 }

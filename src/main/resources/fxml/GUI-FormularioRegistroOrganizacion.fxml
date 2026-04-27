@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.CoordinadorRegistroOrganizacion">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.CoordinadorRegistroOrganizacion">
    <children>
       <Label fx:id="textoTituloFormulario" layoutX="210.0" layoutY="35.0" text="Registrar Organización">
          <font>
@@ -26,7 +25,7 @@
       <TextField fx:id="ingresaNombre" layoutX="242.0" layoutY="136.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa el nombre" />
       <TextField fx:id="ingresaDireccion" layoutX="242.0" layoutY="188.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa la dirección" />
       <ComboBox fx:id="općionesSector" layoutX="242.0" layoutY="244.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa el sector" />
-      <Button fx:id="botonRegistrar" layoutX="216.0" layoutY="327.0" mnemonicParsing="false" text="Registrar" />
+      <Button fx:id="botonRegistrar" layoutX="216.0" layoutY="327.0" mnemonicParsing="false" onAction="#leerDatosDeOrganizacion" text="Registrar" />
       <Button fx:id="botonCancelar" layoutX="317.0" layoutY="327.0" mnemonicParsing="false" text="Cancelar" />
    </children>
 </AnchorPane>
