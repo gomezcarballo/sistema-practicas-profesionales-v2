@@ -35,7 +35,6 @@ public class CoordinadorDAO implements ICoordinadorDAO {
             registroExitoso=true;
             
         }catch(SQLException e){
-            e.printStackTrace();
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         

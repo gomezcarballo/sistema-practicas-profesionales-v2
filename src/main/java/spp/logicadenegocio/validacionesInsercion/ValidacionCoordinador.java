@@ -16,12 +16,14 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class ValidacionCoordinador {
     
-    public String registrarCoordinador(Coordinador coordinador){
+    public void ingresarCoordinador(Coordinador coordinador){
+        
         
         Usuario usuario = new Usuario();
        
         usuario.setNombre(coordinador.getNombre());
         usuario.setApellidoPaterno(coordinador.getApellidoPaterno());
+        usuario.setApellidoMaterno(coordinador.getApellidoMaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
         
@@ -34,12 +36,12 @@ public class ValidacionCoordinador {
             
             coordinador.setIdUsuario(idUsuario);
             coordinadorDao.insertarCoordinador(coordinador);
-            return "Coordinador registrado correctamente";
             
         }catch(OperacionesDeDaoExcepcion e){
-           
-            return "No se pudo registrar. Intente más tarde.";
+           //throw new excepcion personalizada o de java. Se manda el mensaje que no se pudo insertar
             
         }
     }
+    
+    
 }
