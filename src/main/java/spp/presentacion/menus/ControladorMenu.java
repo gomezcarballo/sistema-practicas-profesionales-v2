@@ -20,28 +20,28 @@ public class ControladorMenu {
     @FXML
     private void abrirRegistrarPracticante() {
     
-        cargarVentana("GUI-FormularioRegistroPracticante.fxml", "Registro de Practicante");
+        cargarVentana("/fxml/GUI-FormularioRegistroPracticante.fxml", "Registro de Practicante");
         
     }   
     
     @FXML
     private void abrirRegistrarProfesor() {
     
-        cargarVentana("GuiFormularioRegistroProfesor.fxml", "Registro de Profesores");
+        cargarVentana("/fxml/GuiFormularioRegistroProfesor.fxml", "Registro de Profesores");
         
     }
     
     @FXML
     private void abrirRegistrarCoordinador() {
     
-        cargarVentana("GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
+        cargarVentana("/fxml/GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
         
     }
     
     @FXML
     private void abrirRegistrarOrganizacion() {
     
-        cargarVentana("GUI-FormularioRegistroOrganizacion.fxml", "Registro de Organizacion");
+        cargarVentana("/fxml/GUI-FormularioRegistroOrganizacion.fxml", "Registro de Organizacion");
         
     }
     
@@ -59,7 +59,8 @@ public class ControladorMenu {
             ventana.show();
 
         } catch (IOException e) {
-           //
+           System.out.println("Error cargando FXML: " + Archivofxml);
+            e.printStackTrace();
         }
         
     }

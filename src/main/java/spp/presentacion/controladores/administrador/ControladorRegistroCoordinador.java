@@ -5,6 +5,7 @@
 package spp.presentacion.controladores.administrador;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.validacionesInsercion.ValidacionCoordinador;
@@ -27,7 +28,7 @@ public class ControladorRegistroCoordinador {
     private TextField ingresaNumeroPersonal; 
     
     @FXML
-    private TextField botonCancelar;
+    private Button botonCancelar;
     
     @FXML
     private void leerDatosDelCoordinador(){
