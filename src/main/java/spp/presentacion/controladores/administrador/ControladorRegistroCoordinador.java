@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.validacionesInsercion.ValidacionCoordinador;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -70,14 +71,14 @@ public class ControladorRegistroCoordinador {
     
     @FXML 
     private void registrarCoordinador(Coordinador coordinador){
-        
+        boolean ingresoExitoso;
         try{
             
             ValidacionCoordinador validacion = new ValidacionCoordinador();
-            validacion.ingresarCoordinador(coordinador);
+            ingresoExitoso = validacion.ingresarCoordinador(coordinador);
             
-        }catch(Exception e){
-            System.out.println("no se pudo");
+        }catch(ReglaDeNegocioExcepcion e){
+            
         }
         
     }

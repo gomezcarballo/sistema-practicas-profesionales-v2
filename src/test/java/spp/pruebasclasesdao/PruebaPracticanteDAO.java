@@ -49,11 +49,9 @@ public class PruebaPracticanteDAO {
         practicante.setGenero("masculino");
         practicante.setHablaLenguaIndigena(false);
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate fechaFormateada = LocalDate.parse("25-10-2004", formatoFecha);
+        LocalDate fechaNacimiento = LocalDate.parse("25-10-2004", formatoFecha);
 
-        Date fecha = java.sql.Date.valueOf(fechaFormateada);
-
-        practicante.setFechaNacimiento(fecha);
+        practicante.setFechaNacimiento(fechaNacimiento);
 
         boolean registroExitoso = practicanteDao.insertarPracticante(practicante);
         assertTrue(registroExitoso);

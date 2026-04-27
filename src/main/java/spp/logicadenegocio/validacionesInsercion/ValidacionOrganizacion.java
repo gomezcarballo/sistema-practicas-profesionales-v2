@@ -4,6 +4,8 @@
  */
 package spp.logicadenegocio.validacionesInsercion;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.OrganizacionDAO;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -13,6 +15,8 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public class ValidacionOrganizacion {
+    
+    private static final Logger bitacora = Logger.getLogger(ValidacionOrganizacion.class.getName());
     
     public void ingresarOrganizacion(Organizacion organizacion){
         
@@ -25,7 +29,9 @@ public class ValidacionOrganizacion {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            //excepcion
+            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva "
+                + "organización.", e);
+            
         }
         
     }

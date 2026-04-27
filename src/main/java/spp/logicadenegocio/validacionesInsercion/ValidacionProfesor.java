@@ -4,6 +4,8 @@
  */
 package spp.logicadenegocio.validacionesInsercion;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Profesor;
@@ -15,6 +17,8 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public class ValidacionProfesor {
+    
+    private static final Logger bitacora = Logger.getLogger(ValidacionProfesor.class.getName());
     
     public void ingresarProfesor(Profesor profesor){
         
@@ -37,7 +41,7 @@ public class ValidacionProfesor {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-           //
+           bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);
             
         }
         
