@@ -123,26 +123,20 @@ public class ControladorRegistroPracticante {
    @FXML 
    private void registrarPracticante(Practicante practicante){
        
-        boolean ingresoExitoso;
-       
         try{
             
             ValidacionPracticante validacion = new ValidacionPracticante();
-            ingresoExitoso = validacion.ingresarPracticante(practicante);
+            validacion.ingresarPracticante(practicante);
             
-            if(ingresoExitoso){
-                
-                VentanaMensaje ventanaMensaje = new VentanaMensaje();
-                ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
-                "Practicante registrado correctamente");
-                
-            }
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+            "Practicante registrado correctamente");
             
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-            "No se pudo registrar al Practicante, intente más tarde");
+            e.getMessage());
             
         }
         

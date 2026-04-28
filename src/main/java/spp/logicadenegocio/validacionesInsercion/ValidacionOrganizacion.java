@@ -19,25 +19,46 @@ public class ValidacionOrganizacion {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionOrganizacion.class.getName());
     
-    public boolean ingresarOrganizacion(Organizacion organizacion)throws ReglaDeNegocioExcepcion{
+    public void ingresarOrganizacion(Organizacion organizacion)throws ReglaDeNegocioExcepcion{
+        
+        sonCamposValidosPorReglaNegocio(organizacion);
         
         OrganizacionDAO organizacionDao = new OrganizacionDAO();
         organizacion.setEsActivo(true);
-        boolean registroExitoso;
         
         try{
             
-            registroExitoso = organizacionDao.insertarOrganizacion(organizacion);
+            organizacionDao.insertarOrganizacion(organizacion);
             
             
         }catch(OperacionesDeDaoExcepcion e){
             
             bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva organización.", e);
-            
-            throw new ReglaDeNegocioExcepcion("Los valores no cumplen con el formato requerido",e);
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar la Organización por un problema "
+                + "interno del sistema. Intente más tarde.");
             
         }
-        return registroExitoso;
     }
     
+    public void sonCamposValidosPorReglaNegocio(Organizacion organizacion) throws ReglaDeNegocioExcepcion {
+        
+        String nombre = organizacion.getNombre();
+        String direccion = organizacion.getDireccion();
+        
+        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
+        }
+        
+        if( nombre.length() > 50 ){
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de 50 caracteres");
+        }
+        if( !(direccion.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("La dirección solo debe contener letras.");
+        }
+        
+        if( nombre.length() > 50 ){
+            throw new ReglaDeNegocioExcepcion("La dirección excede la longitud maxima de 50 caracteres");
+        }
+        
+    }
 }

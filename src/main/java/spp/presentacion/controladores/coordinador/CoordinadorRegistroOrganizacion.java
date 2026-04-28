@@ -48,16 +48,16 @@ public class CoordinadorRegistroOrganizacion {
         
         if(camposValidos()){
             
-        String nombre = ingresaNombre.getText();
-        String direccion = ingresaDireccion.getText();
-        String sector = opcionesSector.getValue();
+            String nombre = ingresaNombre.getText();
+            String direccion = ingresaDireccion.getText();
+            String sector = opcionesSector.getValue();
+
+            Organizacion organizacion = new Organizacion();
+            organizacion.setNombre(nombre);
+            organizacion.setDireccion(direccion);
+            organizacion.setSector(sector);
         
-        Organizacion organizacion = new Organizacion();
-        organizacion.setNombre(nombre);
-        organizacion.setDireccion(direccion);
-        organizacion.setSector(sector);
-        
-        registrarOrganizacion(organizacion);
+            registrarOrganizacion(organizacion);
         
         }else{
             
@@ -85,26 +85,20 @@ public class CoordinadorRegistroOrganizacion {
     @FXML 
     private void registrarOrganizacion(Organizacion organizacion){
         
-        boolean ingresoExitoso;
-        
         try{
             
             ValidacionOrganizacion validacion = new ValidacionOrganizacion();
-            ingresoExitoso = validacion.ingresarOrganizacion(organizacion);
+            validacion.ingresarOrganizacion(organizacion);
             
-            if(ingresoExitoso){
-                
-                VentanaMensaje ventanaMensaje = new VentanaMensaje();
-                ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
-                "Organización registrada correctamente");
-                
-            }
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+            "Organización registrada correctamente");
             
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-            "No se pudo registrar a la Organización, intente más tarde");
+            e.getMessage());
             
         }
     }
