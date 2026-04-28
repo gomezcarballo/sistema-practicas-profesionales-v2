@@ -10,21 +10,21 @@
    <children>
       <AnchorPane layoutX="27.0" layoutY="20.0" prefHeight="342.0" prefWidth="545.0">
          <children>
-            <Label layoutX="189.0" layoutY="48.0" text="Detalles del Proyecto">
+            <Label fx:id="tituloDetallesProyecto" layoutX="189.0" layoutY="48.0" text="Detalles del Proyecto">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="107.0" layoutY="110.0" text="Nombre:" />
-            <Label layoutX="107.0" layoutY="145.0" text="Descripción:" />
-            <Label layoutX="105.0" layoutY="180.0" text="Nombre del responsable:" />
-            <Label layoutX="107.0" layoutY="215.0" text="Cupo maximo:" />
-            <TextField layoutX="241.0" layoutY="106.0" />
-            <TextField layoutX="241.0" layoutY="141.0" />
-            <TextField layoutX="241.0" layoutY="176.0" />
-            <TextField layoutX="241.0" layoutY="211.0" />
-            <Button layoutX="158.0" layoutY="275.0" mnemonicParsing="false" text="Inactivar" />
-            <Button layoutX="282.0" layoutY="275.0" mnemonicParsing="false" text="Actualizar" />
+            <Label fx:id="textoNombre" layoutX="105.0" layoutY="110.0" text="Nombre:" />
+            <Label fx:id="textoDescripcion" layoutX="105.0" layoutY="145.0" text="Descripción:" />
+            <Label fx:id="textoNombreResponsable" layoutX="105.0" layoutY="180.0" text="Nombre del responsable:" />
+            <Label fx:id="textoCupoMaximo" layoutX="105.0" layoutY="215.0" text="Cupo maximo:" />
+            <TextField fx:id="nombre" layoutX="241.0" layoutY="106.0" />
+            <TextField fx:id="descripcion" layoutX="241.0" layoutY="141.0" />
+            <TextField fx:id="nombreResponsable" layoutX="241.0" layoutY="176.0" />
+            <TextField fx:id="cupoMaximo" layoutX="241.0" layoutY="211.0" />
+            <Button fx:id="botonInactivar" layoutX="158.0" layoutY="275.0" mnemonicParsing="false" text="Inactivar" />
+            <Button fx:id="botonActualizar" layoutX="282.0" layoutY="275.0" mnemonicParsing="false" text="Actualizar" />
          </children>
       </AnchorPane>
    </children>

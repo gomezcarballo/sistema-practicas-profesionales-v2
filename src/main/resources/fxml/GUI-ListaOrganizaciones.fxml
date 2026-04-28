@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorListaOrganizaciones">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorListaOrganizaciones">
    <children>
       <AnchorPane layoutX="23.0" layoutY="22.0" prefHeight="353.0" prefWidth="551.0">
          <children>
-            <Label layoutX="204.0" layoutY="48.0" text="Organizaciones">
+            <Label fx:id="tituloListaOrganizaciones" layoutX="204.0" layoutY="31.0" text="Organizaciones">
                <font>
                   <Font size="18.0" />
                </font>
@@ -20,10 +19,16 @@
             <TableView layoutX="189.0" layoutY="83.0" prefHeight="200.0" prefWidth="152.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="listaOrganizaciones" prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
-            <Button layoutX="197.0" layoutY="302.0" mnemonicParsing="false" text="Registrar Organización" />
+            <Button fx:id="botonRegistrar" layoutX="121.0" layoutY="300.0" mnemonicParsing="false" text="Registrar Organización" />
+            <Label fx:id="instruccion" layoutX="140.0" layoutY="58.0" text="Seleccione a una Organización para ver sus detalles">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="botonRegresar" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Regresar" />
          </children>
       </AnchorPane>
    </children>
