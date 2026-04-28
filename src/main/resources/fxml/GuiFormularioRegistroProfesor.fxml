@@ -4,10 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="panelFormulario" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.administrador.ControladorRegistroProfesor">
    <children>
+      <Pane layoutX="28.0" layoutY="23.0" prefHeight="346.0" prefWidth="546.0" />
       <Label fx:id="textoTituloFormulario" layoutX="213.0" layoutY="61.0" text="Registrar Profesor">
          <font>
             <Font name="Calibri Light" size="24.0" />

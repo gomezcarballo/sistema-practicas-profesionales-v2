@@ -34,7 +34,7 @@ public class ValidacionOrganizacion {
             
             bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva organización.", e);
             
-            throw new ReglaDeNegocioExcepcion("",e);
+            throw new ReglaDeNegocioExcepcion("Los valores no cumplen con el formato requerido",e);
             
         }
         return registroExitoso;
