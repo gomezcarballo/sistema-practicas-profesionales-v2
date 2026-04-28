@@ -7,23 +7,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorListaPracticantes">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorListaPracticantes">
    <children>
       <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="371.0" prefWidth="565.0">
          <children>
             <TableView layoutX="207.0" layoutY="86.0" prefHeight="200.0" prefWidth="151.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="listaPracticantes" prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
-            <Label layoutX="235.0" layoutY="43.0" text="Practicantes">
+            <Label fx:id="tituloListaPracticantes" layoutX="237.0" layoutY="36.0" text="Practicantes">
                <font>
                   <Font name="Calibri" size="18.0" />
                </font>
             </Label>
-            <Button layoutX="220.0" layoutY="308.0" mnemonicParsing="false" text="Registrar practicante" />
+            <Button fx:id="botonRegistrarPracticante" layoutX="144.0" layoutY="308.0" mnemonicParsing="false" text="Registrar practicante" />
+            <Label fx:id="instruccion" layoutX="171.0" layoutY="58.0" prefHeight="18.0" prefWidth="257.0" text="Seleccione a un practicante para ver sus detalles">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="botonRegresar" layoutX="301.0" layoutY="308.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Regresar" />
          </children>
       </AnchorPane>
    </children>
