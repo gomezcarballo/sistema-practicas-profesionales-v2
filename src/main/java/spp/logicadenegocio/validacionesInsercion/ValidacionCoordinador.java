@@ -21,34 +21,71 @@ public class ValidacionCoordinador {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionCoordinador.class.getName());
 
-    public boolean ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion{
+    public void ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion{
+        
+        sonCamposValidosPorReglaNegocio(coordinador);
+        
         
         Usuario usuario = new Usuario();
-       
+        
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+        
         usuario.setNombre(coordinador.getNombre());
         usuario.setApellidoPaterno(coordinador.getApellidoPaterno());
         usuario.setApellidoMaterno(coordinador.getApellidoMaterno());
         usuario.setContraseña("password");
         usuario.setEsActivo(true);
-        
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-        boolean registroExitoso;
-        
+
         try{
             
             int idUsuario = usuarioDao.insertarUsuario(usuario);
             
             coordinador.setIdUsuario(idUsuario);
-            registroExitoso = coordinadorDao.insertarCoordinador(coordinador);
+            coordinadorDao.insertarCoordinador(coordinador);
             
         }catch(OperacionesDeDaoExcepcion e){
             
             bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
-            
-            throw new ReglaDeNegocioExcepcion("Los valores no cumplen con el formato requerido",e);
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al coordinador por un problema "
+                + "interno del sistema. Intente más tarde.");
             
         }
-        return registroExitoso;
+    }
+    public void sonCamposValidosPorReglaNegocio(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+        
+        String numeroPersonal = coordinador.getNumeroDePersonal();
+        String nombre = coordinador.getNombre();
+        String apellidoPaterno = coordinador.getApellidoPaterno();
+        String apellidoMaterno = coordinador.getApellidoMaterno();
+        
+        if( numeroPersonal.length() != 5 || !numeroPersonal.chars().allMatch(Character::isDigit) ){
+           throw new ReglaDeNegocioExcepcion("Numero de personal no valido. Debe contener 5 digitos.");
+        }
+        
+        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
+        }
+        
+        if( nombre.length() > 50 ){
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de 50 caracteres");
+        }
+        
+        if( !(apellidoPaterno.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El apellido paterno solo debe contener letras.");
+        }
+        
+        if( apellidoPaterno.length() > 30 ){
+            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de 30 caracteres.");
+        }
+        
+        if( apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
+        }
+        
+        if ( apellidoMaterno != null && apellidoMaterno.length() > 30 ) {
+            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de 30 caracteres.");
+        }
+        
     }
 }

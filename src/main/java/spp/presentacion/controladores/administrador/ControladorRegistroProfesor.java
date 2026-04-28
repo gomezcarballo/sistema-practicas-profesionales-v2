@@ -75,6 +75,13 @@ public class ControladorRegistroProfesor {
             sonCamposValidos = false; 
             
         }
+        
+        if(ingresaApellidoMaterno.getText().isBlank()){
+            
+            ingresaApellidoMaterno.setText(null);
+            
+        }
+        
         return sonCamposValidos; 
     }
     

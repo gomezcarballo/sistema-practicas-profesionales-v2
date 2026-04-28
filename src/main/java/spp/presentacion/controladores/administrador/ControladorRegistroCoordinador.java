@@ -75,6 +75,11 @@ public class ControladorRegistroCoordinador {
             sonCamposValidos = false; 
             
         }
+        if(ingresaApellidoMaterno.getText().isBlank()){
+            
+            ingresaApellidoMaterno.setText(null);
+            
+        }
         
         return sonCamposValidos; 
         
@@ -83,26 +88,20 @@ public class ControladorRegistroCoordinador {
     @FXML 
     private void registrarCoordinador(Coordinador coordinador){
         
-        boolean ingresoExitoso;
-        
         try{
             
             ValidacionCoordinador validacion = new ValidacionCoordinador();
-            ingresoExitoso = validacion.ingresarCoordinador(coordinador);
+            validacion.ingresarCoordinador(coordinador);
             
-            if(ingresoExitoso){
-                
-                VentanaMensaje ventanaMensaje = new VentanaMensaje();
-                ventanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
-                "Coordinador registrado exitosamente");                
-                
-            }
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+            "Coordinador registrado exitosamente");
             
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Registro fallido", 
-            "No se pudo registrar al Coordinador, intente más tarde");
+            e.getMessage());
             
         }
         

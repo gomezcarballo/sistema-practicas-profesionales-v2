@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 /**
@@ -18,11 +19,9 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public class CoordinadorDAO implements ICoordinadorDAO {
-
+    
     @Override
-    public boolean insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
-        
-        boolean registroExitoso = false;
+    public void insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
         
         String consultaSQL = "INSERT INTO Coordinador (Usuario_idUsuario, noPersonal) VALUES (?, ?)";
         
@@ -31,14 +30,17 @@ public class CoordinadorDAO implements ICoordinadorDAO {
             
             consultaPreparada.setInt(1, coordinador.getIdUsuario());
             consultaPreparada.setString(2, coordinador.getNumeroDePersonal());
-            consultaPreparada.executeUpdate();
-            registroExitoso=true;
+            int filasAfectadas = consultaPreparada.executeUpdate();
             
-        }catch(SQLException e){
+            if (filasAfectadas == 0) {
+                throw new OperacionesDeDaoExcepcion("Fallo al guardar: No se reflejaron los cambios en la base de datos");               
+            }
+            
+        }catch( SQLIntegrityConstraintViolationException  e){
+            throw new OperacionesDeDaoExcepcion("El numero de personal ya existe",e);
+        }catch( SQLException e ){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
-        
-    return registroExitoso;
         
     }
 

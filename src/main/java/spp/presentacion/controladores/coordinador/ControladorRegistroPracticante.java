@@ -109,11 +109,13 @@ public class ControladorRegistroPracticante {
             sonCamposValidos = false; 
 
         }
+        
         if(ingresaApellidoMaterno.getText().isBlank()){
             
             ingresaApellidoMaterno.setText(null);
             
         }
+        
         return sonCamposValidos; 
         
     }

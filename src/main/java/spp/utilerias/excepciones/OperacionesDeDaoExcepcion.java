@@ -12,4 +12,7 @@ public class OperacionesDeDaoExcepcion extends Exception{
     public OperacionesDeDaoExcepcion(String mensaje, Throwable causa){
         super(mensaje, causa);
     }
+    public OperacionesDeDaoExcepcion(String mensaje){
+        super(mensaje);
+    }
 }
