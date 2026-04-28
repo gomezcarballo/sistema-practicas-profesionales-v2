@@ -45,20 +45,20 @@ public class ControladorRegistroProfesor {
         
         if(camposValidos()){
             
-        String nombre = ingresaNombre.getText();
-        String apellidoPaterno = ingresaApellidoPaterno.getText();
-        String apellidoMaterno = ingresaApellidoMaterno.getText();
-        String correoInstitucional = ingresaCorreo.getText();
-        String numeroPersonal = ingresaNumeroPersonal.getText();
-        
-        Profesor profesor = new Profesor();
-        profesor.setNombre(nombre);
-        profesor.setApellidoPaterno(apellidoPaterno);
-        profesor.setApellidoMaterno(apellidoMaterno);
-        profesor.setCorreoInstitucional(correoInstitucional);
-        profesor.setNumeroDePersonal(numeroPersonal);
-        
-        registrarProfesor(profesor);
+            String nombre = ingresaNombre.getText();
+            String apellidoPaterno = ingresaApellidoPaterno.getText();
+            String apellidoMaterno = ingresaApellidoMaterno.getText();
+            String correoInstitucional = ingresaCorreo.getText();
+            String numeroPersonal = ingresaNumeroPersonal.getText();
+
+            Profesor profesor = new Profesor();
+            profesor.setNombre(nombre);
+            profesor.setApellidoPaterno(apellidoPaterno);
+            profesor.setApellidoMaterno(apellidoMaterno);
+            profesor.setCorreoInstitucional(correoInstitucional);
+            profesor.setNumeroDePersonal(numeroPersonal);
+
+            registrarProfesor(profesor);
         
         }else{
             
@@ -100,19 +100,16 @@ public class ControladorRegistroProfesor {
             ValidacionProfesor validacion = new ValidacionProfesor();
             ingresoExitoso = validacion.ingresarProfesor(profesor);
             
-            if(ingresoExitoso){
-                
-                VentanaMensaje ventanaMensaje = new VentanaMensaje();
-                ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
-                "Profesor registrado exitosamente");
-                                
-            }
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+            "Profesor registrado exitosamente");
+            
             
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-            "No se pudo registrar al Profesor, intente más tarde");
+            e.getMessage());
             
         }
     }

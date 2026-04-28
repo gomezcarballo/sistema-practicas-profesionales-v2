@@ -23,6 +23,8 @@ public class ValidacionProfesor {
     
     public boolean ingresarProfesor(Profesor profesor)throws ReglaDeNegocioExcepcion{
         
+        sonCamposValidosPorReglaNegocio(profesor);
+        
         Usuario usuario = new Usuario();
         
         usuario.setNombre(profesor.getNombre());
@@ -50,5 +52,42 @@ public class ValidacionProfesor {
             
         }
         return registroExitoso;
+    }
+    
+    public void sonCamposValidosPorReglaNegocio(Profesor profesor) throws ReglaDeNegocioExcepcion {
+        
+        String numeroPersonal = profesor.getNumeroDePersonal();
+        String nombre = profesor.getNombre();
+        String apellidoPaterno = profesor.getApellidoPaterno();
+        String apellidoMaterno = profesor.getApellidoMaterno();
+        
+        if( numeroPersonal.length() != 5 || !numeroPersonal.chars().allMatch(Character::isDigit) ){
+           throw new ReglaDeNegocioExcepcion("Numero de personal no valido. Debe contener 5 digitos.");
+        }
+        
+        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
+        }
+        
+        if( nombre.length() > 50 ){
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de 50 caracteres");
+        }
+        
+        if( !(apellidoPaterno.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El apellido paterno solo debe contener letras.");
+        }
+        
+        if( apellidoPaterno.length() > 30 ){
+            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de 30 caracteres.");
+        }
+        
+        if( apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
+        }
+        
+        if ( apellidoMaterno != null && apellidoMaterno.length() > 30 ) {
+            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de 30 caracteres.");
+        }
+        
     }
 }

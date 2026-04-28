@@ -52,4 +52,40 @@ public class ValidacionPracticante {
         }
         return registroExitoso;
     }
+    public void sonCamposValidosPorReglaNegocio(Practicante profesor) throws ReglaDeNegocioExcepcion {
+        
+        String matricula = profesor.getMatricula();
+        String nombre = profesor.getNombre();
+        String apellidoPaterno = profesor.getApellidoPaterno();
+        String apellidoMaterno = profesor.getApellidoMaterno();
+        
+        if( !matricula.matches("^[sS][0-9]{8}$") ){
+           throw new ReglaDeNegocioExcepcion("Matricula no valida. Debe comenzar con S seguido de 8 números.");
+        }
+        
+        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
+        }
+        
+        if( nombre.length() > 50 ){
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de 50 caracteres");
+        }
+        
+        if( !(apellidoPaterno.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El apellido paterno solo debe contener letras.");
+        }
+        
+        if( apellidoPaterno.length() > 30 ){
+            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de 30 caracteres.");
+        }
+        
+        if( apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$") ) ){
+            throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
+        }
+        
+        if ( apellidoMaterno != null && apellidoMaterno.length() > 30 ) {
+            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de 30 caracteres.");
+        }
+        
+    }
 }
