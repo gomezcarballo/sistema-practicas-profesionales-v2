@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorAsignacionProyecto">
+   <children>
+      <AnchorPane layoutX="22.0" layoutY="22.0" prefHeight="361.0" prefWidth="558.0">
+         <children>
+            <Label layoutX="180.0" layoutY="44.0" text="Asignar a un Proyecto">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="158.0" layoutY="92.0" text="Proyectos solicitados por el Practicante" />
+            <TableView layoutX="186.0" layoutY="143.0" prefHeight="102.0" prefWidth="149.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Button layoutX="171.0" layoutY="302.0" mnemonicParsing="false" text="Asignar" />
+            <Button layoutX="279.0" layoutY="302.0" mnemonicParsing="false" text="Cancelar" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
