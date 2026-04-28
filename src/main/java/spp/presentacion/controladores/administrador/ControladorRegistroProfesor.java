@@ -32,6 +32,9 @@ public class ControladorRegistroProfesor {
     private TextField ingresaApellidoMaterno;
     
     @FXML
+    private TextField ingresaCorreo;
+    
+    @FXML
     private TextField ingresaNumeroPersonal;
        
     @FXML
@@ -45,12 +48,14 @@ public class ControladorRegistroProfesor {
         String nombre = ingresaNombre.getText();
         String apellidoPaterno = ingresaApellidoPaterno.getText();
         String apellidoMaterno = ingresaApellidoMaterno.getText();
+        String correoInstitucional = ingresaCorreo.getText();
         String numeroPersonal = ingresaNumeroPersonal.getText();
         
         Profesor profesor = new Profesor();
         profesor.setNombre(nombre);
         profesor.setApellidoPaterno(apellidoPaterno);
         profesor.setApellidoMaterno(apellidoMaterno);
+        profesor.setCorreoInstitucional(correoInstitucional);
         profesor.setNumeroDePersonal(numeroPersonal);
         
         registrarProfesor(profesor);
@@ -70,11 +75,18 @@ public class ControladorRegistroProfesor {
         boolean sonCamposValidos = true; 
         
         if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() ||
-            ingresaNumeroPersonal.getText().isBlank()){
+            ingresaCorreo.getText().isBlank() || ingresaNumeroPersonal.getText().isBlank()){
            
             sonCamposValidos = false; 
             
         }
+        
+        if(ingresaApellidoMaterno.getText().isBlank()){
+            
+            ingresaApellidoMaterno.setText(null);
+            
+        }
+        
         return sonCamposValidos; 
     }
     

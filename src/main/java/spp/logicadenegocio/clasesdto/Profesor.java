@@ -18,9 +18,9 @@ public class Profesor extends Usuario{
     }
 
     public Profesor(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno,
-           String contraseña, boolean esActivo,String numeroDePersonal) {
+           String correoInstitucional, String contraseña, boolean esActivo,String numeroDePersonal) {
         
-        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, contraseña, esActivo);
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, contraseña, esActivo);
         this.numeroDePersonal = numeroDePersonal;
         
     }

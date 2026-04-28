@@ -26,7 +26,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         boolean registroExitoso = false;
         
         String consultaSQL = "INSERT INTO Usuario (nombre, apellidoPaterno, apellidoMaterno, "
-                + "contrasena, estado) VALUES (?, ?, ?, ?, ?)";
+                + "correoInstitucional, contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement
@@ -35,8 +35,9 @@ public class UsuarioDAO implements IUsuarioDAO {
             consultaPreparada.setString(1, usuario.getNombre());
             consultaPreparada.setString(2, usuario.getApellidoPaterno());
             consultaPreparada.setString(3, usuario.getApellidoMaterno());
-            consultaPreparada.setString(4, usuario.getContraseña());
-            consultaPreparada.setBoolean(5, usuario.getEsActivo());
+            consultaPreparada.setString(4, usuario.getCorreoInstitucional());
+            consultaPreparada.setString(5, usuario.getContraseña());
+            consultaPreparada.setBoolean(6, usuario.getEsActivo());
 
             consultaPreparada.executeUpdate();
             
@@ -67,7 +68,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         Usuario usuario = null;
         
         String consultaSQL = "SELECT idUsuario, nombre, apellidoPaterno, apellidoMaterno, "
-                + "estado FROM USUARIO WHERE idUsuario = ?";
+                + "correoInstitucional, estado FROM Usuario WHERE idUsuario = ?";
 
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
@@ -84,6 +85,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                 usuario.setNombre(resultadosConsulta.getString("nombre"));
                 usuario.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
                 usuario.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                usuario.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
 
                 int esActivo = resultadosConsulta.getInt("estado");
                 if (esActivo == 1) {
@@ -133,7 +135,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE Usuario SET nombre = ?, apellidoPaterno = ?, "
-                + "apellidoMaterno = ? WHERE idUsuario = ?";
+                + "apellidoMaterno = ? correoInstitucional = ? WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -141,7 +143,8 @@ public class UsuarioDAO implements IUsuarioDAO {
             consultaPreparada.setString(1, usuario.getNombre());
             consultaPreparada.setString(2, usuario.getApellidoPaterno());
             consultaPreparada.setString(3, usuario.getApellidoMaterno());
-            consultaPreparada.setInt(4, usuario.getIdUsuario());
+            consultaPreparada.setString(4, usuario.getCorreoInstitucional());
+            consultaPreparada.setInt(5, usuario.getIdUsuario());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

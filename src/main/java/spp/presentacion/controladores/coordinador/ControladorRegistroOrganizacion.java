@@ -22,7 +22,7 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  *
  * @author gomes
  */
-public class CoordinadorRegistroOrganizacion {
+public class ControladorRegistroOrganizacion {
     
     @FXML
     private TextField ingresaNombre;

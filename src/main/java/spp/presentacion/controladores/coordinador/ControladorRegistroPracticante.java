@@ -39,6 +39,9 @@ public class ControladorRegistroPracticante {
     private TextField ingresaApellidoMaterno;
     
     @FXML
+    private TextField ingresaCorreo;
+    
+    @FXML
     private ComboBox<String> opcionesGenero;
     
     @FXML
@@ -67,6 +70,7 @@ public class ControladorRegistroPracticante {
             String nombre = ingresaNombre.getText();
             String apellidoPaterno = ingresaApellidoPaterno.getText();
             String apellidoMaterno = ingresaApellidoMaterno.getText();
+            String correoInstitucional = ingresaCorreo.getText();
             String matricula = ingresaMatricula.getText();
             String genero = opcionesGenero.getValue();
             LocalDate fechaNacimiento = calendarioFechaNacimiento.getValue();
@@ -76,9 +80,9 @@ public class ControladorRegistroPracticante {
 
             Practicante practicante = new Practicante();
             practicante.setNombre(nombre);
-            practicante.setApellidoPaterno(apellidoPaterno);
-         
+            practicante.setApellidoPaterno(apellidoPaterno);      
             practicante.setApellidoMaterno(apellidoMaterno);
+            practicante.setCorreoInstitucional(correoInstitucional);
             practicante.setMatricula(matricula);
             practicante.setGenero(genero);
             practicante.setFechaNacimiento(fechaNacimiento);
@@ -104,11 +108,12 @@ public class ControladorRegistroPracticante {
 
         if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() || 
             ingresaMatricula.getText().isBlank() ||calendarioFechaNacimiento.getValue() == null ||
-            opcionesLenguaIndigena.getValue() == null){
+            ingresaCorreo.getText().isBlank() || opcionesLenguaIndigena.getValue() == null){
             
             sonCamposValidos = false; 
 
         }
+        
         if(ingresaApellidoMaterno.getText().isBlank()){
             
             ingresaApellidoMaterno.setText(null);
