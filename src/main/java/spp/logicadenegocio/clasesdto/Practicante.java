@@ -56,7 +56,7 @@ public class Practicante extends Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public boolean gethablaLenguaIndigena() {
+    public boolean getHablaLenguaIndigena() {
         return hablaLenguaIndigena;
     }
 

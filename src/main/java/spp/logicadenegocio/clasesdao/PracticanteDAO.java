@@ -33,7 +33,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setInt(1, practicante.getIdUsuario());
             consultaPreparada.setString(2, practicante.getMatricula());
             consultaPreparada.setString(3, practicante.getGenero());
-            consultaPreparada.setBoolean(4, practicante.gethablaLenguaIndigena());
+            consultaPreparada.setBoolean(4, practicante.getHablaLenguaIndigena());
 
             java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());;
             consultaPreparada.setDate(5, fechaParaBD);
@@ -123,7 +123,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
 
             consultaPreparada.setString(1, practicante.getMatricula());
             consultaPreparada.setString(2, practicante.getGenero());
-            consultaPreparada.setBoolean(3, practicante.gethablaLenguaIndigena());
+            consultaPreparada.setBoolean(3, practicante.getHablaLenguaIndigena());
             java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
             consultaPreparada.setDate(4, fechaParaBD);
             consultaPreparada.setString(5, practicante.getMatricula());

@@ -27,7 +27,7 @@
             <TextField fx:id="ingresaCorreoMatricula" layoutX="232.0" layoutY="173.0" prefHeight="26.0" prefWidth="230.0" promptText="Ej: zS24012345 o juan.uv.mx" />
             <PasswordField fx:id="ingresaContrasena" layoutX="232.0" layoutY="219.0" prefHeight="26.0" prefWidth="230.0" promptText="Ingrese contraseña" />
             <ButtonBar layoutX="109.0" layoutY="267.0" prefHeight="40.0" prefWidth="200.0" />
-            <Button fx:id="botonIngresar" layoutX="200.0" layoutY="268.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="98.0" text="Ingresar" />
+            <Button fx:id="botonIngresar" layoutX="200.0" layoutY="268.0" mnemonicParsing="false" onAction="#leerDatos" prefHeight="26.0" prefWidth="98.0" text="Ingresar" />
             <Label fx:id="instruccion" layoutX="170.0" layoutY="136.0" text="Ingrese los campos solicitados:" />
          </children>
       </AnchorPane>

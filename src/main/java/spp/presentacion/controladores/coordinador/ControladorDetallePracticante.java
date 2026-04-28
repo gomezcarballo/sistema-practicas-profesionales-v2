@@ -10,4 +10,6 @@ package spp.presentacion.controladores.coordinador;
  */
 public class ControladorDetallePracticante {
     
+    
+    
 }
