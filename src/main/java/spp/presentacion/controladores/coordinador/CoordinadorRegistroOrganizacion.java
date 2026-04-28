@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validacionesInsercion.ValidacionOrganizacion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -60,12 +61,10 @@ public class CoordinadorRegistroOrganizacion {
         
         }else{
             
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Datos faltantes");
-            alert.setHeaderText(null);
-            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
-            alert.showAndWait();
-            
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            "Faltan datos por agregar. Por favor ingreselos");
+
         }
     }
     
@@ -95,21 +94,17 @@ public class CoordinadorRegistroOrganizacion {
             
             if(ingresoExitoso){
                 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Registro Exitoso");
-                alert.setHeaderText(null);
-                alert.setContentText("Organización registrada correctamente");
-                alert.showAndWait();
+                VentanaMensaje ventanaMensaje = new VentanaMensaje();
+                ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+                "Organización registrada correctamente");
                 
             }
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Registro fallido");
-            alert.setHeaderText(null);
-            alert.setContentText("No se pudo registrar a la Organización, intente más tarde");
-            alert.showAndWait();
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+            "No se pudo registrar a la Organización, intente más tarde");
             
         }
     }

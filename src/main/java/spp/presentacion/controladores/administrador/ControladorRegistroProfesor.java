@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProfesor;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -56,11 +57,9 @@ public class ControladorRegistroProfesor {
         
         }else{
             
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Datos faltantes");
-            alert.setHeaderText(null);
-            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
-            alert.showAndWait();
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            "Faltan datos por agregar. Por favor ingreselos");
             
         }
     }
@@ -91,21 +90,17 @@ public class ControladorRegistroProfesor {
             
             if(ingresoExitoso){
                 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Registro exitoso");
-                alert.setHeaderText(null);
-                alert.setContentText("Profesor registrado exitosamente");
-                alert.showAndWait();
-                
+                VentanaMensaje ventanaMensaje = new VentanaMensaje();
+                ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+                "Profesor registrado exitosamente");
+                                
             }
             
         }catch(ReglaDeNegocioExcepcion e){
-           
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Registro fallido");
-            alert.setHeaderText(null);
-            alert.setContentText("No se pudo registrar al Profesor, intente más tarde");
-            alert.showAndWait();
+            
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+            "No se pudo registrar al Profesor, intente más tarde");
             
         }
     }

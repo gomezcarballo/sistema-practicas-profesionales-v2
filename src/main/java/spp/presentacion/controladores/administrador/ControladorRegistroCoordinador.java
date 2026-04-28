@@ -7,13 +7,14 @@ package spp.presentacion.controladores.administrador;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.validacionesInsercion.ValidacionCoordinador;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -55,11 +56,9 @@ public class ControladorRegistroCoordinador {
            
         }else{
             
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Datos faltantes");
-            alert.setHeaderText(null);
-            alert.setContentText("Faltan datos por agregar. Por favor ingreselos.");
-            alert.showAndWait();
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Datos faltantes", 
+            "Faltan datos por agregar. Por favor ingreselos");
             
         }
         
@@ -93,22 +92,17 @@ public class ControladorRegistroCoordinador {
             
             if(ingresoExitoso){
                 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Registro exitoso");
-                alert.setHeaderText(null);
-                alert.setContentText("Coordinador registrado exitosamente");
-                alert.showAndWait();
+                VentanaMensaje ventanaMensaje = new VentanaMensaje();
+                ventanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+                "Coordinador registrado exitosamente");                
                 
             }
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Registro fallido");
-            alert.setHeaderText(null);
-            alert.setContentText("No se pudo registrar al Coordinador, intente más tarde");
-            alert.showAndWait();
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Registro fallido", 
+            "No se pudo registrar al Coordinador, intente más tarde");
             
         }
         
