@@ -7,24 +7,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorActualizacionOrganizacion">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorActualizacionOrganizacion">
    <children>
       <AnchorPane layoutX="20.0" layoutY="21.0" prefHeight="360.0" prefWidth="563.0">
          <children>
-            <Label layoutX="188.0" layoutY="48.0" text="Actualizar Organización">
+            <Label fx:id="tituloActualizarOrganizacion" layoutX="188.0" layoutY="48.0" text="Actualizar Organización">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="58.0" layoutY="121.0" text="Nombre de la Organización:" />
-            <Label layoutX="58.0" layoutY="172.0" text="Dirección de la Organización:" />
-            <Label layoutX="58.0" layoutY="225.0" text="Sector de la Organización:" />
-            <TextField layoutX="247.0" layoutY="117.0" />
-            <TextField layoutX="248.0" layoutY="167.0" />
-            <ComboBox layoutX="246.0" layoutY="221.0" prefWidth="150.0" />
-            <Button layoutX="162.0" layoutY="289.0" mnemonicParsing="false" text="Actualizar" />
-            <Button layoutX="287.0" layoutY="289.0" mnemonicParsing="false" text="Cancelar" />
+            <Label fx:id="textoNombre" layoutX="112.0" layoutY="107.0" text="Nombre de la Organización:" />
+            <Label fx:id="textoDireccion" layoutX="112.0" layoutY="158.0" text="Dirección de la Organización:" />
+            <Label fx:id="textoSector" layoutX="112.0" layoutY="211.0" text="Sector de la Organización:" />
+            <TextField fx:id="nombre" layoutX="301.0" layoutY="103.0" />
+            <TextField fx:id="direccion" layoutX="302.0" layoutY="153.0" />
+            <ComboBox fx:id="opcionesSector" layoutX="300.0" layoutY="207.0" prefWidth="150.0" />
+            <Button fx:id="botonActualizar" layoutX="186.0" layoutY="275.0" mnemonicParsing="false" text="Actualizar" />
+            <Button fx:id="botonCancelar" layoutX="295.0" layoutY="275.0" mnemonicParsing="false" text="Cancelar" />
+            <Label fx:id="instruccion" layoutX="208.0" layoutY="75.0" text="Actualize uno o más campos">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

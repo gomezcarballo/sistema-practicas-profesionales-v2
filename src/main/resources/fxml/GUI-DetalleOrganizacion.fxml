@@ -6,26 +6,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetalleOrganizacion">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetalleOrganizacion">
    <children>
       <AnchorPane layoutX="28.0" layoutY="26.0" prefHeight="345.0" prefWidth="545.0">
          <children>
-            <Label layoutX="164.0" layoutY="42.0" text="Detalles de la Organización">
+            <Label fx:id="tituloDetallesOrganizacion" layoutX="164.0" layoutY="62.0" text="Detalles de la Organización">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="80.0" layoutY="124.0" text="Nombre: " />
-            <Label layoutX="79.0" layoutY="161.0" text="Dirección:" />
-            <Label layoutX="80.0" layoutY="199.0" text="Sector:" />
-            <TextField layoutX="161.0" layoutY="120.0" prefHeight="26.0" prefWidth="179.0" />
-            <TextField layoutX="161.0" layoutY="157.0" prefHeight="26.0" prefWidth="179.0" />
-            <TextField layoutX="161.0" layoutY="194.0" prefHeight="26.0" prefWidth="179.0" />
-            <Button layoutX="381.0" layoutY="133.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" text="Inactivar Organización" />
-            <Button layoutX="381.0" layoutY="181.0" mnemonicParsing="false" text="Actualizar Organización" />
-            <Button layoutX="157.0" layoutY="281.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0" text="Ver proyectos" />
-            <Button layoutX="283.0" layoutY="282.0" mnemonicParsing="false" text="Registrar proyecto" />
+            <Label fx:id="textoNombre" layoutX="80.0" layoutY="124.0" text="Nombre: " />
+            <Label fx:id="textoDireccion" layoutX="79.0" layoutY="161.0" text="Dirección:" />
+            <Label fx:id="textoSector" layoutX="80.0" layoutY="199.0" text="Sector:" />
+            <TextField fx:id="nombre" layoutX="161.0" layoutY="120.0" prefHeight="26.0" prefWidth="179.0" />
+            <TextField fx:id="direccion" layoutX="161.0" layoutY="157.0" prefHeight="26.0" prefWidth="179.0" />
+            <TextField fx:id="sector" layoutX="161.0" layoutY="194.0" prefHeight="26.0" prefWidth="179.0" />
+            <Button fx:id="botonInactivarOrganizacion" layoutX="381.0" layoutY="133.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" text="Inactivar Organización" />
+            <Button fx:id="botonActualizarOrganizacion" layoutX="381.0" layoutY="181.0" mnemonicParsing="false" text="Actualizar Organización" />
+            <Button fx:id="botonVerProyectos" layoutX="157.0" layoutY="281.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0" text="Ver proyectos" />
+            <Button fx:id="BotonRegistrarProyecto" layoutX="283.0" layoutY="282.0" mnemonicParsing="false" text="Registrar proyecto" />
          </children>
       </AnchorPane>
    </children>
