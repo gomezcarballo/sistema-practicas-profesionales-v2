@@ -19,10 +19,10 @@
             <Label fx:id="textoDescripcion" layoutX="105.0" layoutY="145.0" text="Descripción:" />
             <Label fx:id="textoNombreResponsable" layoutX="105.0" layoutY="180.0" text="Nombre del responsable:" />
             <Label fx:id="textoCupoMaximo" layoutX="105.0" layoutY="215.0" text="Cupo maximo:" />
-            <TextField fx:id="nombre" layoutX="241.0" layoutY="106.0" />
-            <TextField fx:id="descripcion" layoutX="241.0" layoutY="141.0" />
-            <TextField fx:id="nombreResponsable" layoutX="241.0" layoutY="176.0" />
-            <TextField fx:id="cupoMaximo" layoutX="241.0" layoutY="211.0" />
+            <TextField fx:id="muestraNombre" layoutX="241.0" layoutY="106.0" />
+            <TextField fx:id="muestraDescripcion" layoutX="241.0" layoutY="141.0" />
+            <TextField fx:id="muestraNombreResponsable" layoutX="241.0" layoutY="176.0" />
+            <TextField fx:id="muestraCupoMaximo" layoutX="241.0" layoutY="211.0" />
             <Button fx:id="botonInactivar" layoutX="158.0" layoutY="275.0" mnemonicParsing="false" text="Inactivar" />
             <Button fx:id="botonActualizar" layoutX="282.0" layoutY="275.0" mnemonicParsing="false" text="Actualizar" />
          </children>

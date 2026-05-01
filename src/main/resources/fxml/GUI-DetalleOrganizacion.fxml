@@ -18,9 +18,9 @@
             <Label fx:id="textoNombre" layoutX="80.0" layoutY="124.0" text="Nombre: " />
             <Label fx:id="textoDireccion" layoutX="79.0" layoutY="161.0" text="Dirección:" />
             <Label fx:id="textoSector" layoutX="80.0" layoutY="199.0" text="Sector:" />
-            <TextField fx:id="nombre" layoutX="161.0" layoutY="120.0" prefHeight="26.0" prefWidth="179.0" />
-            <TextField fx:id="direccion" layoutX="161.0" layoutY="157.0" prefHeight="26.0" prefWidth="179.0" />
-            <TextField fx:id="sector" layoutX="161.0" layoutY="194.0" prefHeight="26.0" prefWidth="179.0" />
+            <TextField fx:id="muestraNombre" layoutX="161.0" layoutY="120.0" prefHeight="26.0" prefWidth="179.0" />
+            <TextField fx:id="muestraDireccion" layoutX="161.0" layoutY="157.0" prefHeight="26.0" prefWidth="179.0" />
+            <TextField fx:id="muestraSector" layoutX="161.0" layoutY="194.0" prefHeight="26.0" prefWidth="179.0" />
             <Button fx:id="botonInactivarOrganizacion" layoutX="381.0" layoutY="133.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" text="Inactivar Organización" />
             <Button fx:id="botonActualizarOrganizacion" layoutX="381.0" layoutY="181.0" mnemonicParsing="false" text="Actualizar Organización" />
             <Button fx:id="botonVerProyectos" layoutX="157.0" layoutY="281.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0" text="Ver proyectos" />

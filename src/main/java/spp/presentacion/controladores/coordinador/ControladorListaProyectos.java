@@ -33,7 +33,7 @@ public class ControladorListaProyectos {
     private TableColumn<Proyecto, String> columnaNombreResponsable;
     
     @FXML
-    private TableColumn<Proyecto, String> columnaCupoMaximo;
+    private TableColumn<Proyecto, Integer> columnaCupoMaximo;
     
     @FXML
     public void initialize() {
@@ -43,6 +43,7 @@ public class ControladorListaProyectos {
         columnaDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         columnaNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
         columnaCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
+       
         
     }
     
@@ -53,5 +54,7 @@ public class ControladorListaProyectos {
         ventanaActual.close();
         
     }
+    
+    
     
 }
