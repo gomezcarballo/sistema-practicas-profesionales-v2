@@ -15,39 +15,46 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author gomes
+ * @author Luz Fernanda H J
  */
-public class ControladorMenu {
+public class ControladorMenuPrincipalAdministrador {
     
     private static final Logger bitacora = Logger.getLogger(ControladorMenu.class.getName());
     
     @FXML
-    private void abrirRegistrarPracticante() {
-    
-        cargarVentana("/fxml/GUI-FormularioRegistroPracticante.fxml", "Registro de Practicante");
-        
-    }   
-    
-    @FXML
-    private void abrirRegistrarProfesor() {
-    
-        cargarVentana("/fxml/GuiFormularioRegistroProfesor.fxml", "Registro de Profesores");
-        
-    }
-    
-    @FXML
-    private void abrirRegistrarCoordinador() {
+    private void abrirRegistroNuevoCoordinador() {
     
         cargarVentana("/fxml/GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
         
     }
     
     @FXML
-    private void abrirRegistrarOrganizacion() {
+    private void abrirRegistroNuevoProfesor() {
     
-        cargarVentana("/fxml/GUI-FormularioRegistroOrganizacion.fxml", "Registro de Organizacion");
+        cargarVentana("/fxml/GUI-FormularioRegistroProfesor.fxml", "Registro de Profesor");
         
     }
+    
+    @FXML
+    private void abrirRegistroNuevoAdministrador() {
+    
+        cargarVentana("/fxml/GUI-FormularioRegistroAdministrador.fxml", "Registr de Administrador");
+        
+    }
+    
+    @FXML
+    private void abrirReactivarCoordinador() {
+    
+        cargarVentana("/fxml/GUI-", "Reactivar Coordinador");
+        
+    }
+    @FXML
+    private void abrirReactivarProfesor() {
+    
+        cargarVentana("/fxml/GUI-", "Reactivar Profesor");
+        
+    }
+    
     
     private void cargarVentana(String archivoFXML, String titulo) {
         

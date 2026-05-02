@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.menus.ControladorOrganizacionVinculada">
+   <children>
+      <Pane layoutX="23.0" layoutY="22.0" prefHeight="353.0" prefWidth="554.0">
+         <children>
+            <Label fx:id="tituloMenuOrganizacionesVinculadas" layoutX="133.0" layoutY="30.0" text="Menu de Organizaciones Vinculadas">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="botonRegistrarOrganizacionVinculada" layoutX="146.0" layoutY="96.0" mnemonicParsing="false" onAction="#abrirRegistroOrganizacionVinculada" prefHeight="42.0" prefWidth="262.0" text="Registrar Organización Vinculada" />
+            <Button fx:id="botonActualizarOrganizacionVinculada" layoutX="146.0" layoutY="167.0" mnemonicParsing="false" onAction="#abrirActualizarOrganizacionVinculada" prefHeight="42.0" prefWidth="262.0" text="Actualizar Organización Vinculada" />
+            <Button fx:id="botonInactivarOrganizacionVinculada" layoutX="146.0" layoutY="240.0" mnemonicParsing="false" onAction="#abrirInactivarOrganizacionVinculada" prefHeight="42.0" prefWidth="262.0" text="Inactivar Organización Vinculada" />
+            <Button fx:id="botonCancelar" layoutX="245.0" layoutY="303.0" mnemonicParsing="false" text="Regresar" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

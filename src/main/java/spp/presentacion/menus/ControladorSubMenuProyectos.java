@@ -15,37 +15,37 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author gomes
+ * @author Luz Fernanda H J
  */
-public class ControladorMenu {
+public class ControladorSubMenuProyectos {
     
     private static final Logger bitacora = Logger.getLogger(ControladorMenu.class.getName());
     
     @FXML
-    private void abrirRegistrarPracticante() {
+    private void abrirRegistroProyecto() {
     
-        cargarVentana("/fxml/GUI-FormularioRegistroPracticante.fxml", "Registro de Practicante");
-        
-    }   
-    
-    @FXML
-    private void abrirRegistrarProfesor() {
-    
-        cargarVentana("/fxml/GuiFormularioRegistroProfesor.fxml", "Registro de Profesores");
+        cargarVentana("/fxml/GUI-FormularioRegistroProyecto.fxml", "Registrar Proyecto");
         
     }
     
     @FXML
-    private void abrirRegistrarCoordinador() {
+    private void abrirAsignarProyecto() {
     
-        cargarVentana("/fxml/GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
+        cargarVentana("/fxml/GUI-.fxml", "");
         
     }
     
     @FXML
-    private void abrirRegistrarOrganizacion() {
+    private void abrirInactivarProyecto() {
     
-        cargarVentana("/fxml/GUI-FormularioRegistroOrganizacion.fxml", "Registro de Organizacion");
+        cargarVentana("/fxml/GUI-.fxml", "");
+        
+    }
+    
+    @FXML
+    private void abrirActualizarProyecto() {
+    
+        cargarVentana("/fxml/GUI-.fxml", "");
         
     }
     
@@ -68,5 +68,4 @@ public class ControladorMenu {
         }
         
     }
-    
 }
