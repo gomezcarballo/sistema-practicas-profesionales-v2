@@ -4,14 +4,14 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
-import spp.logicadenegocio.clasesdto.ReportePendienteAgregar;
+import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
  *
  * @author gomes
  */
-public interface IReporteDAO {
-    public boolean insertarReporte(ReportePendienteAgregar reporte)throws OperacionesDeDaoExcepcion;
-    public ReportePendienteAgregar consultarReporte()throws OperacionesDeDaoExcepcion;
+public interface IEvaluacionDAO {
+    public void insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion;
+    public Evaluacion consultarEvaluacion(int idEvaluacion) throws OperacionesDeDaoExcepcion;
 }

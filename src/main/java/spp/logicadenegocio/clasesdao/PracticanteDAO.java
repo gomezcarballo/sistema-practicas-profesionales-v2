@@ -34,8 +34,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setString(2, practicante.getMatricula());
             consultaPreparada.setString(3, practicante.getGenero());
             consultaPreparada.setBoolean(4, practicante.getHablaLenguaIndigena());
-
-            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());;
+            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
             consultaPreparada.setDate(5, fechaParaBD);
             
             consultaPreparada.executeUpdate();
