@@ -16,4 +16,5 @@ public interface IUsuarioDAO {
     public Usuario consultarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean eliminarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean actualizarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion;
+    public String buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion;
 }

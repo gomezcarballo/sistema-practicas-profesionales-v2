@@ -142,7 +142,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             consultaPreparada.setString(2, usuario.getApellidoPaterno());
             consultaPreparada.setString(3, usuario.getApellidoMaterno());
             consultaPreparada.setInt(4, usuario.getIdUsuario());
-
+            
             int filasAfectadas = consultaPreparada.executeUpdate();
 
             if (filasAfectadas > 0) {
@@ -155,6 +155,32 @@ public class UsuarioDAO implements IUsuarioDAO {
 
     return actualizacionExitosa;
     
+    }
+    
+    @Override
+    public String buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion{
+        
+        String tipoRol;
+        String consultaSQL = "SELECT obtener_rol_usuario(?)";
+        
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            
+            consultaPreparada.setString(1,correoInstitucional);
+            
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+            
+            if(!resultadoConsulta.next()){
+               throw new OperacionesDeDaoExcepcion("No se obtuvo ningun resultado de la base de datos."); 
+            }
+            
+            tipoRol = resultadoConsulta.getString("v_rol"); 
+            return tipoRol;
+            
+        }catch(SQLException e){
+            
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
+        }
     }
  
 }
