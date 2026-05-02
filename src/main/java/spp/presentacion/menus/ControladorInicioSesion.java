@@ -69,15 +69,15 @@ public class ControladorInicioSesion {
             String tipoRol =  validacion.inicioDeSesion(identificador); 
             
             if(tipoRol == "Administrador"){
-                cargarVentana("","");
+                cargarVentana("/fxml/GUI-MenuPrincipalAdministrado.fxml","Menu Principal para Administrador");
             }
             
             if(tipoRol == "Profesor"){
-                
+                 
             }
             
             if(tipoRol == "Coordinador"){
-                
+                cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml","Menu Principal para Coordinador");
             }
             
             if(tipoRol == "Practicante"){

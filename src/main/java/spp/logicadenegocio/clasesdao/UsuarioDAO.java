@@ -4,15 +4,16 @@
  */
 package spp.logicadenegocio.clasesdao;
 
-import spp.accesoadatos.ConexionBD;
+
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import spp.logicadenegocio.clasesdto.Usuario;
 import java.sql.ResultSet;
 import spp.logicadenegocio.interfacesdao.IUsuarioDAO;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import java.sql.SQLException;
+import spp.accesoadatos.ConexionBD;
 
 /**
  *
