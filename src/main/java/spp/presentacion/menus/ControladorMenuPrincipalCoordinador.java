@@ -4,14 +4,9 @@
  */
 package spp.presentacion.menus;
 
-import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 
 /**
  *
@@ -23,49 +18,34 @@ public class ControladorMenuPrincipalCoordinador {
     
     @FXML
     private void abrirSubMenuProyectos() {
-    
-        cargarVentana("/fxml/GUI-SubMenuProyectos.fxml", "Menu de Proyectos");
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuProyectos.fxml", "Menu de Proyectos");
         
     }
     
     @FXML
     private void abrirSubMenuPracticantes() {
-    
-        cargarVentana("/fxml/GUI-SubMenuPracticantes.fxml", "Menu de Practicantes");
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuPracticantes.fxml", "Menu de Practicantes");
         
     }
     
     @FXML
     private void abrirSubMenuOrganizacionVinculada() {
-    
-        cargarVentana("/fxml/GUI-SubMenuOrganizacionVinculada.fxml", "Menu de Organizaciones Vinculadas");
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuOrganizacionVinculada.fxml", "Menu de Organizaciones Vinculadas");
         
     }
     
     @FXML
     private void abrirReporteIndicadores() {
-    
-        cargarVentana("/fxml/GUI-ReporteIndicadores", "Reporte de Indicadores");
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-ReporteIndicadores", "Reporte de Indicadores");
         
     }
     
-    private void cargarVentana(String archivoFXML, String titulo) {
-        
-        try {
-            
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(archivoFXML));
-            Parent root = loader.load();
-
-            Stage ventana = new Stage();
-            ventana.setTitle(titulo);
-            ventana.setScene(new Scene(root));
-            ventana.show();
-
-        } catch (IOException e) {
-           
-           bitacora.log(Level.SEVERE, "Error al cargar la ventana: " + archivoFXML, e); 
-           
-        }
-        
-    }
 }

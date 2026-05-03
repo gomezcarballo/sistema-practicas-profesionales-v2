@@ -4,17 +4,12 @@
  */
 package spp.presentacion.menus;
 
-import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import spp.logicadenegocio.validacionesInicioSesion.ValidacionInicioDeSesion;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -32,6 +27,7 @@ public class ControladorInicioSesion {
     @FXML
     private TextField ingresaContrasena;
     
+    @FXML
     private void leerDatos(){
         if(sonCamposValidos()){
             
@@ -68,8 +64,10 @@ public class ControladorInicioSesion {
             ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
             String tipoRol =  validacion.inicioDeSesion(identificador); 
             
+            CargadorVentana cargadorVentana = new CargadorVentana();
+            
             if(tipoRol == "Administrador"){
-                cargarVentana("/fxml/GUI-MenuPrincipalAdministrado.fxml","Menu Principal para Administrador");
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml","Menu Principal para Administrador");
             }
             
             if(tipoRol == "Profesor"){
@@ -77,7 +75,7 @@ public class ControladorInicioSesion {
             }
             
             if(tipoRol == "Coordinador"){
-                cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml","Menu Principal para Coordinador");
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml","Menu Principal para Coordinador");
             }
             
             if(tipoRol == "Practicante"){
@@ -87,29 +85,10 @@ public class ControladorInicioSesion {
         }catch(ReglaDeNegocioExcepcion e){
         
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Inicio de sesión fallido", 
             e.getMessage());
             
         }
     }
-    
-    private void cargarVentana(String archivoFXML, String titulo) {
-        
-        try {
-            
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(archivoFXML));
-            Parent root = loader.load();
 
-            Stage ventana = new Stage();
-            ventana.setTitle(titulo);
-            ventana.setScene(new Scene(root));
-            ventana.show();
-
-        } catch (IOException e) {
-           
-           bitacora.log(Level.SEVERE, "Error al cargar la ventana: " + archivoFXML, e); 
-           
-        }
-        
-    }
 }

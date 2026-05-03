@@ -48,7 +48,7 @@ public class ValidacionInicioDeSesion {
         String PATRON_CORREO_ELECTRONICO = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)"
             + "*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[_A-Za-z0-9-]+)";
         
-        if( !identificador.matches( "^[z][sS][0-9]{8}$" ) || !identificador.matches( PATRON_CORREO_ELECTRONICO ) ){
+        if( !identificador.matches( "^[z][sS][0-9]{8}$" ) && !identificador.matches( PATRON_CORREO_ELECTRONICO ) ){
             throw new ReglaDeNegocioExcepcion("Identificador no valido. "
             + "Ingresa una matricula o correo institucional");
         }
