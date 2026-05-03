@@ -28,7 +28,7 @@ public class ControladorSubMenuProyectos {
     private void abrirAsignarProyecto() {
     
         CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
+        cargadorVentana.cargarVentana("/fxml/GUI-AsignacionProyecto.fxml", "Asignar a un Proyecto");
         
     }
     
@@ -44,7 +44,7 @@ public class ControladorSubMenuProyectos {
     private void abrirActualizarProyecto() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
+        cargadorVentana.cargarVentana("/fxml/GUI-ActualizarProyecto.fxml", "Actualizar Proyecto");
         
     }
     

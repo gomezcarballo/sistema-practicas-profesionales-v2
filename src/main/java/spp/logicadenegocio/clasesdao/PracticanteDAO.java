@@ -117,8 +117,8 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
                 + "lenguaIndigena = ?, fechaNacimiento = ? "
                 + "WHERE matricula = ?";
 
-        try (Connection conexion = ConexionBD.getConexion();
-             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+        try ( Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL) ) {
 
             consultaPreparada.setString(1, practicante.getMatricula());
             consultaPreparada.setString(2, practicante.getGenero());
@@ -139,5 +139,25 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     return actualizacionExitosa;
     
     }
-   
+    @Override
+    public void buscarPracticante (String matricula) throws OperacionesDeDaoExcepcion{
+        
+        String consultaSQL = "SELECT 1 FROM practicante WHERE matricula = ? LIMIT 1";
+        
+        try( Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL) ){
+            
+            consultaPreparada.setString(1,matricula);
+            
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+           
+            if(!resultadoConsulta.next()){
+               throw new OperacionesDeDaoExcepcion("No se encuentra la matricula registrada."); 
+            }
+            
+        }catch(SQLException e){
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+    }
+    
 }

@@ -5,6 +5,7 @@
 package spp.logicadenegocio.validacionesInicioSesion;
 
 import java.util.logging.Logger;
+import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -24,20 +25,23 @@ public class ValidacionInicioDeSesion {
         sonCamposValidosPorReglaNegocio( identificador );
         String tipoRol = null;
         
-        if( identificador.matches("^[z][sS][0-9]{8}$") ) {
-            
-            tipoRol = "Practicante";
-        }
-        
         try{
             
-            UsuarioDAO usuarioDao = new UsuarioDAO();
-            
-            tipoRol = usuarioDao.buscarUsuario( identificador );
+            if( identificador.matches("^[z][sS][0-9]{8}$") ) {
+                
+                PracticanteDAO practicanteDao = new PracticanteDAO();
+                practicanteDao.buscarPracticante(identificador);
+                tipoRol = "Practicante";
+                
+            }else{
+                
+                UsuarioDAO usuarioDao = new UsuarioDAO();
+                tipoRol = usuarioDao.buscarUsuario( identificador );
+            }
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            throw new ReglaDeNegocioExcepcion("Error: No se pudo recuperar la información. ", e);
+            throw new ReglaDeNegocioExcepcion(e);
         }
             
         return tipoRol;
@@ -52,6 +56,7 @@ public class ValidacionInicioDeSesion {
             throw new ReglaDeNegocioExcepcion("Identificador no valido. "
             + "Ingresa una matricula o correo institucional");
         }
+        
     }
     
 }

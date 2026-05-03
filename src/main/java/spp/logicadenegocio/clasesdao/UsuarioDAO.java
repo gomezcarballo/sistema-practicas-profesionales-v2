@@ -165,10 +165,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     public String buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion{
         
         String tipoRol;
-        String consultaSQL = "SELECT obtener_rol_usuario(?)";
+        String consultaSQL = "SELECT obtener_rol_usuario(?) AS rol";
         
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
             
             consultaPreparada.setString(1,correoInstitucional);
             
@@ -178,11 +178,10 @@ public class UsuarioDAO implements IUsuarioDAO {
                throw new OperacionesDeDaoExcepcion("No se obtuvo ningun resultado de la base de datos."); 
             }
             
-            tipoRol = resultadoConsulta.getString("v_rol"); 
+            tipoRol = resultadoConsulta.getString("rol"); 
             return tipoRol;
             
         }catch(SQLException e){
-            
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
         }
     }

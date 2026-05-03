@@ -16,4 +16,7 @@ public class ReglaDeNegocioExcepcion extends Exception {
     public ReglaDeNegocioExcepcion(String mensaje){
         super(mensaje);
     }
+    public ReglaDeNegocioExcepcion(Throwable causa){
+        super(causa);
+    }
 }

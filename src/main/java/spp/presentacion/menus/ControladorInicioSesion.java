@@ -65,28 +65,28 @@ public class ControladorInicioSesion {
             String tipoRol =  validacion.inicioDeSesion(identificador); 
             
             CargadorVentana cargadorVentana = new CargadorVentana();
-            
-            if(tipoRol == "Administrador"){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml","Menu Principal para Administrador");
+            if( tipoRol.equals("Administrador") ){
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml","Menú Principal para Administrador");
             }
             
-            if(tipoRol == "Profesor"){
-                 
+            if( tipoRol.equals("Profesor") ){
+                 cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalProfesor.fxml","Menú Principal para Profesores");
             }
             
-            if(tipoRol == "Coordinador"){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml","Menu Principal para Coordinador");
+            if( tipoRol.equals("Coordinador") ){
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml","Menú Principal para Coordinador");
             }
             
-            if(tipoRol == "Practicante"){
-                
+            if( tipoRol.equals("Practicante")){
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml","Menú Principal para Practicante");
             }
 
         }catch(ReglaDeNegocioExcepcion e){
-        
+            
+            String causa = e.getMessage();
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Inicio de sesión fallido", 
-            e.getMessage());
+            causa);
             
         }
     }
