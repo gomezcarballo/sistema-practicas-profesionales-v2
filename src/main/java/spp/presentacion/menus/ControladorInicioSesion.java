@@ -62,7 +62,8 @@ public class ControladorInicioSesion {
         try{
             
             ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
-            String tipoRol =  validacion.inicioDeSesion(identificador); 
+            
+            String tipoRol =  validacion.validarTipoDeRol(identificador); 
             
             CargadorVentana cargadorVentana = new CargadorVentana();
             if( tipoRol.equals("Administrador") ){
@@ -82,7 +83,7 @@ public class ControladorInicioSesion {
             }
 
         }catch(ReglaDeNegocioExcepcion e){
-            
+
             String causa = e.getMessage();
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Inicio de sesión fallido", 

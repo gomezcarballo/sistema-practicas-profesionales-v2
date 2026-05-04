@@ -36,7 +36,7 @@ public class ControladorMenuPrincipalAdministrador {
     private void abrirRegistroNuevoAdministrador() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroAdministrador.fxml", "Registr de Administrador");
+        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "Registro de Administrador");
         
     }
     

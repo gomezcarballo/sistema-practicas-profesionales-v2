@@ -4,6 +4,7 @@
  */
 package spp.utilerias;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -25,7 +26,7 @@ public class ConfiguracionBaseDatos {
             }
             
             propiedades.load(entrada);
-        }catch (Exception e) {
+        }catch (IOException e) {
             throw new RuntimeException("Error cargando configuracion",e);
         }
     }    

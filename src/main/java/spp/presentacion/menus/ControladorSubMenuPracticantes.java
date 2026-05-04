@@ -17,7 +17,7 @@ public class ControladorSubMenuPracticantes {
     private static final Logger bitacora = Logger.getLogger(ControladorMenu.class.getName());
     
     @FXML
-    private void abrirRegistroProyecto() {
+    private void abrirRegistroPracticante() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
         cargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroPracticante.fxml", "Registrar Practicante");

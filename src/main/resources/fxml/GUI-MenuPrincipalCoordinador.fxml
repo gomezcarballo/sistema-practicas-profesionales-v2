@@ -15,8 +15,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="botonProyecto" layoutX="44.0" layoutY="132.0" mnemonicParsing="false" onAction="#abrirSubMenuProyecto" prefHeight="38.0" prefWidth="217.0" text="Proyectos" />
-            <Button fx:id="botonPracticante" layoutX="308.0" layoutY="132.0" mnemonicParsing="false" onAction="#abrirSubMenuPracticante" prefHeight="38.0" prefWidth="217.0" text="Practicantes" />
+            <Button fx:id="botonProyecto" layoutX="44.0" layoutY="132.0" mnemonicParsing="false" onAction="#abrirSubMenuProyectos" prefHeight="38.0" prefWidth="217.0" text="Proyectos" />
+            <Button fx:id="botonPracticante" layoutX="308.0" layoutY="132.0" mnemonicParsing="false" onAction="#abrirSubMenuPracticantes" prefHeight="38.0" prefWidth="217.0" text="Practicantes" />
             <Button fx:id="botonOrganizacionVinculada" layoutX="44.0" layoutY="224.0" mnemonicParsing="false" onAction="#abrirSubMenuOrganizacionVinculada" prefHeight="38.0" prefWidth="217.0" text="Organizaciones Vinculadas" />
             <Button fx:id="botonReporteIndicadores" layoutX="308.0" layoutY="224.0" mnemonicParsing="false" onAction="#abrirReporteIndicadores" prefHeight="38.0" prefWidth="217.0" text="Reporte de indicadores" />
          </children>

@@ -10,8 +10,11 @@ import spp.logicadenegocio.clasesdao.CoordinadorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.generadordecontrasenas.GeneradorContrasena;
+import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
 
 /**
  *
@@ -34,8 +37,12 @@ public class ValidacionCoordinador {
         usuario.setNombre(coordinador.getNombre());
         usuario.setApellidoPaterno(coordinador.getApellidoPaterno());
         usuario.setApellidoMaterno(coordinador.getApellidoMaterno());
-        usuario.setContraseña("password");
+        usuario.setCorreoInstitucional(coordinador.getCorreoInstitucional());
         usuario.setEsActivo(true);
+        
+        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
+        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
+        usuario.setContraseña(contraseñaHasheada);
 
         try{
             
@@ -44,10 +51,13 @@ public class ValidacionCoordinador {
             coordinador.setIdUsuario(idUsuario);
             coordinadorDao.insertarCoordinador(coordinador);
             
+            EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
+            envioCorreoContraseña.enviarContraseña(usuario.getCorreoInstitucional(), contraseñaPlana);
+            
         }catch(OperacionesDeDaoExcepcion e){
             
             bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al coordinador por un problema "
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Coordinador por un problema "
                 + "interno del sistema. Intente más tarde.");
             
         }

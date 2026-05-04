@@ -7,7 +7,6 @@ package spp.logicadenegocio.validacionesInicioSesion;
 import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
-import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -20,7 +19,7 @@ public class ValidacionInicioDeSesion {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionInicioDeSesion.class.getName());
     
-    public String inicioDeSesion( String identificador ) throws ReglaDeNegocioExcepcion {
+    public String validarTipoDeRol( String identificador ) throws ReglaDeNegocioExcepcion {
         
         sonCamposValidosPorReglaNegocio( identificador );
         String tipoRol = null;
@@ -37,6 +36,7 @@ public class ValidacionInicioDeSesion {
                 
                 UsuarioDAO usuarioDao = new UsuarioDAO();
                 tipoRol = usuarioDao.buscarUsuario( identificador );
+                
             }
             
         }catch(OperacionesDeDaoExcepcion e){

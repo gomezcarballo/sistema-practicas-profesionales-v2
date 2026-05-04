@@ -30,7 +30,7 @@ public class ControladorSubMenuOrganizacionVinculada {
     private void abrirActualizarOrganizacionVinculada() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
+        cargadorVentana.cargarVentana("/fxml/GUI-ActualizacionOrganizacion.fxml", "Actualizar Organizacion");
         
     }
     

@@ -12,6 +12,8 @@ import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.generadordecontrasenas.GeneradorContrasena;
+import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
 
 /**
  *
@@ -30,15 +32,19 @@ public class ValidacionProfesor {
         usuario.setNombre(profesor.getNombre());
         usuario.setApellidoPaterno(profesor.getApellidoPaterno());
         usuario.setApellidoMaterno(profesor.getApellidoMaterno());
-        usuario.setContraseña("password");
         usuario.setEsActivo(true);
+        
+        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
+        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
+        usuario.setContraseña(contraseñaHasheada);
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         ProfesorDAO profesorDao = new ProfesorDAO();
+        
         boolean registroExitoso;
         
         try{
-            
+
             int idUsuario = usuarioDao.insertarUsuario(usuario);
             
             profesor.setIdUsuario(idUsuario);
@@ -48,7 +54,8 @@ public class ValidacionProfesor {
             
            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);
            
-           throw new ReglaDeNegocioExcepcion("Los valores no cumplen con el formato requerido", e);
+           throw new ReglaDeNegocioExcepcion("No se pudo registrar al Profesor por un problema "
+                + "interno del sistema. Intente más tarde.", e);
             
         }
         return registroExitoso;

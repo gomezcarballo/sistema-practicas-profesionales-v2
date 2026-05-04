@@ -10,8 +10,11 @@ import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.generadordecontrasenas.GeneradorContrasena;
+import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
 
 /**
  *
@@ -28,8 +31,12 @@ public class ValidacionPracticante {
         usuario.setNombre(practicante.getNombre());
         usuario.setApellidoPaterno(practicante.getApellidoPaterno());
         usuario.setApellidoMaterno(practicante.getApellidoMaterno());
-        usuario.setContraseña("password");
+        usuario.setCorreoInstitucional(practicante.getCorreoInstitucional());
         usuario.setEsActivo(true);
+        
+        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
+        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
+        usuario.setContraseña(contraseñaHasheada);
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         PracticanteDAO practicanteDao = new PracticanteDAO();
@@ -41,13 +48,17 @@ public class ValidacionPracticante {
             
             practicante.setIdUsuario(idUsuario);
             registroExitoso = practicanteDao.insertarPracticante(practicante);
+           
+            EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
+            envioCorreoContraseña.enviarContraseña(usuario.getCorreoInstitucional(), contraseñaPlana);
             
             
         }catch(OperacionesDeDaoExcepcion e){
             
             bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo practicante.", e);
             
-            throw new ReglaDeNegocioExcepcion("Los valores no cumplen con el formato requerido", e);
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Practicante por un problema "
+                + "interno del sistema. Intente más tarde.", e);
             
         }
         return registroExitoso;

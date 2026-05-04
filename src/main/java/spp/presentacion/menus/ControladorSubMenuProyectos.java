@@ -44,7 +44,7 @@ public class ControladorSubMenuProyectos {
     private void abrirActualizarProyecto() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-ActualizarProyecto.fxml", "Actualizar Proyecto");
+        cargadorVentana.cargarVentana("/fxml/GUI-ActualizacionProyecto.fxml", "Actualizar Proyecto");
         
     }
     
