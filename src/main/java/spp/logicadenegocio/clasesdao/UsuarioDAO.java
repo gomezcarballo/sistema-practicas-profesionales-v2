@@ -5,6 +5,7 @@
 package spp.logicadenegocio.clasesdao;
 
 
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -14,6 +15,7 @@ import spp.logicadenegocio.interfacesdao.IUsuarioDAO;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.accesoadatos.ConexionBD;
+import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 
 /**
  *
@@ -162,24 +164,26 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
     
     @Override
-    public String buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion{
+    public UsuarioEncontrado buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion{
         
-        String tipoRol;
-        String consultaSQL = "SELECT obtener_rol_usuario(?) AS rol";
+        String consultaSQL = "{CALL obtener_datos_inicio_sesion(?)}";
         
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
+            CallableStatement consultaPreparada = conexion.prepareCall(consultaSQL);) {
             
-            consultaPreparada.setString(1,correoInstitucional);
+            consultaPreparada.setString(1, correoInstitucional);
             
-            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
             
-            if(!resultadoConsulta.next()){
-               throw new OperacionesDeDaoExcepcion("No se obtuvo ningun resultado de la base de datos."); 
+            if(!resultadosConsulta.next()){
+                return null;
             }
             
-            tipoRol = resultadoConsulta.getString("rol"); 
-            return tipoRol;
+            int idEncontrado = resultadosConsulta.getInt("idUsuario");
+            String rolEncontrado = resultadosConsulta.getString("rol");
+            String hashEncontrado = resultadosConsulta.getString("hash");
+            
+            return new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);

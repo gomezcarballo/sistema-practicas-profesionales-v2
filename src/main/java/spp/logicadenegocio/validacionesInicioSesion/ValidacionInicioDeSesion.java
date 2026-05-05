@@ -7,8 +7,10 @@ package spp.logicadenegocio.validacionesInicioSesion;
 import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
+import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
 
 
 /**
@@ -19,25 +21,48 @@ public class ValidacionInicioDeSesion {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionInicioDeSesion.class.getName());
     
-    public String validarTipoDeRol( String identificador ) throws ReglaDeNegocioExcepcion {
+    public String autenticarUsuario ( String identificador , String contraseñaIngresada) throws ReglaDeNegocioExcepcion {
         
         sonCamposValidosPorReglaNegocio( identificador );
+        
         String tipoRol = null;
         
         try{
             
+            UsuarioEncontrado usuario = null;
+            
             if( identificador.matches("^[z][sS][0-9]{8}$") ) {
                 
                 PracticanteDAO practicanteDao = new PracticanteDAO();
-                practicanteDao.buscarPracticante(identificador);
+                usuario = practicanteDao.buscarPracticante(identificador);
+                
+                if(usuario == null){
+                    throw new ReglaDeNegocioExcepcion("Practicante no encontrado");                    
+                }
+                
                 tipoRol = "Practicante";
                 
             }else{
                 
                 UsuarioDAO usuarioDao = new UsuarioDAO();
-                tipoRol = usuarioDao.buscarUsuario( identificador );
+                usuario = usuarioDao.buscarUsuario(identificador);
+                
+                if(usuario == null){
+                    throw new ReglaDeNegocioExcepcion("Usuario no encontrado");                    
+                }
+                
+                tipoRol = usuario.getRolUsuarioEncontrado();
                 
             }
+            
+            
+            boolean esContraseñaCorrecta = HasheoContrasena.verificarContraseña(contraseñaIngresada,
+                    usuario.getHashUsuarioEncontrado());
+            
+            if (!esContraseñaCorrecta) {
+                throw new ReglaDeNegocioExcepcion("La contraseña no es correcta");
+            }
+
             
         }catch(OperacionesDeDaoExcepcion e){
             

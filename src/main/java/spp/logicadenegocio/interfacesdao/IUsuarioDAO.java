@@ -5,6 +5,7 @@
 package spp.logicadenegocio.interfacesdao;
 
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -16,5 +17,5 @@ public interface IUsuarioDAO {
     public Usuario consultarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean eliminarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean actualizarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion;
-    public String buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion;
+    public UsuarioEncontrado buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion;
 }

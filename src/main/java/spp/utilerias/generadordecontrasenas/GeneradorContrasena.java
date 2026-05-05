@@ -14,7 +14,7 @@ import java.security.SecureRandom;
 public class GeneradorContrasena {
 
     private static final String CARACTERES = 
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%";
+        "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#$%";
 
     private static final SecureRandom aleatorio = new SecureRandom();
 

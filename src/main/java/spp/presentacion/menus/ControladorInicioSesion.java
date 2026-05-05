@@ -32,7 +32,8 @@ public class ControladorInicioSesion {
         if(sonCamposValidos()){
             
             String identificador = ingresaCorreoMatricula.getText();
-            iniciarSesion(identificador);
+            String contraseñaIngresada = ingresaContrasena.getText();
+            iniciarSesion(identificador, contraseñaIngresada);
             
         }else{
             
@@ -48,7 +49,8 @@ public class ControladorInicioSesion {
         
         boolean sonCamposValidos = true; 
         
-        if( ( ingresaCorreoMatricula.getText() == null) || ingresaCorreoMatricula.getText().isBlank()){
+        if( ( ingresaCorreoMatricula.getText() == null) || ingresaCorreoMatricula.getText().isBlank() ||
+              ingresaContrasena.getText() == null || ingresaCorreoMatricula.getText().isBlank()){
             
             sonCamposValidos = false; 
         }
@@ -57,15 +59,16 @@ public class ControladorInicioSesion {
     }
     
     @FXML
-    private void iniciarSesion(String identificador) {
+    private void iniciarSesion(String identificador, String contraseñaIngresada) {
         
         try{
             
             ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
             
-            String tipoRol =  validacion.validarTipoDeRol(identificador); 
+            String tipoRol =  validacion.autenticarUsuario(identificador, contraseñaIngresada);
             
             CargadorVentana cargadorVentana = new CargadorVentana();
+            
             if( tipoRol.equals("Administrador") ){
                 cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml","Menú Principal para Administrador");
             }
