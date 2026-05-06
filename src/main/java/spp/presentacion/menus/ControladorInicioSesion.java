@@ -4,7 +4,6 @@
  */
 package spp.presentacion.menus;
 
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -19,8 +18,6 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  */
 public class ControladorInicioSesion {
     
-    private static final Logger bitacora = Logger.getLogger(ValidacionInicioDeSesion.class.getName());
-    
     @FXML
     private TextField ingresaCorreoMatricula;
     
@@ -29,6 +26,7 @@ public class ControladorInicioSesion {
     
     @FXML
     private void leerDatos(){
+        
         if(sonCamposValidos()){
             
             String identificador = ingresaCorreoMatricula.getText();
@@ -70,19 +68,23 @@ public class ControladorInicioSesion {
             CargadorVentana cargadorVentana = new CargadorVentana();
             
             if( tipoRol.equals("Administrador") ){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml","Menú Principal para Administrador");
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml",
+                    "Menú Principal para Administrador");
             }
             
             if( tipoRol.equals("Profesor") ){
-                 cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalProfesor.fxml","Menú Principal para Profesores");
+                 cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalProfesor.fxml",
+                    "Menú Principal para Profesores");
             }
             
             if( tipoRol.equals("Coordinador") ){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml","Menú Principal para Coordinador");
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml",
+                    "Menú Principal para Coordinador");
             }
             
             if( tipoRol.equals("Practicante")){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml","Menú Principal para Practicante");
+                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml",
+                    "Menú Principal para Practicante");
             }
 
         }catch(ReglaDeNegocioExcepcion e){

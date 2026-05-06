@@ -60,8 +60,12 @@ public class ValidacionCoordinador {
             throw new ReglaDeNegocioExcepcion("No se pudo registrar al Coordinador por un problema "
                 + "interno del sistema. Intente más tarde.");
             
+        }catch(RuntimeException e){
+             bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
+            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
         }
     }
+    
     public void sonCamposValidosPorReglaNegocio(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
         
         String numeroPersonal = coordinador.getNumeroDePersonal();

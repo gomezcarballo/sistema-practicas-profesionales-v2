@@ -4,7 +4,6 @@
  */
 package spp.presentacion.menus;
 
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 
@@ -13,8 +12,6 @@ import spp.utilerias.cargadordeventanas.CargadorVentana;
  * @author Luz Fernanda H J
  */
 public class ControladorSubMenuPracticantes {
-    
-    private static final Logger bitacora = Logger.getLogger(ControladorMenu.class.getName());
     
     @FXML
     private void abrirRegistroPracticante() {

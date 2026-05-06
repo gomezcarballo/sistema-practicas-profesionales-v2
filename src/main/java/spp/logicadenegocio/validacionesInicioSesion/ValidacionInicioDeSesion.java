@@ -4,7 +4,6 @@
  */
 package spp.logicadenegocio.validacionesInicioSesion;
 
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
@@ -19,11 +18,9 @@ import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
  */
 public class ValidacionInicioDeSesion {
     
-    private static final Logger bitacora = Logger.getLogger(ValidacionInicioDeSesion.class.getName());
-    
-    public String autenticarUsuario ( String identificador , String contraseñaIngresada) throws ReglaDeNegocioExcepcion {
+    public String autenticarUsuario (String identificador , String contraseñaIngresada) throws ReglaDeNegocioExcepcion {
         
-        sonCamposValidosPorReglaNegocio( identificador );
+        sonCamposValidosPorReglaNegocio(identificador);
         
         String tipoRol = null;
         
@@ -54,7 +51,6 @@ public class ValidacionInicioDeSesion {
                 tipoRol = usuario.getRolUsuarioEncontrado();
                 
             }
-            
             
             boolean esContraseñaCorrecta = HasheoContrasena.verificarContraseña(contraseñaIngresada,
                     usuario.getHashUsuarioEncontrado());

@@ -26,6 +26,8 @@ public class ValidacionPracticante {
     
     public boolean ingresarPracticante(Practicante practicante)throws ReglaDeNegocioExcepcion{
         
+        sonCamposValidosPorReglaNegocio(practicante);
+        
         Usuario usuario = new Usuario();
         
         usuario.setNombre(practicante.getNombre());
@@ -60,15 +62,20 @@ public class ValidacionPracticante {
             throw new ReglaDeNegocioExcepcion("No se pudo registrar al Practicante por un problema "
                 + "interno del sistema. Intente más tarde.", e);
             
+        }catch(RuntimeException e){
+             bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
+            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
         }
+        
         return registroExitoso;
     }
-    public void sonCamposValidosPorReglaNegocio(Practicante profesor) throws ReglaDeNegocioExcepcion {
+    
+    public void sonCamposValidosPorReglaNegocio(Practicante practicante) throws ReglaDeNegocioExcepcion {
         
-        String matricula = profesor.getMatricula();
-        String nombre = profesor.getNombre();
-        String apellidoPaterno = profesor.getApellidoPaterno();
-        String apellidoMaterno = profesor.getApellidoMaterno();
+        String matricula = practicante.getMatricula();
+        String nombre = practicante.getNombre();
+        String apellidoPaterno = practicante.getApellidoPaterno();
+        String apellidoMaterno = practicante.getApellidoMaterno();
         
         if( !matricula.matches("^[sS][0-9]{8}$") ){
            throw new ReglaDeNegocioExcepcion("Matricula no valida. Debe comenzar con S seguido de 8 números.");
