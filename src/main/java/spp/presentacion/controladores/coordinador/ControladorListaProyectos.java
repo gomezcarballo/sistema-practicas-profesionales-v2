@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorProyectos;
-import spp.logicadenegocio.gestores.GestorSolicitudes;
+import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -51,14 +51,14 @@ public class ControladorListaProyectos {
     
     private GestorProyectos gestorProyectos;
     
-    private GestorSolicitudes gestorSolicitudes;
+    private GestorSolicitudesProyectos gestorSolicitudes;
     
     @FXML
     public void initialize() {
         
         gestorProyectos = new GestorProyectos();
         
-        gestorSolicitudes = new GestorSolicitudes();
+        gestorSolicitudes = new GestorSolicitudesProyectos();
         
         listaProyectos.setPlaceholder(new Label("No hay proyectos disponibles"));
         
@@ -94,7 +94,7 @@ public class ControladorListaProyectos {
             int idOrganizacion = 1;
             
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
-            (gestorProyectos.recuperarProyectos(idOrganizacion));
+            (gestorProyectos.recuperarProyectosActivos(idOrganizacion));
             
             listaProyectos.setItems(proyectos);
             

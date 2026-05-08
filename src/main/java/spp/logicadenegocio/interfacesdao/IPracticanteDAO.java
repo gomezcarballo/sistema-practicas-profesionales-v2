@@ -18,4 +18,5 @@ public interface IPracticanteDAO {
     public boolean eliminarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
     public boolean actualizarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion;
     public UsuarioEncontrado buscarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
+    public void asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion;
 }

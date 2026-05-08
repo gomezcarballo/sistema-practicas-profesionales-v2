@@ -14,7 +14,7 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  *
  * @author gomes
  */
-public class GestorSolicitudes {
+public class GestorSolicitudesProyectos {
     
     public void registrarSolicitudes(int idUsuario,List<Proyecto> proyectosSeleccionados)
     throws ReglaDeNegocioExcepcion {

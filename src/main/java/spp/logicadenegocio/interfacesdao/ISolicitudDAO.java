@@ -4,6 +4,8 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
+import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -11,5 +13,6 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface ISolicitudDAO {
-    void guardarSolicitud(int idUsuario, int idProyecto) throws OperacionesDeDaoExcepcion;
+    public void guardarSolicitud(int idUsuario, int idProyecto) throws OperacionesDeDaoExcepcion;
+    public List<Proyecto> obtenerProyectosSolicitados(int idUsuario)throws OperacionesDeDaoExcepcion;
 }

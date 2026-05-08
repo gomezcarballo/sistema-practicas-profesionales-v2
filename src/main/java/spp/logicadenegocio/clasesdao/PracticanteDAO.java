@@ -171,4 +171,23 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     
     }
     
+    @Override
+    public void asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        String consultaSQL = "UPDATE Practicante SET Proyecto_idProyecto = ? WHERE idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idProyecto);
+            consultaPreparada.setInt(2, idUsuario);
+
+            consultaPreparada.executeUpdate();
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+    }
+    
 }
