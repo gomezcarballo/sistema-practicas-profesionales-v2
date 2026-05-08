@@ -6,6 +6,7 @@ package spp.logicadenegocio.validacionesInicioSesion;
 
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -58,7 +59,10 @@ public class ValidacionInicioDeSesion {
             if (!esContraseñaCorrecta) {
                 throw new ReglaDeNegocioExcepcion("La contraseña no es correcta");
             }
-
+            
+            SesionUsuario sesionUsuario = SesionUsuario.getInstancia();            
+            sesionUsuario.iniciarSesion(usuario.getIdUsuarioEncontrado(),usuario.getRolUsuarioEncontrado(),
+            identificador);
             
         }catch(OperacionesDeDaoExcepcion e){
             

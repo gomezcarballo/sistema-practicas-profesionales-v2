@@ -4,6 +4,9 @@
  */
 package spp.logicadenegocio.clasesdto;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 /**
  *
  * @author Luz Fernanda H J
@@ -16,6 +19,7 @@ public class Proyecto {
     private String nombreResponsable;
     private int cupoMaximo;
     private boolean esActivo;
+    private BooleanProperty esSeleccionado = new SimpleBooleanProperty(false);
     private Organizacion Organizacion;
 
     public Proyecto (){
@@ -80,6 +84,18 @@ public class Proyecto {
 
     public void setEsActivo(boolean esActivo) {
         this.esActivo = esActivo;
+    }
+    
+    public boolean getEsSeleccionado(){
+        return esSeleccionado.get();
+    }
+    
+    public void setEsSeleccionado(boolean esSeleccionado){
+        this.esSeleccionado.set(esSeleccionado);
+    }
+    
+    public BooleanProperty  propiedadEsSeleccionado() {
+        return esSeleccionado;
     }
 
     public Organizacion getOrganizacion() {

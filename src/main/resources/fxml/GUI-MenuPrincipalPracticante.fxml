@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.menus.ControladorMenuPrincipalPracticante">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorMenuPrincipalPracticante">
    <children>
       <Pane layoutX="24.0" layoutY="24.0" prefHeight="353.0" prefWidth="550.0">
          <children>
@@ -16,7 +15,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="botonSolicitarProyecto" layoutX="209.0" layoutY="91.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="133.0" text="Solicitar Proyecto" />
+            <Button fx:id="botonSolicitarProyecto" layoutX="209.0" layoutY="91.0" mnemonicParsing="false" onAction="#abrirSolicitarProyecto" prefHeight="35.0" prefWidth="133.0" text="Solicitar Proyecto" />
          </children>
       </Pane>
    </children>

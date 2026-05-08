@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.interfacesdao.IProyectoDAO;
@@ -133,7 +135,7 @@ public class ProyectoDAO implements IProyectoDAO {
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
-
+                
             consultaPreparada.setString(1, proyecto.getNombre());
             consultaPreparada.setString(2, proyecto.getDescripcion());
             consultaPreparada.setString(3, proyecto.getNombreResponsable());
@@ -153,4 +155,37 @@ public class ProyectoDAO implements IProyectoDAO {
         
     }  
 
+    @Override
+    public List<Proyecto> obtenerProyectosActivos(int idOrganizacion)throws OperacionesDeDaoExcepcion {
+        
+        List<Proyecto> proyectos = new ArrayList<>();
+        
+         String consultaSQL = "SELECT idProyecto, nombre, descripcion, nombreResponsable, cupoMaximo FROM Proyecto "
+                 + "WHERE Organizacion_idOrganizacion = ? AND estado = 1";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
+            
+            consultaPreparada.setInt(1, idOrganizacion);
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+            
+            while (resultadosConsulta.next()) {
+                
+                Proyecto proyecto = new Proyecto();
+                
+                proyecto.setIdProyecto(resultadosConsulta.getInt("idProyecto"));
+                proyecto.setNombre(resultadosConsulta.getString("nombre"));
+                proyecto.setDescripcion(resultadosConsulta.getString("descripcion"));
+                proyecto.setNombreResponsable(resultadosConsulta.getString("nombreResponsable"));
+                proyecto.setCupoMaximo(resultadosConsulta.getInt("cupoMaximo"));
+
+                proyectos.add(proyecto);
+            }
+
+        } catch (SQLException e) {
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+        return proyectos;
+    }
+    
 }

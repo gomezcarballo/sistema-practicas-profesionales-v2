@@ -20,4 +20,5 @@ public class ControladorSubMenuPracticantes {
         cargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroPracticante.fxml", "Registrar Practicante");
         
     }
+
 }

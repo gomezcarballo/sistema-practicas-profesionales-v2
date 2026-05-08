@@ -33,7 +33,7 @@ public class ControladorSubMenuProyectos {
     private void abrirInactivarProyecto() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
+        cargadorVentana.cargarVentana("/fxml/.fxml", "");
         
     }
     
