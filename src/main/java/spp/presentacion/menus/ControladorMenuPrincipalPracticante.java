@@ -15,6 +15,18 @@ import spp.utilerias.cargadordeventanas.CargadorVentana;
  * @author Luz Fernanda H J
  */
 public class ControladorMenuPrincipalPracticante {
+   
+    @FXML
+    private void abrirGenerarEvidenciaPracticas(){
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-GenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
+        
+    }
+   @FXML
+   private void abrirAnadirEvidenciaPracticas(){
+       
+   }
     
     @FXML
     private Button botonCerrarSesion;

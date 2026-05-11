@@ -23,7 +23,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
     @Override
     public void insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
         
-        String consultaSQL = "INSERT INTO Coordinador (Usuario_idUsuario, noPersonal) VALUES (?, ?)";
+        String consultaSQL = "INSERT INTO Coordinador (idUsuario, noPersonal) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){

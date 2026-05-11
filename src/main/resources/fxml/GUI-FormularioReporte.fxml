@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporte">
+   <children>
+      <Pane layoutX="23.0" layoutY="22.0" prefHeight="351.0" prefWidth="558.0">
+         <children>
+            <Label fx:id="tituloFormularioReporte" layoutX="190.0" layoutY="14.0" text="Formulario de Reporte">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="botonReporteMensual" layoutX="141.0" layoutY="51.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="118.0" text="Reporte mensual">
+               <toggleGroup>
+                  <ToggleGroup fx:id="tipoReportes" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="botonReporteParcial" layoutX="296.0" layoutY="51.0" mnemonicParsing="false" text="Reporte parcial" toggleGroup="$tipoReportes" />
+            <AnchorPane layoutX="21.0" layoutY="80.0" prefHeight="256.0" prefWidth="519.0">
+               <children>
+                  <Label fx:id="textoNRC" layoutX="31.0" layoutY="29.0" text="NRC: " />
+                  <Label fx:id="textoPeriodoEscolar" layoutX="31.0" layoutY="66.0" text="Periodo escolar: " />
+                  <Label fx:id="textoHorasCubiertas" layoutX="31.0" layoutY="101.0" text="Horas cubiertas" />
+                  <Label fx:id="textoTiempoPlaneado" layoutX="31.0" layoutY="136.0" text="Tiempo planeado: " />
+                  <Label fx:id="textoTiempoReal" layoutX="41.0" layoutY="177.0" text="Tiempo real: " />
+                  <TextField fx:id="ingresaNRC" layoutX="130.0" layoutY="25.0" />
+                  <TextField fx:id="ingresaPeriodoEscolar" layoutX="130.0" layoutY="62.0" />
+                  <TextField fx:id="ingresaHorasCubiertas" layoutX="130.0" layoutY="97.0" />
+                  <TextField fx:id="ingresaTiempoPlaneado" layoutX="130.0" layoutY="132.0" />
+                  <TextField fx:id="ingresaTiempoReal" layoutX="130.0" layoutY="173.0" />
+                  <Label fx:id="textoFechaInicio" layoutX="300.0" layoutY="29.0" text="Fecha de inicio: " />
+                  <DatePicker fx:id="calendarioFechaInicio" layoutX="297.0" layoutY="62.0" />
+                  <Label fx:id="textoTiempoTermino" layoutX="300.0" layoutY="101.0" text="Fecha de termino: " />
+                  <DatePicker fx:id="calendarioFechaTermino" layoutX="297.0" layoutY="132.0" />
+                  <Button fx:id="botonGenerar" layoutX="230.0" layoutY="216.0" mnemonicParsing="false" onAction="#leerDatosDeReporte" text="Generar" />
+               </children>
+            </AnchorPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -81,7 +81,7 @@ public class ControladorAsignacionProyecto {
     private void cargarProyectosSolicitados(){
         try{
             
-            int idUsuario = 10;
+            int idUsuario = 6;
             
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
             (gestorProyectos.recuperarProyectosSolicitados(idUsuario));

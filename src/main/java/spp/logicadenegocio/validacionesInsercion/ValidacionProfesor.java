@@ -10,6 +10,7 @@ import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.generadordecontrasenas.GeneradorContrasena;
@@ -32,6 +33,7 @@ public class ValidacionProfesor {
         usuario.setNombre(profesor.getNombre());
         usuario.setApellidoPaterno(profesor.getApellidoPaterno());
         usuario.setApellidoMaterno(profesor.getApellidoMaterno());
+        usuario.setCorreoInstitucional(profesor.getCorreoInstitucional());
         usuario.setEsActivo(true);
         
         String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
@@ -49,6 +51,9 @@ public class ValidacionProfesor {
             
             profesor.setIdUsuario(idUsuario);
             registroExitoso = profesorDao.insertarProfesor(profesor);
+            
+            EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
+            envioCorreoContraseña.enviarContraseña(usuario.getCorreoInstitucional(), contraseñaPlana);
             
         }catch(OperacionesDeDaoExcepcion e){
             
