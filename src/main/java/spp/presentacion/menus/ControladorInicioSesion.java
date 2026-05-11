@@ -6,7 +6,9 @@ package spp.presentacion.menus;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import spp.logicadenegocio.validacionesInicioSesion.ValidacionInicioDeSesion;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -23,6 +25,9 @@ public class ControladorInicioSesion {
     
     @FXML
     private TextField ingresaContrasena;
+    
+    @FXML
+    private Button botonIngresar;
     
     @FXML
     private void leerDatos(){
@@ -86,6 +91,9 @@ public class ControladorInicioSesion {
                 cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml",
                     "Menú Principal para Practicante");
             }
+            
+            Stage escenarioActual = (Stage) botonIngresar.getScene().getWindow();
+            escenarioActual.close();
 
         }catch(ReglaDeNegocioExcepcion e){
 

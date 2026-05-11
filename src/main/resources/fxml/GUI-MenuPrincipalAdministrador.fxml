@@ -19,7 +19,8 @@
             <Button fx:id="botonRegistrNuevoProfesor" layoutX="306.0" layoutY="117.0" mnemonicParsing="false" onAction="#abrirRegistroNuevoProfesor" prefHeight="39.0" prefWidth="181.0" text="Registrar nuevo Profesor" />
             <Button fx:id="botonReactivarCoordinador" layoutX="62.0" layoutY="195.0" mnemonicParsing="false" onAction="#abrirReactivarCoordinador" prefHeight="39.0" prefWidth="181.0" text="Reactivar Coordinador" />
             <Button fx:id="botonReactivarProfesor" layoutX="306.0" layoutY="195.0" mnemonicParsing="false" onAction="#abrirReactivarProfesor" prefHeight="39.0" prefWidth="181.0" text="Reactivar Profesor" />
-            <Button fx:id="botonRegistrarNuevoAdministrador" layoutX="188.0" layoutY="270.0" mnemonicParsing="false" onAction="#abrirRegistroNuevoAdministrador" prefHeight="39.0" prefWidth="181.0" text="Registrar nuevo Administrador" />
+            <Button fx:id="botonRegistrarNuevoAdministrador" layoutX="195.0" layoutY="267.0" mnemonicParsing="false" onAction="#abrirRegistroNuevoAdministrador" prefHeight="39.0" prefWidth="181.0" text="Registrar nuevo Administrador" />
+            <Button fx:id="botonCerrarSesion" layoutX="243.0" layoutY="325.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
          </children>
       </Pane>
    </children>

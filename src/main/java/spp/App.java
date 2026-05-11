@@ -18,7 +18,7 @@ public class App extends Application{
     @Override
     public void start(Stage escenarioPrincipal) throws Exception {
 
-        FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/GUI-MenuPrincipalCoordinador.fxml"));
+        FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/GUI-InicioSesion.fxml"));
         Parent raiz = cargadorFXML.load();
 
         Scene vistaPrincipal = new Scene(raiz);

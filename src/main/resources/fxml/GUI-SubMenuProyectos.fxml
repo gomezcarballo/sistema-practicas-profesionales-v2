@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.menus.ControladorSubMenuProyectos">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorSubMenuProyectos">
    <children>
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="369.0" prefWidth="571.0">
          <children>
@@ -20,7 +19,7 @@
             <Button fx:id="botonInectivarProyecto" layoutX="72.0" layoutY="223.0" mnemonicParsing="false" onAction="#abrirInactivarProyecto" prefHeight="56.0" prefWidth="153.0" text="Inactivar Proyecto" />
             <Button fx:id="botonAsignarProyecto" layoutX="320.0" layoutY="108.0" mnemonicParsing="false" onAction="#abrirAsignarProyecto" prefHeight="56.0" prefWidth="153.0" text="Asignar Proyecto" />
             <Button fx:id="botonActualizarProyecto" layoutX="320.0" layoutY="223.0" mnemonicParsing="false" onAction="#abrirActualizarProyecto" prefHeight="56.0" prefWidth="153.0" text="Actualizar Proyecto" />
-            <Button fx:id="botonRegresar" layoutX="254.0" layoutY="315.0" mnemonicParsing="false" text="Regresar" />
+            <Button fx:id="botonRegresar" layoutX="254.0" layoutY="315.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
          </children>
       </Pane>
    </children>

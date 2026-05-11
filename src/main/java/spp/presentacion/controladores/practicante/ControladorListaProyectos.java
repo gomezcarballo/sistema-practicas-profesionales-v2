@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package spp.presentacion.controladores.coordinador;
+package spp.presentacion.controladores.practicante;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +52,8 @@ public class ControladorListaProyectos {
     private GestorProyectos gestorProyectos;
     
     private GestorSolicitudesProyectos gestorSolicitudes;
+    
+    private static final int MAXIMO_SOLICITADOS = 3;
     
     @FXML
     public void initialize() {
@@ -138,7 +140,7 @@ public class ControladorListaProyectos {
             }
         }
         
-        if(seleccionados > 3){
+        if(seleccionados > MAXIMO_SOLICITADOS){
             
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Límite excedido", 

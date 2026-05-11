@@ -16,6 +16,7 @@
                </font>
             </Label>
             <Button fx:id="botonRegistrarPracticante" layoutX="192.0" layoutY="94.0" mnemonicParsing="false" onAction="#abrirRegistroPracticante" prefHeight="52.0" prefWidth="157.0" text="Registrar Practicante" />
+            <Button fx:id="botonRegresar" layoutX="236.0" layoutY="275.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
          </children>
       </Pane>
    </children>

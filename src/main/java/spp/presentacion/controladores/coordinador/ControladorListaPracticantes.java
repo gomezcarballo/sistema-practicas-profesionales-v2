@@ -72,7 +72,7 @@ public class ControladorListaPracticantes {
     }
     
     @FXML
-    public void cancelar(ActionEvent evento) {
+    public void regresar(ActionEvent evento) {
         
         Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
         ventanaActual.close();

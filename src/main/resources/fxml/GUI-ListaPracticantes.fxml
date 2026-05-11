@@ -22,7 +22,7 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="botonRegresar" layoutX="301.0" layoutY="308.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Regresar" />
+            <Button fx:id="botonRegresar" layoutX="301.0" layoutY="308.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="90.0" text="Regresar" />
          </children>
       </AnchorPane>
    </children>

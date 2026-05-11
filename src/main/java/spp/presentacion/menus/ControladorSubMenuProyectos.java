@@ -4,7 +4,10 @@
  */
 package spp.presentacion.menus;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 
 /**
@@ -42,6 +45,14 @@ public class ControladorSubMenuProyectos {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
         cargadorVentana.cargarVentana("/fxml/GUI-ActualizacionProyecto.fxml", "Actualizar Proyecto");
+        
+    }
+    
+    @FXML
+    public void regresar(ActionEvent evento) {
+        
+        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+        ventanaActual.close();
         
     }
     

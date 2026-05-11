@@ -5,6 +5,9 @@
 package spp.presentacion.menus;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 
 /**
@@ -12,6 +15,9 @@ import spp.utilerias.cargadordeventanas.CargadorVentana;
  * @author Luz Fernanda H J
  */
 public class ControladorMenuPrincipalAdministrador {
+    
+    @FXML
+    private Button botonCerrarSesion;
     
     @FXML
     private void abrirRegistroNuevoCoordinador() {
@@ -51,5 +57,19 @@ public class ControladorMenuPrincipalAdministrador {
         cargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Profesor");
         
     }
-   
+    
+    @FXML
+    private void cerrarSesion() {
+
+        SesionUsuario.getInstancia().cerrarSesion();
+
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-InicioSesion.fxml", "Inicio de sesión");
+
+        Stage escenarioActual = (Stage) botonCerrarSesion.getScene().getWindow();
+
+        escenarioActual.close();
+        
+    }
+    
 }

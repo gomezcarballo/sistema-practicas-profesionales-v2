@@ -16,8 +16,10 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorSolicitudesProyectos {
     
+    private static final int NUMERO_SOLICITUDES = 3;
+    
     public void registrarSolicitudes(int idUsuario,List<Proyecto> proyectosSeleccionados)
-    throws ReglaDeNegocioExcepcion {
+    throws ReglaDeNegocioExcepcion {    
 
         if(proyectosSeleccionados.isEmpty()) {
 
@@ -25,7 +27,7 @@ public class GestorSolicitudesProyectos {
             
         }
 
-        if(proyectosSeleccionados.size() > 3) {
+        if(proyectosSeleccionados.size() > NUMERO_SOLICITUDES) {
 
             throw new ReglaDeNegocioExcepcion("Solo puede seleccionar 3 proyectos");
         }
