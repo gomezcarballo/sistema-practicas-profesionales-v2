@@ -31,8 +31,8 @@ public class PruebaMensajeDAO {
         LocalDateTime fechaFormateada = LocalDateTime.parse("25-10-2004 14:30", formatoFecha);
         mensaje.setFecha(fechaFormateada); 
         
-        boolean registroExitoso = mensajeDao.insertarMensaje(mensaje);
-        assertTrue(registroExitoso);
+        int idGenerado = mensajeDao.insertarMensaje(mensaje);
+        assertTrue("No se generó un ID válido", idGenerado > 0);
         
     }
     

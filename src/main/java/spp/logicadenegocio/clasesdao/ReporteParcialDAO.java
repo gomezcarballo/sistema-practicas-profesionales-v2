@@ -40,7 +40,6 @@ public class ReporteParcialDAO implements IReporteParcialDAO{
             documento.add( new Paragraph("---------------------------------------------") );
             documento.add( new Paragraph("Matricula del practicante: " + reporteParcial.getMatricula() ));
             documento.add( new Paragraph("Tipo de reporte: " + reporteParcial.getTipoReporte() ));
-            documento.add( new Paragraph("NRC: " + reporteParcial.getNrc()));
             documento.add( new Paragraph("Periodo Escolar: " + reporteParcial.getPeriodoEscolar() ));
             documento.add( new Paragraph("Tiempo planeado: " + reporteParcial.getTiempoPlaneado() ));
             documento.add( new Paragraph("Tiempo real: " + reporteParcial.getTiempoReal() ));

@@ -23,10 +23,7 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author Luz Fernanda H J
  */
 public class ControladorFormularioReporte {
-    
-    @FXML
-    private TextField ingresaNRC; 
-     
+      
     @FXML
     private TextField ingresaPeriodoEscolar;
     
@@ -76,7 +73,6 @@ public class ControladorFormularioReporte {
         
         if(camposValidos()){
             
-            String nrc = ingresaNRC.getText();
             String periodoEscolar = ingresaPeriodoEscolar.getText();
             int horasCubiertas = Integer.parseInt(ingresaHorasCubiertas.getText());
             int tiempoPlaneado = Integer.parseInt(ingresaTiempoPlaneado.getText());
@@ -87,7 +83,6 @@ public class ControladorFormularioReporte {
             String tipoReporte = reporteSelecionado.getText();
             
             ReporteParcial reporteParcial = new ReporteParcial();
-            reporteParcial.setNrc(nrc);
             reporteParcial.setPeriodoEscolar(periodoEscolar);
             reporteParcial.setHorasCubiertas(horasCubiertas);
             reporteParcial.setTiempoPlaneado(tiempoPlaneado);
@@ -113,10 +108,10 @@ public class ControladorFormularioReporte {
 
         boolean sonCamposValidos = true; 
 
-        if(ingresaNRC.getText().isBlank() ||  ingresaPeriodoEscolar.getText().isBlank() || 
-            ingresaHorasCubiertas.getText().isBlank() ||calendarioFechaInicio.getValue() == null || 
-            calendarioFechaTermino.getValue() == null || ingresaTiempoPlaneado.getText().isBlank() || 
-            ingresaTiempoReal.getText().isBlank() || tipoReportes.getSelectedToggle() == null){
+        if(ingresaPeriodoEscolar.getText().isBlank() || ingresaHorasCubiertas.getText().isBlank() ||
+           calendarioFechaInicio.getValue() == null || calendarioFechaTermino.getValue() == null || 
+           ingresaTiempoPlaneado.getText().isBlank() || ingresaTiempoReal.getText().isBlank() || 
+           tipoReportes.getSelectedToggle() == null){
             
             sonCamposValidos = false; 
 

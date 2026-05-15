@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class ReporteParcial {
     
     String matricula;
-    String nrc;
     String periodoEscolar;
     int horasCubiertas;
     int tiempoPlaneado;
@@ -29,14 +28,6 @@ public class ReporteParcial {
         this.matricula = matricula;
     }
     
-    public String getNrc() {
-        return nrc;
-    }
-
-    public void setNrc(String nrc) {
-        this.nrc = nrc;
-    }
-
     public String getPeriodoEscolar() {
         return periodoEscolar;
     }

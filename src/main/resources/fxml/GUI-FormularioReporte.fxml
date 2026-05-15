@@ -27,15 +27,13 @@
             <RadioButton fx:id="botonReporteParcial" layoutX="296.0" layoutY="51.0" mnemonicParsing="false" text="Reporte parcial" toggleGroup="$tipoReportes" />
             <AnchorPane layoutX="21.0" layoutY="80.0" prefHeight="256.0" prefWidth="519.0">
                <children>
-                  <Label fx:id="textoNRC" layoutX="31.0" layoutY="29.0" text="NRC: " />
-                  <Label fx:id="textoPeriodoEscolar" layoutX="31.0" layoutY="66.0" text="Periodo escolar: " />
-                  <Label fx:id="textoHorasCubiertas" layoutX="31.0" layoutY="101.0" text="Horas cubiertas" />
-                  <Label fx:id="textoTiempoPlaneado" layoutX="31.0" layoutY="136.0" text="Tiempo planeado: " />
-                  <Label fx:id="textoTiempoReal" layoutX="41.0" layoutY="177.0" text="Tiempo real: " />
-                  <TextField fx:id="ingresaNRC" layoutX="130.0" layoutY="25.0" />
-                  <TextField fx:id="ingresaPeriodoEscolar" layoutX="130.0" layoutY="62.0" />
-                  <TextField fx:id="ingresaHorasCubiertas" layoutX="130.0" layoutY="97.0" />
-                  <TextField fx:id="ingresaTiempoPlaneado" layoutX="130.0" layoutY="132.0" />
+                  <Label fx:id="textoPeriodoEscolar" layoutX="28.0" layoutY="47.0" text="Periodo escolar: " />
+                  <Label fx:id="textoHorasCubiertas" layoutX="28.0" layoutY="88.0" text="Horas cubiertas" />
+                  <Label fx:id="textoTiempoPlaneado" layoutX="25.0" layoutY="132.0" text="Tiempo planeado: " />
+                  <Label fx:id="textoTiempoReal" layoutX="35.0" layoutY="177.0" text="Tiempo real: " />
+                  <TextField fx:id="ingresaPeriodoEscolar" layoutX="130.0" layoutY="43.0" />
+                  <TextField fx:id="ingresaHorasCubiertas" layoutX="130.0" layoutY="84.0" />
+                  <TextField fx:id="ingresaTiempoPlaneado" layoutX="130.0" layoutY="128.0" />
                   <TextField fx:id="ingresaTiempoReal" layoutX="130.0" layoutY="173.0" />
                   <Label fx:id="textoFechaInicio" layoutX="300.0" layoutY="29.0" text="Fecha de inicio: " />
                   <DatePicker fx:id="calendarioFechaInicio" layoutX="297.0" layoutY="62.0" />

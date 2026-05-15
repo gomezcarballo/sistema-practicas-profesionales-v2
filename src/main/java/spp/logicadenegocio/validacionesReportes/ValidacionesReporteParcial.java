@@ -47,15 +47,10 @@ public class ValidacionesReporteParcial {
     
     public void sonCamposValidosPorReglaNegocio(ReporteParcial reporteParcial) throws ReglaDeNegocioExcepcion {
         
-        String nrc = reporteParcial.getNrc();
         int horasCubiertas = reporteParcial.getHorasCubiertas();
         int tiempoPlaneado = reporteParcial.getTiempoPlaneado();
         int tiempoReal = reporteParcial.getTiempoReal();
-        
-        if( nrc.length() != 5 || !nrc.chars().allMatch(Character::isDigit)){
-            throw new ReglaDeNegocioExcepcion("El NRC debe contener 5 digitos como maximo");
-        }
-        
+
         if( horasCubiertas < 0 ){
             throw new ReglaDeNegocioExcepcion("Las horas cubiertas deben ser mayor a 0 horas");
         }

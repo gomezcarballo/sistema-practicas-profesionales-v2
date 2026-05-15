@@ -50,7 +50,7 @@ public class MensajeDAO implements IMensajeDAO{
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         
-    return idMensajeGenerado;  
+        return idMensajeGenerado;  
     }
     
     @Override
@@ -97,9 +97,8 @@ public class MensajeDAO implements IMensajeDAO{
 
         } catch(SQLException e) {
 
-            throw new OperacionesDeDaoExcepcion("No se pued conectar a la base de datos",e);
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
-
         return mensajes;
     }
 }
