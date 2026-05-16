@@ -53,7 +53,7 @@ public class MensajeDAO implements IMensajeDAO{
     }
     
     @Override
-    public List<Mensaje> consultarMensajesPorDestinatario(String correo)throws OperacionesDeDaoExcepcion {
+    public List<Mensaje> consultarMensajesPorDestinatario(int idUsuario)throws OperacionesDeDaoExcepcion {
 
         List<Mensaje> mensajes = new ArrayList<>();
 
@@ -68,15 +68,15 @@ public class MensajeDAO implements IMensajeDAO{
             INNER JOIN EnvioMensaje em
                 ON m.idMensaje = em.Mensaje_idMensaje
             INNER JOIN Usuario u
-                ON em.Usuario_idUsuario = u.idUsuario
-            WHERE em.destinatario = ?
+                ON em.Usuario_idRemitente = u.idUsuario
+            WHERE em.Usuario_idDestinatario = ?
             ORDER BY m.fecha DESC
          """;
 
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, correo);
+            consultaPreparada.setInt(1, idUsuario);
 
             ResultSet resultado = consultaPreparada.executeQuery();
 
@@ -112,11 +112,13 @@ public class MensajeDAO implements IMensajeDAO{
                 m.asunto,
                 m.cuerpo,
                 m.fecha,
-                em.destinatario
+                u.correoInstitucional AS destinatario
             FROM Mensaje m
             INNER JOIN EnvioMensaje em
                 ON m.idMensaje = em.Mensaje_idMensaje
-            WHERE em.Usuario_idUsuario = ?
+            INNER JOIN Usuario u
+                ON em.Usuario_idDestinatario = u.idUsuario
+            WHERE em.Usuario_idRemitente = ?
             ORDER BY m.fecha DESC
             """;
 

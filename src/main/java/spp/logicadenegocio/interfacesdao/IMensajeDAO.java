@@ -14,6 +14,6 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public interface IMensajeDAO {
     public int insertarMensaje(Mensaje mensaje)throws OperacionesDeDaoExcepcion;
-    public List<Mensaje> consultarMensajesPorDestinatario(String correo)throws OperacionesDeDaoExcepcion;
+    public List<Mensaje> consultarMensajesPorDestinatario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public List<Mensaje> consultarMensajesEnviados(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

@@ -4,11 +4,19 @@
  */
 package spp.presentacion.menus;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import spp.logicadenegocio.enums.TipoMensaje;
+import spp.presentacion.mensajeria.ControladorListaMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -16,19 +24,46 @@ import spp.utilerias.cargadordeventanas.CargadorVentana;
  */
 public class ControladorSubMenuMensajes {
     
+    private void abrirMensajes(TipoMensaje tipoMensaje, String tituloVentana) {
+
+        try {
+
+            FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/GUI-ListaMensajes.fxml"));
+
+            Parent raizVentana = cargadorFXML.load();
+
+            ControladorListaMensajes controlador = cargadorFXML.getController();
+
+            controlador.setTipoMensaje(tipoMensaje);
+
+            Stage escenario = new Stage();
+
+            escenario.setScene(new Scene(raizVentana));
+
+            escenario.setTitle(tituloVentana);
+
+            escenario.show();
+
+        } catch(IOException e) {
+
+            VentanaMensaje ventanaMensaje = new VentanaMensaje();
+            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error de acceso",
+                "No se pudo abrir la ventana de mensajes");
+            
+        }
+    }
+    
     @FXML
     private void abrirMensajesRecibidos(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-ListaMensajesRecibidos.fxml", "Mensajes Recibidos");
+         abrirMensajes(TipoMensaje.RECIBIDOS, "Mensajes Recibidos");
         
     }
     
     @FXML
     private void abrirMensajesEnviados(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-ListaMensajesEnviados.fxml", "Mensajes Enviados");
+        abrirMensajes(TipoMensaje.ENVIADOS, "Mensajes Enviados");
         
     }
     
