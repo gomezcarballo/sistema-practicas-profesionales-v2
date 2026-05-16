@@ -26,7 +26,7 @@ public class MensajeDAO implements IMensajeDAO{
     @Override
     public int insertarMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
         
-        String consultaSQL = "INSERT INTO Mensaje (asunto, cuerpo, fecha) VALUES (?, ?, ?)";
+        String consultaSQL = "INSERT INTO Mensaje (asunto, cuerpo, fecha) VALUES (?, ?, NOW())";
         
         int idMensajeGenerado = -1;
         
@@ -36,7 +36,6 @@ public class MensajeDAO implements IMensajeDAO{
 
             consultaPreparada.setString(1, mensaje.getAsunto());
             consultaPreparada.setString(2, mensaje.getCuerpo());
-            consultaPreparada.setObject(3, mensaje.getFecha());
             
             consultaPreparada.executeUpdate();
             

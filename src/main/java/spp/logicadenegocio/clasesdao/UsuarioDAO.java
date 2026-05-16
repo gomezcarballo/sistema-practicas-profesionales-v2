@@ -189,5 +189,31 @@ public class UsuarioDAO implements IUsuarioDAO {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
         }
     }
+    
+    @Override
+    public boolean existeCorreo(String correo)throws OperacionesDeDaoExcepcion {
+
+        boolean existeCorreo = false;
+
+        String consultaSQL = "SELECT correo FROM Usuario WHERE correo = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setString(1, correo.trim().toLowerCase());
+
+            ResultSet resultado = consultaPreparada.executeQuery();
+
+            if(resultado.next()) {
+                existeCorreo = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se pudo consultar el usuario", e);
+        }
+
+        return existeCorreo;
+    }
  
 }

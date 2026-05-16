@@ -6,7 +6,6 @@ package spp.pruebasclasesdao;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import spp.logicadenegocio.clasesdao.MensajeDAO;

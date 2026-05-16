@@ -7,6 +7,7 @@ package spp.logicadenegocio.gestores;
 import java.util.List;
 import spp.logicadenegocio.clasesdao.SolicitudDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -18,22 +19,16 @@ public class GestorSolicitudesProyectos {
     
     private static final int NUMERO_SOLICITUDES = 3;
     
-    public void registrarSolicitudes(int idUsuario,List<Proyecto> proyectosSeleccionados)
-    throws ReglaDeNegocioExcepcion {    
-
-        if(proyectosSeleccionados.isEmpty()) {
-
-            throw new ReglaDeNegocioExcepcion("Debe seleccionar al menos un proyecto");
-            
-        }
-
-        if(proyectosSeleccionados.size() > NUMERO_SOLICITUDES) {
-
-            throw new ReglaDeNegocioExcepcion("Solo puede seleccionar 3 proyectos");
-        }
+    public void registrarSolicitudes(List<Proyecto> proyectosSeleccionados)
+    throws ReglaDeNegocioExcepcion {   
+        
+        validarSolicitudes(proyectosSeleccionados);
 
         try {
-
+            
+            SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
+            int idUsuario = sesionUsuario.getIdUsuario();
+            
             SolicitudDAO solicitudDAO = new SolicitudDAO();
 
             for(Proyecto proyecto : proyectosSeleccionados) {
@@ -48,5 +43,14 @@ public class GestorSolicitudesProyectos {
             
         }
     }
+    
+    private void validarSolicitudes(List<Proyecto> proyectosSeleccionados) throws ReglaDeNegocioExcepcion {
+
+        if(proyectosSeleccionados.size() != NUMERO_SOLICITUDES) {
+            throw new ReglaDeNegocioExcepcion("Debe seleccionar exactamente 3 proyectos");
+        }
+        
+    }
+
     
 }

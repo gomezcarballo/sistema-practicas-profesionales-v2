@@ -19,7 +19,6 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -52,9 +51,7 @@ public class ControladorListaProyectos {
     private GestorProyectos gestorProyectos;
     
     private GestorSolicitudesProyectos gestorSolicitudes;
-    
-    private static final int MAXIMO_SOLICITADOS = 3;
-    
+        
     @FXML
     public void initialize() {
         
@@ -99,9 +96,7 @@ public class ControladorListaProyectos {
             (gestorProyectos.recuperarProyectosActivos(idOrganizacion));
             
             listaProyectos.setItems(proyectos);
-            
-            configurarEventosSeleccion();
-            
+                        
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
@@ -111,46 +106,15 @@ public class ControladorListaProyectos {
         }
     }
     
-    private void configurarEventosSeleccion() {
-
-        for(Proyecto proyecto : listaProyectos.getItems()) {
-
-            configurarListenerSeleccionProyecto(proyecto);
-        }
-    }
-    
-    private void configurarListenerSeleccionProyecto(Proyecto proyecto) {
-
-        proyecto.propiedadEsSeleccionado().addListener((observable, valorAnterior, valorNuevo) -> {
-            
-            actualizarContador();
-
-        });
-    }
-    
-    private void actualizarContador() {
-
-        int seleccionados = 0;
-
-        for(Proyecto proyecto : listaProyectos.getItems()) {
-
-            if(proyecto.getEsSeleccionado()) {
-
-                seleccionados++;
-            }
-        }
-        
-        if(seleccionados > MAXIMO_SOLICITADOS){
-            
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Límite excedido", 
-            "Solo puede seleccionar 3 proyectos");
-            
-        }
-    }
-    
     @FXML
     private void solicitarProyectos(ActionEvent evento) {
+
+        List<Proyecto> proyectosSeleccionados = obtenerProyectosSeleccionados();
+        registrarSolicitudesSeleccionadas(proyectosSeleccionados);
+
+    }
+    
+    private List<Proyecto> obtenerProyectosSeleccionados() {
 
         List<Proyecto> proyectosSeleccionados = new ArrayList<>();
 
@@ -159,33 +123,18 @@ public class ControladorListaProyectos {
             if(proyecto.getEsSeleccionado()) {
 
                 proyectosSeleccionados.add(proyecto);
-                
             }
         }
 
-        if(proyectosSeleccionados.isEmpty()) {
-
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Sin selección",
-            "Debe seleccionar al menos  un proyecto");
-            return;
-
-        }
-        
-        registrarSolicitudesSeleccionadas(proyectosSeleccionados);
-
+        return proyectosSeleccionados;
     }
+    
     
     private void registrarSolicitudesSeleccionadas(List<Proyecto> proyectosSeleccionados) {
 
         try {
-            
-            SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
-
-            int idUsuario = sesionUsuario.getIdUsuario();
-            
-            gestorSolicitudes.registrarSolicitudes(idUsuario, proyectosSeleccionados);
+                     
+            gestorSolicitudes.registrarSolicitudes(proyectosSeleccionados);
 
             VentanaMensaje ventanaMensaje = new VentanaMensaje();
             ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",

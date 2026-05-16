@@ -15,14 +15,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class GestorAsignacionProyectos {
     public void asignarProyecto( int idProyecto, int idUsuario) throws ReglaDeNegocioExcepcion {
 
-        if (idProyecto <= 0) {
-            throw new ReglaDeNegocioExcepcion("Debe seleccionar un proyecto");
-        }
-
-        if (idUsuario <= 0) {
-            throw new ReglaDeNegocioExcepcion("Debe seleccionar un practicante");
-        }
-
         try {
             
             PracticanteDAO practicanteDAO = new PracticanteDAO();
@@ -32,5 +24,7 @@ public class GestorAsignacionProyectos {
 
             throw new ReglaDeNegocioExcepcion("No se pudo asignar el proyecto");
         }
+        
     }
+    
 }

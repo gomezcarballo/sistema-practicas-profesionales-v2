@@ -65,7 +65,7 @@ public class ControladorRegistroPracticante {
     @FXML
     private void leerDatosDePracticante(){
         
-        if(camposValidos()){
+        if(sonCamposValidos()){
             
             String nombre = ingresaNombre.getText();
             String apellidoPaterno = ingresaApellidoPaterno.getText();
@@ -102,7 +102,7 @@ public class ControladorRegistroPracticante {
         
     
     @FXML
-    private boolean camposValidos(){
+    private boolean sonCamposValidos(){
 
         boolean sonCamposValidos = true; 
 
