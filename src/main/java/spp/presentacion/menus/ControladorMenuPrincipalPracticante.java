@@ -15,7 +15,10 @@ import spp.utilerias.cargadordeventanas.CargadorVentana;
  * @author Luz Fernanda H J
  */
 public class ControladorMenuPrincipalPracticante {
-   
+    
+    @FXML
+    private Button botonCerrarSesion;
+    
     @FXML
     private void abrirGenerarEvidenciaPracticas(){
         
@@ -23,19 +26,25 @@ public class ControladorMenuPrincipalPracticante {
         cargadorVentana.cargarVentana("/fxml/GUI-GenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
         
     }
-   @FXML
-   private void abrirAnadirEvidenciaPracticas(){
-       
-   }
-    
+        
     @FXML
-    private Button botonCerrarSesion;
-    
+    private void abrirAnadirEvidenciaPracticas(){
+       
+    }
+
     @FXML
     private void abrirSolicitarProyecto() {
         
         CargadorVentana cargadorVentana = new CargadorVentana();
         cargadorVentana.cargarVentana("/fxml/GUI-ListaProyectos.fxml", "Solicitar proyecto");
+        
+    }
+    
+    @FXML
+    private void abrirSubMenuMensajes(){
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
         
     }
     

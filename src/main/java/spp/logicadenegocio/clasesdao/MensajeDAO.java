@@ -63,13 +63,13 @@ public class MensajeDAO implements IMensajeDAO{
                 m.asunto,
                 m.cuerpo,
                 m.fecha,
-                u.correoInstitucional,
+                u.correoInstitucional
             FROM Mensaje m
-            INNER JOIN Mensaje_Usuario mu
-                ON m.idMensaje = mu.Mensaje_idMensaje
+            INNER JOIN EnvioMensaje em
+                ON m.idMensaje = em.Mensaje_idMensaje
             INNER JOIN Usuario u
-                ON mu.Usuario_idUsuario = u.idUsuario
-            WHERE mu.destinatario = ?
+                ON em.Usuario_idUsuario = u.idUsuario
+            WHERE em.destinatario = ?
             ORDER BY m.fecha DESC
          """;
 
@@ -100,4 +100,51 @@ public class MensajeDAO implements IMensajeDAO{
         }
         return mensajes;
     }
+    
+    @Override
+    public List<Mensaje> consultarMensajesEnviados(int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        List<Mensaje> mensajes = new ArrayList<>();
+
+        String consultaSQL = """
+            SELECT
+                m.idMensaje,
+                m.asunto,
+                m.cuerpo,
+                m.fecha,
+                em.destinatario
+            FROM Mensaje m
+            INNER JOIN EnvioMensaje em
+                ON m.idMensaje = em.Mensaje_idMensaje
+            WHERE em.Usuario_idUsuario = ?
+            ORDER BY m.fecha DESC
+            """;
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            ResultSet resultado = consultaPreparada.executeQuery();
+
+            while(resultado.next()) {
+
+                Mensaje mensaje = new Mensaje();
+
+                mensaje.setIdMensaje(resultado.getInt("idMensaje"));
+                mensaje.setAsunto(resultado.getString("asunto"));
+                mensaje.setCuerpo(resultado.getString("cuerpo"));
+                mensaje.setFecha(resultado.getObject("fecha",LocalDateTime.class));
+                mensaje.setCorreoDestinatario(resultado.getString("destinatario"));
+                mensajes.add(mensaje);
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los mensajes enviados",e);
+        }
+
+        return mensajes;
+    }
+    
 }

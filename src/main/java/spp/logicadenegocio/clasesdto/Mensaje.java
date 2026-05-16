@@ -16,17 +16,20 @@ public class Mensaje {
     private String cuerpo;
     private LocalDateTime fecha;
     private String correoRemitente;
+    private String correoDestinatario;
     
     public Mensaje(){
     }
 
-    public Mensaje(int idMensaje, String asunto, String cuerpo, LocalDateTime fecha, String correoRemitente) {
+    public Mensaje(int idMensaje, String asunto, String cuerpo, LocalDateTime fecha, 
+           String correoDestinatario, String correoRemitente) {
         
         this.idMensaje = idMensaje;
         this.asunto = asunto;
         this.cuerpo = cuerpo;
         this.fecha = fecha;
         this.correoRemitente = correoRemitente;
+        this.correoDestinatario = correoDestinatario;
         
     }
 
@@ -69,5 +72,13 @@ public class Mensaje {
     public void setCorreoRemitente(String correoRemitente) {
         this.correoRemitente = correoRemitente;
     }    
-    
+
+    public String getCorreoDestinatario() {
+        return correoDestinatario;
+    }
+
+    public void setCorreoDestinatario(String correoDestinatario) {
+        this.correoDestinatario = correoDestinatario;
+    }
+  
 }

@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Mensaje;
@@ -28,7 +29,7 @@ public class ControladorEnvioMensajes {
     private TextField ingresaDestinatario;
     
     @FXML
-    private TextField ingresaCuerpo;
+    private TextArea ingresaCuerpo;
     
     @FXML
     private void leerDatosMensaje(){
@@ -36,7 +37,7 @@ public class ControladorEnvioMensajes {
         if(sonCamposValidos()){
             
             String asunto = ingresaAsunto.getText();
-            String correoDestinatario = ingresaDestinatario.getText();
+            String correoDestinatario = ingresaDestinatario.getText().trim().toLowerCase();
             String cuerpo = ingresaCuerpo.getText();
             
             Mensaje mensajeNuevo = new Mensaje();        

@@ -14,7 +14,7 @@ public class SesionUsuario {
     
     private int idUsuario;
     private String rol;
-    private String correo;
+    private String identificador;
     
     private SesionUsuario(){
     }
@@ -28,11 +28,11 @@ public class SesionUsuario {
         
     }
 
-    public void iniciarSesion(int idUsuario, String rol, String correo) {
+    public void iniciarSesion(int idUsuario, String rol, String identificador) {
         
         this.idUsuario = idUsuario;
         this.rol = rol;
-        this.correo = correo;
+        this.identificador = identificador;
         
     }
 
@@ -48,7 +48,7 @@ public class SesionUsuario {
         return rol;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getIdentificador() {
+        return identificador;
     }
 }

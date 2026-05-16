@@ -24,10 +24,8 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
 
         boolean registroExitoso = false;
 
-        String consultaSQL = """
-                INSERT INTO Mensaje_Usuario (Mensaje_idMensaje, Usuario_idUsuario, destinatario)
-                VALUES (?, ?, ?)
-                """;
+        String consultaSQL = "INSERT INTO EnvioMensaje (Mensaje_idMensaje, Usuario_idUsuario, destinatario)"
+                + "VALUES (?, ?, ?)";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -54,10 +52,8 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
 
         boolean eliminacionExitosa = false;
 
-        String consultaSQL = """
-                DELETE FROM Mensaje_Usuario
-                WHERE Mensaje_idMensaje = ? AND Usuario_idUsuario = ?
-                """;
+        String consultaSQL = "DELETE FROM EnvioMensaje WHERE Mensaje_idMensaje = ? "
+                + "AND Usuario_idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -83,11 +79,8 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
 
         String destinatario = null;
 
-        String consultaSQL = """
-                SELECT destinatario
-                FROM Mensaje_Usuario
-                WHERE Mensaje_idMensaje = ? AND Usuario_idUsuario = ?
-                """;
+        String consultaSQL = "SELECT destinatario FROM EnvioMensaje WHERE Mensaje_idMensaje = ? "
+                + "AND Usuario_idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {

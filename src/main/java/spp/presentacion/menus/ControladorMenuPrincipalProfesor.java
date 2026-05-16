@@ -59,6 +59,15 @@ public class ControladorMenuPrincipalProfesor {
             }
         }
     }
+    
+    @FXML
+    private void abrirSubMenuMensajes(){
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        
+    }
+    
     @FXML
     private void cerrarSesion() {
 

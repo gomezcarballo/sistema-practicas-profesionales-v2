@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.mensajeria.ControladorListaMensajesRecibidos">
+   <children>
+      <Label fx:id="tituloMensajesRecibidos" layoutX="222.0" layoutY="57.0" text="Mensajes Recibidos">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tablaMensajesRecibidos" layoutX="31.0" layoutY="120.0" prefHeight="216.0" prefWidth="538.0">
+         <columns>
+            <TableColumn fx:id="columnaAsunto" prefWidth="281.60003662109375" text="Asunto" />
+            <TableColumn fx:id="columnaCorreoRemitente" prefWidth="139.199951171875" text="Correo Remitente" />
+            <TableColumn fx:id="columnaFecha" prefWidth="118.4000244140625" text="Fecha" />
+         </columns>
+      </TableView>
+      <Label fx:id="instruccion" layoutX="185.0" layoutY="90.0" text="Seleccione un mensaje para ver sus detalles" />
+      <Button fx:id="botonRegresar" layoutX="269.0" layoutY="351.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+   </children>
+</AnchorPane>

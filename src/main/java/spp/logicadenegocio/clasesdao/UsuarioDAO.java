@@ -195,7 +195,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
         boolean existeCorreo = false;
 
-        String consultaSQL = "SELECT correo FROM Usuario WHERE correo = ?";
+        String consultaSQL = "SELECT correoInstitucional FROM Usuario WHERE correoInstitucional = ?";
 
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
