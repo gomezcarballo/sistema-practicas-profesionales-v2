@@ -7,14 +7,13 @@ package spp.presentacion.controladores.coordinador;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validacionesInsercion.ValidacionOrganizacion;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -61,8 +60,7 @@ public class ControladorRegistroOrganizacion {
         
         }else{
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
 
         }
@@ -90,14 +88,12 @@ public class ControladorRegistroOrganizacion {
             ValidacionOrganizacion validacion = new ValidacionOrganizacion();
             validacion.ingresarOrganizacion(organizacion);
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Organización registrada correctamente");
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
             
         }
@@ -106,8 +102,7 @@ public class ControladorRegistroOrganizacion {
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

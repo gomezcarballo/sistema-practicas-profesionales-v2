@@ -10,17 +10,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -99,8 +98,7 @@ public class ControladorListaProyectos {
                         
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar Proyectos", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar Proyectos", 
             "Hubo un error al recuperar los Proyectos. Intente más tarde");
 
         }
@@ -136,22 +134,20 @@ public class ControladorListaProyectos {
                      
             gestorSolicitudes.registrarSolicitudes(proyectosSeleccionados);
 
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
             "Las solicitudes se registraron correctamente");
 
         } catch (ReglaDeNegocioExcepcion e) {
 
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
+            
         }
     }
     
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
 

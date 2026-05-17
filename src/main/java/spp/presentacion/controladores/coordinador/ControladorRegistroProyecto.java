@@ -7,13 +7,12 @@ package spp.presentacion.controladores.coordinador;
 import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProyecto;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -70,8 +69,7 @@ public class ControladorRegistroProyecto {
         
         }else {
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
@@ -104,14 +102,12 @@ public class ControladorRegistroProyecto {
             ValidacionProyecto validacion = new ValidacionProyecto();
             validacion.ingresarProyecto(proyecto);
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Proyecto registrado correctamente");
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
             
         }
@@ -121,8 +117,7 @@ public class ControladorRegistroProyecto {
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

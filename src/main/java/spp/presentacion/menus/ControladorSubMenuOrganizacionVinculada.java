@@ -8,9 +8,8 @@ package spp.presentacion.menus;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.stage.Stage;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 
 /**
@@ -24,32 +23,28 @@ public class ControladorSubMenuOrganizacionVinculada {
     @FXML
     private void abrirRegistroOrganizacionVinculada() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroOrganizacion.fxml", "Registrar Organizacion");
+        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroOrganizacion.fxml", "Registrar Organizacion");
         
     }
     
     @FXML
     private void abrirActualizarOrganizacionVinculada() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-ActualizacionOrganizacion.fxml", "Actualizar Organizacion");
+        CargadorVentana.cargarVentana("/fxml/GUI-ActualizacionOrganizacion.fxml", "Actualizar Organizacion");
         
     }
     
     @FXML
     private void abrirInactivarOrganizacionVinculada() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
+        CargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
         
     }
     
     @FXML
     public void regresar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

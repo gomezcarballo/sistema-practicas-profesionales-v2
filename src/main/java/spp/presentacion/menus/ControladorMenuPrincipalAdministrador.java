@@ -4,11 +4,11 @@
  */
 package spp.presentacion.menus;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordesesion.CerradorSesion;
 
 /**
  *
@@ -22,61 +22,48 @@ public class ControladorMenuPrincipalAdministrador {
     @FXML
     private void abrirRegistroNuevoCoordinador() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
+        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
         
     }
     
     @FXML
     private void abrirRegistroNuevoProfesor() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroProfesor.fxml", "Registro de Profesor");
+        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroProfesor.fxml", "Registro de Profesor");
         
     }
     
     @FXML
     private void abrirRegistroNuevoAdministrador() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-.fxml", "Registro de Administrador");
+        CargadorVentana.cargarVentana("/fxml/GUI-.fxml", "Registro de Administrador");
         
     }
     
     @FXML
     private void abrirReactivarCoordinador() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Coordinador");
+        CargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Coordinador");
         
     }
     @FXML
     private void abrirReactivarProfesor() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Profesor");
+        CargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Profesor");
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
-    private void cerrarSesion() {
+    private void cerrarSesion(ActionEvent evento) {
 
-        SesionUsuario.getInstancia().cerrarSesion();
-
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-InicioSesion.fxml", "Inicio de sesión");
-
-        Stage escenarioActual = (Stage) botonCerrarSesion.getScene().getWindow();
-
-        escenarioActual.close();
+        CerradorSesion.cerrarSesion(evento);
         
     }
     

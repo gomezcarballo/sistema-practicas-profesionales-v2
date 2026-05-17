@@ -8,7 +8,6 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,6 +15,7 @@ import javafx.stage.Stage;
 import spp.logicadenegocio.enums.TipoMensaje;
 import spp.presentacion.mensajeria.ControladorListaMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -46,8 +46,7 @@ public class ControladorSubMenuMensajes {
 
         } catch(IOException e) {
 
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error de acceso",
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error de acceso",
                 "No se pudo abrir la ventana de mensajes");
             
         }
@@ -70,16 +69,14 @@ public class ControladorSubMenuMensajes {
     @FXML
     private void abrirEnvioMensaje(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-EnvioMensajes.fxml", "Enviar Mensaje");
+        CargadorVentana.cargarVentana("/fxml/GUI-EnvioMensajes.fxml", "Enviar Mensaje");
         
     }
     
     @FXML
     public void regresar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

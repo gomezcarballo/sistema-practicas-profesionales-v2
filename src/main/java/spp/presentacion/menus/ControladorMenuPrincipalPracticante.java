@@ -4,11 +4,11 @@
  */
 package spp.presentacion.menus;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordesesion.CerradorSesion;
 
 /**
  *
@@ -22,8 +22,7 @@ public class ControladorMenuPrincipalPracticante {
     @FXML
     private void abrirGenerarEvidenciaPracticas(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-GenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
+        CargadorVentana.cargarVentana("/fxml/GUI-GenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
         
     }
         
@@ -35,30 +34,21 @@ public class ControladorMenuPrincipalPracticante {
     @FXML
     private void abrirSolicitarProyecto() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-ListaProyectos.fxml", "Solicitar proyecto");
+        CargadorVentana.cargarVentana("/fxml/GUI-ListaProyectos.fxml", "Solicitar proyecto");
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
-    private void cerrarSesion() {
+    private void cerrarSesion(ActionEvent evento) {
 
-        SesionUsuario.getInstancia().cerrarSesion();
-
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-InicioSesion.fxml", "Inicio de sesión");
-
-        Stage escenarioActual = (Stage) botonCerrarSesion.getScene().getWindow();
-
-        escenarioActual.close();
+        CerradorSesion.cerrarSesion(evento);
         
     }
     

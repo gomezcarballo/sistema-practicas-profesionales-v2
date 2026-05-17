@@ -4,11 +4,11 @@
  */
 package spp.presentacion.menus;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordesesion.CerradorSesion;
 
 /**
  *
@@ -22,54 +22,42 @@ public class ControladorMenuPrincipalCoordinador {
     @FXML
     private void abrirSubMenuProyectos() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuProyectos.fxml", "Menu de Proyectos");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuProyectos.fxml", "Menu de Proyectos");
         
     }
     
     @FXML
     private void abrirSubMenuPracticantes() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuPracticantes.fxml", "Menu de Practicantes");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuPracticantes.fxml", "Menu de Practicantes");
         
     }
     
     @FXML
     private void abrirSubMenuOrganizacionVinculada() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuOrganizacionVinculada.fxml", "Menu de Organizaciones Vinculadas");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuOrganizacionVinculada.fxml", "Menu de Organizaciones Vinculadas");
         
     }
     
     @FXML
     private void abrirReporteIndicadores() {
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-ReporteIndicadores", "Reporte de Indicadores");
+        CargadorVentana.cargarVentana("/fxml/GUI-ReporteIndicadores", "Reporte de Indicadores");
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
-    private void cerrarSesion() {
+    private void cerrarSesion(ActionEvent evento) {
 
-        SesionUsuario.getInstancia().cerrarSesion();
-
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-InicioSesion.fxml", "Inicio de sesión");
-
-        Stage escenarioActual = (Stage) botonCerrarSesion.getScene().getWindow();
-
-        escenarioActual.close();
+        CerradorSesion.cerrarSesion(evento);
         
     }
     

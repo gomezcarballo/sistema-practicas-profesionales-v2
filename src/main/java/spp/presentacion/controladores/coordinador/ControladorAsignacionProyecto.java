@@ -8,17 +8,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
 import spp.logicadenegocio.gestores.GestorProyectos;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -91,8 +90,7 @@ public class ControladorAsignacionProyecto {
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar Proyectos", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar Proyectos", 
             "Hubo un error al recuperar los Proyectos solicitados. Intente más tarde");
 
         }
@@ -105,9 +103,7 @@ public class ControladorAsignacionProyecto {
         
         if(proyectoSeleccionado == null) {
 
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Sin selección",
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Sin selección",
             "Debe seleccionar un proyecto para asignar");
             return;
 
@@ -124,22 +120,20 @@ public class ControladorAsignacionProyecto {
             int idUsuario = 10;
             gestorAsignacionProyecto.asignarProyecto(proyectoSeleccionado.getIdProyecto(), idUsuario);
 
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
             "El proyecto fue asignado correctamente");
 
         } catch (ReglaDeNegocioExcepcion e) {
 
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
+            
         }
     }
     
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

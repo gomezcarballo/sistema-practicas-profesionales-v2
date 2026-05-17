@@ -6,13 +6,12 @@ package spp.presentacion.controladores.administrador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProfesor;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -62,8 +61,7 @@ public class ControladorRegistroProfesor {
         
         }else{
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
@@ -100,15 +98,13 @@ public class ControladorRegistroProfesor {
             ValidacionProfesor validacion = new ValidacionProfesor();
             ingresoExitoso = validacion.ingresarProfesor(profesor);
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Profesor registrado exitosamente");
             
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
             
         }
@@ -117,8 +113,7 @@ public class ControladorRegistroProfesor {
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

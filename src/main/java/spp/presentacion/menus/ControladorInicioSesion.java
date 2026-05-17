@@ -40,8 +40,7 @@ public class ControladorInicioSesion {
             
         }else{
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Por favor, ingresa un correo electronico institucional o una matricula");
             
         }
@@ -69,26 +68,24 @@ public class ControladorInicioSesion {
             ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
             
             String tipoRol =  validacion.autenticarUsuario(identificador, contraseñaIngresada);
-            
-            CargadorVentana cargadorVentana = new CargadorVentana();
-            
+                        
             if( tipoRol.equals("Administrador") ){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml",
+                CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml",
                     "Menú Principal para Administrador");
             }
             
             if( tipoRol.equals("Profesor") ){
-                 cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalProfesor.fxml",
+                 CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalProfesor.fxml",
                     "Menú Principal para Profesores");
             }
             
             if( tipoRol.equals("Coordinador") ){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml",
+                CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml",
                     "Menú Principal para Coordinador");
             }
             
             if( tipoRol.equals("Practicante")){
-                cargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml",
+                CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml",
                     "Menú Principal para Practicante");
             }
             
@@ -98,8 +95,7 @@ public class ControladorInicioSesion {
         }catch(ReglaDeNegocioExcepcion e){
 
             String causa = e.getMessage();
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Inicio de sesión fallido", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Inicio de sesión fallido", 
             causa);
             
         }

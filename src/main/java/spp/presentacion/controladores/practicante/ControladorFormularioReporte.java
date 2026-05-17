@@ -95,8 +95,7 @@ public class ControladorFormularioReporte {
             
         }else {
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
@@ -130,14 +129,12 @@ public class ControladorFormularioReporte {
             ValidacionesReporteParcial validacion = new ValidacionesReporteParcial();
             validacion.generarReporteParcial(reporteParcial);
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Reporte generado", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Reporte generado", 
             "Reporte generado correctamente.");
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Generar reporte fallido", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Generar reporte fallido", 
             e.getMessage());
             
         }

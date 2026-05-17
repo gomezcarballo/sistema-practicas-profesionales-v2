@@ -7,13 +7,12 @@ package spp.presentacion.controladores.coordinador;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Organizacion;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
@@ -53,8 +52,7 @@ public class ControladorListaOrganizaciones {
     @FXML
     public void regresar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

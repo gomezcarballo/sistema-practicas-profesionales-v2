@@ -20,11 +20,11 @@ public class CargadorVentana {
     
     private static final Logger bitacora = Logger.getLogger(CargadorVentana.class.getName());
     
-    public void cargarVentana(String archivoFXML, String titulo) {
+    public static void cargarVentana(String archivoFXML, String titulo) {
         
         try {
             
-            FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource(archivoFXML));
+            FXMLLoader cargadorFXML = new FXMLLoader(CargadorVentana.class.getResource(archivoFXML));
             Parent raiz = cargadorFXML.load();
 
             Stage ventana = new Stage();

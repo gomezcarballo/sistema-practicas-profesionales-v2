@@ -9,13 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordesesion.CerradorSesion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -49,12 +50,12 @@ public class ControladorMenuPrincipalProfesor {
 
                 Files.copy(archivoSeleccionado.toPath(), destinoCompleto, StandardCopyOption.REPLACE_EXISTING);
 
-                VentanaMensaje ventanaMensaje = new VentanaMensaje();
-                ventanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Subida Exitosa", 
+
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Subida Exitosa", 
                     "El formato se cargo correctamente en el sistema");
 
             } catch (Exception e) {
-                new VentanaMensaje().mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", 
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", 
                     "No se pudo guardar el archivo en el sistema");
             }
         }
@@ -63,22 +64,14 @@ public class ControladorMenuPrincipalProfesor {
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
-    private void cerrarSesion() {
+    private void cerrarSesion(ActionEvent evento) {
 
-        SesionUsuario.getInstancia().cerrarSesion();
-
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-InicioSesion.fxml", "Inicio de sesión");
-
-        Stage escenarioActual = (Stage) botonCerrarSesion.getScene().getWindow();
-
-        escenarioActual.close();
+        CerradorSesion.cerrarSesion(evento);
         
     }
 }

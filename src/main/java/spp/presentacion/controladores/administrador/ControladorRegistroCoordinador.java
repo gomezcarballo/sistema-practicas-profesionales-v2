@@ -6,13 +6,12 @@ package spp.presentacion.controladores.administrador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.validacionesInsercion.ValidacionCoordinador;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -61,8 +60,7 @@ public class ControladorRegistroCoordinador {
            
         }else{
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Datos faltantes", 
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
@@ -104,14 +102,12 @@ public class ControladorRegistroCoordinador {
             ValidacionCoordinador validacion = new ValidacionCoordinador();
             validacion.ingresarCoordinador(coordinador);
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
             "Coordinador registrado exitosamente");
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje ventanaMensaje = new VentanaMensaje();
-            ventanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Registro fallido", 
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Registro fallido", 
             e.getMessage());
             
         }
@@ -121,8 +117,7 @@ public class ControladorRegistroCoordinador {
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        Stage ventanaActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
-        ventanaActual.close();
+        CerradorVentana.cerrarVentana(evento);
         
     }
 

@@ -13,7 +13,7 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class VentanaMensaje {
     
-    public void mostrarVentanaMensaje(AlertType tipo, String titulo, String mensaje) {
+    public static void mostrarVentanaMensaje(AlertType tipo, String titulo, String mensaje) {
         
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

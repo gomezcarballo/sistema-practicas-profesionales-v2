@@ -17,9 +17,7 @@ public class ControladorGenerarEvidenciaPracticas {
     @FXML 
     private void abrirReportes(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-FormularioReporte.fxml", "Formulario de Reporte");
-        
+        CargadorVentana.cargarVentana("/fxml/GUI-FormularioReporte.fxml", "Formulario de Reporte");       
 
     }
     
