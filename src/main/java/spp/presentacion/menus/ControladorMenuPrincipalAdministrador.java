@@ -6,7 +6,6 @@ package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
 
@@ -15,48 +14,45 @@ import spp.utilerias.cerradordesesion.CerradorSesion;
  * @author Luz Fernanda H J
  */
 public class ControladorMenuPrincipalAdministrador {
-    
-    @FXML
-    private Button botonCerrarSesion;
-    
+        
     @FXML
     private void abrirRegistroNuevoCoordinador() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroCoordinador.fxml", "Registro de Coordinador");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroCoordinador.fxml", "Registro de Coordinador");
         
     }
     
     @FXML
     private void abrirRegistroNuevoProfesor() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroProfesor.fxml", "Registro de Profesor");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroProfesor.fxml", "Registro de Profesor");
         
     }
     
     @FXML
     private void abrirRegistroNuevoAdministrador() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-.fxml", "Registro de Administrador");
+        CargadorVentana.cargarVentana("/fxml/Vista.fxml", "Registro de Administrador");
         
     }
     
     @FXML
     private void abrirReactivarCoordinador() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Coordinador");
+        CargadorVentana.cargarVentana("/fxml/Vista", "Reactivar Coordinador");
         
     }
     @FXML
     private void abrirReactivarProfesor() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-", "Reactivar Profesor");
+        CargadorVentana.cargarVentana("/fxml/Vista", "Reactivar Profesor");
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
         
     }
     

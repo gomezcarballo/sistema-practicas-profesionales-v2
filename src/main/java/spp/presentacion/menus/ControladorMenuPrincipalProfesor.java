@@ -12,7 +12,6 @@ import java.nio.file.StandardCopyOption;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
@@ -24,11 +23,7 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  * @author Luz Fernanda H J
  */
 public class ControladorMenuPrincipalProfesor {
-    
-    
-    @FXML
-    private Button botonCerrarSesion;
-    
+
     @FXML
     private void agregarFormatoPresentacion() {
         FileChooser exploradorArchivos = new FileChooser();
@@ -64,7 +59,7 @@ public class ControladorMenuPrincipalProfesor {
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
         
     }
     

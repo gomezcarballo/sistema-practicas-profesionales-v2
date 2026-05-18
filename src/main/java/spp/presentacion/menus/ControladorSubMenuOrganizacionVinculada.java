@@ -23,21 +23,21 @@ public class ControladorSubMenuOrganizacionVinculada {
     @FXML
     private void abrirRegistroOrganizacionVinculada() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroOrganizacion.fxml", "Registrar Organizacion");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroOrganizacion.fxml", "Registrar Organizacion");
         
     }
     
     @FXML
     private void abrirActualizarOrganizacionVinculada() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-ActualizacionOrganizacion.fxml", "Actualizar Organizacion");
+        CargadorVentana.cargarVentana("/fxml/VistaActualizacionOrganizacion.fxml", "Actualizar Organizacion");
         
     }
     
     @FXML
     private void abrirInactivarOrganizacionVinculada() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-.fxml", "");
+        CargadorVentana.cargarVentana("/fxml/Vista.fxml", "");
         
     }
     

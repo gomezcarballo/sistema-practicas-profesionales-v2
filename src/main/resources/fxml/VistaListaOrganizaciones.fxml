@@ -8,21 +8,21 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorListaOrganizaciones">
    <children>
-      <AnchorPane layoutX="23.0" layoutY="22.0" prefHeight="353.0" prefWidth="551.0">
+      <AnchorPane fx:id="pnlListaOrganizaciones" layoutX="23.0" layoutY="22.0" prefHeight="353.0" prefWidth="551.0">
          <children>
-            <Label fx:id="tituloListaOrganizaciones" layoutX="204.0" layoutY="31.0" text="Organizaciones">
+            <Label fx:id="lblTituloListaOrganizaciones" layoutX="204.0" layoutY="31.0" text="Organizaciones">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="listaOrganizaciones" layoutX="189.0" layoutY="83.0" prefHeight="200.0" prefWidth="152.0" />
-            <Button fx:id="botonRegistrar" layoutX="121.0" layoutY="300.0" mnemonicParsing="false" text="Registrar Organización" />
-            <Label fx:id="instruccion" layoutX="140.0" layoutY="58.0" text="Seleccione a una Organización para ver sus detalles">
+            <TableView fx:id="tblListaOrganizaciones" layoutX="189.0" layoutY="83.0" prefHeight="200.0" prefWidth="152.0" />
+            <Button fx:id="btnRegistrar" layoutX="121.0" layoutY="300.0" mnemonicParsing="false" text="Registrar Organización" />
+            <Label fx:id="lblInstruccion" layoutX="140.0" layoutY="58.0" text="Seleccione a una Organización para ver sus detalles">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="botonRegresar" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="122.0" text="Regresar" />
+            <Button fx:id="btnRegresar" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="122.0" text="Regresar" />
          </children>
       </AnchorPane>
    </children>

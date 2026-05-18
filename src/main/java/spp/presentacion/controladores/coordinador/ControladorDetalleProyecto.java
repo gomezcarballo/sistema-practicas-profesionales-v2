@@ -4,25 +4,10 @@
  */
 package spp.presentacion.controladores.coordinador;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-
 /**
  *
  * @author gomes
  */
 public class ControladorDetalleProyecto {
-    
-    @FXML
-    private TextField muestraNombre;
-    
-    @FXML
-    private TextField muestraDescripcion;
-    
-    @FXML
-    private TextField muestraNombreResponsable;
-    
-    @FXML
-    private TextField muestraCupoMaximo;
     
 }

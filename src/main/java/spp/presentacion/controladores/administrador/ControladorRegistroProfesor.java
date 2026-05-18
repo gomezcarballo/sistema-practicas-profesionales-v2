@@ -7,7 +7,6 @@ package spp.presentacion.controladores.administrador;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProfesor;
@@ -22,33 +21,30 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorRegistroProfesor {
     
     @FXML
-    private TextField ingresaNombre;
+    private TextField txtNombre;
     
     @FXML
-    private TextField ingresaApellidoPaterno;
+    private TextField txtApellidoPaterno;
     
     @FXML
-    private TextField ingresaApellidoMaterno;
+    private TextField txtApellidoMaterno;
     
     @FXML
-    private TextField ingresaCorreo;
+    private TextField txtCorreo;
     
     @FXML
-    private TextField ingresaNumeroPersonal;
+    private TextField txtNumeroPersonal;
        
-    @FXML
-    private Button botonCancelar;
-    
     @FXML
     private void leerDatosDelProfesor(){
         
         if(camposValidos()){
             
-            String nombre = ingresaNombre.getText();
-            String apellidoPaterno = ingresaApellidoPaterno.getText();
-            String apellidoMaterno = ingresaApellidoMaterno.getText();
-            String correoInstitucional = ingresaCorreo.getText();
-            String numeroPersonal = ingresaNumeroPersonal.getText();
+            String nombre = txtNombre.getText();
+            String apellidoPaterno = txtApellidoPaterno.getText();
+            String apellidoMaterno = txtApellidoMaterno.getText();
+            String correoInstitucional = txtCorreo.getText();
+            String numeroPersonal = txtNumeroPersonal.getText();
 
             Profesor profesor = new Profesor();
             profesor.setNombre(nombre);
@@ -72,16 +68,16 @@ public class ControladorRegistroProfesor {
         
         boolean sonCamposValidos = true; 
         
-        if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() ||
-            ingresaCorreo.getText().isBlank() || ingresaNumeroPersonal.getText().isBlank()){
+        if(txtNombre.getText().isBlank() ||  txtApellidoPaterno.getText().isBlank() ||
+            txtCorreo.getText().isBlank() || txtNumeroPersonal.getText().isBlank()){
            
             sonCamposValidos = false; 
             
         }
         
-        if(ingresaApellidoMaterno.getText().isBlank()){
+        if(txtApellidoMaterno.getText().isBlank()){
             
-            ingresaApellidoMaterno.setText(null);
+            txtApellidoMaterno.setText(null);
             
         }
         
@@ -90,13 +86,11 @@ public class ControladorRegistroProfesor {
     
     @FXML 
     private void registrarProfesor(Profesor profesor){
-        
-        boolean ingresoExitoso;
-        
+                
         try{
             
             ValidacionProfesor validacion = new ValidacionProfesor();
-            ingresoExitoso = validacion.ingresarProfesor(profesor);
+            validacion.ingresarProfesor(profesor);
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Profesor registrado exitosamente");

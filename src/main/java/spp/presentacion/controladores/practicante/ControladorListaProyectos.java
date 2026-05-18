@@ -30,22 +30,22 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorListaProyectos {
     
     @FXML
-    private TableView<Proyecto> listaProyectos;
+    private TableView<Proyecto> tblListaProyectos;
     
     @FXML
-    private TableColumn<Proyecto, Boolean> columnaSeleccionar;
+    private TableColumn<Proyecto, Boolean> colSeleccionar;
     
     @FXML
-    private TableColumn<Proyecto, String> columnaNombre;
+    private TableColumn<Proyecto, String> colNombre;
     
     @FXML
-    private TableColumn<Proyecto, String> columnaDescripcion;
+    private TableColumn<Proyecto, String> colDescripcion;
 
     @FXML
-    private TableColumn<Proyecto, String> columnaNombreResponsable;
+    private TableColumn<Proyecto, String> colNombreResponsable;
     
     @FXML
-    private TableColumn<Proyecto, Integer> columnaCupoMaximo;
+    private TableColumn<Proyecto, Integer> colCupoMaximo;
     
     private GestorProyectos gestorProyectos;
     
@@ -58,11 +58,11 @@ public class ControladorListaProyectos {
         
         gestorSolicitudes = new GestorSolicitudesProyectos();
         
-        listaProyectos.setPlaceholder(new Label("No hay proyectos disponibles"));
+        tblListaProyectos.setPlaceholder(new Label("No hay proyectos disponibles"));
         
-        listaProyectos.setEditable(true);
+        tblListaProyectos.setEditable(true);
 
-        columnaSeleccionar.setEditable(true);
+        colSeleccionar.setEditable(true);
         
         configurarColumnas();
 
@@ -72,17 +72,17 @@ public class ControladorListaProyectos {
     
     private void  configurarColumnas(){
         
-        columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
-        columnaDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
-        columnaNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
+        colNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
 
-        columnaCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
+        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
         
-        columnaSeleccionar.setCellValueFactory(celda -> celda.getValue().propiedadEsSeleccionado());
+        colSeleccionar.setCellValueFactory(celda -> celda.getValue().propiedadEsSeleccionado());
         
-        columnaSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(columnaSeleccionar));
+        colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
         
     }
     
@@ -94,7 +94,7 @@ public class ControladorListaProyectos {
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
             (gestorProyectos.recuperarProyectosActivos(idOrganizacion));
             
-            listaProyectos.setItems(proyectos);
+            tblListaProyectos.setItems(proyectos);
                         
         }catch(ReglaDeNegocioExcepcion e){
             
@@ -116,7 +116,7 @@ public class ControladorListaProyectos {
 
         List<Proyecto> proyectosSeleccionados = new ArrayList<>();
 
-        for(Proyecto proyecto : listaProyectos.getItems()) {
+        for(Proyecto proyecto : tblListaProyectos.getItems()) {
 
             if(proyecto.getEsSeleccionado()) {
 

@@ -21,28 +21,28 @@ import spp.utilerias.cerradordeventanas.CerradorVentana;
 public class ControladorListaOrganizaciones {
     
     @FXML
-    private TableView<Organizacion> listaOrganizaciones;
+    private TableView<Organizacion> tblListaOrganizaciones;
     
     @FXML
-    private TableColumn<Organizacion, String> columnaNombre;
+    private TableColumn<Organizacion, String> colNombre;
     
     @FXML
-    private TableColumn<Organizacion, String> columnaDireccion;
+    private TableColumn<Organizacion, String> colDireccion;
 
     @FXML
-    private TableColumn<Organizacion, String> columnaSector;
+    private TableColumn<Organizacion, String> colSector;
     
     @FXML
-    private TableColumn<Organizacion, String> columnaEstado;
+    private TableColumn<Organizacion, String> colEstado;
     
     @FXML
     public void initialize() {
 
-        listaOrganizaciones.setPlaceholder(new Label("No hay organizaciones registradas"));
-        columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        columnaDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-        columnaSector.setCellValueFactory(new PropertyValueFactory<>("sector"));
-        columnaEstado.setCellValueFactory(cellData -> {
+        tblListaOrganizaciones.setPlaceholder(new Label("No hay organizaciones registradas"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        colSector.setCellValueFactory(new PropertyValueFactory<>("sector"));
+        colEstado.setCellValueFactory(cellData -> {
             boolean valor = cellData.getValue().getEsActivo();
             return new SimpleStringProperty(valor ? "Activo" : "Inactivo");
         });

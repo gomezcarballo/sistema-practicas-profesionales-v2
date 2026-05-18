@@ -34,19 +34,19 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorListaMensajes {
     
     @FXML
-    private TableView<Mensaje> tablaMensajes;
+    private TableView<Mensaje> tblMensajes;
     
     @FXML
-    private TableColumn<Mensaje, String> columnaAsunto;
+    private TableColumn<Mensaje, String> colAsunto;
 
     @FXML
-    private TableColumn<Mensaje, String> columnaCorreoUsuario;
+    private TableColumn<Mensaje, String> colCorreoUsuario;
 
     @FXML
-    private TableColumn<Mensaje, LocalDateTime> columnaFecha;
+    private TableColumn<Mensaje, LocalDateTime> colFecha;
     
     @FXML
-    private Label tituloMensajes;
+    private Label lblTtuloMensajes;
     
     private GestorMensajesRecibidos gestorMensajesRecibidos;
     
@@ -56,16 +56,15 @@ public class ControladorListaMensajes {
     
     public void setTipoMensaje(TipoMensaje tipoMensaje) {
         
-        System.out.println(tipoMensaje);
         this.tipoMensaje = tipoMensaje;
         
         switch(tipoMensaje) {
 
             case RECIBIDOS ->
-                tituloMensajes.setText("Mensajes Recibidos");
+                lblTtuloMensajes.setText("Mensajes Recibidos");
 
             case ENVIADOS ->
-                tituloMensajes.setText("Mensajes Enviados");
+                lblTtuloMensajes.setText("Mensajes Enviados");
                 
         }   
         
@@ -81,36 +80,36 @@ public class ControladorListaMensajes {
         
         gestorMensajesEnviados = new GestorMensajesEnviados();
         
-        tablaMensajes.setPlaceholder(new Label("No hay mensajes"));
+        tblMensajes.setPlaceholder(new Label("No hay mensajes"));
 
-        tablaMensajes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tblMensajes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
     }
     
     private void configurarColumnas() {
 
-        columnaAsunto.setCellValueFactory(new PropertyValueFactory<>("asunto"));
+        colAsunto.setCellValueFactory(new PropertyValueFactory<>("asunto"));
 
         switch(tipoMensaje) {
 
             case RECIBIDOS -> {
 
-                columnaCorreoUsuario.setText("Remitente");
-                columnaCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoRemitente"));
+                colCorreoUsuario.setText("Remitente");
+                colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoRemitente"));
                 
             }
 
             case ENVIADOS -> {
 
-                columnaCorreoUsuario.setText("Destinatario");
-                columnaCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoDestinatario"));
+                colCorreoUsuario.setText("Destinatario");
+                colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoDestinatario"));
                 
             }
         }
         
-        columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         
-        columnaFecha.setCellFactory(columna -> {
+        colFecha.setCellFactory(columna -> {
             return new TableCell<Mensaje, LocalDateTime>() {
 
                 private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -142,18 +141,15 @@ public class ControladorListaMensajes {
             switch(tipoMensaje) {
                 
                 case RECIBIDOS -> {
-                    System.out.println("Consultando recibidos");
                     mensajes = gestorMensajesRecibidos.consultarMensajes(idUsuario);
-                    System.out.println(mensajes.size());
                 }
                 case ENVIADOS -> {
-                    System.out.println("Consultando enviados");
                     mensajes = gestorMensajesEnviados.consultarMensajesEnviados(idUsuario);
                 }
             }
             
-            tablaMensajes.getItems().clear();
-            tablaMensajes.setItems(FXCollections.observableArrayList(mensajes));
+            tblMensajes.getItems().clear();
+            tblMensajes.setItems(FXCollections.observableArrayList(mensajes));
 
         } catch(ReglaDeNegocioExcepcion e) {
 

@@ -6,7 +6,6 @@ package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
 
@@ -17,12 +16,9 @@ import spp.utilerias.cerradordesesion.CerradorSesion;
 public class ControladorMenuPrincipalPracticante {
     
     @FXML
-    private Button botonCerrarSesion;
-    
-    @FXML
     private void abrirGenerarEvidenciaPracticas(){
         
-        CargadorVentana.cargarVentana("/fxml/GUI-GenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
+        CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
         
     }
         
@@ -34,14 +30,14 @@ public class ControladorMenuPrincipalPracticante {
     @FXML
     private void abrirSolicitarProyecto() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-ListaProyectos.fxml", "Solicitar proyecto");
+        CargadorVentana.cargarVentana("/fxml/VistaListaProyectos.fxml", "Solicitar proyecto");
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana.cargarVentana("/fxml/GUI-SubMenuMensajes.fxml", "Mensajes");
+        CargadorVentana.cargarVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
         
     }
     

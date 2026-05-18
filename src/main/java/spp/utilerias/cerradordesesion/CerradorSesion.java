@@ -20,7 +20,7 @@ public class CerradorSesion {
 
         SesionUsuario.getInstancia().cerrarSesion();
 
-        CargadorVentana.cargarVentana("/fxml/GUI-InicioSesion.fxml", "Inicio de sesión");
+        CargadorVentana.cargarVentana("/fxml/VistaInicioSesion.fxml", "Inicio de sesión");
 
         Stage escenarioActual = (Stage) ((Node) evento.getSource()).getScene().getWindow();
 

@@ -18,7 +18,7 @@ public class ControladorSubMenuPracticantes {
     @FXML
     private void abrirRegistroPracticante() {
         
-        CargadorVentana.cargarVentana("/fxml/GUI-FormularioRegistroPracticante.fxml", "Registrar Practicante");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroPracticante.fxml", "Registrar Practicante");
         
     }
     

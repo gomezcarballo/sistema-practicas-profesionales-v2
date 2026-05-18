@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -26,38 +25,35 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorRegistroPracticante {
     
     @FXML
-    private TextField ingresaNombre;
+    private TextField txtNombre;
     
     @FXML
-    private TextField ingresaMatricula;
+    private TextField txtMatricula;
     
     @FXML
-    private TextField ingresaApellidoPaterno;
+    private TextField txtApellidoPaterno;
     
     @FXML
-    private TextField ingresaApellidoMaterno;
+    private TextField txtApellidoMaterno;
     
     @FXML
-    private TextField ingresaCorreo;
+    private TextField txtCorreo;
     
     @FXML
-    private ComboBox<String> opcionesGenero;
+    private ComboBox<String> cbOpcionesGenero;
     
     @FXML
-    private DatePicker calendarioFechaNacimiento;
+    private DatePicker dpFechaNacimiento;
     
     @FXML
-    private ComboBox<String> opcionesLenguaIndigena;
+    private ComboBox<String> cbOpcionesLenguaIndigena;
              
-    @FXML
-    private Button botonCancelar;
-    
     @FXML
     public void initialize() {
         
-        opcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo"));
-        opcionesLenguaIndigena.setItems(FXCollections.observableArrayList("Sí", "No"));
-        calendarioFechaNacimiento.setEditable(false);
+        cbOpcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo"));
+        cbOpcionesLenguaIndigena.setItems(FXCollections.observableArrayList("Sí", "No"));
+        dpFechaNacimiento.setEditable(false);
         
     }
     
@@ -66,14 +62,14 @@ public class ControladorRegistroPracticante {
         
         if(sonCamposValidos()){
             
-            String nombre = ingresaNombre.getText();
-            String apellidoPaterno = ingresaApellidoPaterno.getText();
-            String apellidoMaterno = ingresaApellidoMaterno.getText();
-            String correoInstitucional = ingresaCorreo.getText();
-            String matricula = ingresaMatricula.getText();
-            String genero = opcionesGenero.getValue();
-            LocalDate fechaNacimiento = calendarioFechaNacimiento.getValue();
-            String hablaLenguaIndigena = opcionesLenguaIndigena.getValue();
+            String nombre = txtNombre.getText();
+            String apellidoPaterno = txtApellidoPaterno.getText();
+            String apellidoMaterno = txtApellidoMaterno.getText();
+            String correoInstitucional = txtCorreo.getText();
+            String matricula = txtMatricula.getText();
+            String genero = cbOpcionesGenero.getValue();
+            LocalDate fechaNacimiento = dpFechaNacimiento.getValue();
+            String hablaLenguaIndigena = cbOpcionesLenguaIndigena.getValue();
             boolean lenguaIndigena = "sí".equalsIgnoreCase(hablaLenguaIndigena);
 
 
@@ -104,17 +100,17 @@ public class ControladorRegistroPracticante {
 
         boolean sonCamposValidos = true; 
 
-        if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() || 
-            ingresaMatricula.getText().isBlank() ||calendarioFechaNacimiento.getValue() == null ||
-            ingresaCorreo.getText().isBlank() || opcionesLenguaIndigena.getValue() == null){
+        if(txtNombre.getText().isBlank() ||  txtApellidoPaterno.getText().isBlank() || 
+            txtMatricula.getText().isBlank() ||dpFechaNacimiento.getValue() == null ||
+            txtCorreo.getText().isBlank() || cbOpcionesLenguaIndigena.getValue() == null){
             
             sonCamposValidos = false; 
 
         }
         
-        if(ingresaApellidoMaterno.getText().isBlank()){
+        if(txtApellidoMaterno.getText().isBlank()){
             
-            ingresaApellidoMaterno.setText(null);
+            txtApellidoMaterno.setText(null);
             
         }
         

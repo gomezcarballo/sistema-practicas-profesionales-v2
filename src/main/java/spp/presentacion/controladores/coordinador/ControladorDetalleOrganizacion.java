@@ -4,23 +4,11 @@
  */
 package spp.presentacion.controladores.coordinador;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 
 /**
  *
  * @author gomes
  */
 public class ControladorDetalleOrganizacion {
-    
-    @FXML
-    private TextField muestraNombre;
-    
-    @FXML
-    private TextField muestraDireccion;
-    
-    @FXML
-    private TextField muestraSector;
-    
-    
+
 }

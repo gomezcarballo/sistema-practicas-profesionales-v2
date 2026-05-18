@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
@@ -24,32 +23,29 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorRegistroOrganizacion {
     
     @FXML
-    private TextField ingresaNombre;
+    private TextField txtNombre;
     
     @FXML
-    private TextField ingresaDireccion;
+    private TextField txtDireccion;
     
     @FXML
-    private ComboBox<String> opcionesSector;
+    private ComboBox<String> cbOpcionesSector;
     
     @FXML
     public void initialize() {
         
-        opcionesSector.setItems(FXCollections.observableArrayList("Público", "Privado", "Social"));
+        cbOpcionesSector.setItems(FXCollections.observableArrayList("Público", "Privado", "Social"));
         
-    }
-       
-    @FXML
-    private Button botonCancelar;
+    }      
     
     @FXML
     private void leerDatosDeOrganizacion(){
         
         if(camposValidos()){
             
-            String nombre = ingresaNombre.getText();
-            String direccion = ingresaDireccion.getText();
-            String sector = opcionesSector.getValue();
+            String nombre = txtNombre.getText();
+            String direccion = txtDireccion.getText();
+            String sector = cbOpcionesSector.getValue();
 
             Organizacion organizacion = new Organizacion();
             organizacion.setNombre(nombre);
@@ -71,8 +67,8 @@ public class ControladorRegistroOrganizacion {
         
         boolean sonCamposValidos = true; 
         
-        if(ingresaNombre.getText().isBlank() ||  ingresaDireccion.getText().isBlank() || 
-            opcionesSector.getValue() == null){
+        if(txtNombre.getText().isBlank() ||  txtDireccion.getText().isBlank() || 
+            cbOpcionesSector.getValue() == null){
            
             sonCamposValidos = false; 
             

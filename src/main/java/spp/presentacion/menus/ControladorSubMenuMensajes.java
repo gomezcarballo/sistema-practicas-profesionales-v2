@@ -28,7 +28,7 @@ public class ControladorSubMenuMensajes {
 
         try {
 
-            FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/GUI-ListaMensajes.fxml"));
+            FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/VistaListaMensajes.fxml"));
 
             Parent raizVentana = cargadorFXML.load();
 
@@ -69,7 +69,7 @@ public class ControladorSubMenuMensajes {
     @FXML
     private void abrirEnvioMensaje(){
         
-        CargadorVentana.cargarVentana("/fxml/GUI-EnvioMensajes.fxml", "Enviar Mensaje");
+        CargadorVentana.cargarVentana("/fxml/VistaEnvioMensajes.fxml", "Enviar Mensaje");
         
     }
     

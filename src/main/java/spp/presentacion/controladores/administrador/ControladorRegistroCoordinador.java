@@ -7,7 +7,6 @@ package spp.presentacion.controladores.administrador;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.validacionesInsercion.ValidacionCoordinador;
@@ -20,34 +19,32 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  * @author Luz Fernanda H J
  */
 public class ControladorRegistroCoordinador {
-    @FXML
-    private TextField ingresaNombre;
     
     @FXML
-    private TextField ingresaApellidoPaterno;
+    private TextField txtNombre;
     
     @FXML
-    private TextField ingresaApellidoMaterno;
+    private TextField txtApellidoPaterno;
     
     @FXML
-    private TextField ingresaCorreo;
+    private TextField txtApellidoMaterno;
+    
+    @FXML
+    private TextField txtCorreo;
     
     @FXML 
-    private TextField ingresaNumeroPersonal; 
-    
-    @FXML
-    private Button botonCancelar;
+    private TextField txtNumeroPersonal; 
     
     @FXML
     private void leerDatosDelCoordinador(){
         
         if (camposValidos()){
             
-           String nombre = ingresaNombre.getText();
-           String apellidoPaterno = ingresaApellidoPaterno.getText();
-           String apellidoMaterno = ingresaApellidoMaterno.getText();
-           String correoInstitucional = ingresaCorreo.getText();
-           String numeroPersonal = ingresaNumeroPersonal.getText();
+           String nombre = txtNombre.getText();
+           String apellidoPaterno = txtApellidoPaterno.getText();
+           String apellidoMaterno = txtApellidoMaterno.getText();
+           String correoInstitucional = txtCorreo.getText();
+           String numeroPersonal = txtNumeroPersonal.getText();
            
            Coordinador coordinador = new Coordinador();
            coordinador.setNombre(nombre);
@@ -72,21 +69,21 @@ public class ControladorRegistroCoordinador {
         
         boolean sonCamposValidos = true; 
         
-        if(ingresaNombre.getText().isBlank() ||  ingresaApellidoPaterno.getText().isBlank() ||
-           ingresaCorreo.getText().isBlank() || ingresaNumeroPersonal.getText().isBlank()){
+        if(txtNombre.getText().isBlank() ||  txtApellidoPaterno.getText().isBlank() ||
+           txtCorreo.getText().isBlank() || txtNumeroPersonal.getText().isBlank()){
             
             sonCamposValidos = false; 
             
         }
-        if(ingresaApellidoMaterno.getText().isBlank()){
+        if(txtApellidoMaterno.getText().isBlank()){
             
-            ingresaApellidoMaterno.setText(null);
+            txtApellidoMaterno.setText(null);
             
         }
         
-        if(ingresaApellidoMaterno.getText().isBlank()){
+        if(txtApellidoMaterno.getText().isBlank()){
             
-            ingresaApellidoMaterno.setText(null);
+            txtApellidoMaterno.setText(null);
             
         }
         

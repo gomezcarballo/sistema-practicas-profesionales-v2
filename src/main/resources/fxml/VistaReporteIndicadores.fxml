@@ -8,9 +8,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorReporteIndicadores">
    <children>
-      <Pane layoutX="18.0" layoutY="19.0" prefHeight="361.0" prefWidth="562.0">
+      <Pane fx:id="pnlReporteIndicadores" layoutX="18.0" layoutY="19.0" prefHeight="361.0" prefWidth="562.0">
          <children>
-            <Label layoutX="189.0" layoutY="24.0" text="Reporte de Indicadores">
+            <Label fx:id="lblTituloReporteIndicadores" layoutX="189.0" layoutY="24.0" text="Reporte de Indicadores">
                <font>
                   <Font size="18.0" />
                </font>

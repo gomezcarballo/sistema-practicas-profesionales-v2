@@ -23,16 +23,16 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorRegistroProyecto {
 
     @FXML
-    private TextField ingresaNombre;
+    private TextField txtNombre;
     
     @FXML
-    private TextField ingresaDescripcion;
+    private TextField txtDescripcion;
     
     @FXML
-    private TextField ingresaNombreResponsable;
+    private TextField txtNombreResponsable;
     
     @FXML
-    private TextField ingresaCupoMaximo;
+    private TextField txtCupoMaximo;
     
     @FXML
     public void initialize() {
@@ -44,7 +44,7 @@ public class ControladorRegistroProyecto {
             return null;
         };
 
-        ingresaCupoMaximo.setTextFormatter(new TextFormatter<>(filtro));
+        txtCupoMaximo.setTextFormatter(new TextFormatter<>(filtro));
     }
 
     
@@ -53,10 +53,10 @@ public class ControladorRegistroProyecto {
         
         if( sonCamposValidos() ){
             
-            String nombre = ingresaNombre.getText();
-            String descripcion = ingresaDescripcion.getText();
-            String nombreResponsable = ingresaNombreResponsable.getText();
-            int cupoMaximo = Integer.parseInt(ingresaCupoMaximo.getText());
+            String nombre = txtNombre.getText();
+            String descripcion = txtDescripcion.getText();
+            String nombreResponsable = txtNombreResponsable.getText();
+            int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
 
 
             Proyecto proyecto = new Proyecto();
@@ -83,8 +83,8 @@ public class ControladorRegistroProyecto {
 
         boolean sonCamposValidos = true; 
 
-        if(ingresaNombre.getText().isBlank() ||  ingresaDescripcion.getText().isBlank() || 
-            ingresaNombreResponsable.getText().isBlank() ||ingresaCupoMaximo.getText() == null){
+        if(txtNombre.getText().isBlank() ||  txtDescripcion.getText().isBlank() || 
+            txtNombreResponsable.getText().isBlank() ||txtCupoMaximo.getText() == null){
             
             sonCamposValidos = false; 
 

@@ -22,48 +22,48 @@ import spp.utilerias.cerradordeventanas.CerradorVentana;
 public class ControladorListaPracticantes {
     
     @FXML
-    private TableView<Practicante> listaPracticantes;
+    private TableView<Practicante> tblListaPracticantes;
     
     @FXML
-    private TableColumn<Practicante, String> columnaNombre;
+    private TableColumn<Practicante, String> colNombre;
     
     @FXML
-    private TableColumn<Practicante, String> columnaApellidoPaterno;
+    private TableColumn<Practicante, String> colApellidoPaterno;
     
     @FXML
-    private TableColumn<Practicante, String> columnaApellidoMaterno;
+    private TableColumn<Practicante, String> colApellidoMaterno;
 
     @FXML
-    private TableColumn<Practicante, String> columnaCorreoInstitucional;
+    private TableColumn<Practicante, String> colCorreoInstitucional;
     
     @FXML
-    private TableColumn<Practicante, String> columnaMatricula;
+    private TableColumn<Practicante, String> colMatricula;
     
     @FXML
-    private TableColumn<Practicante, String> columnaEstado;
+    private TableColumn<Practicante, String> colEstado;
     
     @FXML
-    private TableColumn<Practicante, String> columnaGenero;
+    private TableColumn<Practicante, String> colGenero;
     
     @FXML
-    private TableColumn<Practicante, LocalDate> columnaFechaNacimiento;
+    private TableColumn<Practicante, LocalDate> colFechaNacimiento;
     
     @FXML
-    private TableColumn<Practicante, String> columnaHablaLenguaIndigena;
+    private TableColumn<Practicante, String> colHablaLenguaIndigena;
 
     @FXML
     public void initialize() {
 
-        listaPracticantes.setPlaceholder(new Label("No hay practicantes registrados"));
-        columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        columnaApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
-        columnaApellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
-        columnaCorreoInstitucional.setCellValueFactory(new PropertyValueFactory<>("correoInstitucional"));
-        columnaMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
-        columnaEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        columnaGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
-        columnaFechaNacimiento.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
-        columnaHablaLenguaIndigena.setCellValueFactory(cellData -> {
+        tblListaPracticantes.setPlaceholder(new Label("No hay practicantes registrados"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
+        colApellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
+        colCorreoInstitucional.setCellValueFactory(new PropertyValueFactory<>("correoInstitucional"));
+        colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+        colFechaNacimiento.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
+        colHablaLenguaIndigena.setCellValueFactory(cellData -> {
             boolean valor = cellData.getValue().getHablaLenguaIndigena();
             return new SimpleStringProperty(valor ? "Sí" : "No");
         });

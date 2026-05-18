@@ -22,22 +22,22 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorEnvioMensajes {
     
     @FXML
-    private TextField ingresaAsunto;
+    private TextField txtAsunto;
     
     @FXML
-    private TextField ingresaDestinatario;
+    private TextField txtDestinatario;
     
     @FXML
-    private TextArea ingresaCuerpo;
+    private TextArea taCuerpoMensaje;
     
     @FXML
     private void leerDatosMensaje(){
         
         if(sonCamposValidos()){
             
-            String asunto = ingresaAsunto.getText();
-            String correoDestinatario = ingresaDestinatario.getText().trim().toLowerCase();
-            String cuerpo = ingresaCuerpo.getText();
+            String asunto = txtAsunto.getText();
+            String correoDestinatario = txtDestinatario.getText().trim().toLowerCase();
+            String cuerpo = taCuerpoMensaje.getText();
             
             Mensaje mensajeNuevo = new Mensaje();        
             
@@ -60,8 +60,8 @@ public class ControladorEnvioMensajes {
 
         boolean sonCamposValidos = true; 
 
-        if(ingresaAsunto.getText().isBlank() || ingresaDestinatario.getText().isBlank() || 
-           ingresaCuerpo.getText().isBlank()){
+        if(txtAsunto.getText().isBlank() || txtDestinatario.getText().isBlank() || 
+           taCuerpoMensaje.getText().isBlank()){
             
             sonCamposValidos = false; 
 

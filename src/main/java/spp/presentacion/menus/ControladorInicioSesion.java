@@ -7,6 +7,7 @@ package spp.presentacion.menus;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import spp.logicadenegocio.validacionesInicioSesion.ValidacionInicioDeSesion;
@@ -21,21 +22,21 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorInicioSesion {
     
     @FXML
-    private TextField ingresaCorreoMatricula;
+    private TextField txtCorreoMatricula;
     
     @FXML
-    private TextField ingresaContrasena;
+    private PasswordField pfContrasena;
     
     @FXML
-    private Button botonIngresar;
+    private Button btnIngresar;
     
     @FXML
     private void leerDatos(){
         
         if(sonCamposValidos()){
             
-            String identificador = ingresaCorreoMatricula.getText();
-            String contraseñaIngresada = ingresaContrasena.getText();
+            String identificador = txtCorreoMatricula.getText();
+            String contraseñaIngresada = pfContrasena.getText();
             iniciarSesion(identificador, contraseñaIngresada);
             
         }else{
@@ -51,8 +52,8 @@ public class ControladorInicioSesion {
         
         boolean sonCamposValidos = true; 
         
-        if( ( ingresaCorreoMatricula.getText() == null) || ingresaCorreoMatricula.getText().isBlank() ||
-              ingresaContrasena.getText() == null || ingresaCorreoMatricula.getText().isBlank()){
+        if( ( txtCorreoMatricula.getText() == null) || txtCorreoMatricula.getText().isBlank() ||
+              pfContrasena.getText() == null || txtCorreoMatricula.getText().isBlank()){
             
             sonCamposValidos = false; 
         }
@@ -70,26 +71,26 @@ public class ControladorInicioSesion {
             String tipoRol =  validacion.autenticarUsuario(identificador, contraseñaIngresada);
                         
             if( tipoRol.equals("Administrador") ){
-                CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalAdministrador.fxml",
+                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
                     "Menú Principal para Administrador");
             }
             
             if( tipoRol.equals("Profesor") ){
-                 CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalProfesor.fxml",
+                 CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalProfesor.fxml",
                     "Menú Principal para Profesores");
             }
             
             if( tipoRol.equals("Coordinador") ){
-                CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalCoordinador.fxml",
+                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalCoordinador.fxml",
                     "Menú Principal para Coordinador");
             }
             
             if( tipoRol.equals("Practicante")){
-                CargadorVentana.cargarVentana("/fxml/GUI-MenuPrincipalPracticante.fxml",
+                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
                     "Menú Principal para Practicante");
             }
             
-            Stage escenarioActual = (Stage) botonIngresar.getScene().getWindow();
+            Stage escenarioActual = (Stage) btnIngresar.getScene().getWindow();
             escenarioActual.close();
 
         }catch(ReglaDeNegocioExcepcion e){

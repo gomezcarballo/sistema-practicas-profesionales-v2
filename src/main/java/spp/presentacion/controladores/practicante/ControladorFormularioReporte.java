@@ -25,37 +25,31 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class ControladorFormularioReporte {
       
     @FXML
-    private TextField ingresaPeriodoEscolar;
+    private TextField txtPeriodoEscolar;
     
     @FXML
-    private TextField ingresaHorasCubiertas;
+    private TextField txtHorasCubiertas;
     
     @FXML
-    private TextField ingresaTiempoPlaneado;
+    private TextField txtTiempoPlaneado;
     
     @FXML
-    private TextField ingresaTiempoReal; 
+    private TextField txtTiempoReal; 
     
     @FXML 
-    private DatePicker calendarioFechaInicio;
+    private DatePicker dpFechaInicio;
     
     @FXML 
-    private DatePicker calendarioFechaTermino;
-    
-    @FXML 
-    private RadioButton botonRadioReporteParcial;
+    private DatePicker dpFechaTermino;
     
     @FXML
-    private RadioButton botonRadioReporteMensual;
-    
-    @FXML
-    private ToggleGroup tipoReportes;
+    private ToggleGroup tgTipoReportes;
     
     @FXML
     public void initialize() {
         
-        calendarioFechaInicio.setEditable(false);
-        calendarioFechaTermino.setEditable(false);
+        dpFechaInicio.setEditable(false);
+        dpFechaTermino.setEditable(false);
         
         UnaryOperator<TextFormatter.Change> filtro = cambioEntero -> {
             if (cambioEntero.getText().matches("[0-9]*")) {
@@ -64,7 +58,7 @@ public class ControladorFormularioReporte {
             return null;
         };
 
-        ingresaHorasCubiertas.setTextFormatter(new TextFormatter<>(filtro));
+        txtHorasCubiertas.setTextFormatter(new TextFormatter<>(filtro));
         
     }
     
@@ -73,13 +67,13 @@ public class ControladorFormularioReporte {
         
         if(camposValidos()){
             
-            String periodoEscolar = ingresaPeriodoEscolar.getText();
-            int horasCubiertas = Integer.parseInt(ingresaHorasCubiertas.getText());
-            int tiempoPlaneado = Integer.parseInt(ingresaTiempoPlaneado.getText());
-            int tiempoReal = Integer.parseInt(ingresaTiempoReal.getText());
-            LocalDate fechaInicio = calendarioFechaInicio.getValue();
-            LocalDate fechaTermino = calendarioFechaTermino.getValue();
-            RadioButton reporteSelecionado = (RadioButton) tipoReportes.getSelectedToggle();
+            String periodoEscolar = txtPeriodoEscolar.getText();
+            int horasCubiertas = Integer.parseInt(txtHorasCubiertas.getText());
+            int tiempoPlaneado = Integer.parseInt(txtTiempoPlaneado.getText());
+            int tiempoReal = Integer.parseInt(txtTiempoReal.getText());
+            LocalDate fechaInicio = dpFechaInicio.getValue();
+            LocalDate fechaTermino = dpFechaTermino.getValue();
+            RadioButton reporteSelecionado = (RadioButton) tgTipoReportes.getSelectedToggle();
             String tipoReporte = reporteSelecionado.getText();
             
             ReporteParcial reporteParcial = new ReporteParcial();
@@ -107,10 +101,10 @@ public class ControladorFormularioReporte {
 
         boolean sonCamposValidos = true; 
 
-        if(ingresaPeriodoEscolar.getText().isBlank() || ingresaHorasCubiertas.getText().isBlank() ||
-           calendarioFechaInicio.getValue() == null || calendarioFechaTermino.getValue() == null || 
-           ingresaTiempoPlaneado.getText().isBlank() || ingresaTiempoReal.getText().isBlank() || 
-           tipoReportes.getSelectedToggle() == null){
+        if(txtPeriodoEscolar.getText().isBlank() || txtHorasCubiertas.getText().isBlank() ||
+           dpFechaInicio.getValue() == null || dpFechaTermino.getValue() == null || 
+           txtTiempoPlaneado.getText().isBlank() || txtTiempoReal.getText().isBlank() || 
+           tgTipoReportes.getSelectedToggle() == null){
             
             sonCamposValidos = false; 
 
