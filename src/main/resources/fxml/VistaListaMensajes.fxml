@@ -22,6 +22,7 @@
          </columns>
       </TableView>
       <Label fx:id="lblInstruccion" layoutX="185.0" layoutY="90.0" text="Seleccione un mensaje para ver sus detalles" />
-      <Button fx:id="btnRegresar" layoutX="269.0" layoutY="351.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+      <Button fx:id="btnRegresar" layoutX="185.0" layoutY="351.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+      <Button fx:id="btnVerMensaje" layoutX="339.0" layoutY="351.0" mnemonicParsing="false" onAction="#verMensaje" text="Ver mensaje" />
    </children>
 </AnchorPane>

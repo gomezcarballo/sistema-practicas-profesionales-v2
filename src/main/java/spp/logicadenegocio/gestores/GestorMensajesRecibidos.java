@@ -23,7 +23,7 @@ public class GestorMensajesRecibidos {
         mensajeDAO = new MensajeDAO();
     }
     
-    public List<Mensaje> consultarMensajes(int idUsuario)throws ReglaDeNegocioExcepcion{
+    public List<Mensaje> consultarMensajesRecibidos(int idUsuario)throws ReglaDeNegocioExcepcion{
         
         try{
            return mensajeDAO.consultarMensajesPorDestinatario(idUsuario);

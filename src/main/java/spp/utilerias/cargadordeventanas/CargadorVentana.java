@@ -40,4 +40,28 @@ public class CargadorVentana {
         
     }
     
+    public static FXMLLoader cargarVentanaConControlador(String archivoFXML, String titulo) {
+        
+        FXMLLoader cargadorFXML = null;
+        
+        try {
+
+            cargadorFXML = new FXMLLoader(CargadorVentana.class.getResource(archivoFXML));
+
+            Parent raiz = cargadorFXML.load();
+
+            Stage ventana = new Stage();
+            ventana.setTitle(titulo);
+            ventana.setScene(new Scene(raiz));
+            ventana.show();
+
+        } catch(IOException e) {
+
+            bitacora.log(Level.SEVERE, "Error al cargar la ventana: " + archivoFXML, e);
+            
+        }
+        
+    return cargadorFXML;
+    }
+    
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -23,6 +24,7 @@ import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
 import spp.logicadenegocio.gestores.GestorMensajesEnviados;
 import spp.logicadenegocio.gestores.GestorMensajesRecibidos;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -46,7 +48,7 @@ public class ControladorListaMensajes {
     private TableColumn<Mensaje, LocalDateTime> colFecha;
     
     @FXML
-    private Label lblTtuloMensajes;
+    private Label lblTituloMensajes;
     
     private GestorMensajesRecibidos gestorMensajesRecibidos;
     
@@ -61,10 +63,10 @@ public class ControladorListaMensajes {
         switch(tipoMensaje) {
 
             case RECIBIDOS ->
-                lblTtuloMensajes.setText("Mensajes Recibidos");
+                lblTituloMensajes.setText("Mensajes Recibidos");
 
             case ENVIADOS ->
-                lblTtuloMensajes.setText("Mensajes Enviados");
+                lblTituloMensajes.setText("Mensajes Enviados");
                 
         }   
         
@@ -141,7 +143,7 @@ public class ControladorListaMensajes {
             switch(tipoMensaje) {
                 
                 case RECIBIDOS -> {
-                    mensajes = gestorMensajesRecibidos.consultarMensajes(idUsuario);
+                    mensajes = gestorMensajesRecibidos.consultarMensajesRecibidos(idUsuario);
                 }
                 case ENVIADOS -> {
                     mensajes = gestorMensajesEnviados.consultarMensajesEnviados(idUsuario);
@@ -157,6 +159,31 @@ public class ControladorListaMensajes {
             "Hubo un error al recuperar los mensajes");
 
         }
+    }
+    
+    @FXML
+    private void verMensaje() {
+
+        Mensaje mensajeSeleccionado = tblMensajes.getSelectionModel().getSelectedItem();
+
+        if(mensajeSeleccionado == null) {
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
+            "Debe seleccionar un mensaje");
+            return;
+            
+        }
+
+        FXMLLoader cargadorDetalleMensaje = CargadorVentana.cargarVentanaConControlador("/fxml/VistaDetalleMensaje.fxml",
+        "Detalle del Mensaje");
+        
+        if(cargadorDetalleMensaje != null){
+            
+            ControladorDetalleMensaje controlador = cargadorDetalleMensaje.getController();
+            controlador.cargarMensaje(mensajeSeleccionado);
+            
+        }
+        
     }
     
     @FXML
