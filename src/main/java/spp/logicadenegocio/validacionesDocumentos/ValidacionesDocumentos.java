@@ -38,32 +38,33 @@ public class ValidacionesDocumentos {
         String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
 
         String rutaProyecto = System.getProperty("user.dir");
+        String carpetaDocumentosSistema = "Documentos_SPP";
         Path rutaCarpetaFinal; 
 
         switch (tipoDocumento) {
             case FORMATO_PRESENTACION -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "FormatoPresentacion", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "FormatoPresentacion", identificador);
             }
             case REPORTE_MENSUAL -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "ReportesMensuales", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "ReportesMensuales", identificador);
             }
             case REPORTE_PARCIAL -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "ReportesParciales", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "ReportesParciales", identificador);
             }
             case ACTIVIDAD -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "Actividades", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Actividades", identificador);
             }
             case BITACORA_PSP -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "Bitacora_PSP", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Bitacora_PSP", identificador);
             }
             case HORARIO -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "Horario", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Horario", identificador);
             }
             case AUTOEVALUACION -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "Autoevaluacion", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Autoevaluacion", identificador);
             }
             case PLAN_ACTIVIDADES -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "Autoevaluacion", identificador);
+                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Autoevaluacion", identificador);
             }
             
             default -> {
