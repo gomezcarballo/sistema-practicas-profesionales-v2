@@ -8,17 +8,17 @@ package spp.utilerias.excepciones;
  *
  * @author Luz Fernanda H J
  */
-public class ReglaDeNegocioExcepcion extends Exception {
+public class ProcesamientoSistemaExcepcion extends Exception {
     
-    public ReglaDeNegocioExcepcion(String mensaje, Throwable causa){
+    public ProcesamientoSistemaExcepcion(String mensaje, Throwable causa){
         super(mensaje, causa);
     }
     
-    public ReglaDeNegocioExcepcion(String mensaje){
+    public ProcesamientoSistemaExcepcion(String mensaje){
         super(mensaje);
     }
     
-    public ReglaDeNegocioExcepcion(Throwable causa){
+    public ProcesamientoSistemaExcepcion(Throwable causa){
         super(causa);
     }
     

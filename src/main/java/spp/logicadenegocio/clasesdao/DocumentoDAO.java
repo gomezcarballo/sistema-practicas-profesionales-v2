@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Documento;
-import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.interfacesdao.IDocumentoDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -33,9 +32,13 @@ public class DocumentoDAO implements IDocumentoDAO {
             consultaPreparada.setString(1, documento.getNombre());
             consultaPreparada.setString(2, documento.getTipo());
             consultaPreparada.setString(3, documento.getRuta());
-            consultaPreparada.setInt(4, documento.getUsuario().getIdUsuario());
+            consultaPreparada.setInt(4, documento.getIdUsuario());
             
-            consultaPreparada.executeUpdate();
+            int filasAfectadas = consultaPreparada.executeUpdate();
+            
+            if(filasAfectadas == 0){
+                 throw new OperacionesDeDaoExcepcion("No se registro el documento en la base de datos.");
+            }
             
             registroExitoso = true;
 
@@ -67,10 +70,8 @@ public class DocumentoDAO implements IDocumentoDAO {
                 documento.setNombre(resultadosConsulta.getString("nombre"));
                 documento.setTipo(resultadosConsulta.getString("tipo"));
                 documento.setRuta(resultadosConsulta.getString("ruta")); 
-                Usuario usuario = new Usuario();
-                usuario.setIdUsuario(resultadosConsulta.getInt("Usuario_idUsuario"));
+                documento.setIdUsuario(resultadosConsulta.getInt("Usuario_idUsuario"));
                 
-                documento.setUsuario(usuario);
             }
 
             conexion.close();

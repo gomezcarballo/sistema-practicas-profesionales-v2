@@ -20,5 +20,12 @@ public class ControladorGenerarEvidenciaPracticas {
         CargadorVentana.cargarVentana("/fxml/VistaFormularioReporte.fxml", "Formulario de Reporte");       
 
     }
+    @FXML 
+    private void abrirAutoevaluacion(){
+        
+        CargadorVentana cargadorVentana = new CargadorVentana();
+        cargadorVentana.cargarVentana("/fxml/GUI-FormularioAutoevaluacion.fxml", "Formulario Autoevaluacion");
+        
+    }
     
 }

@@ -44,7 +44,7 @@ public class PruebaDocumentoDAO {
         documento.setNombre("BDDS Procemientos almacenados");
         documento.setRuta("ruta/ejemplo/BDDS Procemientos almacenados");
         documento.setTipo("Actividad");
-        documento.setUsuario(usuario);
+        //documento.setIdUsuario(usuario);
         
         boolean registroExitoso = documentoDao.insertarDocumento(documento);
         assertTrue(registroExitoso);

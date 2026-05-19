@@ -14,18 +14,18 @@ public class Documento {
     private String nombre;
     private String tipo;
     private String ruta;
-    private Usuario usuario;
+    private int idUsuario;
 
     public Documento() {
     }
 
-    public Documento(int idDocumento, String nombre, String tipo, String ruta, Usuario usuario) {
+    public Documento(int idDocumento, String nombre, String tipo, String ruta, int idUsuario) {
         
         this.idDocumento = idDocumento;
         this.nombre = nombre;
         this.tipo = tipo;
         this.ruta = ruta;
-        this.usuario = usuario;
+        this.idUsuario = idUsuario;
         
     }
 
@@ -61,12 +61,12 @@ public class Documento {
         this.ruta = ruta;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
         
 }

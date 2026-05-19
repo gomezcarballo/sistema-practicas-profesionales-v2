@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package spp.logicadenegocio.validacionesReportes;
+package spp.logicadenegocio.validacionesDocumentos;
 
 import spp.logicadenegocio.clasesdao.DocumentoDAO;
 import spp.logicadenegocio.clasesdao.ReporteParcialDAO;
@@ -34,13 +34,11 @@ public class ValidacionesReporteParcial {
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             
             int idUsuario= sesionUsuario.getIdUsuario();
-            usuario.setIdUsuario(idUsuario);
-            documento.setUsuario(usuario);
+            documento.setIdUsuario(idUsuario);
             documentoDao.insertarDocumento(documento);
             
             
         }catch(OperacionesDeDaoExcepcion e){
-            System.err.println("El error real del DAO es: " + e.getMessage());
             throw new ReglaDeNegocioExcepcion("No se pudo generar el reporte parcial.", e);
         }
     }

@@ -4,19 +4,13 @@
  */
 package spp.presentacion.menus;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.stage.FileChooser;
-import spp.logicadenegocio.clasesdto.SesionUsuario;
+import javafx.fxml.FXMLLoader;
+import spp.logicadenegocio.enums.TipoDocumento;
+import spp.presentacion.documentos.ControladorDocumentos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -26,33 +20,14 @@ public class ControladorMenuPrincipalProfesor {
 
     @FXML
     private void agregarFormatoPresentacion() {
-        FileChooser exploradorArchivos = new FileChooser();
-        exploradorArchivos.setTitle("Selecciona el formato de presentación");
-
-        File archivoSeleccionado = exploradorArchivos.showOpenDialog(null);
-
-        if (archivoSeleccionado != null) {
-            try {
-                String idUsuario = String.valueOf(SesionUsuario.getInstancia().getIdUsuario());
-
-                String rutaProyecto = System.getProperty("user.dir");
-
-                Path rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos", "FormatoPresentacion", idUsuario);
-
-                Files.createDirectories(rutaCarpetaFinal);
-
-                Path destinoCompleto = rutaCarpetaFinal.resolve(archivoSeleccionado.getName());
-
-                Files.copy(archivoSeleccionado.toPath(), destinoCompleto, StandardCopyOption.REPLACE_EXISTING);
-
-
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Subida Exitosa", 
-                    "El formato se cargo correctamente en el sistema");
-
-            } catch (Exception e) {
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", 
-                    "No se pudo guardar el archivo en el sistema");
-            }
+       FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
+        "Subir Documento");
+        
+        if(cargador != null){
+            
+            ControladorDocumentos controlador = cargador.getController();
+            controlador.configurarTipoDocumento(TipoDocumento.FORMATO_PRESENTACION);
+            
         }
     }
     

@@ -19,6 +19,7 @@ public class App extends Application{
     public void start(Stage escenarioPrincipal) throws Exception {
 
         FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/VistaInicioSesion.fxml"));
+
         Parent raiz = cargadorFXML.load();
 
         Scene vistaPrincipal = new Scene(raiz);

@@ -81,12 +81,6 @@ public class ControladorRegistroCoordinador {
             
         }
         
-        if(txtApellidoMaterno.getText().isBlank()){
-            
-            txtApellidoMaterno.setText(null);
-            
-        }
-        
         return sonCamposValidos; 
         
     }

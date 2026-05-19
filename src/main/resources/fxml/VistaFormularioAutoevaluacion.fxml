@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorAutoevaluacion">
+
+    <top>
+        <VBox>
+            <Label fx:id="tituloFormularioReporte" layoutX="190.0" layoutY="14.0" text="Formulario de Reporte">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
+            
+            <Label text="Ingresa llena los campos solicitados" />
+        </VBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <VBox alignment="TOP_CENTER" maxWidth="400.0" spacing="14">
+                <padding>
+                    <Insets bottom="20" left="48" right="48" top="24" />
+                </padding>
+                    <ScrollPane prefWidth="382.0">
+                        <content>
+                            <VBox spacing="14">
+                                <padding>
+                                    <Insets bottom="5" left="5" right="5" top="5" />
+                                </padding>
+                                    <Label styleClass="field-label" text="Periodo escolar:" />
+                                    <TextField fx:id="txtFirstName" promptText="Ej. Juan" styleClass="field-input" />
+
+                                    <Label styleClass="field-label" text="¿Cómo te sientes al respecto?" />
+                                    <TextField fx:id="txtSecondName" promptText="Ej. Carlo" styleClass="field-input" />
+
+                                    <Label styleClass="field-label" text=" " />
+                                    <TextField fx:id="txtFirstLastName" promptText="Ej. Antonio" styleClass="field-input" />
+                                    <Label styleClass="field-label" text="Primer nombre *" />
+                                    <TextField fx:id="txtads" promptText="Ej. Juan" styleClass="field-input" />
+
+                                    <Label styleClass="field-label" text="Segundo nombre " />
+                                    <TextField fx:id="txtqends" promptText="Ej. Carlo" styleClass="field-input" />
+
+                                    <Label styleClass="field-label" text="Primer apelllido *" />
+                                    <TextField fx:id="txtuqj" promptText="Ej. Antonio" styleClass="field-input" />
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                    <Label fx:id="lblStatus" alignment="CENTER" styleClass="lbl-status" text="" wrapText="true" />
+            </VBox>
+        </StackPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="12" styleClass="footer">
+            <padding>
+                <Insets bottom="16" left="48" right="48" top="12" />
+            </padding>
+            <Button styleClass="btn-back" text="Cancelar" />
+            <Button styleClass="btn-primary" text="Registrar" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -16,7 +16,7 @@
                </font>
             </Label>
             <Button fx:id="btnReportes" layoutX="222.0" layoutY="94.0" mnemonicParsing="false" onAction="#abrirReportes" prefHeight="52.0" prefWidth="111.0" text="Reportes" />
-            <Button fx:id="btnAutoevaluacion" layoutX="222.0" layoutY="185.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="111.0" text="Autoevaluación" />
+            <Button fx:id="btnAutoevaluacion" layoutX="222.0" layoutY="185.0" mnemonicParsing="false" onAction="#abrirAutoevaluacion" prefHeight="52.0" prefWidth="111.0" text="Autoevaluación" />
          </children>
       </Pane>
    </children>

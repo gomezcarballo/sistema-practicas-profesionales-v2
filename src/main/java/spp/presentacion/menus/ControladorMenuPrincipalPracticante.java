@@ -24,8 +24,10 @@ public class ControladorMenuPrincipalPracticante {
         
     @FXML
     private void abrirAnadirEvidenciaPracticas(){
-       
+        
+       CargadorVentana.cargarVentana("/fxml/VistaSubirEvidenciaPracticas.fxml", "Subir Evidencias de Practicas");
     }
+    
 
     @FXML
     private void abrirSolicitarProyecto() {
