@@ -32,7 +32,7 @@ public class ControladorMenuPrincipalPracticante {
     @FXML
     private void abrirSolicitarProyecto() {
         
-        CargadorVentana.cargarVentana("/fxml/VistaListaProyectos.fxml", "Solicitar proyecto");
+        CargadorVentana.cargarVentana("/fxml/VistaSolicitudProyectos.fxml", "Solicitar proyecto");
         
     }
     

@@ -23,7 +23,7 @@ public class ValidacionEnvioMensaje {
     private static final Logger bitacora = Logger.getLogger(ValidacionEnvioMensaje.class.getName());
     
     private static final int MAXIMO_CARACTERES_ASUNTO = 50;
-    private static final int MAXIMO_CARACTERES_CUERPO = 250;
+    private static final int MAXIMO_CARACTERES_CUERPO = 750;
     
     public boolean enviarMensaje(Mensaje mensaje, String correoDestinatario)throws ReglaDeNegocioExcepcion{
                 
@@ -84,14 +84,14 @@ public class ValidacionEnvioMensaje {
         if (mensaje.getAsunto().length() > MAXIMO_CARACTERES_ASUNTO) {
 
             throw new ReglaDeNegocioExcepcion( "El asunto excede el tamaño máximo permitido de " 
-                    + MAXIMO_CARACTERES_ASUNTO + " caracteres.");
+            + MAXIMO_CARACTERES_ASUNTO + " caracteres.");
             
         }
         
          if (mensaje.getCuerpo().length() > MAXIMO_CARACTERES_CUERPO) {
 
             throw new ReglaDeNegocioExcepcion("El cuerpo del mensaje excede el tamaño máximo permitido de " 
-                    + MAXIMO_CARACTERES_CUERPO + " caracteres.");
+            + MAXIMO_CARACTERES_CUERPO + " caracteres.");
 
          }
         

@@ -8,6 +8,8 @@ import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import spp.logicadenegocio.clasesdto.Proyecto;
@@ -20,7 +22,7 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  *
  * @author gomes
  */
-public class ControladorRegistroProyecto {
+public class ControladorFormularioProyecto {
 
     @FXML
     private TextField txtNombre;
@@ -35,7 +37,18 @@ public class ControladorRegistroProyecto {
     private TextField txtCupoMaximo;
     
     @FXML
+    private Label lblTituloFormulario;
+
+    @FXML
+    private Button btnGuardar;
+    
+    private Proyecto proyecto;
+    
+    @FXML
     public void initialize() {
+        
+        lblTituloFormulario.setText("Registrar Proyecto");
+        btnGuardar.setText("Registrar");
 
         UnaryOperator<TextFormatter.Change> filtro = cambioEntero -> {
             if (cambioEntero.getText().matches("[0-9]*")) {
@@ -46,6 +59,20 @@ public class ControladorRegistroProyecto {
 
         txtCupoMaximo.setTextFormatter(new TextFormatter<>(filtro));
     }
+    
+    public void inicializarDatos(Proyecto proyecto){
+        
+        this.proyecto = proyecto;
+            
+        txtNombre.setText(proyecto.getNombre());
+        txtDescripcion.setText(proyecto.getDescripcion());
+        txtNombreResponsable.setText(proyecto.getNombreResponsable());
+        txtCupoMaximo.setText(String.valueOf(proyecto.getCupoMaximo()));      
+        
+        lblTituloFormulario.setText("Actualizar Proyecto");
+        btnGuardar.setText("Guardar cambios");
+        
+    }
 
     
     @FXML
@@ -53,19 +80,33 @@ public class ControladorRegistroProyecto {
         
         if( sonCamposValidos() ){
             
+            if(proyecto == null){
+                
+                proyecto = new Proyecto();
+                
+            }
+            
             String nombre = txtNombre.getText();
             String descripcion = txtDescripcion.getText();
             String nombreResponsable = txtNombreResponsable.getText();
             int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
 
 
-            Proyecto proyecto = new Proyecto();
             proyecto.setNombre(nombre);
             proyecto.setDescripcion(descripcion);
             proyecto.setNombreResponsable(nombreResponsable);
             proyecto.setCupoMaximo(cupoMaximo);
+                        
+            if(proyecto.getIdProyecto ()>0){
+                
+                actualizarProyecto(proyecto);
+                
+            }else {
+                
+                registrarProyecto(proyecto);
+                
+            }
             
-            registrarProyecto(proyecto);
         
         }else {
             
@@ -84,7 +125,7 @@ public class ControladorRegistroProyecto {
         boolean sonCamposValidos = true; 
 
         if(txtNombre.getText().isBlank() ||  txtDescripcion.getText().isBlank() || 
-            txtNombreResponsable.getText().isBlank() ||txtCupoMaximo.getText() == null){
+            txtNombreResponsable.getText().isBlank() ||txtCupoMaximo.getText().isBlank()){
             
             sonCamposValidos = false; 
 
@@ -110,6 +151,25 @@ public class ControladorRegistroProyecto {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
             
+        }
+        
+    }
+    
+    @FXML
+    private void actualizarProyecto(Proyecto proyecto){
+        
+        try{
+            
+            ValidacionProyecto validacion = new ValidacionProyecto();
+            validacion.actualizarProyecto(proyecto);
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa", 
+            "Proyecto actualizado correctamente");          
+            
+        }catch(ReglaDeNegocioExcepcion e){
+        
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Actualizacion fallida", 
+            e.getMessage());
+        
         }
         
     }

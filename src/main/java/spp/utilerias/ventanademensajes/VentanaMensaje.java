@@ -15,11 +15,11 @@ public class VentanaMensaje {
     
     public static void mostrarVentanaMensaje(AlertType tipo, String titulo, String mensaje) {
         
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
         
     }
     

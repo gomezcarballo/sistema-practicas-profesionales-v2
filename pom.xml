@@ -47,13 +47,15 @@
         <scope>test</scope>
         <type>jar</type>
     </dependency>
-
+    
+    <!-- JBCrypt -->
     <dependency>
         <groupId>org.mindrot</groupId>
         <artifactId>jbcrypt</artifactId>
         <version>0.4</version>
     </dependency>
-
+    
+    <!-- JakartaMail -->
     <dependency>
         <groupId>com.sun.mail</groupId>
         <artifactId>jakarta.mail</artifactId>

@@ -138,7 +138,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE Usuario SET nombre = ?, apellidoPaterno = ?, "
-                + "apellidoMaterno = ? correoInstitucional = ? WHERE idUsuario = ?";
+                + "apellidoMaterno = ?, correoInstitucional = ? WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {

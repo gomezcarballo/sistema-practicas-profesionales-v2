@@ -24,6 +24,9 @@ public class ValidacionPracticante {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionPracticante.class.getName());
     
+    private static final int LONGITUD_MAXIMA_NOMBRE = 50;
+    private static final int LONGITUD_MAXIMA_APELLIDO = 30;
+    
     public boolean ingresarPracticante(Practicante practicante)throws ReglaDeNegocioExcepcion{
         
         sonCamposValidosPorReglaNegocio(practicante);
@@ -57,14 +60,15 @@ public class ValidacionPracticante {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo practicante.", e);
-            
+            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo practicante.", e);  
             throw new ReglaDeNegocioExcepcion("No se pudo registrar al Practicante por un problema "
                 + "interno del sistema. Intente más tarde.", e);
             
         }catch(RuntimeException e){
+            
              bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
+            
         }
         
         return registroExitoso;
@@ -77,32 +81,49 @@ public class ValidacionPracticante {
         String apellidoPaterno = practicante.getApellidoPaterno();
         String apellidoMaterno = practicante.getApellidoMaterno();
         
-        if( !matricula.matches("^[sS][0-9]{8}$") ){
+        if(!matricula.matches("^[sS][0-9]{8}$")){
+            
            throw new ReglaDeNegocioExcepcion("Matricula no valida. Debe comenzar con S seguido de 8 números.");
+           
         }
         
-        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
+        if(!(nombre.matches("^[\\p{L} ]+$"))){
+            
             throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
+            
         }
         
-        if( nombre.length() > 50 ){
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de 50 caracteres");
+        if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
+            
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de" + 
+            LONGITUD_MAXIMA_NOMBRE + "caracteres");
+            
         }
         
-        if( !(apellidoPaterno.matches("^[\\p{L} ]+$") ) ){
+        if(!(apellidoPaterno.matches("^[\\p{L} ]+$"))){
+            
             throw new ReglaDeNegocioExcepcion("El apellido paterno solo debe contener letras.");
+            
         }
         
-        if( apellidoPaterno.length() > 30 ){
-            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de 30 caracteres.");
+        if(apellidoPaterno.length() > LONGITUD_MAXIMA_APELLIDO){
+            
+            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de" + 
+            LONGITUD_MAXIMA_APELLIDO + "caracteres.");
+            
         }
         
-        if( apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$") ) ){
+        if(apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$"))){
+            
             throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
+            
         }
         
-        if ( apellidoMaterno != null && apellidoMaterno.length() > 30 ) {
-            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de 30 caracteres.");
+        if (apellidoMaterno != null && apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
+            
+            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de" +
+            LONGITUD_MAXIMA_APELLIDO + "caracteres.");
+            
         }
         
     }

@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorRegistroProyecto">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorFormularioProyecto">
    <children>
-      <AnchorPane fx:id="pnlFormularioRegistroProyecto" layoutX="34.0" layoutY="31.0" prefHeight="337.0" prefWidth="532.0">
+      <AnchorPane fx:id="pnlFormularioProyecto" layoutX="34.0" layoutY="31.0" prefHeight="337.0" prefWidth="532.0">
          <children>
-            <Label fx:id="lblTituloRegistrarProyecto" layoutX="196.0" layoutY="42.0" text="Registrar Proyecto">
+            <Label fx:id="lblTituloFormulario" layoutX="196.0" layoutY="42.0" text="Registrar Proyecto">
                <font>
                   <Font size="18.0" />
                </font>
@@ -23,7 +23,7 @@
             <TextField fx:id="txtDescripcion" layoutX="269.0" layoutY="156.0" prefHeight="26.0" prefWidth="206.0" promptText="Ingrese la descripcion" />
             <TextField fx:id="txtNombreResponsable" layoutX="269.0" layoutY="203.0" prefHeight="26.0" prefWidth="206.0" promptText="Ingrese el nombre del responsable" />
             <TextField fx:id="txtCupoMaximo" layoutX="269.0" layoutY="251.0" prefHeight="26.0" prefWidth="206.0" promptText="Ingrese el cupo máximo" />
-            <Button fx:id="btnRegistrar" layoutX="170.0" layoutY="299.0" mnemonicParsing="false" text="Registrar" />
+            <Button fx:id="btnGuardar" layoutX="170.0" layoutY="299.0" mnemonicParsing="false" text="Registrar" />
             <Button fx:id="btnCancelar" layoutX="292.0" layoutY="299.0" mnemonicParsing="false" text="Cancelar" />
             <Label fx:id="lblInstruccion" layoutX="191.0" layoutY="69.0" text="Ingrese los campos solicitados">
                <font>

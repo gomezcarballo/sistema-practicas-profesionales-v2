@@ -24,6 +24,11 @@ public class ValidacionProfesor {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionProfesor.class.getName());
     
+    private static final int LONGITUD_MAXIMA_NUMEROPERSONAL = 5;
+    private static final int LONGITUD_MAXIMA_NOMBRE = 50;
+    private static final int LONGITUD_MAXIMA_APELLIDO = 30;
+    
+    
     public boolean ingresarProfesor(Profesor profesor)throws ReglaDeNegocioExcepcion{
         
         sonCamposValidosPorReglaNegocio(profesor);
@@ -57,10 +62,14 @@ public class ValidacionProfesor {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-           bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);
-           
+           bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);          
            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Profesor por un problema "
                 + "interno del sistema. Intente más tarde.", e);
+            
+        }catch(RuntimeException e){
+            
+             bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);             
+            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
             
         }
         return registroExitoso;
@@ -73,32 +82,51 @@ public class ValidacionProfesor {
         String apellidoPaterno = profesor.getApellidoPaterno();
         String apellidoMaterno = profesor.getApellidoMaterno();
         
-        if( numeroPersonal.length() != 5 || !numeroPersonal.chars().allMatch(Character::isDigit) ){
-           throw new ReglaDeNegocioExcepcion("Numero de personal no valido. Debe contener 5 digitos.");
+        if(numeroPersonal.length() != LONGITUD_MAXIMA_NUMEROPERSONAL || !numeroPersonal.chars()
+        .allMatch(Character::isDigit)){
+            
+           throw new ReglaDeNegocioExcepcion("Numero de personal no valido. Debe contener" + 
+           LONGITUD_MAXIMA_NUMEROPERSONAL +  "digitos.");
+           
         }
         
-        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
+        if(!(nombre.matches("^[\\p{L} ]+$"))){
+            
             throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
+            
         }
         
-        if( nombre.length() > 50 ){
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de 50 caracteres");
+        if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
+            
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de" + 
+            LONGITUD_MAXIMA_NOMBRE + "caracteres");
+            
         }
         
-        if( !(apellidoPaterno.matches("^[\\p{L} ]+$") ) ){
+        if(!(apellidoPaterno.matches("^[\\p{L} ]+$"))){
+            
             throw new ReglaDeNegocioExcepcion("El apellido paterno solo debe contener letras.");
+            
         }
         
-        if( apellidoPaterno.length() > 30 ){
-            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de 30 caracteres.");
+        if(apellidoPaterno.length() > LONGITUD_MAXIMA_APELLIDO){
+            
+            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de" + 
+            LONGITUD_MAXIMA_APELLIDO +"caracteres.");
+            
         }
         
-        if( apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$") ) ){
+        if(apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$"))){
+            
             throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
+            
         }
         
-        if ( apellidoMaterno != null && apellidoMaterno.length() > 30 ) {
-            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de 30 caracteres.");
+        if (apellidoMaterno != null && apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
+            
+            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de" + 
+            LONGITUD_MAXIMA_APELLIDO +"caracteres.");
+            
         }
         
     }

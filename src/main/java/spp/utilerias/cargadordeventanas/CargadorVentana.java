@@ -58,7 +58,7 @@ public class CargadorVentana {
         } catch(IOException e) {
 
             bitacora.log(Level.SEVERE, "Error al cargar la ventana: " + archivoFXML, e);
-            
+               
         }
         
     return cargadorFXML;

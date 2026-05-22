@@ -27,7 +27,7 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  *
  * @author gomes
  */
-public class ControladorListaProyectos {
+public class ControladorSolicitudProyectos {
     
     @FXML
     private TableView<Proyecto> tblListaProyectos;

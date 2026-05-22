@@ -131,7 +131,7 @@ public class ProyectoDAO implements IProyectoDAO {
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE PROYECTO SET nombre = ?, descripcion = ?, "
-                + "nombreResponsable = ?, cupoMaximo = ? WHERE nombre = ? ";
+                + "nombreResponsable = ?, cupoMaximo = ? WHERE idProyecto = ? ";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -140,7 +140,7 @@ public class ProyectoDAO implements IProyectoDAO {
             consultaPreparada.setString(2, proyecto.getDescripcion());
             consultaPreparada.setString(3, proyecto.getNombreResponsable());
             consultaPreparada.setInt(4, proyecto.getCupoMaximo());
-            consultaPreparada.setString(5, proyecto.getNombre());
+            consultaPreparada.setInt(5, proyecto.getIdProyecto());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

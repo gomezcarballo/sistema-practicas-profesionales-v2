@@ -18,7 +18,7 @@ public class ControladorSubMenuProyectos {
     @FXML
     private void abrirRegistroProyecto() {
         
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroProyecto.fxml", "Registrar Proyecto");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioProyecto.fxml", "Registrar Proyecto");
         
     }
     
@@ -39,7 +39,7 @@ public class ControladorSubMenuProyectos {
     @FXML
     private void abrirActualizarProyecto() {
         
-        CargadorVentana.cargarVentana("/fxml/VistaActualizacionProyecto.fxml", "Actualizar Proyecto");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioProyecto.fxml", "Actualizar Proyecto");
         
     }
     

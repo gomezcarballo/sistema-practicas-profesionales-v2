@@ -117,7 +117,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE Organizacion SET nombre = ?, direccion = ?, "
-                + "sector = ? WHERE nombre = ?";
+                + "sector = ? WHERE idOrganizacion = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -125,7 +125,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
             consultaPreparada.setString(1, organizacion.getNombre());
             consultaPreparada.setString(2, organizacion.getDireccion());
             consultaPreparada.setString(3, organizacion.getSector());
-            consultaPreparada.setString(4, organizacion.getNombre());
+            consultaPreparada.setInt(4, organizacion.getIdOrganizacion());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

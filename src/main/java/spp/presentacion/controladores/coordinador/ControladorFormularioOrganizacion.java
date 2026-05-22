@@ -8,7 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validacionesInsercion.ValidacionOrganizacion;
@@ -20,7 +22,7 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  *
  * @author gomes
  */
-public class ControladorRegistroOrganizacion {
+public class ControladorFormularioOrganizacion {
     
     @FXML
     private TextField txtNombre;
@@ -29,31 +31,67 @@ public class ControladorRegistroOrganizacion {
     private TextField txtDireccion;
     
     @FXML
+    private Label lblTituloFormulario;
+
+    @FXML
+    private Button btnGuardar;
+    
+    @FXML
     private ComboBox<String> cbOpcionesSector;
+    
+    private Organizacion organizacion;
     
     @FXML
     public void initialize() {
         
+        lblTituloFormulario.setText("Registrar Organizacion");
+        btnGuardar.setText("Registrar");
+        
         cbOpcionesSector.setItems(FXCollections.observableArrayList("Público", "Privado", "Social"));
         
-    }      
+    }    
+    
+        public void inicializarDatos(Organizacion organizacion){
+
+        this.organizacion = organizacion;
+
+        txtNombre.setText(organizacion.getNombre());
+        txtDireccion.setText(organizacion.getDireccion());
+        cbOpcionesSector.setValue(organizacion.getSector());
+        
+        lblTituloFormulario.setText("Actualizar Organizacion");
+        btnGuardar.setText("Guardar cambios");
+        
+    }
     
     @FXML
     private void leerDatosDeOrganizacion(){
         
         if(camposValidos()){
             
+            if(organizacion == null){
+                
+                organizacion = new Organizacion();
+                
+            }
+            
             String nombre = txtNombre.getText();
             String direccion = txtDireccion.getText();
             String sector = cbOpcionesSector.getValue();
 
-            Organizacion organizacion = new Organizacion();
             organizacion.setNombre(nombre);
             organizacion.setDireccion(direccion);
             organizacion.setSector(sector);
         
-            registrarOrganizacion(organizacion);
-        
+            if(organizacion.getIdOrganizacion() > 0){
+            
+                actualizarOrganizacion(organizacion);
+                
+            }else{  
+                
+                registrarOrganizacion(organizacion);
+                
+            }
         }else{
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
@@ -94,6 +132,27 @@ public class ControladorRegistroOrganizacion {
             
         }
     }
+    
+    @FXML
+    private void actualizarOrganizacion(Organizacion organizacion){
+
+        try{
+
+            ValidacionOrganizacion validacion = new ValidacionOrganizacion();
+            validacion.actualizarOrganizacion(organizacion);
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa",
+            "Organización actualizada correctamente");
+
+        }catch(ReglaDeNegocioExcepcion e){
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Actualización fallida",
+            e.getMessage());
+
+        }
+
+    }
+    
     
     @FXML
     public void cancelar(ActionEvent evento) {
