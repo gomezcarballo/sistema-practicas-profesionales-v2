@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProyecto;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
@@ -42,14 +43,18 @@ public class ControladorFormularioProyecto {
     @FXML
     private Button btnGuardar;
     
+    private Organizacion organizacion;
+    
     private Proyecto proyecto;
+    
+    ValidacionProyecto validacion = new ValidacionProyecto();
     
     @FXML
     public void initialize() {
         
         lblTituloFormulario.setText("Registrar Proyecto");
         btnGuardar.setText("Registrar");
-
+        
         UnaryOperator<TextFormatter.Change> filtro = cambioEntero -> {
             if (cambioEntero.getText().matches("[0-9]*")) {
                 return cambioEntero;
@@ -58,6 +63,12 @@ public class ControladorFormularioProyecto {
         };
 
         txtCupoMaximo.setTextFormatter(new TextFormatter<>(filtro));
+    }
+    
+    public void inicializarOrganizacion(Organizacion organizacion){
+
+        this.organizacion = organizacion;
+
     }
     
     public void inicializarDatos(Proyecto proyecto){
@@ -74,13 +85,12 @@ public class ControladorFormularioProyecto {
         
     }
 
-    
     @FXML
     private void leerDatosDeProyecto(){
         
         if( sonCamposValidos() ){
             
-            if(proyecto == null){
+            if( proyecto == null ){
                 
                 proyecto = new Proyecto();
                 
@@ -91,13 +101,13 @@ public class ControladorFormularioProyecto {
             String nombreResponsable = txtNombreResponsable.getText();
             int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
 
-
             proyecto.setNombre(nombre);
             proyecto.setDescripcion(descripcion);
             proyecto.setNombreResponsable(nombreResponsable);
             proyecto.setCupoMaximo(cupoMaximo);
+            proyecto.setOrganizacion(organizacion);
                         
-            if(proyecto.getIdProyecto ()>0){
+            if(proyecto.getIdProyecto () > 0){
                 
                 actualizarProyecto(proyecto);
                 
@@ -107,15 +117,12 @@ public class ControladorFormularioProyecto {
                 
             }
             
-        
         }else {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
-        
-        
         
     }  
     
@@ -140,7 +147,6 @@ public class ControladorFormularioProyecto {
        
         try{
             
-            ValidacionProyecto validacion = new ValidacionProyecto();
             validacion.ingresarProyecto(proyecto);
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
@@ -160,7 +166,6 @@ public class ControladorFormularioProyecto {
         
         try{
             
-            ValidacionProyecto validacion = new ValidacionProyecto();
             validacion.actualizarProyecto(proyecto);
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa", 
             "Proyecto actualizado correctamente");          

@@ -8,6 +8,7 @@ package spp.presentacion.menus;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 
@@ -28,16 +29,9 @@ public class ControladorSubMenuOrganizacionVinculada {
     }
     
     @FXML
-    private void abrirActualizarOrganizacionVinculada() {
+    private void abrirConsultarOrganizaciones(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioOrganizacion.fxml", "Actualizar Organizacion");
-        
-    }
-    
-    @FXML
-    private void abrirInactivarOrganizacionVinculada() {
-        
-        CargadorVentana.cargarVentana("/fxml/Vista.fxml", "");
+        CargadorVentana.cargarVentanaConControlador( "/fxml/VistaListaOrganizaciones.fxml","Lista de Proyectos");
         
     }
     
@@ -47,5 +41,6 @@ public class ControladorSubMenuOrganizacionVinculada {
         CerradorVentana.cerrarVentana(evento);
         
     }
+    
     
 }

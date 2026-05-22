@@ -6,6 +6,11 @@ package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import spp.logicadenegocio.clasesdto.Organizacion;
+import spp.presentacion.controladores.coordinador.ControladorFormularioProyecto;
+import spp.presentacion.controladores.coordinador.ControladorListaProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 
@@ -16,10 +21,47 @@ import spp.utilerias.cerradordeventanas.CerradorVentana;
 public class ControladorSubMenuProyectos {
     
     @FXML
-    private void abrirRegistroProyecto() {
-        
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioProyecto.fxml", "Registrar Proyecto");
-        
+    private Label lblTitulo;
+
+    private Organizacion organizacion;
+
+    public void inicializarDatos(Organizacion organizacion){
+
+        this.organizacion = organizacion;
+
+        lblTitulo.setText("Proyectos de " + organizacion.getNombre());
+
+    }
+
+    @FXML
+    private void abrirRegistrarProyecto(){
+
+        FXMLLoader cargadorFormularioProyecto = CargadorVentana.cargarVentanaConControlador(
+        "/fxml/VistaFormularioProyecto.fxml", "Registrar Proyecto");
+
+        if(cargadorFormularioProyecto != null){
+
+            ControladorFormularioProyecto controlador = cargadorFormularioProyecto.getController();
+
+            controlador.inicializarOrganizacion(organizacion);
+
+        }
+
+    }
+
+    @FXML
+    private void abrirconsultarProyectos(){
+
+        FXMLLoader cargadorListaProyectos = CargadorVentana.cargarVentanaConControlador(
+        "/fxml/VistaListaProyectos.fxml","Lista de Proyectos");
+
+        if(cargadorListaProyectos != null){
+
+            ControladorListaProyectos controlador = cargadorListaProyectos.getController();
+            controlador.inicializarDatos(organizacion);
+
+        }
+
     }
     
     @FXML
@@ -28,21 +70,7 @@ public class ControladorSubMenuProyectos {
         CargadorVentana.cargarVentana("/fxml/VistaAsignacionProyecto.fxml", "Asignar a un Proyecto");
         
     }
-    
-    @FXML
-    private void abrirInactivarProyecto() {
-        
-        CargadorVentana.cargarVentana("/fxml/.fxml", "");
-        
-    }
-    
-    @FXML
-    private void abrirActualizarProyecto() {
-        
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioProyecto.fxml", "Actualizar Proyecto");
-        
-    }
-    
+
     @FXML
     public void regresar(ActionEvent evento) {
         

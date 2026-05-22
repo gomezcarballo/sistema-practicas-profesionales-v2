@@ -4,7 +4,9 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Organizacion;
+import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -16,4 +18,5 @@ public interface IOrganizacionDAO {
     public Organizacion consultarOrganizacion(String nombre)throws OperacionesDeDaoExcepcion;
     public boolean eliminarOrganizacion(String nombre)throws OperacionesDeDaoExcepcion;
     public boolean actualizarOrganizacion(Organizacion organizacion)throws OperacionesDeDaoExcepcion;
+    public List<Organizacion>obtenerOrganizacionesActivas() throws OperacionesDeDaoExcepcion;
 }

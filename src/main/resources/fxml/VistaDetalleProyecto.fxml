@@ -23,8 +23,8 @@
             <TextField fx:id="txtDescripcion" layoutX="241.0" layoutY="141.0" />
             <TextField fx:id="txtNombreResponsable" layoutX="241.0" layoutY="176.0" />
             <TextField fx:id="txtCupoMaximo" layoutX="241.0" layoutY="211.0" />
-            <Button fx:id="btnInactivar" layoutX="158.0" layoutY="275.0" mnemonicParsing="false" text="Inactivar" />
-            <Button fx:id="btnActualizar" layoutX="282.0" layoutY="275.0" mnemonicParsing="false" text="Actualizar" />
+            <Button fx:id="btnInactivar" layoutX="158.0" layoutY="275.0" mnemonicParsing="false" onAction="#abrirInactivarProyecto" text="Inactivar" />
+            <Button fx:id="btnActualizar" layoutX="282.0" layoutY="275.0" mnemonicParsing="false" onAction="#abrirActualizarProyecto" text="Actualizar" />
          </children>
       </AnchorPane>
    </children>

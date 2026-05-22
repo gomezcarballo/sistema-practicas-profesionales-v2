@@ -10,15 +10,14 @@
    <children>
       <Pane fx:id="pnlMenuProyectos" layoutX="14.0" layoutY="14.0" prefHeight="369.0" prefWidth="571.0">
          <children>
-            <Label fx:id="lblTituloMenuProyectos" layoutX="209.0" layoutY="26.0" text="Menu de Proyectos">
+            <Label fx:id="lblTitulo" layoutX="209.0" layoutY="26.0" text="Menu de Proyectos">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnRegistrarProyecto" layoutX="72.0" layoutY="108.0" mnemonicParsing="false" onAction="#abrirRegistroProyecto" prefHeight="56.0" prefWidth="153.0" text="Registrar Proyecto" />
-            <Button fx:id="btnInactivarProyecto" layoutX="72.0" layoutY="223.0" mnemonicParsing="false" onAction="#abrirInactivarProyecto" prefHeight="56.0" prefWidth="153.0" text="Inactivar Proyecto" />
-            <Button fx:id="btnAsignarProyecto" layoutX="320.0" layoutY="108.0" mnemonicParsing="false" onAction="#abrirAsignarProyecto" prefHeight="56.0" prefWidth="153.0" text="Asignar Proyecto" />
-            <Button fx:id="btnActualizarProyecto" layoutX="320.0" layoutY="223.0" mnemonicParsing="false" onAction="#abrirActualizarProyecto" prefHeight="56.0" prefWidth="153.0" text="Actualizar Proyecto" />
+            <Button fx:id="btnRegistrarProyecto" layoutX="209.0" layoutY="78.0" mnemonicParsing="false" onAction="#abrirRegistrarProyecto" prefHeight="56.0" prefWidth="153.0" text="Registrar Proyecto" />
+            <Button fx:id="btnAsignarProyecto" layoutX="209.0" layoutY="157.0" mnemonicParsing="false" onAction="#abrirAsignarProyecto" prefHeight="56.0" prefWidth="153.0" text="Asignar Proyecto" />
+            <Button fx:id="btnConsultarProyectos" layoutX="209.0" layoutY="237.0" mnemonicParsing="false" onAction="#abrirconsultarProyectos" prefHeight="56.0" prefWidth="153.0" text="Consultar Proyectos" />
             <Button fx:id="btnRegresar" layoutX="254.0" layoutY="315.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
          </children>
       </Pane>

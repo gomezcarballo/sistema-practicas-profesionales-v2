@@ -1,0 +1,138 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package spp.presentacion.controladores.coordinador;
+
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import spp.logicadenegocio.clasesdto.Organizacion;
+import spp.logicadenegocio.clasesdto.Proyecto;
+import spp.logicadenegocio.gestores.GestorProyectos;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.ventanademensajes.VentanaMensaje;
+
+/**
+ *
+ * @author gomes
+ */
+public class ControladorListaProyectos {
+    
+    @FXML
+    private TableView<Proyecto> tblListaProyectos;
+
+    @FXML
+    private TableColumn<Proyecto, String> colNombre;
+
+    @FXML
+    private TableColumn<Proyecto, String> colDescripcion;
+
+    @FXML
+    private TableColumn<Proyecto, String> colResponsable;
+
+    @FXML
+    private TableColumn<Proyecto, Integer> colCupoMaximo;
+    
+    @FXML
+    private Label lblTituloProyectos;
+
+    private Organizacion organizacion;
+
+    private GestorProyectos gestorProyectos;
+    
+    @FXML
+    public void initialize(){
+
+        gestorProyectos = new GestorProyectos();
+
+        tblListaProyectos.setPlaceholder(new Label("No hay proyectos registrados"));
+
+        tblListaProyectos.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        configurarColumnas();
+
+    }
+
+    public void inicializarDatos(Organizacion organizacion){
+
+        this.organizacion = organizacion;
+
+        lblTituloProyectos.setText("Proyectos de " + organizacion.getNombre());
+
+        cargarProyectos();
+
+    }
+
+    private void configurarColumnas(){
+
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
+        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
+
+    }
+
+    private void cargarProyectos(){
+
+        try{
+
+            List<Proyecto> proyectos = gestorProyectos.recuperarProyectosActivos(organizacion.getIdOrganizacion());
+
+            tblListaProyectos.getItems().clear();
+
+            tblListaProyectos.setItems(FXCollections.observableArrayList(proyectos));
+
+        }catch(ReglaDeNegocioExcepcion e){
+
+            VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.ERROR, "Error al recuperar proyectos",
+            "Hubo un error al recuperar los proyectos");
+
+        }
+
+    }
+
+    @FXML
+    private void abrirDetalleProyecto(){
+
+        Proyecto proyectoSeleccionado = tblListaProyectos.getSelectionModel().getSelectedItem();
+
+        if(proyectoSeleccionado == null){
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
+            "Debe seleccionar un proyecto");
+
+            return;
+
+        }
+
+        FXMLLoader cargadorDetalleProyecto = CargadorVentana.cargarVentanaConControlador(
+        "/fxml/VistaDetalleProyecto.fxml","Detalle Proyecto");
+
+        if(cargadorDetalleProyecto != null){
+
+            ControladorDetalleProyecto controlador = cargadorDetalleProyecto.getController();
+
+            controlador.cargarProyecto(proyectoSeleccionado);
+
+        }
+
+    }
+
+    @FXML
+    public void regresar(ActionEvent evento){
+
+        CerradorVentana.cerrarVentana(evento);
+
+    }
+}
