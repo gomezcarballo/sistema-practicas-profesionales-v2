@@ -6,6 +6,7 @@ package spp.presentacion.controladores.practicante;
 
 import java.time.LocalDate;
 import java.util.function.UnaryOperator;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -15,6 +16,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
 import spp.logicadenegocio.validacionesDocumentos.ValidacionesReporteParcial;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -104,19 +106,18 @@ public class ControladorFormularioReporte {
         if(txtPeriodoEscolar.getText().isBlank() || txtHorasCubiertas.getText().isBlank() ||
            dpFechaInicio.getValue() == null || dpFechaTermino.getValue() == null || 
            txtTiempoPlaneado.getText().isBlank() || txtTiempoReal.getText().isBlank() || 
-           tgTipoReportes.getSelectedToggle() == null){
+            tgTipoReportes.getSelectedToggle() == null ){
             
             sonCamposValidos = false; 
 
         }
-        
+       
         return sonCamposValidos; 
         
     }
     
     @FXML 
     private void generarReporte(ReporteParcial reporteParcial){
-        
         
         try{
             
@@ -132,6 +133,13 @@ public class ControladorFormularioReporte {
             e.getMessage());
             
         }
+        
+    }
+    
+   @FXML
+    public void regresar(ActionEvent evento) {
+        
+        CerradorVentana.cerrarVentana(evento);
         
     }
 }

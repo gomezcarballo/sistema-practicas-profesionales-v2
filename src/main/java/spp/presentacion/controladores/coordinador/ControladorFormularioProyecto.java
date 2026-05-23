@@ -88,51 +88,59 @@ public class ControladorFormularioProyecto {
     @FXML
     private void leerDatosDeProyecto(){
         
-        if( sonCamposValidos() ){
-            
-            if( proyecto == null ){
-                
-                proyecto = new Proyecto();
-                
-            }
-            
-            String nombre = txtNombre.getText();
-            String descripcion = txtDescripcion.getText();
-            String nombreResponsable = txtNombreResponsable.getText();
-            int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
-
-            proyecto.setNombre(nombre);
-            proyecto.setDescripcion(descripcion);
-            proyecto.setNombreResponsable(nombreResponsable);
-            proyecto.setCupoMaximo(cupoMaximo);
-            proyecto.setOrganizacion(organizacion);
-                        
-            if(proyecto.getIdProyecto () > 0){
-                
-                actualizarProyecto(proyecto);
-                
-            }else {
-                
-                registrarProyecto(proyecto);
-                
-            }
-            
-        }else {
+        if(!sonCamposValidos()){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
         
+        if (!esCupoMaximo()){
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
+            "El cupo no es valido. Por favor ingresa un numero valido");
+            return;
+            
+        }
+        
+        if(proyecto == null){
+                
+            proyecto = new Proyecto();
+
+        }
+
+        String nombre = txtNombre.getText();
+        String descripcion = txtDescripcion.getText();
+        String nombreResponsable = txtNombreResponsable.getText();
+        int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
+
+        proyecto.setNombre(nombre);
+        proyecto.setDescripcion(descripcion);
+        proyecto.setNombreResponsable(nombreResponsable);
+        proyecto.setCupoMaximo(cupoMaximo);
+        proyecto.setOrganizacion(organizacion);
+
+        int idProyectoNoValido = 0;
+        
+        if(proyecto.getIdProyecto () > idProyectoNoValido){
+
+            actualizarProyecto(proyecto);
+
+        }else {
+
+            registrarProyecto(proyecto);
+
+        }
+
     }  
     
     @FXML
     private boolean sonCamposValidos(){
-
+        
         boolean sonCamposValidos = true; 
-
+        
         if(txtNombre.getText().isBlank() ||  txtDescripcion.getText().isBlank() || 
-            txtNombreResponsable.getText().isBlank() ||txtCupoMaximo.getText().isBlank()){
+           txtNombreResponsable.getText().isBlank() || txtCupoMaximo.getText().isBlank()){
             
             sonCamposValidos = false; 
 
@@ -142,7 +150,27 @@ public class ControladorFormularioProyecto {
         
     }   
     
-    @FXML 
+    @FXML    
+    private boolean esCupoMaximo(){
+        
+        boolean esCupoMaximo = true;
+        
+        int digitosMaximos = 10;
+        
+        String cupoMaximo = txtCupoMaximo.getText();
+        
+        if(cupoMaximo.length() > digitosMaximos ){
+            
+            esCupoMaximo = false;
+            
+        }
+        
+        return esCupoMaximo;
+    }
+    
+    
+    
+    @FXML
     private void registrarProyecto(Proyecto proyecto){
        
         try{

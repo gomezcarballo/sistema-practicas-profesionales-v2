@@ -4,8 +4,10 @@
  */
 package spp.presentacion.controladores.practicante;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
@@ -23,8 +25,14 @@ public class ControladorGenerarEvidenciaPracticas {
     @FXML 
     private void abrirAutoevaluacion(){
         
-        CargadorVentana cargadorVentana = new CargadorVentana();
-        cargadorVentana.cargarVentana("/fxml/GUI-FormularioAutoevaluacion.fxml", "Formulario Autoevaluacion");
+        CargadorVentana.cargarVentana("/fxml/VistaFormularioAutoevaluacion.fxml", "Formulario Autoevaluacion");
+        
+    }
+    
+    @FXML
+    public void regresar(ActionEvent evento) {
+        
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

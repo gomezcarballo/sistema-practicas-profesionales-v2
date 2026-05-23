@@ -121,6 +121,8 @@ public class ControladorSubirEvidenciaPracticas {
     
     @FXML
     private void cancelar(ActionEvent evento){
+        
         CerradorVentana.cerrarVentana(evento);
+        
     }
 }

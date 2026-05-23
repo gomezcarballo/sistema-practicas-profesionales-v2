@@ -24,6 +24,8 @@ public class ValidacionProyecto {
     private static final int LONGITUD_MAXIMA_DESCRIPCION = 100;
     
     private static final int LONGITUD_MAXIMA_RESPONSABLE = 50;
+    
+    private static final int CANTIDAD_MAXIMA_CUPO = 50;
 
     public void ingresarProyecto(Proyecto proyecto)throws ReglaDeNegocioExcepcion {
         
@@ -71,6 +73,7 @@ public class ValidacionProyecto {
         String nombre = proyecto.getNombre();
         String descripcion = proyecto.getDescripcion();
         String nombreResponsable = proyecto.getNombreResponsable();
+        int cupoMaximo = proyecto.getCupoMaximo();
         
         if(!(nombre.matches("^[\\p{L} ]+$"))){
             
@@ -86,26 +89,31 @@ public class ValidacionProyecto {
         
         if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
             
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_NOMBRE + "caracteres");
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_NOMBRE + " caracteres");
             
         }
         
         if(descripcion.length() > LONGITUD_MAXIMA_DESCRIPCION){
             
-            throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_DESCRIPCION + "caracteres");
+            throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_DESCRIPCION + " caracteres");
             
         }
         
         if(nombreResponsable.length() > LONGITUD_MAXIMA_RESPONSABLE){
             
-            throw new ReglaDeNegocioExcepcion("El nombre del Responsable excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_RESPONSABLE + "caracteres");
+            throw new ReglaDeNegocioExcepcion("El nombre del Responsable excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_RESPONSABLE + " caracteres");
             
         }
-
+        
+        if(cupoMaximo >= CANTIDAD_MAXIMA_CUPO){
+            
+            throw new ReglaDeNegocioExcepcion("El cupo excede el numero maximo de " + 
+            CANTIDAD_MAXIMA_CUPO + " lugares permitidos");
+            
+        }
         
     }
-    
 }

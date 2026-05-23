@@ -7,12 +7,14 @@ package spp.presentacion.menus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.presentacion.controladores.coordinador.ControladorFormularioProyecto;
 import spp.presentacion.controladores.coordinador.ControladorListaProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -67,7 +69,8 @@ public class ControladorSubMenuProyectos {
     @FXML
     private void abrirAsignarProyecto() {
     
-        CargadorVentana.cargarVentana("/fxml/VistaAsignacionProyecto.fxml", "Asignar a un Proyecto");
+        VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
+        "Funcionalidad no disponible. Intente en la proxima entrega");
         
     }
 
