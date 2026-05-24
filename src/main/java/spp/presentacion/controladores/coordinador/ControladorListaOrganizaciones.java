@@ -172,11 +172,37 @@ public class ControladorListaOrganizaciones {
     @FXML
     public void abrirInactivarOrganizacion(ActionEvent evento){
 
-        VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
-        "Funcionalidad no disponible. Intente en la proxima entrega");
+        Organizacion organizacionSeleccionada = obtenerOrganizacionSeleccionada();
+
+        if(organizacionSeleccionada == null){
+            return;
+        }
+
+        boolean confirmado = VentanaMensaje.mostrarConfirmacion("Confirmar inactivación",
+        "¿Desea inactivar la organización " + organizacionSeleccionada.getNombre() + "?"
+        + "\n Esta acción desactivará todos sus proyectos.");
+
+        if (confirmado) {
+
+            try {
+
+                gestorOrganizaciones.inactivarOrganizacion(organizacionSeleccionada.getIdOrganizacion());
+
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION,
+                "Organización inactivada", "La organización fue inactivada correctamente");
+
+                cargarOrganizaciones();
+
+            }catch (ReglaDeNegocioExcepcion e) {
+
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,
+                "Error al inactivar Organización", e.getMessage());
+
+            }
+        }
 
     }
-    
+
     @FXML
     public void regresar(ActionEvent evento) {
         

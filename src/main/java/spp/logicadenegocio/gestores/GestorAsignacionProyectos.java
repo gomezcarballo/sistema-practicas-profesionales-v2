@@ -13,6 +13,7 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class GestorAsignacionProyectos {
+    
     public void asignarProyecto( int idProyecto, int idUsuario) throws ReglaDeNegocioExcepcion {
 
         try {

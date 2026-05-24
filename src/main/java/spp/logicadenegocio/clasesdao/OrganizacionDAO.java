@@ -89,27 +89,27 @@ public class OrganizacionDAO implements IOrganizacionDAO{
     }
 
     @Override
-    public boolean eliminarOrganizacion(String nombre)throws OperacionesDeDaoExcepcion{
+    public boolean inactivarOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion{
         
-        boolean eliminacionExitosa = false;
+        boolean inactivacionExitosa = false;
 
-        String consultaSQL = "DELETE FROM Organizacion WHERE nombre = ?";
+        String consultaSQL = "UPDATE Organizacion SET estado = 0 WHERE idOrganizacion = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString (1, nombre );
+            consultaPreparada.setInt(1, idOrganizacion);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
             if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
+                inactivacionExitosa = true;
             }
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
 
-    return eliminacionExitosa; 
+    return inactivacionExitosa; 
 
     }
 

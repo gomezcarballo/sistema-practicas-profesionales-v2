@@ -6,8 +6,10 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import spp.logicadenegocio.clasesdao.OrganizacionDAO;
+import spp.logicadenegocio.clasesdao.ProyectoDAO;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.interfacesdao.IOrganizacionDAO;
+import spp.logicadenegocio.interfacesdao.IProyectoDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -18,10 +20,12 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class GestorOrganizaciones {
     
     private IOrganizacionDAO organizacionDAO;
+    private IProyectoDAO proyectoDAO;
 
     public GestorOrganizaciones(){
 
         organizacionDAO = new OrganizacionDAO();
+        proyectoDAO = new ProyectoDAO();
 
     }
 
@@ -37,6 +41,19 @@ public class GestorOrganizaciones {
             
         }
 
+    }
+
+    public void inactivarOrganizacion(int idOrganizacion)throws ReglaDeNegocioExcepcion{
+        
+        try{
+            
+            organizacionDAO.inactivarOrganizacion(idOrganizacion);
+            proyectoDAO.inactivarProyectosDeOrganizacion(idOrganizacion);
+            
+        }catch(OperacionesDeDaoExcepcion e){
+            
+            throw new ReglaDeNegocioExcepcion("No se pudo inactivar la organización");
+        }
     }
     
 }

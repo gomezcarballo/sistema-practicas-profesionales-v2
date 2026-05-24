@@ -104,12 +104,38 @@ public class ProyectoDAO implements IProyectoDAO {
         
         boolean inactivacionExitosa = false;
 
-        String consultaSQL = "UPDATE PROYECTO SET estado = 0 WHERE idProyecto = ?";
+        String consultaSQL = "UPDATE Proyecto SET estado = 0 WHERE idProyecto = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
             consultaPreparada.setInt(1, idProyecto);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                inactivacionExitosa = true;
+            }
+            
+        }catch(SQLException e){
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+
+    return inactivacionExitosa; 
+
+    }
+    
+    @Override
+    public boolean inactivarProyectosDeOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion {
+        
+        boolean inactivacionExitosa = false;
+
+        String consultaSQL = "UPDATE Proyecto SET estado = 0 WHERE Organizacion_idOrganizacion = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idOrganizacion);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
