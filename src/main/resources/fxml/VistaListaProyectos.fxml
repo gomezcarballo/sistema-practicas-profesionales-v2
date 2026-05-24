@@ -22,8 +22,10 @@
             <TableColumn fx:id="colCupoMaximo" prefWidth="107.19998779296873" text="Cupo Maximo" />
         </columns>
       </TableView>
-      <Label layoutX="190.0" layoutY="78.0" text="Seleccione un proyecto para ver sus detalles" />
-      <Button fx:id="btnVerDetalleProyecto" layoutX="175.0" layoutY="353.0" mnemonicParsing="false" onAction="#abrirDetalleProyecto" prefHeight="26.0" prefWidth="110.0" text="Ver detalle" />
-      <Button fx:id="btnRegresar" layoutX="335.0" layoutY="354.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="123.0" text="Regresar" />
+      <Label layoutX="190.0" layoutY="78.0" text="Seleccione un proyecto y escoja una acción" />
+      <Button fx:id="btnActualizarProyecto" layoutX="183.0" layoutY="353.0" mnemonicParsing="false" onAction="#abrirActualizarProyecto" prefHeight="26.0" prefWidth="110.0" text="Actualizar" />
+      <Button fx:id="btnRegresar" layoutX="436.0" layoutY="353.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="123.0" text="Regresar" />
+      <Button fx:id="btnVerDetalleProyecto" layoutX="54.0" layoutY="353.0" mnemonicParsing="false" onAction="#abrirDetalleProyecto" prefHeight="26.0" prefWidth="110.0" text="Ver detalle" />
+      <Button fx:id="btnInactivarProyecto" layoutX="313.0" layoutY="353.0" mnemonicParsing="false" onAction="#abrirInactivarProyecto" prefHeight="26.0" prefWidth="110.0" text="Inactivar" />
    </children>
 </AnchorPane>

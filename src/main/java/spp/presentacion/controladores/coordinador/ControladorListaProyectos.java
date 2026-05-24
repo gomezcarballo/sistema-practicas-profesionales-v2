@@ -102,18 +102,28 @@ public class ControladorListaProyectos {
 
     }
 
-    @FXML
-    private void abrirDetalleProyecto(){
+    private Proyecto obtenerProyectoSeleccionado() {
 
         Proyecto proyectoSeleccionado = tblListaProyectos.getSelectionModel().getSelectedItem();
 
-        if(proyectoSeleccionado == null){
+        if (proyectoSeleccionado == null) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
             "Debe seleccionar un proyecto");
 
-            return;
+        }
 
+        return proyectoSeleccionado;
+
+    }
+    
+    @FXML
+    private void abrirDetalleProyecto(){
+
+        Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
+
+        if(proyectoSeleccionado == null){
+            return;
         }
 
         FXMLLoader cargadorDetalleProyecto = CargadorVentana.cargarVentanaConControlador(
@@ -128,6 +138,35 @@ public class ControladorListaProyectos {
         }
 
     }
+    
+    @FXML
+    private void abrirActualizarProyecto(){
+        
+        Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
+
+        if(proyectoSeleccionado == null){
+            return;
+        }
+
+        FXMLLoader cargadorFormulario = CargadorVentana.cargarVentanaConControlador(
+        "/fxml/VistaFormularioProyecto.fxml", "Actualizar Proyecto");
+
+        if(cargadorFormulario != null){
+
+            ControladorFormularioProyecto controlador = cargadorFormulario.getController();
+            controlador.inicializarDatos(proyectoSeleccionado);
+
+        }
+
+    }
+    
+    @FXML
+    public void abrirInactivarProyecto(ActionEvent evento){
+
+        VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
+        "Funcionalidad no disponible. Intente en la proxima entrega");
+
+    }
 
     @FXML
     public void regresar(ActionEvent evento){
@@ -135,4 +174,5 @@ public class ControladorListaProyectos {
         CerradorVentana.cerrarVentana(evento);
 
     }
+    
 }

@@ -22,13 +22,16 @@
                   <TableColumn fx:id="colSector" prefWidth="194.39996337890625" text="Sector" />
                   <TableColumn fx:id="colDireccion" prefWidth="163.20001220703125" text="Direccion" />
                </columns></TableView>
-            <Button fx:id="btnVerDetalle" layoutX="121.0" layoutY="300.0" mnemonicParsing="false" onAction="#verDetalleOrganizacion" prefHeight="26.0" prefWidth="133.0" text="Ver detalle" />
-            <Label fx:id="lblInstruccion" layoutX="140.0" layoutY="58.0" text="Seleccione a una Organización para ver sus detalles">
+            <Button fx:id="btnActualizarOrganizacion" layoutX="234.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirActualizarOrganizacion" prefHeight="26.0" prefWidth="92.0" text="Actualizar" />
+            <Label fx:id="lblInstruccion" layoutX="140.0" layoutY="58.0" text="Seleccione una organización y escoja una acción">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="btnRegresar" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="122.0" text="Regresar" />
+            <Button fx:id="btnRegresar" layoutX="434.0" layoutY="300.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="83.0" text="Regresar" />
+            <Button fx:id="btnInactivarOrganizacion" layoutX="338.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirInactivarOrganizacion" prefHeight="26.0" prefWidth="83.0" text="Inactivar" />
+            <Button fx:id="btnVerMenuProyectos" layoutX="32.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirMenuProyectos" prefHeight="26.0" prefWidth="92.0" text="Ver proyectos" />
+            <Button fx:id="btnVerDetalleOrganizacion" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirDetalleOrganizacion" prefHeight="26.0" prefWidth="92.0" text="Ver detalle" />
          </children>
       </AnchorPane>
    </children>

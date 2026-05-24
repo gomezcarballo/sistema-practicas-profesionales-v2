@@ -24,14 +24,10 @@
             <Label fx:id="lblDireccion" layoutX="79.0" layoutY="161.0" text="Dirección:" />
             <Label fx:id="lblSector" layoutX="80.0" layoutY="199.0" text="Sector:" />
             
-            <TextField fx:id="txtNombre" layoutX="161.0" layoutY="120.0" prefHeight="26.0" prefWidth="179.0" />
-            <TextField fx:id="txtDireccion" layoutX="161.0" layoutY="157.0" prefHeight="26.0" prefWidth="179.0" />
-            <TextField fx:id="txtSector" layoutX="161.0" layoutY="194.0" prefHeight="26.0" prefWidth="179.0" />
-            
-            <Button fx:id="btnInactivarOrganizacion" layoutX="381.0" layoutY="133.0" mnemonicParsing="false" onAction="#abrirInactivarOrganizacion" prefHeight="26.0" prefWidth="142.0" text="Inactivar Organización" />
-            <Button fx:id="btnActualizarOrganizacion" layoutX="381.0" layoutY="181.0" mnemonicParsing="false" onAction="#abrirActualizarOrganizacion" text="Actualizar Organización" />
-            <Button fx:id="btnVerProyectos" layoutX="117.0" layoutY="270.0" mnemonicParsing="false" onAction="#verMenuProyectos" prefHeight="26.0" prefWidth="114.0" text="Ver proyectos" />
-            <Button fx:id="btnRegresar" layoutX="272.0" layoutY="270.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="114.0" text="Regresar" />
+            <TextField fx:id="txtNombre" layoutX="161.0" layoutY="120.0" prefHeight="26.0" prefWidth="304.0" />
+            <TextField fx:id="txtDireccion" layoutX="161.0" layoutY="157.0" prefHeight="26.0" prefWidth="304.0" />
+            <TextField fx:id="txtSector" layoutX="161.0" layoutY="194.0" prefHeight="26.0" prefWidth="304.0" />
+            <Button fx:id="btnRegresar" layoutX="215.0" layoutY="279.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="114.0" text="Regresar" />
             
          </children>
          

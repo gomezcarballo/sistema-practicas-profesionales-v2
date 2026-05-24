@@ -4,14 +4,13 @@
  */
 package spp.presentacion.controladores.coordinador;
 
-import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.validacionesInsercion.ValidacionProyecto;
@@ -54,15 +53,26 @@ public class ControladorFormularioProyecto {
         
         lblTituloFormulario.setText("Registrar Proyecto");
         btnGuardar.setText("Registrar");
-        
-        UnaryOperator<TextFormatter.Change> filtro = cambioEntero -> {
-            if (cambioEntero.getText().matches("[0-9]*")) {
-                return cambioEntero;
-            }
-            return null;
-        };
+                
+    }
+    
+    @FXML
+    private void validarCupoMaximo(KeyEvent evento) {
 
-        txtCupoMaximo.setTextFormatter(new TextFormatter<>(filtro));
+        
+        String texto = txtCupoMaximo.getText();
+
+        if (!texto.matches("[0-9]*")) {
+
+            texto = texto.replaceAll("[^0-9]", "");
+
+            txtCupoMaximo.setText(texto);
+            
+            txtCupoMaximo.positionCaret(texto.length());
+
+        }
+
+        
     }
     
     public void inicializarOrganizacion(Organizacion organizacion){
@@ -92,6 +102,7 @@ public class ControladorFormularioProyecto {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos");
+            return;
             
         }
         

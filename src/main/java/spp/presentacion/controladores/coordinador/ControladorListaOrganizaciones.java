@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.gestores.GestorOrganizaciones;
+import spp.presentacion.menus.ControladorSubMenuProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -89,18 +90,28 @@ public class ControladorListaOrganizaciones {
 
     }
     
-    @FXML
-    private void verDetalleOrganizacion() {
+    private Organizacion obtenerOrganizacionSeleccionada() {
 
         Organizacion organizacionSeleccionada = tblListaOrganizaciones.getSelectionModel().getSelectedItem();
 
-        if(organizacionSeleccionada == null) {
+        if (organizacionSeleccionada == null) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
             "Debe seleccionar una organización");
 
-            return;
+        }
 
+        return organizacionSeleccionada;
+
+    }
+    
+    @FXML
+    private void abrirDetalleOrganizacion() {
+
+        Organizacion organizacionSeleccionada = obtenerOrganizacionSeleccionada();
+
+        if(organizacionSeleccionada == null) {
+            return;
         }
 
         FXMLLoader cargadorDetalleOrganizacion = CargadorVentana.cargarVentanaConControlador
@@ -113,6 +124,56 @@ public class ControladorListaOrganizaciones {
             controlador.cargarOrganizacion(organizacionSeleccionada);
 
         }
+
+    }
+    
+    @FXML
+    private void abrirActualizarOrganizacion(){
+        
+        Organizacion organizacionSeleccionada = obtenerOrganizacionSeleccionada();
+
+        if(organizacionSeleccionada == null) {
+            return;
+        }
+
+        FXMLLoader cargadorFormulario = CargadorVentana.cargarVentanaConControlador
+        ("/fxml/VistaFormularioOrganizacion.fxml","Actualizar Organización");
+
+        if(cargadorFormulario != null){
+
+            ControladorFormularioOrganizacion controlador = cargadorFormulario.getController();
+            controlador.inicializarDatos(organizacionSeleccionada);
+
+        }
+
+    }   
+    
+    @FXML
+    private void abrirMenuProyectos(){
+        
+        Organizacion organizacionSeleccionada = obtenerOrganizacionSeleccionada();
+
+        if(organizacionSeleccionada == null) {
+            return;
+        }
+
+        FXMLLoader cargadorMenuProyectos = CargadorVentana.cargarVentanaConControlador
+        ("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos de" + organizacionSeleccionada.getNombre());
+
+        if(cargadorMenuProyectos != null){
+
+            ControladorSubMenuProyectos controlador = cargadorMenuProyectos.getController();
+            controlador.inicializarDatos(organizacionSeleccionada);
+
+        }
+    
+    }
+    
+    @FXML
+    public void abrirInactivarOrganizacion(ActionEvent evento){
+
+        VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
+        "Funcionalidad no disponible. Intente en la proxima entrega");
 
     }
     
