@@ -27,6 +27,19 @@ public class ControladorDetalleProyecto {
 
     @FXML
     private TextField txtCupoMaximo;
+    
+    @FXML
+    public void initialize() {
+
+        txtNombre.setEditable(false);
+
+        txtDescripcion.setEditable(false);
+
+        txtNombreResponsable.setEditable(false);
+
+        txtCupoMaximo.setEditable(false);
+        
+    }
 
     public void cargarProyecto(Proyecto proyecto){
 

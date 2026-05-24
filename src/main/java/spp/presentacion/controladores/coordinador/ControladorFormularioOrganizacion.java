@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
-import spp.logicadenegocio.validacionesInsercion.ValidacionOrganizacion;
+import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionOrganizacion;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -51,7 +51,7 @@ public class ControladorFormularioOrganizacion {
         
     }    
     
-        public void inicializarDatos(Organizacion organizacion){
+    public void inicializarDatos(Organizacion organizacion){
 
         this.organizacion = organizacion;
 
@@ -92,6 +92,7 @@ public class ControladorFormularioOrganizacion {
                 registrarOrganizacion(organizacion);
                 
             }
+            
         }else{
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 

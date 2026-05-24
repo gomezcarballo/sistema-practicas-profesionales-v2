@@ -30,18 +30,39 @@ public class GestorProyectos {
    public List<Proyecto> recuperarProyectosActivos(int idOrganizacion) throws ReglaDeNegocioExcepcion{
        
        try{
+           
            return proyectoDAO.obtenerProyectosActivos(idOrganizacion);
+           
        }catch(OperacionesDeDaoExcepcion e){
+           
            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos activos");
+           
        }
    }
    
    public List<Proyecto> recuperarProyectosSolicitados(int idUsuario) throws ReglaDeNegocioExcepcion{
        
        try{
+           
            return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
+           
        }catch(OperacionesDeDaoExcepcion e){
+           
            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos solicitados");
+           
+       }
+   }
+   
+   public void inactivarProyecto(int idProyecto)throws ReglaDeNegocioExcepcion {
+       
+       try{
+           
+          proyectoDAO.inactivarProyecto(idProyecto);  
+          
+       }catch(OperacionesDeDaoExcepcion e){
+           
+           throw new ReglaDeNegocioExcepcion("No se pudo inactivar el proyecto");
+           
        }
    }
    

@@ -15,7 +15,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public interface IProyectoDAO {
     public boolean insertarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion;
     public Proyecto consultarProyecto(String nombre)throws OperacionesDeDaoExcepcion;
-    public boolean eliminarProyecto(String nombre)throws OperacionesDeDaoExcepcion;
+    public boolean inactivarProyecto(int idProyecto)throws OperacionesDeDaoExcepcion;
     public boolean actualizarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion;
     public List<Proyecto> obtenerProyectosActivos(int idOrganizacion)throws OperacionesDeDaoExcepcion;
 }

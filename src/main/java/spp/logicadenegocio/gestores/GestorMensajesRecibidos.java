@@ -26,9 +26,13 @@ public class GestorMensajesRecibidos {
     public List<Mensaje> consultarMensajesRecibidos(int idUsuario)throws ReglaDeNegocioExcepcion{
         
         try{
+            
            return mensajeDAO.consultarMensajesPorDestinatario(idUsuario);
+           
        }catch(OperacionesDeDaoExcepcion e){
+           
            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los mensajes");
+           
        }
         
     }

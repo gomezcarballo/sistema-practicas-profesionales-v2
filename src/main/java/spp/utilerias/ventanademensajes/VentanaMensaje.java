@@ -4,8 +4,10 @@
  */
 package spp.utilerias.ventanademensajes;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -21,6 +23,18 @@ public class VentanaMensaje {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
         
+    }
+    
+    public static boolean mostrarConfirmacion(String titulo, String mensaje) {
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        Optional<ButtonType> resultado = alerta.showAndWait();
+
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+
     }
     
 }

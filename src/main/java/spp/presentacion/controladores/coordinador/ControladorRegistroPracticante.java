@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.logicadenegocio.validacionesInsercion.ValidacionPracticante;
+import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionPracticante;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;

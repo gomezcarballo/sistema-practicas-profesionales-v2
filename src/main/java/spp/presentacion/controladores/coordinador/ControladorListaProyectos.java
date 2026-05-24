@@ -163,10 +163,36 @@ public class ControladorListaProyectos {
     @FXML
     public void abrirInactivarProyecto(ActionEvent evento){
 
-        VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
-        "Funcionalidad no disponible. Intente en la proxima entrega");
+        Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
+        
+        if(proyectoSeleccionado == null){
+            return;
+        }
+        
+        boolean confirmado = VentanaMensaje.mostrarConfirmacion("Confirmar inactivación",
+        "¿Desea inactivar el proyecto " + proyectoSeleccionado.getNombre() + "?");
 
-    }
+        if (confirmado) {
+            
+            try {
+
+            gestorProyectos.inactivarProyecto(proyectoSeleccionado.getIdProyecto());
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION,
+            "Proyecto inactivado", "El proyecto fue inactivado correctamente");
+
+            cargarProyectos();
+
+            }catch (ReglaDeNegocioExcepcion e) {
+
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,
+                "Error al inactivar Proyecto", e.getMessage());
+
+            }
+            
+        }
+
+    }   
 
     @FXML
     public void regresar(ActionEvent evento){

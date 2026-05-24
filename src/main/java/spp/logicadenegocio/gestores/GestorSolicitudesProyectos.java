@@ -47,7 +47,9 @@ public class GestorSolicitudesProyectos {
     private void validarSolicitudes(List<Proyecto> proyectosSeleccionados) throws ReglaDeNegocioExcepcion {
 
         if(proyectosSeleccionados.size() != NUMERO_SOLICITUDES) {
+            
             throw new ReglaDeNegocioExcepcion("Debe seleccionar exactamente 3 proyectos");
+            
         }
         
     }

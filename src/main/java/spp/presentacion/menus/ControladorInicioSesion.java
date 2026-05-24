@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import spp.logicadenegocio.validacionesInicioSesion.ValidacionInicioDeSesion;
+import spp.logicadenegocio.validaciones.validacionesInicioSesion.ValidacionInicioDeSesion;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;

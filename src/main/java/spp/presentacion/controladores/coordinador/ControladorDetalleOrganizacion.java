@@ -25,6 +25,17 @@ public class ControladorDetalleOrganizacion {
 
     @FXML
     private TextField txtSector;
+    
+    @FXML
+    public void initialize() {
+
+        txtNombre.setEditable(false);
+
+        txtDireccion.setEditable(false);
+
+        txtSector.setEditable(false);
+
+    }
 
     public void cargarOrganizacion(Organizacion organizacion){
 

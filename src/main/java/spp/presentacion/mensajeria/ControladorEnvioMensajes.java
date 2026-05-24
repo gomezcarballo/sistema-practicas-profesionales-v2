@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Mensaje;
-import spp.logicadenegocio.validacionenviomensajes.ValidacionEnvioMensaje;
+import spp.logicadenegocio.validaciones.validacionenviomensajes.ValidacionEnvioMensaje;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;

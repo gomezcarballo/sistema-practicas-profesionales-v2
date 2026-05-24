@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
-import spp.logicadenegocio.validacionesInsercion.ValidacionCoordinador;
+import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionCoordinador;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;

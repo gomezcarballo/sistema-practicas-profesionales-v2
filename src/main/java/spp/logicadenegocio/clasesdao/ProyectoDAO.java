@@ -100,28 +100,28 @@ public class ProyectoDAO implements IProyectoDAO {
 
 
     @Override
-    public boolean eliminarProyecto(String nombre)throws OperacionesDeDaoExcepcion {
+    public boolean inactivarProyecto(int idProyecto)throws OperacionesDeDaoExcepcion {
         
-        boolean eliminacionExitosa = false;
+        boolean inactivacionExitosa = false;
 
-        String consultaSQL = "DELETE FROM PROYECTO WHERE nombre = ?";
+        String consultaSQL = "UPDATE PROYECTO SET estado = 0 WHERE idProyecto = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, nombre);
+            consultaPreparada.setInt(1, idProyecto);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
             if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
+                inactivacionExitosa = true;
             }
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
 
-    return eliminacionExitosa; 
+    return inactivacionExitosa; 
 
     }
 

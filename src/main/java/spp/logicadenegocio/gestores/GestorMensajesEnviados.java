@@ -26,9 +26,13 @@ public class GestorMensajesEnviados {
     public List<Mensaje> consultarMensajesEnviados(int idUsuario)throws ReglaDeNegocioExcepcion{
         
         try{
+            
            return mensajeDAO.consultarMensajesEnviados(idUsuario);
+           
         }catch(OperacionesDeDaoExcepcion e){
+            
            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los mensajes");
+           
         }
         
     }
