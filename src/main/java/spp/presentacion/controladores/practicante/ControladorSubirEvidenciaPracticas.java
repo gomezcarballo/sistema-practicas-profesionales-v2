@@ -122,6 +122,8 @@ public class ControladorSubirEvidenciaPracticas {
     @FXML
     private void cancelar(ActionEvent evento){
         
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
+        "Menú Principal para Practicante");
         CerradorVentana.cerrarVentana(evento);
         
     }

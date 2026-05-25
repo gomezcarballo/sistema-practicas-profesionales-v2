@@ -11,6 +11,7 @@ import spp.logicadenegocio.enums.TipoDocumento;
 import spp.presentacion.documentos.ControladorDocumentos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
@@ -20,6 +21,7 @@ public class ControladorMenuPrincipalProfesor {
 
     @FXML
     private void agregarFormatoPresentacion() {
+        
        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
         "Subir Documento");
         

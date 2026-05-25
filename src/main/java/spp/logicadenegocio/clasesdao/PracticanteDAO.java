@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.logicadenegocio.interfacesdao.IPracticanteDAO;
@@ -51,62 +53,72 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     }
      
     @Override
-    public Practicante consultarPracticante(String matricula)throws OperacionesDeDaoExcepcion{
+    public List<Practicante> consultarPracticantes()throws OperacionesDeDaoExcepcion {
 
-        Practicante practicante = null;
-        
-        String consultaSQL = "SELECT idUsuario, matricula, genero, lenguaIndigena, "
-                + "fechaNacimiento FROM Practicante WHERE matricula = ?";
-        
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
-            
-            consultaPreparada.setString(1, matricula);
+        List<Practicante> practicantes = new ArrayList<>();
 
-            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
-
-            if (resultadosConsulta.next()) {
-
-                practicante = new Practicante();
-
-                practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
-                practicante.setMatricula(resultadosConsulta.getString("matricula"));
-                practicante.setGenero(resultadosConsulta.getString("genero"));
-                practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
-                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
-
-            }
-
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
-        }
-
-    return practicante;
-    
-    }
-
-    @Override
-    public boolean eliminarPracticante(String matricula)throws OperacionesDeDaoExcepcion {
-        
-        boolean eliminacionExitosa = false;
-
-        String consultaSQL = "DELETE FROM Practicante WHERE matricula = ?";
+        String consultaSQL = "SELECT u.idUsuario, u.nombre, u.apellidoPaterno, "
+            + "u.apellidoMaterno, u.correoInstitucional, "
+            + "p.matricula, p.genero, p.lenguaIndigena, "
+            + "p.fechaNacimiento "
+            + "FROM Practicante p "
+            + "INNER JOIN Usuario u "
+            + "ON p.idUsuario = u.idUsuario "
+            + "WHERE u.estado = 1";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, matricula);
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+
+            while(resultadosConsulta.next()) {
+
+                Practicante practicante = new Practicante();
+                practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                practicante.setNombre(resultadosConsulta.getString("nombre"));
+                practicante.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                practicante.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                practicante.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
+                practicante.setMatricula(resultadosConsulta.getString("matricula"));
+                practicante.setGenero(resultadosConsulta.getString("genero"));
+                practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
+                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
+                
+                practicantes.add(practicante);
+            }
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+
+        }
+
+    return practicantes;
+    
+    }
+
+    @Override
+    public boolean inactivarPracticante(int idUsuario)throws OperacionesDeDaoExcepcion {
+        
+        boolean inactivacionExitosa = false;
+
+        String consultaSQL = "UPDATE Practicante SET estado = 0 WHERE idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
             if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
+                inactivacionExitosa = true;
             }
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
 
-    return eliminacionExitosa; 
+    return inactivacionExitosa; 
 
     }
 

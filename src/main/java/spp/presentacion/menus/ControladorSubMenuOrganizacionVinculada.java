@@ -5,10 +5,8 @@
 package spp.presentacion.menus;
 
 
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 
@@ -18,9 +16,7 @@ import spp.utilerias.cerradordeventanas.CerradorVentana;
  * @author Luz Fernanda H J
  */
 public class ControladorSubMenuOrganizacionVinculada {
-    
-    private static final Logger bitacora = Logger.getLogger(ControladorMenu.class.getName());
-    
+        
     @FXML
     private void abrirRegistroOrganizacionVinculada() {
         
@@ -29,15 +25,18 @@ public class ControladorSubMenuOrganizacionVinculada {
     }
     
     @FXML
-    private void abrirConsultarOrganizaciones(){
+    private void abrirConsultarOrganizaciones(ActionEvent evento){
         
-        CargadorVentana.cargarVentanaConControlador( "/fxml/VistaListaOrganizaciones.fxml","Lista de Proyectos");
+        CargadorVentana.cargarVentana( "/fxml/VistaListaOrganizaciones.fxml","Lista de Organizaciones");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalCoordinador.fxml",
+        "Menú Principal para Coordinador");
         CerradorVentana.cerrarVentana(evento);
         
     }

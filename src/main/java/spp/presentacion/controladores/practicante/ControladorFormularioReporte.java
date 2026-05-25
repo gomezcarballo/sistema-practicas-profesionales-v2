@@ -16,6 +16,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
 import spp.logicadenegocio.validaciones.validacionesDocumentos.ValidacionesReporteParcial;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -65,7 +66,7 @@ public class ControladorFormularioReporte {
     }
     
     @FXML
-    private void leerDatosDeReporte(){
+    private void leerDatosDeReporte(ActionEvent evento){
         
         if(camposValidos()){
             
@@ -87,7 +88,7 @@ public class ControladorFormularioReporte {
             reporteParcial.setFechaTermino(fechaTermino);
             reporteParcial.setTipoReporte(tipoReporte);
             
-            generarReporte(reporteParcial);
+            generarReporte(reporteParcial, evento);
             
         }else {
             
@@ -117,7 +118,7 @@ public class ControladorFormularioReporte {
     }
     
     @FXML 
-    private void generarReporte(ReporteParcial reporteParcial){
+    private void generarReporte(ReporteParcial reporteParcial, ActionEvent evento){
         
         try{
             
@@ -127,11 +128,14 @@ public class ControladorFormularioReporte {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Reporte generado", 
             "Reporte generado correctamente.");
             
+            CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
+            CerradorVentana.cerrarVentana(evento);
+            
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Generar reporte fallido", 
             e.getMessage());
-            
+
         }
         
     }
@@ -139,6 +143,7 @@ public class ControladorFormularioReporte {
    @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
         CerradorVentana.cerrarVentana(evento);
         
     }

@@ -46,13 +46,14 @@ public class ControladorSubMenuProyectos {
             ControladorFormularioProyecto controlador = cargadorFormularioProyecto.getController();
 
             controlador.inicializarOrganizacion(organizacion);
+            
 
         }
 
     }
 
     @FXML
-    private void abrirconsultarProyectos(){
+    private void abrirconsultarProyectos(ActionEvent evento){
 
         FXMLLoader cargadorListaProyectos = CargadorVentana.cargarVentanaConControlador(
         "/fxml/VistaListaProyectos.fxml","Lista de Proyectos");
@@ -61,22 +62,27 @@ public class ControladorSubMenuProyectos {
 
             ControladorListaProyectos controlador = cargadorListaProyectos.getController();
             controlador.inicializarDatos(organizacion);
+            
+            CerradorVentana.cerrarVentana(evento);
 
         }
 
     }
     
     @FXML
-    private void abrirAsignarProyecto() {
+    private void abrirAsignarProyecto(ActionEvent evento) {
     
         VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
         "Funcionalidad no disponible. Intente en la proxima entrega");
+        
+        CerradorVentana.cerrarVentana(evento);
         
     }
 
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana( "/fxml/VistaListaOrganizaciones.fxml", "Lista de Organizaciones");
         CerradorVentana.cerrarVentana(evento);
         
     }

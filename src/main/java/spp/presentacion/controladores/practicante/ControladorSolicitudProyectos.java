@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -108,7 +109,7 @@ public class ControladorSolicitudProyectos {
     private void solicitarProyectos(ActionEvent evento) {
 
         List<Proyecto> proyectosSeleccionados = obtenerProyectosSeleccionados();
-        registrarSolicitudesSeleccionadas(proyectosSeleccionados);
+        registrarSolicitudesSeleccionadas(proyectosSeleccionados, evento);
 
     }
     
@@ -128,7 +129,7 @@ public class ControladorSolicitudProyectos {
     }
     
     
-    private void registrarSolicitudesSeleccionadas(List<Proyecto> proyectosSeleccionados) {
+    private void registrarSolicitudesSeleccionadas(List<Proyecto> proyectosSeleccionados, ActionEvent evento) {
 
         try {
                      
@@ -136,6 +137,10 @@ public class ControladorSolicitudProyectos {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
             "Las solicitudes se registraron correctamente");
+            
+            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
+            "Menú Principal para Practicante");
+            CerradorVentana.cerrarVentana(evento);
 
         } catch (ReglaDeNegocioExcepcion e) {
 
@@ -147,6 +152,8 @@ public class ControladorSolicitudProyectos {
     @FXML
     public void cancelar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
+        "Menú Principal para Practicante");
         CerradorVentana.cerrarVentana(evento);
         
     }

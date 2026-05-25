@@ -17,21 +17,25 @@ public class ControladorGenerarEvidenciaPracticas {
     
     
     @FXML 
-    private void abrirReportes(){
+    private void abrirReportes(ActionEvent evento){
         
         CargadorVentana.cargarVentana("/fxml/VistaFormularioReporte.fxml", "Formulario de Reporte");       
-
+        CerradorVentana.cerrarVentana(evento);
+        
     }
     @FXML 
-    private void abrirAutoevaluacion(){
+    private void abrirAutoevaluacion(ActionEvent evento){
         
         CargadorVentana.cargarVentana("/fxml/VistaFormularioAutoevaluacion.fxml", "Formulario Autoevaluacion");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
+        "Menú Principal para Practicante");
         CerradorVentana.cerrarVentana(evento);
         
     }

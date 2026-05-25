@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
+import spp.presentacion.menus.ControladorSubMenuProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -118,7 +119,7 @@ public class ControladorListaProyectos {
     }
     
     @FXML
-    private void abrirDetalleProyecto(){
+    private void abrirDetalleProyecto(ActionEvent evento){
 
         Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
 
@@ -133,7 +134,9 @@ public class ControladorListaProyectos {
 
             ControladorDetalleProyecto controlador = cargadorDetalleProyecto.getController();
 
-            controlador.cargarProyecto(proyectoSeleccionado);
+            controlador.cargarProyecto(proyectoSeleccionado, organizacion);
+            
+            CerradorVentana.cerrarVentana(evento);
 
         }
 
@@ -154,7 +157,7 @@ public class ControladorListaProyectos {
         if(cargadorFormulario != null){
 
             ControladorFormularioProyecto controlador = cargadorFormulario.getController();
-            controlador.inicializarDatos(proyectoSeleccionado);
+            controlador.inicializarDatos(proyectoSeleccionado, organizacion);
 
         }
 
@@ -196,8 +199,18 @@ public class ControladorListaProyectos {
 
     @FXML
     public void regresar(ActionEvent evento){
+        
+        FXMLLoader cargadorSubMenu = CargadorVentana.cargarVentanaConControlador
+        ("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos");
 
-        CerradorVentana.cerrarVentana(evento);
+        if(cargadorSubMenu != null){
+
+            ControladorSubMenuProyectos controlador = cargadorSubMenu.getController();
+
+            controlador.inicializarDatos(organizacion);
+
+            CerradorVentana.cerrarVentana(evento);
+        }
 
     }
     

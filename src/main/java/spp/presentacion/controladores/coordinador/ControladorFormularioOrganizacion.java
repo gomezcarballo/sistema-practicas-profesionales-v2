@@ -7,6 +7,7 @@ package spp.presentacion.controladores.coordinador;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionOrganizacion;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -65,7 +67,7 @@ public class ControladorFormularioOrganizacion {
     }
     
     @FXML
-    private void leerDatosDeOrganizacion(){
+    private void leerDatosDeOrganizacion(ActionEvent evento){
         
         if(camposValidos()){
             
@@ -85,11 +87,11 @@ public class ControladorFormularioOrganizacion {
         
             if(organizacion.getIdOrganizacion() > 0){
             
-                actualizarOrganizacion(organizacion);
+                actualizarOrganizacion(organizacion, evento);
                 
             }else{  
                 
-                registrarOrganizacion(organizacion);
+                registrarOrganizacion(organizacion, evento);
                 
             }
             
@@ -116,7 +118,7 @@ public class ControladorFormularioOrganizacion {
     }
     
     @FXML 
-    private void registrarOrganizacion(Organizacion organizacion){
+    private void registrarOrganizacion(Organizacion organizacion, ActionEvent evento){
         
         try{
             
@@ -126,16 +128,18 @@ public class ControladorFormularioOrganizacion {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Organización registrada correctamente");
             
+            CerradorVentana.cerrarVentana(evento);
+            
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
-            
+                        
         }
     }
     
     @FXML
-    private void actualizarOrganizacion(Organizacion organizacion){
+    private void actualizarOrganizacion(Organizacion organizacion, ActionEvent evento){
 
         try{
 
@@ -144,11 +148,18 @@ public class ControladorFormularioOrganizacion {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa",
             "Organización actualizada correctamente");
+            
+            CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaOrganizaciones.fxml",
+            "Lista de Organizaciones");
+            
+            CerradorVentana.cerrarVentana(evento);
+
 
         }catch(ReglaDeNegocioExcepcion e){
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Actualización fallida",
             e.getMessage());
+            
 
         }
 

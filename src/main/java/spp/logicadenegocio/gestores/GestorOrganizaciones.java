@@ -22,17 +22,11 @@ public class GestorOrganizaciones {
     private IOrganizacionDAO organizacionDAO;
     private IProyectoDAO proyectoDAO;
 
-    public GestorOrganizaciones(){
-
-        organizacionDAO = new OrganizacionDAO();
-        proyectoDAO = new ProyectoDAO();
-
-    }
-
     public List<Organizacion> recuperarOrganizacionesActivas() throws ReglaDeNegocioExcepcion{
 
         try{
-
+            
+            organizacionDAO = new OrganizacionDAO();
             return organizacionDAO.obtenerOrganizacionesActivas();
 
         }catch(OperacionesDeDaoExcepcion e){
@@ -47,6 +41,8 @@ public class GestorOrganizaciones {
         
         try{
             
+            organizacionDAO = new OrganizacionDAO();
+            proyectoDAO = new ProyectoDAO();
             organizacionDAO.inactivarOrganizacion(idOrganizacion);
             proyectoDAO.inactivarProyectosDeOrganizacion(idOrganizacion);
             

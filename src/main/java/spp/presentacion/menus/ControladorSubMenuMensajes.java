@@ -53,23 +53,26 @@ public class ControladorSubMenuMensajes {
     }
     
     @FXML
-    private void abrirMensajesRecibidos(){
+    private void abrirMensajesRecibidos(ActionEvent evento){
         
          abrirMensajes(TipoMensaje.RECIBIDOS, "Mensajes Recibidos");
+         CerradorVentana.cerrarVentana(evento);
         
     }
     
     @FXML
-    private void abrirMensajesEnviados(){
+    private void abrirMensajesEnviados(ActionEvent evento){
         
         abrirMensajes(TipoMensaje.ENVIADOS, "Mensajes Enviados");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     
     @FXML
-    private void abrirEnvioMensaje(){
+    private void abrirEnvioMensaje(ActionEvent evento){
         
         CargadorVentana.cargarVentana("/fxml/VistaEnvioMensajes.fxml", "Enviar Mensaje");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

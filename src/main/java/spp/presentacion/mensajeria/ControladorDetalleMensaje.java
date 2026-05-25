@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.formatofechas.FormatoFechas;
 
 /**
  *
@@ -63,12 +64,14 @@ public class ControladorDetalleMensaje {
             txtCorreo.setText(mensaje.getCorreoDestinatario());
             
         }
-
-        txtFecha.setText(mensaje.getFecha().toString());
-
+        
+        txtFecha.setText(FormatoFechas.formatearFechaHora(mensaje.getFecha()));
+        
         taCuerpo.setText(mensaje.getCuerpo());
         
     }
+    
+    
     
     @FXML
     public void regresar(ActionEvent evento) {

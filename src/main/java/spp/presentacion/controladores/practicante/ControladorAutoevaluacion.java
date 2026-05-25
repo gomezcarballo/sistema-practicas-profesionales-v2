@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -41,11 +42,11 @@ public class ControladorAutoevaluacion {
     
     
     @FXML
-    private void leerDatosDeAutoevaluacion(){
+    private void leerDatosDeAutoevaluacion(ActionEvent evento){
         
         if(camposValidos()){
             
-            generarAutoevaluacion();
+            generarAutoevaluacion(evento);
             
         }else {
             
@@ -65,7 +66,7 @@ public class ControladorAutoevaluacion {
     }
     
     @FXML 
-    private void generarAutoevaluacion(){
+    private void generarAutoevaluacion(ActionEvent evento){
         VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
             "Funcionalidad no disponible. Intente en la proxima entrega");
 
@@ -74,6 +75,7 @@ public class ControladorAutoevaluacion {
    @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
         CerradorVentana.cerrarVentana(evento);
         
     }

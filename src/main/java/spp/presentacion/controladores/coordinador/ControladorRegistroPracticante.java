@@ -14,6 +14,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionPracticante;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -58,7 +59,7 @@ public class ControladorRegistroPracticante {
     }
     
     @FXML
-    private void leerDatosDePracticante(){
+    private void leerDatosDePracticante(ActionEvent evento){
         
         if(sonCamposValidos()){
             
@@ -83,7 +84,7 @@ public class ControladorRegistroPracticante {
             practicante.setFechaNacimiento(fechaNacimiento);
             practicante.setHablaLenguaIndigena(lenguaIndigena);
             
-            registrarPracticante(practicante);
+            registrarPracticante(practicante, evento);
         
         }else {
             
@@ -110,7 +111,7 @@ public class ControladorRegistroPracticante {
         
         if(txtApellidoMaterno.getText().isBlank()){
             
-            txtApellidoMaterno.setText(null);
+            txtApellidoMaterno.setText("");
             
         }
         
@@ -119,7 +120,7 @@ public class ControladorRegistroPracticante {
     }
    
    @FXML 
-   private void registrarPracticante(Practicante practicante){
+   private void registrarPracticante(Practicante practicante, ActionEvent evento){
        
         try{
             
@@ -129,11 +130,14 @@ public class ControladorRegistroPracticante {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Practicante registrado correctamente");
             
+            CargadorVentana.cargarVentana("/fxml/VistaSubMenuPracticantes.fxml", "Menu de Practicantes");
+            CerradorVentana.cerrarVentana(evento);
+            
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
-            
+
         }
         
    }
@@ -141,6 +145,7 @@ public class ControladorRegistroPracticante {
    @FXML
     public void cancelar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaSubMenuPracticantes.fxml", "Menu de Practicantes");
         CerradorVentana.cerrarVentana(evento);
         
     }

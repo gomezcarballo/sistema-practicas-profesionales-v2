@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionProfesor;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -36,7 +37,7 @@ public class ControladorRegistroProfesor {
     private TextField txtNumeroPersonal;
        
     @FXML
-    private void leerDatosDelProfesor(){
+    private void leerDatosDelProfesor(ActionEvent evento){
         
         if(camposValidos()){
             
@@ -53,7 +54,7 @@ public class ControladorRegistroProfesor {
             profesor.setCorreoInstitucional(correoInstitucional);
             profesor.setNumeroDePersonal(numeroPersonal);
 
-            registrarProfesor(profesor);
+            registrarProfesor(profesor, evento);
         
         }else{
             
@@ -77,7 +78,7 @@ public class ControladorRegistroProfesor {
         
         if(txtApellidoMaterno.getText().isBlank()){
             
-            txtApellidoMaterno.setText(null);
+            txtApellidoMaterno.setText("");
             
         }
         
@@ -85,7 +86,7 @@ public class ControladorRegistroProfesor {
     }
     
     @FXML 
-    private void registrarProfesor(Profesor profesor){
+    private void registrarProfesor(Profesor profesor, ActionEvent evento){
                 
         try{
             
@@ -94,19 +95,24 @@ public class ControladorRegistroProfesor {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Profesor registrado exitosamente");
-            
+                       
+            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
+            "Menu Principal para Administrador");
+            CerradorVentana.cerrarVentana(evento);
             
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
-            
+                        
         }
     }
     
     @FXML
     public void cancelar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
+        "Menu Principal para Administrador");
         CerradorVentana.cerrarVentana(evento);
         
     }

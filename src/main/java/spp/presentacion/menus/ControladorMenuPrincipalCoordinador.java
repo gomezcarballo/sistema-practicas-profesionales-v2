@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
@@ -16,30 +17,26 @@ import spp.utilerias.cerradordesesion.CerradorSesion;
 public class ControladorMenuPrincipalCoordinador {
        
     @FXML
-    private void abrirSubMenuProyectos() {
-        
-        CargadorVentana.cargarVentana("/fxml/VistaSubMenuProyectos.fxml", "Menu de Proyectos");
-        
-    }
-    
-    @FXML
-    private void abrirSubMenuPracticantes() {
+    private void abrirSubMenuPracticantes(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaSubMenuPracticantes.fxml", "Menu de Practicantes");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     
     @FXML
-    private void abrirSubMenuOrganizacionVinculada() {
+    private void abrirSubMenuOrganizacionVinculada(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaSubMenuOrganizacionVinculada.fxml", "Menu de Organizaciones Vinculadas");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     
     @FXML
-    private void abrirReporteIndicadores() {
+    private void abrirReporteIndicadores(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaReporteIndicadores", "Reporte de Indicadores");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

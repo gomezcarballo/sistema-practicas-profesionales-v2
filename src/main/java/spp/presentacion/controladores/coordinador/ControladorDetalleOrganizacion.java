@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 
@@ -48,6 +49,7 @@ public class ControladorDetalleOrganizacion {
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaOrganizaciones.fxml","Lista de Organizaciones");
         CerradorVentana.cerrarVentana(evento);
         
     }    

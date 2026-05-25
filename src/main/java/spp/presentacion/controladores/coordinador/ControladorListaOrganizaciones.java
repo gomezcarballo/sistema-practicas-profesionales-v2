@@ -84,7 +84,7 @@ public class ControladorListaOrganizaciones {
         } catch(ReglaDeNegocioExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar organizaciones",
-                    "Hubo un error al recuperar las organizaciones");
+            "Hubo un error al recuperar las organizaciones");
 
         }
 
@@ -106,7 +106,7 @@ public class ControladorListaOrganizaciones {
     }
     
     @FXML
-    private void abrirDetalleOrganizacion() {
+    private void abrirDetalleOrganizacion(ActionEvent evento) {
 
         Organizacion organizacionSeleccionada = obtenerOrganizacionSeleccionada();
 
@@ -120,8 +120,8 @@ public class ControladorListaOrganizaciones {
         if(cargadorDetalleOrganizacion != null){
 
             ControladorDetalleOrganizacion controlador = cargadorDetalleOrganizacion.getController();
-
             controlador.cargarOrganizacion(organizacionSeleccionada);
+            CerradorVentana.cerrarVentana(evento);
 
         }
 
@@ -149,7 +149,7 @@ public class ControladorListaOrganizaciones {
     }   
     
     @FXML
-    private void abrirMenuProyectos(){
+    private void abrirMenuProyectos(ActionEvent evento){
         
         Organizacion organizacionSeleccionada = obtenerOrganizacionSeleccionada();
 
@@ -164,6 +164,7 @@ public class ControladorListaOrganizaciones {
 
             ControladorSubMenuProyectos controlador = cargadorMenuProyectos.getController();
             controlador.inicializarDatos(organizacionSeleccionada);
+            CerradorVentana.cerrarVentana(evento);
 
         }
     
@@ -206,6 +207,8 @@ public class ControladorListaOrganizaciones {
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuOrganizacionVinculada.fxml", 
+        "Menu de Organizaciones Vinculadas");
         CerradorVentana.cerrarVentana(evento);
         
     }

@@ -6,8 +6,6 @@ package spp.pruebasclasesdao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -56,19 +54,6 @@ public class PruebaPracticanteDAO {
         boolean registroExitoso = practicanteDao.insertarPracticante(practicante);
         assertTrue(registroExitoso);
         
-    }
-    
-    @After
-    public void eliminarUsuario()throws OperacionesDeDaoExcepcion{
-        if(idUsuario < 0){
-            
-           PracticanteDAO practicanteDao = new PracticanteDAO();
-           UsuarioDAO usuarioDao = new UsuarioDAO();
-           practicanteDao.eliminarPracticante("zS2401");
-           usuarioDao.eliminarUsuario(idUsuario);
-           System.out.println("Usuario y practicante de prueba eliminados");
-           
-        }
     }
     
 }

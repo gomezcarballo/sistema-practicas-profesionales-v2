@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
@@ -16,23 +17,27 @@ import spp.utilerias.cerradordesesion.CerradorSesion;
 public class ControladorMenuPrincipalPracticante {
     
     @FXML
-    private void abrirGenerarEvidenciaPracticas(){
+    private void abrirGenerarEvidenciaPracticas(ActionEvent evento){
         
         CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
+        CerradorVentana.cerrarVentana(evento);
         
     }
         
     @FXML
-    private void abrirAnadirEvidenciaPracticas(){
+    private void abrirAnadirEvidenciaPracticas(ActionEvent evento){
         
        CargadorVentana.cargarVentana("/fxml/VistaSubirEvidenciaPracticas.fxml", "Subir Evidencias de Practicas");
+       CerradorVentana.cerrarVentana(evento);
+       
     }
     
 
     @FXML
-    private void abrirSolicitarProyecto() {
+    private void abrirSolicitarProyecto(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaSolicitudProyectos.fxml", "Solicitar proyecto");
+        CerradorVentana.cerrarVentana(evento);
         
     }
     

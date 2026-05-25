@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.validaciones.validacionenviomensajes.ValidacionEnvioMensaje;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -31,7 +32,7 @@ public class ControladorEnvioMensajes {
     private TextArea taCuerpoMensaje;
     
     @FXML
-    private void leerDatosMensaje(){
+    private void leerDatosMensaje(ActionEvent evento){
         
         if(sonCamposValidos()){
             
@@ -44,7 +45,7 @@ public class ControladorEnvioMensajes {
             mensajeNuevo.setAsunto(asunto);
             mensajeNuevo.setCuerpo(cuerpo);
             
-            registrarMensaje(mensajeNuevo, correoDestinatario);
+            registrarMensaje(mensajeNuevo, correoDestinatario, evento);
             
         }else{
             
@@ -72,7 +73,7 @@ public class ControladorEnvioMensajes {
     }
     
     @FXML
-    private void registrarMensaje(Mensaje mensajeNuevo, String correoDestinatario){
+    private void registrarMensaje(Mensaje mensajeNuevo, String correoDestinatario, ActionEvent evento){
         
         try{
             
@@ -82,11 +83,15 @@ public class ControladorEnvioMensajes {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Envio Exitoso", 
             "Mensaje enviado correctamente");
             
+            CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuMensajes.fxml", 
+            "Mensajes");
+            CerradorVentana.cerrarVentana(evento);
+            
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Envio fallido", 
             e.getMessage());
-            
+  
         }
         
     }
@@ -94,6 +99,8 @@ public class ControladorEnvioMensajes {
     @FXML
     public void cancelar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuMensajes.fxml", 
+        "Mensajes");
         CerradorVentana.cerrarVentana(evento);
         
     }

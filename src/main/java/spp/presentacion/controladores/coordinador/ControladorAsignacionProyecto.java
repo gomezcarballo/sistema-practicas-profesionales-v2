@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
 import spp.logicadenegocio.gestores.GestorProyectos;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -109,11 +110,11 @@ public class ControladorAsignacionProyecto {
 
         }
         
-        registrarAsignacionProyecto(proyectoSeleccionado);
+        registrarAsignacionProyecto(proyectoSeleccionado, evento);
 
     }
     
-    private void registrarAsignacionProyecto(Proyecto proyectoSeleccionado) {
+    private void registrarAsignacionProyecto(Proyecto proyectoSeleccionado, ActionEvent evento) {
 
         try {
             
@@ -122,17 +123,21 @@ public class ControladorAsignacionProyecto {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
             "El proyecto fue asignado correctamente");
+            
+            CargadorVentana.cargarVentana("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos");
+            CerradorVentana.cerrarVentana(evento);
 
         } catch (ReglaDeNegocioExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
-            
+
         }
     }
     
     @FXML
     public void cancelar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos");
         CerradorVentana.cerrarVentana(evento);
         
     }

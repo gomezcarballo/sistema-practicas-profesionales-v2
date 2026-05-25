@@ -6,6 +6,7 @@ package spp.presentacion.controladores.coordinador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionProyecto;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -81,9 +83,10 @@ public class ControladorFormularioProyecto {
 
     }
     
-    public void inicializarDatos(Proyecto proyecto){
+    public void inicializarDatos(Proyecto proyecto, Organizacion organizacion){
         
         this.proyecto = proyecto;
+        this.organizacion = organizacion;
             
         txtNombre.setText(proyecto.getNombre());
         txtDescripcion.setText(proyecto.getDescripcion());
@@ -96,7 +99,7 @@ public class ControladorFormularioProyecto {
     }
 
     @FXML
-    private void leerDatosDeProyecto(){
+    private void leerDatosDeProyecto(ActionEvent evento){
         
         if(!sonCamposValidos()){
             
@@ -135,11 +138,11 @@ public class ControladorFormularioProyecto {
         
         if(proyecto.getIdProyecto () > idProyectoNoValido){
 
-            actualizarProyecto(proyecto);
+            actualizarProyecto(proyecto, evento);
 
         }else {
 
-            registrarProyecto(proyecto);
+            registrarProyecto(proyecto, evento);
 
         }
 
@@ -182,7 +185,7 @@ public class ControladorFormularioProyecto {
     
     
     @FXML
-    private void registrarProyecto(Proyecto proyecto){
+    private void registrarProyecto(Proyecto proyecto, ActionEvent evento){
        
         try{
             
@@ -191,29 +194,44 @@ public class ControladorFormularioProyecto {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Proyecto registrado correctamente");
             
+            CerradorVentana.cerrarVentana(evento);
+            
         }catch(ReglaDeNegocioExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
             e.getMessage());
-            
+                        
         }
         
     }
     
     @FXML
-    private void actualizarProyecto(Proyecto proyecto){
+    private void actualizarProyecto(Proyecto proyecto, ActionEvent evento){
         
         try{
             
             validacion.actualizarProyecto(proyecto);
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa", 
-            "Proyecto actualizado correctamente");          
+            "Proyecto actualizado correctamente");   
+            
+            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaProyectos.fxml",
+            "Lista de Proyectos");
+
+            if(cargador != null){
+
+                ControladorListaProyectos controlador = cargador.getController();
+
+                controlador.inicializarDatos(organizacion);
+                
+                CerradorVentana.cerrarVentana(evento);
+                
+            }
             
         }catch(ReglaDeNegocioExcepcion e){
         
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Actualizacion fallida", 
             e.getMessage());
-        
+                    
         }
         
     }

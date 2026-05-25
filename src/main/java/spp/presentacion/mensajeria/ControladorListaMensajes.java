@@ -5,7 +5,6 @@
 package spp.presentacion.mensajeria;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -15,10 +14,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
@@ -27,6 +27,7 @@ import spp.logicadenegocio.gestores.GestorMensajesRecibidos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.formatofechas.FormatoFechas;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -71,6 +72,8 @@ public class ControladorListaMensajes {
         }   
         
         configurarColumnas();
+        
+        configurarFecha();
 
         cargarMensajes();
     }   
@@ -94,41 +97,47 @@ public class ControladorListaMensajes {
 
         switch(tipoMensaje) {
 
-            case RECIBIDOS -> {
+            case RECIBIDOS : {
 
                 colCorreoUsuario.setText("Remitente");
                 colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoRemitente"));
                 
+            return;
+            
             }
 
-            case ENVIADOS -> {
+            case ENVIADOS : {
 
                 colCorreoUsuario.setText("Destinatario");
                 colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoDestinatario"));
                 
+            return; 
+            
             }
         }
+   
+    }
+    
+    private void configurarFecha(){
         
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        
-        colFecha.setCellFactory(columna -> {
-            return new TableCell<Mensaje, LocalDateTime>() {
 
-                private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        colFecha.setCellFactory(TextFieldTableCell.forTableColumn
+            (new StringConverter<LocalDateTime>() {
 
-                @Override
-                protected void updateItem(LocalDateTime fecha, boolean estaVacio) {
-                    super.updateItem(fecha, estaVacio);
+                    @Override
+                    public String toString(LocalDateTime fecha) {
+                        return FormatoFechas.formatearFechaHora(fecha);
+                    }
 
-                    if (estaVacio || fecha == null) {
-                        setText(null);
-                    } else {
-                        setText(fecha.format(formatoFecha));
+                    @Override
+                    public LocalDateTime fromString(String texto) {
+                        return LocalDateTime.parse(texto);
                     }
                 }
-            };
-        });
-        
+            )
+        );
+            
     }
     
     private void cargarMensajes() {
@@ -138,7 +147,7 @@ public class ControladorListaMensajes {
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             int idUsuario = sesionUsuario.getIdUsuario();
 
-            List<Mensaje> mensajes = new ArrayList<>();;
+            List<Mensaje> mensajes = new ArrayList<>();
 
             switch(tipoMensaje) {
                 
@@ -189,6 +198,8 @@ public class ControladorListaMensajes {
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuMensajes.fxml", 
+        "Mensajes");
         CerradorVentana.cerrarVentana(evento);
         
     }

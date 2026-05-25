@@ -105,6 +105,8 @@ public class ControladorDocumentos {
     
     @FXML
     private void cancelar(ActionEvent evento){
+        
         CerradorVentana.cerrarVentana(evento);
+        
     }
 }
