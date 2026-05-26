@@ -6,11 +6,10 @@ package spp.presentacion.controladores.coordinador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
@@ -23,13 +22,16 @@ public class ControladorDetalleProyecto {
     private TextField txtNombre;
 
     @FXML
-    private TextField txtDescripcion;
+    private TextArea taDescripcion;
 
     @FXML
     private TextField txtNombreResponsable;
 
     @FXML
     private TextField txtCupoMaximo;
+    
+    @FXML
+    private TextField txtNombreOrganizacion;
     
     private Organizacion organizacion;
     
@@ -38,40 +40,52 @@ public class ControladorDetalleProyecto {
 
         txtNombre.setEditable(false);
 
-        txtDescripcion.setEditable(false);
+        taDescripcion.setEditable(false);
 
         txtNombreResponsable.setEditable(false);
 
         txtCupoMaximo.setEditable(false);
         
+        txtNombreOrganizacion.setEditable(false);
+        
     }
-
+    
+    public void cargarProyecto(Proyecto proyecto){
+       
+        cargarDatosProyecto(proyecto);
+        
+    }
+    
     public void cargarProyecto(Proyecto proyecto, Organizacion organizacion){
         
         this.organizacion = organizacion;
-
+        
+        cargarDatosProyecto(proyecto);
+    }
+    
+    public void cargarDatosProyecto(Proyecto proyecto){
+        
         txtNombre.setText(proyecto.getNombre());
-        txtDescripcion.setText(proyecto.getDescripcion());
+        taDescripcion.setText(proyecto.getDescripcion());
         txtNombreResponsable.setText(proyecto.getNombreResponsable());
         txtCupoMaximo.setText(String.valueOf(proyecto.getCupoMaximo()));
+        if (organizacion != null) {
+
+            txtNombreOrganizacion.setText(organizacion.getNombre());
+
+        } else {
+
+            txtNombreOrganizacion.setText(proyecto.getOrganizacion().getNombre());
+
+        }
 
     }
 
     @FXML
     public void regresar(ActionEvent evento){
+
+        CerradorVentana.cerrarVentana(evento);
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaProyectos.fxml",
-        "Lista de Proyectos");
-
-        if(cargador != null){
-
-            ControladorListaProyectos controlador = cargador.getController();
-
-            controlador.inicializarDatos(organizacion);
-
-            CerradorVentana.cerrarVentana(evento);
-        }
-
     }
   
 }

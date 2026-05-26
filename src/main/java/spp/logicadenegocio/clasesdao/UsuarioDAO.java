@@ -104,7 +104,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
 
     return usuario;
-}
+    }
 
     @Override
     public boolean eliminarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion {
@@ -133,21 +133,17 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-    public boolean actualizarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion {
+    public boolean actualizarContraseña(int idUsuario, String nuevaContraseña)throws OperacionesDeDaoExcepcion {
         
         boolean actualizacionExitosa = false;
 
-        String consultaSQL = "UPDATE Usuario SET nombre = ?, apellidoPaterno = ?, "
-                + "apellidoMaterno = ?, correoInstitucional = ? WHERE idUsuario = ?";
+        String consultaSQL = "UPDATE Usuario SET contrasena = ? WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, usuario.getNombre());
-            consultaPreparada.setString(2, usuario.getApellidoPaterno());
-            consultaPreparada.setString(3, usuario.getApellidoMaterno());
-            consultaPreparada.setString(4, usuario.getCorreoInstitucional());
-            consultaPreparada.setInt(5, usuario.getIdUsuario());
+            consultaPreparada.setString(1, nuevaContraseña);
+            consultaPreparada.setInt(2, idUsuario);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 

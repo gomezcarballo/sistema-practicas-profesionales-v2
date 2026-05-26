@@ -88,7 +88,7 @@ public class ControladorListaProyectos {
 
         try{
 
-            List<Proyecto> proyectos = gestorProyectos.recuperarProyectosActivos(organizacion.getIdOrganizacion());
+            List<Proyecto> proyectos = gestorProyectos.recuperarProyectosActivosPorOrganizacion(organizacion.getIdOrganizacion());
 
             tblListaProyectos.getItems().clear();
 
@@ -123,20 +123,18 @@ public class ControladorListaProyectos {
 
         Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
 
-        if(proyectoSeleccionado == null){
-            return;
-        }
+        if (proyectoSeleccionado != null) {
+        
+            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaDetalleProyecto.fxml",
+            "Detalle Proyecto");
 
-        FXMLLoader cargadorDetalleProyecto = CargadorVentana.cargarVentanaConControlador(
-        "/fxml/VistaDetalleProyecto.fxml","Detalle Proyecto");
+            if (cargador != null) {
 
-        if(cargadorDetalleProyecto != null){
+                ControladorDetalleProyecto controlador = cargador.getController();
 
-            ControladorDetalleProyecto controlador = cargadorDetalleProyecto.getController();
+                controlador.cargarProyecto(proyectoSeleccionado, organizacion);
 
-            controlador.cargarProyecto(proyectoSeleccionado, organizacion);
-            
-            CerradorVentana.cerrarVentana(evento);
+            }
 
         }
 

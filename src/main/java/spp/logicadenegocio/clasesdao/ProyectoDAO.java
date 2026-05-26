@@ -179,10 +179,57 @@ public class ProyectoDAO implements IProyectoDAO {
 
     return actualizacionExitosa;
         
-    }  
+    }
+    
+    
 
     @Override
-    public List<Proyecto> obtenerProyectosActivos(int idOrganizacion)throws OperacionesDeDaoExcepcion {
+    public List<Proyecto> obtenerProyectosActivos()throws OperacionesDeDaoExcepcion {
+        
+        List<Proyecto> proyectos = new ArrayList<>();
+        
+         String consultaSQL = "SELECT p.idProyecto, " +
+                            "p.nombre, " +
+                            "p.descripcion, " +
+                            "p.nombreResponsable, " +
+                            "p.cupoMaximo, " +
+                            "o.nombre AS nombreOrganizacion " +
+                            "FROM Proyecto p " +
+                            "INNER JOIN Organizacion o " +
+                            "ON p.Organizacion_idOrganizacion = o.idOrganizacion " +
+                            "WHERE p.estado = 1";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
+            
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+            
+            while (resultadosConsulta.next()) {
+                
+                Proyecto proyecto = new Proyecto();
+                
+                proyecto.setIdProyecto(resultadosConsulta.getInt("idProyecto"));
+                proyecto.setNombre(resultadosConsulta.getString("nombre"));
+                proyecto.setDescripcion(resultadosConsulta.getString("descripcion"));
+                proyecto.setNombreResponsable(resultadosConsulta.getString("nombreResponsable"));
+                proyecto.setCupoMaximo(resultadosConsulta.getInt("cupoMaximo"));
+                
+                Organizacion organizacion = new Organizacion();
+                organizacion.setNombre(resultadosConsulta.getString("nombreOrganizacion"));
+                proyecto.setOrganizacion(organizacion);
+                
+                proyectos.add(proyecto);
+                
+            }
+
+        } catch (SQLException e) {
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+        return proyectos;
+    }
+    
+     @Override
+    public List<Proyecto> obtenerProyectosActivosPorOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion {
         
         List<Proyecto> proyectos = new ArrayList<>();
         

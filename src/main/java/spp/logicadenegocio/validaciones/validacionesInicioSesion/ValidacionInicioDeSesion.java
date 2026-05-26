@@ -62,7 +62,7 @@ public class ValidacionInicioDeSesion {
             
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();            
             sesionUsuario.iniciarSesion(usuario.getIdUsuarioEncontrado(),usuario.getRolUsuarioEncontrado(),
-            identificador);
+            identificador, usuario.getHashUsuarioEncontrado());
             
         }catch(OperacionesDeDaoExcepcion e){
             

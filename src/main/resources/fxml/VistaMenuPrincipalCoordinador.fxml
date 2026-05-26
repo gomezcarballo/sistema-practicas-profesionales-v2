@@ -16,10 +16,11 @@
                </font>
             </Label>
             <Button fx:id="btnPracticante" layoutX="177.0" layoutY="89.0" mnemonicParsing="false" onAction="#abrirSubMenuPracticantes" prefHeight="38.0" prefWidth="217.0" text="Practicantes" />
-            <Button fx:id="btnOrganizacionVinculada" layoutX="177.0" layoutY="148.0" mnemonicParsing="false" onAction="#abrirSubMenuOrganizacionVinculada" prefHeight="38.0" prefWidth="217.0" text="Organizaciones Vinculadas" />
+            <Button fx:id="btnOrganizacionVinculada" layoutX="177.0" layoutY="148.0" mnemonicParsing="false" onAction="#abrirSubMenuOrganizacionVinculada" prefHeight="38.0" prefWidth="217.0" text="Organizaciones y Proyectos" />
             <Button fx:id="btnReporteIndicadores" layoutX="177.0" layoutY="201.0" mnemonicParsing="false" onAction="#abrirReporteIndicadores" prefHeight="38.0" prefWidth="217.0" text="Reporte de indicadores" />
             <Button fx:id="btnCerrarSesion" layoutX="243.0" layoutY="311.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
             <Button fx:id="btnMensajes" layoutX="177.0" layoutY="254.0" mnemonicParsing="false" onAction="#abrirSubMenuMensajes" prefHeight="38.0" prefWidth="217.0" text="Mensajes" />
+            <Button fx:id="btnPerfil" layoutX="499.0" layoutY="26.0" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="25.0" prefWidth="50.0" text="Perfil" />
          </children>
       </Pane>
    </children>

@@ -68,21 +68,11 @@ public class ControladorSubMenuProyectos {
         }
 
     }
-    
-    @FXML
-    private void abrirAsignarProyecto(ActionEvent evento) {
-    
-        VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.INFORMATION, "!UY!",
-        "Funcionalidad no disponible. Intente en la proxima entrega");
-        
-        CerradorVentana.cerrarVentana(evento);
-        
-    }
 
     @FXML
     public void regresar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana( "/fxml/VistaListaOrganizaciones.fxml", "Lista de Organizaciones");
+        CargadorVentana.cargarVentana("/fxml/VistaListaOrganizaciones.fxml", "Lista de Organizaciones");
         CerradorVentana.cerrarVentana(evento);
         
     }

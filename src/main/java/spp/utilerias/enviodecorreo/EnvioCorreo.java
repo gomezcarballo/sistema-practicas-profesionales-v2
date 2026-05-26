@@ -72,8 +72,9 @@ public class EnvioCorreo {
 
             String contenido = """
                 <h2>Cuenta creada</h2>
-                <p>Tu contraseña es:</p>
+                <p>Su contraseña es:</p>
                 <b>%s</b>
+                <p>Por favor, cambie su contraseña al iniciar sesión por primera vez.</p>
                 <p>Bienvenido al Sistema de Practicas Profesionales.</p>
                 """.formatted(contrasena);
 

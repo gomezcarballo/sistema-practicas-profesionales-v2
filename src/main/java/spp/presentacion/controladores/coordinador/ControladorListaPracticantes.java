@@ -112,7 +112,6 @@ public class ControladorListaPracticantes {
             ControladorDetallePracticante controlador = cargadorDetalle.getController();
 
             controlador.cargarPracticante(practicanteSeleccionado);
-            CerradorVentana.cerrarVentana(evento);
             
         }
     }

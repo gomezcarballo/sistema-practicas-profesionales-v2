@@ -18,9 +18,12 @@
             </Label>
             <TableView fx:id="tblListaOrganizaciones" layoutX="32.0" layoutY="83.0" prefHeight="200.0" prefWidth="486.0">
                <columns>
-                  <TableColumn fx:id="colNombre" prefWidth="128.00006103515625" text="Nombre" />
-                  <TableColumn fx:id="colSector" prefWidth="194.39996337890625" text="Sector" />
-                  <TableColumn fx:id="colDireccion" prefWidth="163.20001220703125" text="Direccion" />
+                  <TableColumn fx:id="colNombre" prefWidth="128.00006103515625" text="Nombre" 
+                  resizable="" reorderable="false"  />
+                  <TableColumn fx:id="colSector" prefWidth="194.39996337890625" text="Sector" 
+                  reorderable="false"/>
+                  <TableColumn fx:id="colDireccion" prefWidth="163.20001220703125" text="Direccion"
+                  reorderable="false"/>
                </columns></TableView>
             <Button fx:id="btnActualizarOrganizacion" layoutX="234.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirActualizarOrganizacion" prefHeight="26.0" prefWidth="92.0" text="Actualizar" />
             <Label fx:id="lblInstruccion" layoutX="140.0" layoutY="58.0" text="Seleccione una organización y escoja una acción">

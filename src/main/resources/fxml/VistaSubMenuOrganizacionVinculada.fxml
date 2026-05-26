@@ -16,7 +16,7 @@
                </font>
             </Label>
             <Button fx:id="btnRegistrarOrganizacionVinculada" layoutX="146.0" layoutY="96.0" mnemonicParsing="false" onAction="#abrirRegistroOrganizacionVinculada" prefHeight="42.0" prefWidth="262.0" text="Registrar Organización Vinculada" />
-            <Button fx:id="btnConsultarOrganizaciones" layoutX="146.0" layoutY="167.0" mnemonicParsing="false" onAction="#abrirConsultarOrganizaciones" prefHeight="42.0" prefWidth="262.0" text="Consultar Organizaciones" />
+            <Button fx:id="btnConsultarOrganizaciones" layoutX="146.0" layoutY="167.0" mnemonicParsing="false" onAction="#abrirConsultarOrganizaciones" prefHeight="42.0" prefWidth="262.0" text="Consultar Organizaciones y Proyectos" />
             <Button fx:id="btnRegresar" layoutX="245.0" layoutY="303.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
          </children>
       </Pane>

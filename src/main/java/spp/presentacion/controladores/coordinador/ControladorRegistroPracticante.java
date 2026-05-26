@@ -75,6 +75,7 @@ public class ControladorRegistroPracticante {
 
 
             Practicante practicante = new Practicante();
+            
             practicante.setNombre(nombre);
             practicante.setApellidoPaterno(apellidoPaterno);      
             practicante.setApellidoMaterno(apellidoMaterno);
@@ -119,8 +120,8 @@ public class ControladorRegistroPracticante {
         
     }
    
-   @FXML 
-   private void registrarPracticante(Practicante practicante, ActionEvent evento){
+    @FXML 
+    private void registrarPracticante(Practicante practicante, ActionEvent evento){
        
         try{
             
@@ -140,9 +141,9 @@ public class ControladorRegistroPracticante {
 
         }
         
-   }
+    }
    
-   @FXML
+    @FXML
     public void cancelar(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaSubMenuPracticantes.fxml", "Menu de Practicantes");

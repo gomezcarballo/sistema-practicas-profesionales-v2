@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.formatofechas.FormatoFechas;
 
@@ -79,7 +78,6 @@ public class ControladorDetallePracticante {
     @FXML
     public void regresar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaPracticantes.fxml", "Lista de Practicantes");
         CerradorVentana.cerrarVentana(evento);
         
     }

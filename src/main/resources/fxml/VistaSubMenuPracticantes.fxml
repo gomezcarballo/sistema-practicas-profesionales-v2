@@ -17,7 +17,7 @@
             </Label>
             <Button fx:id="btnRegistrarPracticante" layoutX="192.0" layoutY="94.0" mnemonicParsing="false" onAction="#abrirRegistroPracticante" prefHeight="52.0" prefWidth="157.0" text="Registrar Practicante" />
             <Button fx:id="btnRegresar" layoutX="236.0" layoutY="275.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
-            <Button fx:id="btnConsultarPracticantes" layoutX="189.0" layoutY="171.0" mnemonicParsing="false" onAction="#abrirConsultarPracticantes" prefHeight="52.0" prefWidth="157.0" text="Consultar Practicantes" />
+            <Button fx:id="btnConsultarPracticantes" layoutX="192.0" layoutY="171.0" mnemonicParsing="false" onAction="#abrirConsultarPracticantes" prefHeight="52.0" prefWidth="157.0" text="Consultar Practicantes" />
          </children>
       </Pane>
    </children>

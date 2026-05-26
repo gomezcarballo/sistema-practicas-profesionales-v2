@@ -20,6 +20,7 @@
             <Button fx:id="btnGenerarReportes" layoutX="187.0" layoutY="136.0" mnemonicParsing="false" onAction="#abrirGenerarEvidenciaPracticas" prefHeight="35.0" prefWidth="178.0" text="Generar evidencia de Prácticas" />
             <Button fx:id="btnSubirEvidenciaPracticas" layoutX="186.0" layoutY="183.0" mnemonicParsing="false" onAction="#abrirAnadirEvidenciaPracticas" prefHeight="35.0" prefWidth="178.0" text="Subir evidencia de Prácticas" />
             <Button fx:id="btnMensajes" layoutX="186.0" layoutY="231.0" mnemonicParsing="false" onAction="#abrirSubMenuMensajes" prefHeight="35.0" prefWidth="178.0" text="Mensajes" />
+            <Button fx:id="btnPerfil" layoutX="478.0" layoutY="27.0" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="25.0" prefWidth="50.0" text="Perfil" />
          </children>
       </Pane>
    </children>

@@ -20,7 +20,7 @@ public class Proyecto {
     private int cupoMaximo;
     private boolean esActivo;
     private BooleanProperty esSeleccionado = new SimpleBooleanProperty(false);
-    private Organizacion Organizacion;
+    private Organizacion organizacion;
 
     public Proyecto (){
     }
@@ -34,7 +34,7 @@ public class Proyecto {
         this.nombreResponsable = nombreResponsable;
         this.cupoMaximo = cupoMaximo;
         this.esActivo = esActivo;
-        this.Organizacion = Organizacion;
+        this.organizacion = Organizacion;
         
     }
 
@@ -99,11 +99,17 @@ public class Proyecto {
     }
 
     public Organizacion getOrganizacion() {
-        return Organizacion;
+        return organizacion;
     }
 
     public void setOrganizacion(Organizacion Organizacion) {
-        this.Organizacion = Organizacion;
+        this.organizacion = Organizacion;
+    }
+    
+    public String getNombreOrganizacion() {
+
+        return organizacion.getNombre();
+
     }
     
 }

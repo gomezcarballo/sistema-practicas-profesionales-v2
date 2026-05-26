@@ -48,6 +48,13 @@ public class ControladorMenuPrincipalCoordinador {
     }
     
     @FXML
+    private void abrirVerPerfil(){
+        
+        CargadorVentana.cargarVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
+        
+    }
+    
+    @FXML
     private void cerrarSesion(ActionEvent evento) {
 
         CerradorSesion.cerrarSesion(evento);

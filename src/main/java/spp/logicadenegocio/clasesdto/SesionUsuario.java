@@ -15,6 +15,7 @@ public class SesionUsuario {
     private int idUsuario;
     private String rol;
     private String identificador;
+    private String hashContrasena;
     
     private SesionUsuario(){
     }
@@ -28,11 +29,12 @@ public class SesionUsuario {
         
     }
 
-    public void iniciarSesion(int idUsuario, String rol, String identificador) {
+    public void iniciarSesion(int idUsuario, String rol, String identificador, String hashContrasena) {
         
         this.idUsuario = idUsuario;
         this.rol = rol;
         this.identificador = identificador;
+        this.hashContrasena = hashContrasena;
         
     }
 
@@ -51,4 +53,13 @@ public class SesionUsuario {
     public String getIdentificador() {
         return identificador;
     }
+
+    public void setHashContrasena(String hashContrasena) {
+        this.hashContrasena = hashContrasena;
+    }
+ 
+    public String getHashContrasena() {
+        return hashContrasena;
+    }   
+    
 }

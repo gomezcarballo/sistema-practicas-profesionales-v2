@@ -22,6 +22,7 @@
             <Button fx:id="btnRegistrarNuevoAdministrador" layoutX="62.0" layoutY="261.0" mnemonicParsing="false" onAction="#abrirRegistroNuevoAdministrador" prefHeight="39.0" prefWidth="181.0" text="Registrar nuevo Administrador" />
             <Button fx:id="btnCerrarSesion" layoutX="243.0" layoutY="325.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
             <Button fx:id="btnMensajes" layoutX="306.0" layoutY="261.0" mnemonicParsing="false" onAction="#abrirSubMenuMensajes" prefHeight="39.0" prefWidth="181.0" text="Mensajes" />
+            <Button fx:id="btnPerfil" layoutX="480.0" layoutY="25.0" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="25.0" prefWidth="50.0" text="Perfil" />
          </children>
       </Pane>
    </children>

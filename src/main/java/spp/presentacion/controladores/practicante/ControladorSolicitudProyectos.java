@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -19,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
+import spp.presentacion.controladores.coordinador.ControladorDetalleProyecto;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -43,7 +45,7 @@ public class ControladorSolicitudProyectos {
     private TableColumn<Proyecto, String> colDescripcion;
 
     @FXML
-    private TableColumn<Proyecto, String> colNombreResponsable;
+    private TableColumn<Proyecto, String> colNombreOrganizacion;
     
     @FXML
     private TableColumn<Proyecto, Integer> colCupoMaximo;
@@ -77,7 +79,7 @@ public class ControladorSolicitudProyectos {
 
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
-        colNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
+        colNombreOrganizacion.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
 
         colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
         
@@ -87,13 +89,49 @@ public class ControladorSolicitudProyectos {
         
     }
     
+    private Proyecto obtenerProyectoSeleccionado() {
+
+        Proyecto proyectoSeleccionado = tblListaProyectos.getSelectionModel().getSelectedItem();
+
+        if (proyectoSeleccionado == null) {
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
+            "Debe seleccionar un proyecto para poder ver sus detalles");
+
+        }
+
+        return proyectoSeleccionado;
+
+    }
+    
+    @FXML
+    private void abrirDetalleProyecto(ActionEvent evento){
+
+        Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
+
+         if (proyectoSeleccionado != null) {
+        
+            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaDetalleProyecto.fxml",
+            "Detalle Proyecto");
+
+            if (cargador != null) {
+
+                ControladorDetalleProyecto controlador = cargador.getController();
+
+                controlador.cargarProyecto(proyectoSeleccionado);
+
+            }
+
+        }
+
+    }
+    
     private void cargarProyectos(){
         try{
             
-            int idOrganizacion = 1;
             
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
-            (gestorProyectos.recuperarProyectosActivos(idOrganizacion));
+            (gestorProyectos.recuperarProyectosActivos());
             
             tblListaProyectos.setItems(proyectos);
                         

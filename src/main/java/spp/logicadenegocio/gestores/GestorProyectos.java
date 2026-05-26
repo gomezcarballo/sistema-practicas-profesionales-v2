@@ -21,13 +21,27 @@ public class GestorProyectos {
     
    private IProyectoDAO proyectoDAO;
    private ISolicitudDAO solicitudDAO;
-    
-   public List<Proyecto> recuperarProyectosActivos(int idOrganizacion) throws ReglaDeNegocioExcepcion{
+   
+   public List<Proyecto> recuperarProyectosActivos() throws ReglaDeNegocioExcepcion{
        
        try{
            
            proyectoDAO = new ProyectoDAO();
-           return proyectoDAO.obtenerProyectosActivos(idOrganizacion);
+           return proyectoDAO.obtenerProyectosActivos();
+           
+       }catch(OperacionesDeDaoExcepcion e){
+           
+           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos activos");
+           
+       }
+   }
+   
+   public List<Proyecto> recuperarProyectosActivosPorOrganizacion(int idOrganizacion) throws ReglaDeNegocioExcepcion{
+       
+       try{
+           
+           proyectoDAO = new ProyectoDAO();
+           return proyectoDAO.obtenerProyectosActivosPorOrganizacion(idOrganizacion);
            
        }catch(OperacionesDeDaoExcepcion e){
            
