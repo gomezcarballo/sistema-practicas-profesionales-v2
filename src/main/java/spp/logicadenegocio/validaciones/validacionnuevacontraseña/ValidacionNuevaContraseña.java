@@ -76,7 +76,9 @@ public class ValidacionNuevaContraseña {
             
             String contraseñaNuevaHasheada = HasheoContrasena.hashearContraseña(credenciales.getContraseñaNueva());
             UsuarioDAO usuarioDAO = new UsuarioDAO();
+            
             usuarioDAO.actualizarContraseña(usuario.getIdUsuario(), contraseñaNuevaHasheada);
+            
             SesionUsuario.getInstancia().setHashContrasena(contraseñaNuevaHasheada);
             
         } catch (OperacionesDeDaoExcepcion e) {

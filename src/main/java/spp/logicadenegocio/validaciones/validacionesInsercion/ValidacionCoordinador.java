@@ -74,6 +74,38 @@ public class ValidacionCoordinador {
         }
     }
     
+    public boolean verificarCoordinadorActivo()throws ReglaDeNegocioExcepcion {
+
+        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+
+        try{
+
+            return coordinadorDao.existeCoordinadorActivo();
+
+        }catch(OperacionesDeDaoExcepcion e){
+
+            throw new ReglaDeNegocioExcepcion( "No se pudo verificar si existe un coordinador activo.");
+
+        }
+
+    }
+    
+    public void inactivarCoordinadorActivo()throws ReglaDeNegocioExcepcion {
+
+        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+
+        try{
+
+            coordinadorDao.inactivarCoordinador();
+
+        }catch(OperacionesDeDaoExcepcion e){
+
+            throw new ReglaDeNegocioExcepcion("No se pudo inactivar el coordinador actual.");
+
+        }
+
+    }
+    
     public void sonCamposValidosPorReglaNegocio(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
         
         String numeroPersonal = coordinador.getNumeroDePersonal();

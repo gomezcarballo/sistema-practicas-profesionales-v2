@@ -53,18 +53,5 @@ public class PruebaCoordinadorDAO {
         assertTrue(registroExitoso);
         
     }
-    
-    @After
-    public void recursoEliminarUsuario()throws OperacionesDeDaoExcepcion{
-        
-        if(idUsuario < 0){
-            
-           CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-           UsuarioDAO usuarioDao = new UsuarioDAO();
-           coordinadorDao.eliminarCoordinador("p2401");
-           usuarioDao.eliminarUsuario(idUsuario);
-           System.out.println("Usuario y coordinador de prueba eliminados");
-           
-        }
-    }
+
 }

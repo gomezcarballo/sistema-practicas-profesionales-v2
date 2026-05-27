@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IProfesorDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -43,59 +45,108 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
     }
     
     @Override
-    public Profesor consultarProfesor(String numeroDePersonal)throws OperacionesDeDaoExcepcion {
-
-         Profesor profesor = null;
-         
-         String consultaSQL = "SELECT idUsuario, noPersonal FROM PROFESOR WHERE noPersonal = ?";
-
-         try(Connection conexion = ConexionBD.getConexion();
-             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
-             
-             consultaPreparada.setString(1, numeroDePersonal);
-
-             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
-
-             if (resultadosConsulta.next()) {
-
-                 profesor = new Profesor();
-
-                 profesor.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
-                 profesor.setNumeroDePersonal(resultadosConsulta.getString("noPersonal"));
-
-             }
-
-         } catch (SQLException e) {
-             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
-         }
-
-    return profesor;
+    public List<Profesor> consultarProfesoresActivos()throws OperacionesDeDaoExcepcion {
     
+        List<Profesor> profesoresActivos = new ArrayList<>();
+
+        String consultaSQL = """
+            SELECT p.noPersonal,
+            p.idUsuario,
+            u.nombre,
+            u.apellidoPaterno,
+            u.apellidoMaterno,
+            u.correoInstitucional
+            FROM Profesor p
+            INNER JOIN Usuario u
+            ON p.idUsuario = u.idUsuario
+            WHERE u.estado = 1
+            """;
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+
+            while(resultadoConsulta.next()) {
+
+                Profesor profesor = new Profesor();
+
+                profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroPersonal"));
+                profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
+                profesor.setNombre(resultadoConsulta.getString("nombre"));
+                profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
+                profesor.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));
+                profesor.setCorreoInstitucional(resultadoConsulta.getString("correoInstitucional"));
+
+                profesoresActivos.add(profesor);
+
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+
+        }
+
+        return profesoresActivos;
+    
+    }
+    
+    @Override
+    public int obtenerCantidadProfesoresActivos()throws OperacionesDeDaoExcepcion {
+
+        int cantidadProfesoresActivos = 0;
+
+        String consultaSQL = """
+            SELECT COUNT(*)
+            FROM Profesor p
+            INNER JOIN Usuario u
+            ON p.idUsuario = u.idUsuario
+            WHERE u.estado = 1
+            """;
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+
+            if(resultadoConsulta.next()) {
+
+                cantidadProfesoresActivos = resultadoConsulta.getInt(1);
+
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.", e);
+
+        }
+
+    return cantidadProfesoresActivos;
+
     }
 
     @Override
-    public boolean eliminarProfesor(String numeroDePersonal)throws OperacionesDeDaoExcepcion {
+    public boolean inactivarProfesor(int idUsuario)throws OperacionesDeDaoExcepcion {
         
-        boolean eliminacionExitosa = false;
+        boolean inactivacionExitosa = false;
 
-        String consultaSQL = "DELETE FROM Profesor WHERE noPersonal = ?";
+        String consultaSQL = "UPDATE Usuario SET estado = 0 WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, numeroDePersonal);
+            consultaPreparada.setInt(1, idUsuario);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
             if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
+                inactivacionExitosa = true;
             }
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
 
-    return eliminacionExitosa; 
+    return inactivacionExitosa; 
 
     }
 

@@ -17,15 +17,14 @@ public class ConfiguracionBaseDatos {
     
     static{ 
         try{
-            InputStream entrada = ConfiguracionBaseDatos.class
-                    .getClassLoader()
-                    .getResourceAsStream("baseDatos.properties");
+            InputStream entrada = ConfiguracionBaseDatos.class.getClassLoader().getResourceAsStream("baseDatos.properties");
             
             if(entrada == null){
                 throw new RuntimeException("No se encontró baseDatos.properties");
             }
             
             propiedades.load(entrada);
+            
         }catch (IOException e) {
             throw new RuntimeException("Error cargando configuracion",e);
         }

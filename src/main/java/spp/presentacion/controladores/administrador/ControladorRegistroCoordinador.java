@@ -6,6 +6,7 @@ package spp.presentacion.controladores.administrador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
@@ -89,9 +90,28 @@ public class ControladorRegistroCoordinador {
     @FXML 
     private void registrarCoordinador(Coordinador coordinador, ActionEvent evento){
         
+        ValidacionCoordinador validacion = new ValidacionCoordinador();
+        
         try{
             
-            ValidacionCoordinador validacion = new ValidacionCoordinador();
+            if(validacion.verificarCoordinadorActivo()){
+                
+                boolean confirmarInactivacion = VentanaMensaje.mostrarConfirmacion("Coordinador activo", 
+                "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con el registro?");
+                
+                if(confirmarInactivacion){
+                    
+                    validacion.inactivarCoordinadorActivo();
+                    
+                }else {
+                    
+                    cancelar(evento);
+                    return;
+                    
+                }
+                
+            }
+       
             validacion.ingresarCoordinador(coordinador);
             
             VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
@@ -109,7 +129,7 @@ public class ControladorRegistroCoordinador {
         }
         
     }
-    
+   
     @FXML
     public void cancelar(ActionEvent evento) {
         
