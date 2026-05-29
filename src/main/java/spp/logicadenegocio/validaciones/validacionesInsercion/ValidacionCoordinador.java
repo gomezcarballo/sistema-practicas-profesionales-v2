@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package spp.logicadenegocio.validaciones.validacionesInsercion;
+package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.CoordinadorDAO;
@@ -32,8 +33,7 @@ public class ValidacionCoordinador {
 
     public void ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion{
         
-        sonCamposValidosPorReglaNegocio(coordinador);
-        
+        sonCamposValidosPorReglaNegocio(coordinador);       
         
         Usuario usuario = new Usuario();
         
@@ -90,6 +90,21 @@ public class ValidacionCoordinador {
 
     }
     
+    public List<Coordinador> obtenerCoordinadoresInactivos()throws ReglaDeNegocioExcepcion{
+        
+        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+        try{
+            
+            return coordinadorDao.consultarCoordinadoresInactivos();
+            
+        }catch(OperacionesDeDaoExcepcion e){
+
+            throw new ReglaDeNegocioExcepcion("No se pudieron recuperar los coordinadores inactivos.");
+
+        }
+        
+    }
+    
     public void inactivarCoordinadorActivo()throws ReglaDeNegocioExcepcion {
 
         CoordinadorDAO coordinadorDao = new CoordinadorDAO();
@@ -104,6 +119,22 @@ public class ValidacionCoordinador {
 
         }
 
+    }
+    
+    public void reactivarCoordinadorInactivo(int idUsuario)throws ReglaDeNegocioExcepcion{
+        
+        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+        
+        try{
+            
+            coordinadorDao.reactivarCoordinador(idUsuario);
+            
+        }catch(OperacionesDeDaoExcepcion e){
+            
+            throw new ReglaDeNegocioExcepcion("No se pudo reactivar al coordinador");
+            
+        }
+        
     }
     
     public void sonCamposValidosPorReglaNegocio(Coordinador coordinador) throws ReglaDeNegocioExcepcion {

@@ -12,7 +12,7 @@
       <Pane fx:id="pnlFormularioRegistroProfesor" layoutX="28.0" layoutY="23.0" prefHeight="346.0" prefWidth="546.0">
          <children>
             <Button fx:id="btnRegistrar" layoutX="189.0" layoutY="307.0" mnemonicParsing="false" onAction="#leerDatosDelProfesor" text="Registrar" />
-            <Button fx:id="btnCancelar" layoutX="292.0" layoutY="307.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+            <Button fx:id="btnCancelar" layoutX="292.0" layoutY="307.0" mnemonicParsing="false" onAction="#regresar" text="Cancelar" />
             <Label fx:id="lblCorreo" layoutX="62.0" layoutY="269.0" text="Correo Institucional:" />
             <TextField fx:id="txtCorreo" layoutX="246.0" layoutY="265.0" prefHeight="25.0" prefWidth="228.0" promptText="Ingrese el correo" />
          </children></Pane>

@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
-import spp.logicadenegocio.gestores.GestorProyectos;
+import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -43,14 +43,14 @@ public class ControladorAsignacionProyecto {
     @FXML
     private TableColumn<Proyecto, Integer> colCupoMaximo;
     
-    private GestorProyectos gestorProyectos;
+    private GestorSolicitudesProyectos gestorSolicitudes;
     
     private GestorAsignacionProyectos gestorAsignacionProyecto;
     
     @FXML
     public void initialize() {
         
-        gestorProyectos = new GestorProyectos();
+        gestorSolicitudes = new GestorSolicitudesProyectos();
         
         gestorAsignacionProyecto = new GestorAsignacionProyectos();
         
@@ -84,7 +84,7 @@ public class ControladorAsignacionProyecto {
             int idUsuario = 6;
             
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
-            (gestorProyectos.recuperarProyectosSolicitados(idUsuario));
+            (gestorSolicitudes.recuperarProyectosSolicitados(idUsuario));
             
             tblProyectosSolicitados.setItems(proyectos);
             

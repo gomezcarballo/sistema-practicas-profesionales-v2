@@ -6,12 +6,12 @@ package spp.presentacion.controladores.administrador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Profesor;
-import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionProfesor;
+import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -19,70 +19,41 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  *
  * @author gomes
  */
-public class ControladorRegistroProfesor {
+public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
     
-    @FXML
-    private TextField txtNombre;
-    
-    @FXML
-    private TextField txtApellidoPaterno;
-    
-    @FXML
-    private TextField txtApellidoMaterno;
-    
-    @FXML
-    private TextField txtCorreo;
-    
-    @FXML
-    private TextField txtNumeroPersonal;
-       
     @FXML
     private void leerDatosDelProfesor(ActionEvent evento){
         
         if(camposValidos()){
             
-            String nombre = txtNombre.getText();
-            String apellidoPaterno = txtApellidoPaterno.getText();
-            String apellidoMaterno = txtApellidoMaterno.getText();
-            String correoInstitucional = txtCorreo.getText();
-            String numeroPersonal = txtNumeroPersonal.getText();
-
-            Profesor profesor = new Profesor();
-            profesor.setNombre(nombre);
-            profesor.setApellidoPaterno(apellidoPaterno);
-            profesor.setApellidoMaterno(apellidoMaterno);
-            profesor.setCorreoInstitucional(correoInstitucional);
-            profesor.setNumeroDePersonal(numeroPersonal);
+            Profesor profesor = crearProfesor();
 
             registrarProfesor(profesor, evento);
         
         }else{
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
-            "Faltan datos por agregar. Por favor ingreselos");
-            
+            mostrarMensajeCamposFaltantes();
+
         }
     }
     
-    @FXML
-    private boolean camposValidos(){
+    private Profesor crearProfesor(){
         
-        boolean sonCamposValidos = true; 
+        String nombre = txtNombre.getText();
+        String apellidoPaterno = txtApellidoPaterno.getText();
+        String apellidoMaterno = txtApellidoMaterno.getText();
+        String correoInstitucional = txtCorreo.getText();
+        String numeroPersonal = txtNumeroPersonal.getText();
+
+        Profesor profesor = new Profesor();
+        profesor.setNombre(nombre);
+        profesor.setApellidoPaterno(apellidoPaterno);
+        profesor.setApellidoMaterno(apellidoMaterno);
+        profesor.setCorreoInstitucional(correoInstitucional);
+        profesor.setNumeroDePersonal(numeroPersonal);
         
-        if(txtNombre.getText().isBlank() ||  txtApellidoPaterno.getText().isBlank() ||
-            txtCorreo.getText().isBlank() || txtNumeroPersonal.getText().isBlank()){
-           
-            sonCamposValidos = false; 
-            
-        }
+        return profesor;
         
-        if(txtApellidoMaterno.getText().isBlank()){
-            
-            txtApellidoMaterno.setText("");
-            
-        }
-        
-        return sonCamposValidos; 
     }
     
     @FXML 
@@ -91,30 +62,75 @@ public class ControladorRegistroProfesor {
         try{
             
             ValidacionProfesor validacion = new ValidacionProfesor();
-            validacion.ingresarProfesor(profesor);
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
-            "Profesor registrado exitosamente");
-                       
-            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-            "Menu Principal para Administrador");
-            CerradorVentana.cerrarVentana(evento);
+            if(validacion.hayCupoProfesores()){
+                
+                ingresarProfesor(profesor, validacion, evento);
+                
+                
+            }else{
+                
+                abrirVentanaProfesores(profesor);
+      
+            }
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-            e.getMessage());
-                        
+            mostrarMensajeErrorRegistro(e.getMessage());
+                       
         }
     }
     
-    @FXML
-    public void cancelar(ActionEvent evento) {
+    private void ingresarProfesor(Profesor profesor, ValidacionProfesor validacion, ActionEvent evento) throws ReglaDeNegocioExcepcion{
         
-        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-        "Menu Principal para Administrador");
-        CerradorVentana.cerrarVentana(evento);
+        validacion.ingresarProfesor(profesor);
         
+        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", "Profesor registrado exitosamente" ); 
+        regresar(evento);
+        
+    }
+    
+    private void abrirVentanaProfesores(Profesor profesor){
+        
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador
+        ("/fxml/VistaListaProfesoresActivos.fxml", "Profesores Activos");
+
+        if(cargador != null){
+            ControladorListaProfesoresActivos controlador = cargador.getController();
+            controlador.inicializarDatos(profesor);
+
+        }
+        
+    }
+    
+    private void mostrarMensajeErrorRegistro(String mensaje){
+        
+        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+        mensaje);
+        
+    }
+    
+    public void registrarProfesorConReemplazo(Profesor profesorNuevo, Profesor profesorAnterior, ActionEvent evento){
+
+        try{
+
+            ValidacionProfesor validacion = new ValidacionProfesor();
+
+            validacion.inactivarProfesor(profesorAnterior.getIdUsuario());
+
+            validacion.ingresarProfesor(profesorNuevo);
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro exitoso",
+            "Profesor registrado exitosamente");
+
+            regresar(evento);
+
+        }catch(ReglaDeNegocioExcepcion e){
+
+            mostrarMensajeErrorRegistro(e.getMessage());
+
+        }
+
     }
     
 }

@@ -22,8 +22,7 @@ import javafx.util.StringConverter;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
-import spp.logicadenegocio.gestores.GestorMensajesEnviados;
-import spp.logicadenegocio.gestores.GestorMensajesRecibidos;
+import spp.logicadenegocio.gestores.GestorMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -50,10 +49,8 @@ public class ControladorListaMensajes {
     
     @FXML
     private Label lblTituloMensajes;
-    
-    private GestorMensajesRecibidos gestorMensajesRecibidos;
-    
-    private GestorMensajesEnviados gestorMensajesEnviados;
+        
+    private GestorMensajes gestorMensajes;
     
     private TipoMensaje tipoMensaje;
     
@@ -80,10 +77,8 @@ public class ControladorListaMensajes {
     
     @FXML
     public void initialize() {
-
-        gestorMensajesRecibidos = new GestorMensajesRecibidos();
         
-        gestorMensajesEnviados = new GestorMensajesEnviados();
+        gestorMensajes = new GestorMensajes();
         
         tblMensajes.setPlaceholder(new Label("No hay mensajes"));
 
@@ -152,10 +147,10 @@ public class ControladorListaMensajes {
             switch(tipoMensaje) {
                 
                 case RECIBIDOS -> {
-                    mensajes = gestorMensajesRecibidos.consultarMensajesRecibidos(idUsuario);
+                    mensajes = gestorMensajes.consultarMensajesRecibidos(idUsuario);
                 }
                 case ENVIADOS -> {
-                    mensajes = gestorMensajesEnviados.consultarMensajesEnviados(idUsuario);
+                    mensajes = gestorMensajes.consultarMensajesEnviados(idUsuario);
                 }
             }
             

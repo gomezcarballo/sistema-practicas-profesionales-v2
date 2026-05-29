@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionProyecto;
+import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProyecto;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;

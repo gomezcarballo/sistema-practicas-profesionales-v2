@@ -16,6 +16,7 @@ public interface IProfesorDAO {
     public boolean insertarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion;
     public List<Profesor> consultarProfesoresActivos()throws OperacionesDeDaoExcepcion;
     public int obtenerCantidadProfesoresActivos()throws OperacionesDeDaoExcepcion;
+    public List<Profesor> consultarProfesoresInactivos() throws OperacionesDeDaoExcepcion;
     public boolean inactivarProfesor(int idUsuario)throws OperacionesDeDaoExcepcion;
-    public boolean actualizarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion;
+    public boolean reactivarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

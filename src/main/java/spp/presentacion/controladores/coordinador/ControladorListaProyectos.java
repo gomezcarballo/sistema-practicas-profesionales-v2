@@ -131,7 +131,6 @@ public class ControladorListaProyectos {
             if (cargador != null) {
 
                 ControladorDetalleProyecto controlador = cargador.getController();
-
                 controlador.cargarProyecto(proyectoSeleccionado, organizacion);
 
             }

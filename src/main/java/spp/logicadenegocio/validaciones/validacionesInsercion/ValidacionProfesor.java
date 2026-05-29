@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package spp.logicadenegocio.validaciones.validacionesInsercion;
+package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -109,6 +109,21 @@ public class ValidacionProfesor {
 
     }
     
+    public List<Profesor> obtenerProfesoresInactivos()throws ReglaDeNegocioExcepcion{
+        
+        ProfesorDAO profesorDao = new ProfesorDAO();
+        try{
+            
+            return profesorDao.consultarProfesoresInactivos();
+            
+        }catch(OperacionesDeDaoExcepcion e){
+
+            throw new ReglaDeNegocioExcepcion("No se pudieron recuperar los Profesores inactivos.");
+
+        }
+        
+    }
+    
     public void inactivarProfesor(int idUsuario)throws ReglaDeNegocioExcepcion {
 
         ProfesorDAO profesorDao = new ProfesorDAO();
@@ -124,6 +139,23 @@ public class ValidacionProfesor {
         }
 
     }
+    
+    public void reactivarProfesorInactivo(int idUsuario)throws ReglaDeNegocioExcepcion{
+        
+        ProfesorDAO profesorDao = new ProfesorDAO();
+        
+        try{
+            
+            profesorDao.reactivarProfesor(idUsuario);
+            
+        }catch(OperacionesDeDaoExcepcion e){
+            
+            throw new ReglaDeNegocioExcepcion("No se pudo reactivar al coordinador");
+            
+        }
+        
+    }
+
     
     public void sonCamposValidosPorReglaNegocio(Profesor profesor) throws ReglaDeNegocioExcepcion {
         

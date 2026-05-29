@@ -44,6 +44,20 @@ public class GestorSolicitudesProyectos {
         }
     }
     
+    public List<Proyecto> recuperarProyectosSolicitados(int idUsuario) throws ReglaDeNegocioExcepcion{
+       
+       try{
+           
+           SolicitudDAO solicitudDAO = new SolicitudDAO();
+           return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
+           
+       }catch(OperacionesDeDaoExcepcion e){
+           
+           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos solicitados");
+           
+       }
+   }
+    
     private void validarSolicitudes(List<Proyecto> proyectosSeleccionados) throws ReglaDeNegocioExcepcion {
 
         if(proyectosSeleccionados.size() != NUMERO_SOLICITUDES) {

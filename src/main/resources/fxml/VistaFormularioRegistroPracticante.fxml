@@ -29,7 +29,7 @@
       <DatePicker fx:id="dpFechaNacimiento" layoutX="256.0" layoutY="306.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese fecha de nacimiento" />
       <ComboBox fx:id="cbOpcionesLenguaIndigena" layoutX="256.0" layoutY="341.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese valor" />
       <Button fx:id="btnRegistrar" layoutX="220.0" layoutY="385.0" mnemonicParsing="false" onAction="#leerDatosDePracticante" text="Registrar" />
-      <Button fx:id="btnCancelar" layoutX="326.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <Button fx:id="btnCancelar" layoutX="326.0" layoutY="385.0" mnemonicParsing="false" onAction="#regresar" text="Cancelar" />
       <Label fx:id="lblInstruccion" layoutX="215.0" layoutY="56.0" text="Ingrese los campos solicitados" />
       <TextField fx:id="txtCorreo" layoutX="255.0" layoutY="233.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese el correo " />
       <Label fx:id="lblCorreo" layoutX="70.0" layoutY="238.0" prefHeight="18.0" prefWidth="172.0" text="Correo institucional:" />

@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
-import spp.logicadenegocio.validaciones.validacionesDocumentos.ValidacionesReporteParcial;
+import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesReporteParcial;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanademensajes.VentanaMensaje;

@@ -6,13 +6,9 @@ package spp.presentacion.controladores.administrador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Coordinador;
-import spp.logicadenegocio.validaciones.validacionesInsercion.ValidacionCoordinador;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionCoordinador;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -20,122 +16,112 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  *
  * @author Luz Fernanda H J
  */
-public class ControladorRegistroCoordinador {
-    
-    @FXML
-    private TextField txtNombre;
-    
-    @FXML
-    private TextField txtApellidoPaterno;
-    
-    @FXML
-    private TextField txtApellidoMaterno;
-    
-    @FXML
-    private TextField txtCorreo;
-    
-    @FXML 
-    private TextField txtNumeroPersonal; 
+public class ControladorRegistroCoordinador extends ControladorRegistroPersonal{
     
     @FXML
     private void leerDatosDelCoordinador(ActionEvent evento){
         
         if (camposValidos()){
-            
-           String nombre = txtNombre.getText();
-           String apellidoPaterno = txtApellidoPaterno.getText();
-           String apellidoMaterno = txtApellidoMaterno.getText();
-           String correoInstitucional = txtCorreo.getText();
-           String numeroPersonal = txtNumeroPersonal.getText();
            
-           Coordinador coordinador = new Coordinador();
-           coordinador.setNombre(nombre);
-           coordinador.setApellidoPaterno(apellidoPaterno);
-           coordinador.setApellidoMaterno(apellidoMaterno);
-           coordinador.setCorreoInstitucional(correoInstitucional);
-           coordinador.setNumeroDePersonal(numeroPersonal);
+           Coordinador coordinador = crearCoordinador();
            
            registrarCoordinador(coordinador, evento);
            
         }else{
             
-            VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Datos faltantes", 
-            "Faltan datos por agregar. Por favor ingreselos");
+            mostrarMensajeCamposFaltantes();
             
         }
         
     }
     
-    @FXML
-    private boolean camposValidos(){
+    private Coordinador crearCoordinador(){
         
-        boolean sonCamposValidos = true; 
         
-        if(txtNombre.getText().isBlank() ||  txtApellidoPaterno.getText().isBlank() ||
-           txtCorreo.getText().isBlank() || txtNumeroPersonal.getText().isBlank()){
-            
-            sonCamposValidos = false; 
-            
-        }
-        if(txtApellidoMaterno.getText().isBlank()){
-            
-            txtApellidoMaterno.setText("");
-            
-        }
+        String nombre = txtNombre.getText();
+        String apellidoPaterno = txtApellidoPaterno.getText();
+        String apellidoMaterno = txtApellidoMaterno.getText();
+        String correoInstitucional = txtCorreo.getText();
+        String numeroPersonal = txtNumeroPersonal.getText();
+
+        Coordinador coordinador = new Coordinador();
+        coordinador.setNombre(nombre);
+        coordinador.setApellidoPaterno(apellidoPaterno);
+        coordinador.setApellidoMaterno(apellidoMaterno);
+        coordinador.setCorreoInstitucional(correoInstitucional);
+        coordinador.setNumeroDePersonal(numeroPersonal);
         
-        return sonCamposValidos; 
+        return coordinador;
         
     }
     
     @FXML 
     private void registrarCoordinador(Coordinador coordinador, ActionEvent evento){
         
-        ValidacionCoordinador validacion = new ValidacionCoordinador();
-        
         try{
             
-            if(validacion.verificarCoordinadorActivo()){
+            ValidacionCoordinador validacion = new ValidacionCoordinador();
+            
+            boolean puedeRegistrar = validarCoordinadorActivo(validacion, evento);
+            
+            if(puedeRegistrar){
                 
-                boolean confirmarInactivacion = VentanaMensaje.mostrarConfirmacion("Coordinador activo", 
-                "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con el registro?");
-                
-                if(confirmarInactivacion){
-                    
-                    validacion.inactivarCoordinadorActivo();
-                    
-                }else {
-                    
-                    cancelar(evento);
-                    return;
-                    
-                }
+                ingresarCoordinador(coordinador, validacion, evento);
                 
             }
-       
+                 
             validacion.ingresarCoordinador(coordinador);
-            
-            VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
-            "Coordinador registrado exitosamente");
-            
-            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-            "Menu Principal para Administrador");
-            CerradorVentana.cerrarVentana(evento);
             
         }catch(ReglaDeNegocioExcepcion e){
             
-            VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Registro fallido", 
-            e.getMessage());
+            mostrarMensajeErrorRegistro(e.getMessage());
                         
         }
         
     }
-   
-    @FXML
-    public void cancelar(ActionEvent evento) {
+    
+    private boolean validarCoordinadorActivo(ValidacionCoordinador validacion, ActionEvent evento) 
+    throws ReglaDeNegocioExcepcion{
         
-        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-        "Menu Principal para Administrador");
-        CerradorVentana.cerrarVentana(evento);
+        boolean puedeRegistrar = true;
+        
+        if(validacion.verificarCoordinadorActivo()){
+                
+            boolean confirmarInactivacion = VentanaMensaje.mostrarConfirmacion("Coordinador activo", 
+            "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con el registro?");
+
+            if(confirmarInactivacion){
+
+                validacion.inactivarCoordinadorActivo();
+
+            }else {
+
+                regresar(evento);
+                puedeRegistrar = false;
+
+            }
+
+        }
+        
+        return puedeRegistrar;
+
+    }
+    
+    private void ingresarCoordinador(Coordinador coordinador, ValidacionCoordinador validacion, 
+    ActionEvent evento) throws ReglaDeNegocioExcepcion{
+        
+        validacion.ingresarCoordinador(coordinador);
+        
+        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+        "Coordinador registrado exitosamente");
+        
+        regresar(evento);
+        
+    }
+    
+    private void mostrarMensajeErrorRegistro(String mensaje){
+        
+        VentanaMensaje.mostrarVentanaMensaje( AlertType.ERROR, "Registro fallido", mensaje );
         
     }
 

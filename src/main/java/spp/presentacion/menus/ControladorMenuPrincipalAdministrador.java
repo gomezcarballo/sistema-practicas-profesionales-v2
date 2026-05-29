@@ -43,7 +43,7 @@ public class ControladorMenuPrincipalAdministrador {
     @FXML
     private void abrirReactivarCoordinador(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/Vista", "Reactivar Coordinador");
+        CargadorVentana.cargarVentana("/fxml/VistaReactivacionCoordinador.fxml", "Reactivar Coordinador");
         CerradorVentana.cerrarVentana(evento);
         
     }

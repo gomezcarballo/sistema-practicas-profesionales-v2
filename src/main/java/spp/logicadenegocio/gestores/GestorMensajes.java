@@ -15,10 +15,25 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  *
  * @author gomes
  */
-public class GestorMensajesRecibidos {
+public class GestorMensajes {
     
     private IMensajeDAO mensajeDAO;
 
+    public List<Mensaje> consultarMensajesEnviados(int idUsuario)throws ReglaDeNegocioExcepcion{
+        
+        try{
+           
+           mensajeDAO = new MensajeDAO();
+           return mensajeDAO.consultarMensajesEnviados(idUsuario);
+           
+        }catch(OperacionesDeDaoExcepcion e){
+            
+           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los mensajes");
+           
+        }
+        
+    }
+    
     public List<Mensaje> consultarMensajesRecibidos(int idUsuario)throws ReglaDeNegocioExcepcion{
         
         try{

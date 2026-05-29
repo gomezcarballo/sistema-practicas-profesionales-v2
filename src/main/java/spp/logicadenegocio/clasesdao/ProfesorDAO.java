@@ -70,7 +70,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
                 Profesor profesor = new Profesor();
 
-                profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroPersonal"));
+                profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
                 profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
                 profesor.setNombre(resultadoConsulta.getString("nombre"));
                 profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
@@ -88,6 +88,53 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         }
 
         return profesoresActivos;
+    
+    }
+    
+    @Override
+    public List<Profesor> consultarProfesoresInactivos() throws OperacionesDeDaoExcepcion{
+        
+        List<Profesor> profesoresInactivos = new ArrayList<>();
+        
+        String consultaSQL = """
+            SELECT p.noPersonal,
+            p.idUsuario,
+            u.nombre,
+            u.apellidoPaterno,
+            u.apellidoMaterno,
+            u.correoInstitucional
+            FROM Profesor p
+            INNER JOIN Usuario u
+            ON p.idUsuario = u.idUsuario
+            WHERE u.estado = 0
+            """;
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+
+            while(resultadoConsulta.next()) {
+
+                Profesor profesor = new Profesor();
+
+                profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
+                profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
+                profesor.setNombre(resultadoConsulta.getString("nombre"));
+                profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
+                profesor.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));
+                profesor.setCorreoInstitucional(resultadoConsulta.getString("correoInstitucional"));
+
+                profesoresInactivos.add(profesor);
+
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+
+        }
+        
+    return profesoresInactivos;
     
     }
     
@@ -151,30 +198,30 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
     }
 
     @Override
-    public boolean actualizarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion {
+    public boolean reactivarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion {
         
-        boolean actualizacionExitosa = false;
-
-        String consultaSQL = "UPDATE Profesor SET noPersonal = ?"
-                + "WHERE idUsuario = ?";
-
-        try (Connection conexion = ConexionBD.getConexion();
-             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
-
-            consultaPreparada.setString(1, profesor.getNumeroDePersonal());
-            consultaPreparada.setInt(2, profesor.getIdUsuario());
-
+        boolean reactivacionExitosa = false;
+        
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Profesor p ON u.idUsuario = p.idUsuario"
+                + "SET u.estado = 1 WHERE u.idUsuario = ?";
+        
+        try(Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
+            
+            consultaPreparada.setInt(1, idUsuario);
+            
             int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                actualizacionExitosa = true;
+            
+            if(filasAfectadas > 0){
+                reactivacionExitosa = true;
             }
+            
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
-
-    return actualizacionExitosa;
+        
+    return reactivacionExitosa;
     
-    }
+    }    
 
 }

@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import spp.logicadenegocio.enums.TipoDocumento;
-import spp.logicadenegocio.validaciones.validacionesDocumentos.ValidacionesDocumentos;
+import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;

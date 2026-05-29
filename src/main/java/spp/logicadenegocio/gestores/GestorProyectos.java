@@ -6,10 +6,8 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import spp.logicadenegocio.clasesdao.ProyectoDAO;
-import spp.logicadenegocio.clasesdao.SolicitudDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.interfacesdao.IProyectoDAO;
-import spp.logicadenegocio.interfacesdao.ISolicitudDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -20,7 +18,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class GestorProyectos {
     
    private IProyectoDAO proyectoDAO;
-   private ISolicitudDAO solicitudDAO;
    
    public List<Proyecto> recuperarProyectosActivos() throws ReglaDeNegocioExcepcion{
        
@@ -46,20 +43,6 @@ public class GestorProyectos {
        }catch(OperacionesDeDaoExcepcion e){
            
            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos activos");
-           
-       }
-   }
-   
-   public List<Proyecto> recuperarProyectosSolicitados(int idUsuario) throws ReglaDeNegocioExcepcion{
-       
-       try{
-           
-           solicitudDAO = new SolicitudDAO();
-           return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
-           
-       }catch(OperacionesDeDaoExcepcion e){
-           
-           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos solicitados");
            
        }
    }
