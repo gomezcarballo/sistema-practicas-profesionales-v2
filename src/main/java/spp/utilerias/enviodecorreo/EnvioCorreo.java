@@ -25,6 +25,7 @@ import java.io.IOException;
  * @author gomes
  */
 public class EnvioCorreo {
+    
     private Properties propiedades;
     private String correoRemitente;
     private String contrasenaRemitente;
@@ -34,12 +35,11 @@ public class EnvioCorreo {
     }
 
     private void cargarConfiguracion() {
+        
         try {
             propiedades = new Properties();
 
-            InputStream entrada = getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("correospp.properties");
+            InputStream entrada = getClass().getClassLoader().getResourceAsStream("correospp.properties");
 
             propiedades.load(entrada);
 
@@ -49,19 +49,25 @@ public class EnvioCorreo {
         } catch (IOException e) {
             throw new RuntimeException("Error cargando configuracion", e);
         }
+        
     }
 
     private Session conectarGmail() {
+        
         return Session.getInstance(propiedades, new Authenticator() {
+            
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(correoRemitente, contrasenaRemitente);
             }
         });
+        
     }
 
     public boolean enviarContraseña(String correoDestino, String contrasena) {
+        
         try {
+            
             Session sesion = conectarGmail();
 
             Message mensaje = new MimeMessage(sesion);
@@ -88,5 +94,7 @@ public class EnvioCorreo {
         } catch (MessagingException e) {
             throw new RuntimeException("No se pudo enviar el correo", e);
         }
+        
     }
+    
 }

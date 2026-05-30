@@ -6,37 +6,33 @@ package spp.presentacion.controladores.practicante;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.presentacion.menus.ControladorMenus;
 
 /**
  *
  * @author Luz Fernanda H J
  */
-public class ControladorGenerarEvidenciaPracticas {
+public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
     
     
     @FXML 
     private void abrirReportes(ActionEvent evento){
         
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioReporte.fxml", "Formulario de Reporte");       
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaFormularioReporte.fxml", "Formulario de Reporte", evento);       
         
     }
     @FXML 
     private void abrirAutoevaluacion(ActionEvent evento){
         
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioAutoevaluacion.fxml", "Formulario Autoevaluacion");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaFormularioAutoevaluacion.fxml", "Formulario Autoevaluacion", evento);
         
     }
     
     @FXML
     public void regresar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
-        "Menú Principal para Practicante");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
+        "Menú Principal para Practicante", evento);
         
     }
     

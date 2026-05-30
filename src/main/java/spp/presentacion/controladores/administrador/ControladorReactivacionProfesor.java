@@ -57,7 +57,6 @@ public class ControladorReactivacionProfesor {
     }
     
     private void configurarColumnas(){
-
         
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
@@ -85,7 +84,7 @@ public class ControladorReactivacionProfesor {
 
     }
     
-    private Profesor obtenerCoordinadorSeleccionado(){
+    private Profesor obtenerProfesorSeleccionado(){
 
         Profesor profesorSeleccionado = tblProfesoresInactivos.getSelectionModel().getSelectedItem();
 
@@ -103,7 +102,7 @@ public class ControladorReactivacionProfesor {
     @FXML 
     private void reactivarProfesor(ActionEvent evento){
         
-        Profesor profesorSeleccionado = new Profesor();
+        Profesor profesorSeleccionado = obtenerProfesorSeleccionado();
         
         if(profesorSeleccionado != null){
             
@@ -115,12 +114,9 @@ public class ControladorReactivacionProfesor {
 
                     validacion.reactivarProfesorInactivo(profesorSeleccionado.getIdUsuario());
 
-                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Reactivación Exitosa", 
-                    "Profesor reactivado exitosamente");
+                    mostrarMensajeReactivacionExitosa();
 
-                    CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-                    "Menu Principal para Administrador");
-                    CerradorVentana.cerrarVentana(evento);
+                    irMenuPrincipal(evento);
 
                 }else{
 
@@ -155,12 +151,9 @@ public class ControladorReactivacionProfesor {
 
             validacion.reactivarProfesorInactivo(profesorNuevo.getIdUsuario());
 
-            VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Reactivación exitosa",
-            "Profesor reactivado exitosamente");
+            mostrarMensajeReactivacionExitosa();
 
-            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-            "Menu Principal para Administrador");
-            CerradorVentana.cerrarVentana(evento);
+            irMenuPrincipal(evento);
 
         }catch(ReglaDeNegocioExcepcion e){
 
@@ -169,14 +162,26 @@ public class ControladorReactivacionProfesor {
         }
 
     }
+    
+    private void mostrarMensajeReactivacionExitosa(){
+        
+        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Reactivación exitosa",
+        "Profesor reactivado exitosamente");
+        
+    }
+    
+    private void irMenuPrincipal(ActionEvent evento) {
 
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", "Menu Principal para Administrador");
+
+        CerradorVentana.cerrarVentana(evento);
+    
+    }
     
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", 
-        "Menu Principal para Administrador");
-        CerradorVentana.cerrarVentana(evento);
+        irMenuPrincipal(evento);
         
     }
     

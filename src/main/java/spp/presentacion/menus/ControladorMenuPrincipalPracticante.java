@@ -6,29 +6,25 @@ package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
  * @author Luz Fernanda H J
  */
-public class ControladorMenuPrincipalPracticante {
+public class ControladorMenuPrincipalPracticante extends ControladorMenus{
     
     @FXML
     private void abrirGenerarEvidenciaPracticas(ActionEvent evento){
         
-        CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias de Practicas", evento);
         
     }
         
     @FXML
     private void abrirAnadirEvidenciaPracticas(ActionEvent evento){
         
-       CargadorVentana.cargarVentana("/fxml/VistaSubirEvidenciaPracticas.fxml", "Subir Evidencias de Practicas");
-       CerradorVentana.cerrarVentana(evento);
+       cambiarVentana("/fxml/VistaSubirEvidenciaPracticas.fxml", "Subir Evidencias de Practicas", evento);
        
     }
     
@@ -36,22 +32,21 @@ public class ControladorMenuPrincipalPracticante {
     @FXML
     private void abrirSolicitarProyecto(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaSolicitudProyectos.fxml", "Solicitar proyecto");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaSolicitudProyectos.fxml", "Solicitar proyecto", evento);
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
+        abrirVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
     private void abrirVerPerfil(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
+        abrirVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
         
     }
     

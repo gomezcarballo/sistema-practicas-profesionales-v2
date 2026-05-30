@@ -25,41 +25,30 @@ public class ValidacionProfesor {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionProfesor.class.getName());
     
-    private static final int LONGITUD_MAXIMA_NUMEROPERSONAL = 5;
-    private static final int LONGITUD_MAXIMA_NOMBRE = 50;
-    private static final int LONGITUD_MAXIMA_APELLIDO = 30;
+    private static final int LONGITUD_MAXIMA_NUMEROPERSONAL = 5;    
     
-    
-    public boolean ingresarProfesor(Profesor profesor)throws ReglaDeNegocioExcepcion{
+    public void ingresarProfesor(Profesor profesor)throws ReglaDeNegocioExcepcion{
         
         sonCamposValidosPorReglaNegocio(profesor);
         
-        Usuario usuario = new Usuario();
-        
-        usuario.setNombre(profesor.getNombre());
-        usuario.setApellidoPaterno(profesor.getApellidoPaterno());
-        usuario.setApellidoMaterno(profesor.getApellidoMaterno());
-        usuario.setCorreoInstitucional(profesor.getCorreoInstitucional());
-        usuario.setEsActivo(true);
+        Usuario usuarioProfesor = crearUsuarioProfesor(profesor);
         
         String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
         String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
-        usuario.setContraseña(contraseñaHasheada);
+        usuarioProfesor.setContraseña(contraseñaHasheada);
         
         UsuarioDAO usuarioDao = new UsuarioDAO();
         ProfesorDAO profesorDao = new ProfesorDAO();
-        
-        boolean registroExitoso;
-        
+                
         try{
 
-            int idUsuario = usuarioDao.insertarUsuario(usuario);
+            int idUsuario = usuarioDao.insertarUsuario(usuarioProfesor);
             
             profesor.setIdUsuario(idUsuario);
-            registroExitoso = profesorDao.insertarProfesor(profesor);
+            profesorDao.insertarProfesor(profesor);
             
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
-            envioCorreoContraseña.enviarContraseña(usuario.getCorreoInstitucional(), contraseñaPlana);
+            envioCorreoContraseña.enviarContraseña(usuarioProfesor.getCorreoInstitucional(), contraseñaPlana);
             
         }catch(OperacionesDeDaoExcepcion e){
             
@@ -73,7 +62,20 @@ public class ValidacionProfesor {
             throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
             
         }
-        return registroExitoso;
+        
+    }
+    
+    private Usuario crearUsuarioProfesor(Profesor profesor){
+        
+        Usuario usuario = new Usuario();
+        
+        usuario.setNombre(profesor.getNombre());
+        usuario.setApellidoPaterno(profesor.getApellidoPaterno());
+        usuario.setApellidoMaterno(profesor.getApellidoMaterno());
+        usuario.setCorreoInstitucional(profesor.getCorreoInstitucional());
+        usuario.setEsActivo(true);
+        
+        return usuario;
     }
     
     public boolean hayCupoProfesores()throws ReglaDeNegocioExcepcion {
@@ -172,44 +174,11 @@ public class ValidacionProfesor {
            
         }
         
-        if(!(nombre.matches("^[\\p{L} ]+$"))){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
-            
-        }
+        ValidacionDatos validacionDatosPersonales = new ValidacionDatos();
         
-        if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_NOMBRE + "caracteres");
-            
-        }
-        
-        if(!(apellidoPaterno.matches("^[\\p{L} ]+$"))){
-            
-            throw new ReglaDeNegocioExcepcion("El apellido paterno solo debe contener letras.");
-            
-        }
-        
-        if(apellidoPaterno.length() > LONGITUD_MAXIMA_APELLIDO){
-            
-            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_APELLIDO +"caracteres.");
-            
-        }
-        
-        if(apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$"))){
-            
-            throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
-            
-        }
-        
-        if (apellidoMaterno != null && apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
-            
-            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de" + 
-            LONGITUD_MAXIMA_APELLIDO +"caracteres.");
-            
-        }
+        validacionDatosPersonales.validarNombre(nombre);
+        validacionDatosPersonales.validarApellidoPaterno(apellidoPaterno);
+        validacionDatosPersonales.validarApellidoMaterno(apellidoMaterno);
         
     }
 }

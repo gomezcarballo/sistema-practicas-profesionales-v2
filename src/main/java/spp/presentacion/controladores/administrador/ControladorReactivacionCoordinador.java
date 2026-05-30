@@ -57,7 +57,6 @@ public class ControladorReactivacionCoordinador {
     }
     
     private void configurarColumnas(){
-
         
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
@@ -137,10 +136,7 @@ public class ControladorReactivacionCoordinador {
                     VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION,"Reactivación exitosa",
                      "Coordinador reactivado exitosamente");
 
-                    CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
-                    "Menu Principal para Administrador");
-
-                    CerradorVentana.cerrarVentana(evento);
+                    irMenuPrincipal(evento);
 
                 }
 
@@ -154,13 +150,18 @@ public class ControladorReactivacionCoordinador {
         
     }
     
+    private void irMenuPrincipal(ActionEvent evento) {
+
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", "Menu Principal para Administrador");
+
+        CerradorVentana.cerrarVentana(evento);
+    
+    }
+    
     @FXML
     private void cancelar(ActionEvent evento){
 
-        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
-        "Menu Principal para Administrador");
-
-        CerradorVentana.cerrarVentana(evento);
+        irMenuPrincipal(evento);
 
     }
 

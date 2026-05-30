@@ -35,8 +35,7 @@ public class ControladorRegistroCoordinador extends ControladorRegistroPersonal{
         
     }
     
-    private Coordinador crearCoordinador(){
-        
+    private Coordinador crearCoordinador(){      
         
         String nombre = txtNombre.getText();
         String apellidoPaterno = txtApellidoPaterno.getText();

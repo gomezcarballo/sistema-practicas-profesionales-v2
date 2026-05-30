@@ -158,7 +158,7 @@ public class ControladorListaOrganizaciones {
         }
 
         FXMLLoader cargadorMenuProyectos = CargadorVentana.cargarVentanaConControlador
-        ("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos de" + organizacionSeleccionada.getNombre());
+        ("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos de " + organizacionSeleccionada.getNombre());
 
         if(cargadorMenuProyectos != null){
 

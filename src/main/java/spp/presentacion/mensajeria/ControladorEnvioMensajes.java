@@ -36,14 +36,9 @@ public class ControladorEnvioMensajes {
         
         if(sonCamposValidos()){
             
-            String asunto = txtAsunto.getText();
+            Mensaje mensajeNuevo = crearMensaje();
+            
             String correoDestinatario = txtDestinatario.getText().trim().toLowerCase();
-            String cuerpo = taCuerpoMensaje.getText();
-            
-            Mensaje mensajeNuevo = new Mensaje();        
-            
-            mensajeNuevo.setAsunto(asunto);
-            mensajeNuevo.setCuerpo(cuerpo);
             
             registrarMensaje(mensajeNuevo, correoDestinatario, evento);
             
@@ -53,6 +48,20 @@ public class ControladorEnvioMensajes {
             "Faltan datos por agregar. Por favor ingreselos");
             
         }
+        
+    }
+    
+    private Mensaje crearMensaje(){
+        
+        Mensaje mensajeNuevo = new Mensaje();   
+        
+        String asunto = txtAsunto.getText();       
+        String cuerpo = taCuerpoMensaje.getText();
+
+        mensajeNuevo.setAsunto(asunto);
+        mensajeNuevo.setCuerpo(cuerpo);
+        
+        return mensajeNuevo;
         
     }
     
@@ -83,9 +92,7 @@ public class ControladorEnvioMensajes {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Envio Exitoso", 
             "Mensaje enviado correctamente");
             
-            CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuMensajes.fxml", 
-            "Mensajes");
-            CerradorVentana.cerrarVentana(evento);
+            regresar(evento);
             
         }catch(ReglaDeNegocioExcepcion e){
             
@@ -97,7 +104,7 @@ public class ControladorEnvioMensajes {
     }
     
     @FXML
-    public void cancelar(ActionEvent evento) {
+    public void regresar(ActionEvent evento) {
         
         CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuMensajes.fxml", 
         "Mensajes");

@@ -18,13 +18,9 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class ValidacionProyecto {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionProyecto.class.getName());
-    
-    private static final int LONGITUD_MAXIMA_NOMBRE = 50;
-    
+        
     private static final int LONGITUD_MAXIMA_DESCRIPCION = 100;
-    
-    private static final int LONGITUD_MAXIMA_RESPONSABLE = 50;
-    
+        
     private static final int CANTIDAD_MAXIMA_CUPO = 50;
 
     public void ingresarProyecto(Proyecto proyecto)throws ReglaDeNegocioExcepcion {
@@ -75,38 +71,18 @@ public class ValidacionProyecto {
         String nombreResponsable = proyecto.getNombreResponsable();
         int cupoMaximo = proyecto.getCupoMaximo();
         
-        if(!(nombre.matches("^[\\p{L} ]+$"))){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
-            
-        }
+        ValidacionDatos validacionDatos = new ValidacionDatos();
         
-        if(!(nombreResponsable.matches("^[\\p{L} ]+$"))){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre del Responsable solo debe contener letras.");
-            
-        }
+        validacionDatos.validarNombre(nombre);
         
-        if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_NOMBRE + " caracteres");
-            
-        }
+        validacionDatos.validarNombre(nombreResponsable);
         
         if(descripcion.length() > LONGITUD_MAXIMA_DESCRIPCION){
             
             throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de " + 
             LONGITUD_MAXIMA_DESCRIPCION + " caracteres");
             
-        }
-        
-        if(nombreResponsable.length() > LONGITUD_MAXIMA_RESPONSABLE){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre del Responsable excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_RESPONSABLE + " caracteres");
-            
-        }
+        }        
         
         if(cupoMaximo >= CANTIDAD_MAXIMA_CUPO){
             

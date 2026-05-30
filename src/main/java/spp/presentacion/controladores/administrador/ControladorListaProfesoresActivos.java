@@ -8,6 +8,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -117,8 +118,16 @@ public class ControladorListaProfesoresActivos {
             return;
         }
         
-        ControladorRegistroProfesor controladorRegistro = new ControladorRegistroProfesor();
-        controladorRegistro.registrarProfesorConReemplazo(profesorNuevo, profesorSeleccionado, evento);
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaRegistroProfesor.fxml",
+        "Registro Profesor");
+
+        if (cargador != null) {
+
+            ControladorRegistroProfesor controlador = cargador.getController();
+
+            controlador.registrarProfesorConReemplazo(profesorNuevo, profesorSeleccionado, evento);
+            
+        }
         
     }
 

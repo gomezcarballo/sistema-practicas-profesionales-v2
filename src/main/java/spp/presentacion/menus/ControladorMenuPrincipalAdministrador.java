@@ -6,66 +6,59 @@ package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
  * @author Luz Fernanda H J
  */
-public class ControladorMenuPrincipalAdministrador {
+public class ControladorMenuPrincipalAdministrador extends ControladorMenus {
         
     @FXML
     private void abrirRegistroNuevoCoordinador(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroCoordinador.fxml", "Registro de Coordinador");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaFormularioRegistroCoordinador.fxml", "Registro de Coordinador", evento);
         
     }
     
     @FXML
     private void abrirRegistroNuevoProfesor(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaFormularioRegistroProfesor.fxml", "Registro de Profesor");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaFormularioRegistroProfesor.fxml", "Registro de Profesor", evento);
         
     }
     
     @FXML
     private void abrirRegistroNuevoAdministrador(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/Vista.fxml", "Registro de Administrador");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/Vista.fxml", "Registro de Administrador", evento);
         
     }
     
     @FXML
     private void abrirReactivarCoordinador(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaReactivacionCoordinador.fxml", "Reactivar Coordinador");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaReactivacionCoordinador.fxml", "Reactivar Coordinador", evento);
         
     }
     @FXML
     private void abrirReactivarProfesor(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/Vista", "Reactivar Profesor");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaReactivacionProfesor", "Reactivar Profesor", evento);
         
     }
     
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
+        abrirVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
     private void abrirVerPerfil(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
+        abrirVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
         
     }
     

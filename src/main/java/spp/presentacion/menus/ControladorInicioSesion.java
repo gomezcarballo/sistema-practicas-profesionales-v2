@@ -47,13 +47,12 @@ public class ControladorInicioSesion {
         }
     }
     
-    @FXML
     private boolean sonCamposValidos(){
         
         boolean sonCamposValidos = true; 
         
         if( ( txtCorreoMatricula.getText() == null) || txtCorreoMatricula.getText().isBlank() ||
-              pfContrasena.getText() == null || txtCorreoMatricula.getText().isBlank()){
+              pfContrasena.getText() == null || pfContrasena.getText().isBlank()){
             
             sonCamposValidos = false; 
         }
@@ -61,7 +60,6 @@ public class ControladorInicioSesion {
         return sonCamposValidos; 
     }
     
-    @FXML
     private void iniciarSesion(String identificador, String contraseñaIngresada) {
         
         try{
@@ -70,25 +68,7 @@ public class ControladorInicioSesion {
             
             String tipoRol =  validacion.autenticarUsuario(identificador, contraseñaIngresada);
                         
-            if( tipoRol.equals("Administrador") ){
-                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
-                    "Menú Principal para Administrador");
-            }
-            
-            if( tipoRol.equals("Profesor") ){
-                 CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalProfesor.fxml",
-                    "Menú Principal para Profesores");
-            }
-            
-            if( tipoRol.equals("Coordinador") ){
-                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalCoordinador.fxml",
-                    "Menú Principal para Coordinador");
-            }
-            
-            if( tipoRol.equals("Practicante")){
-                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
-                    "Menú Principal para Practicante");
-            }
+            abrirMenuSegunRol(tipoRol);
             
             Stage escenarioActual = (Stage) btnIngresar.getScene().getWindow();
             escenarioActual.close();
@@ -100,6 +80,30 @@ public class ControladorInicioSesion {
             causa);
             
         }
+    }
+    
+    private void abrirMenuSegunRol(String tipoRol){
+        
+        if( tipoRol.equals("Administrador") ){
+                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
+                    "Menú Principal para Administrador");
+        }
+
+        if( tipoRol.equals("Profesor") ){
+             CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalProfesor.fxml",
+                "Menú Principal para Profesores");
+        }
+
+        if( tipoRol.equals("Coordinador") ){
+            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalCoordinador.fxml",
+                "Menú Principal para Coordinador");
+        }
+
+        if( tipoRol.equals("Practicante")){
+            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
+                "Menú Principal para Practicante");
+        }
+        
     }
 
 }

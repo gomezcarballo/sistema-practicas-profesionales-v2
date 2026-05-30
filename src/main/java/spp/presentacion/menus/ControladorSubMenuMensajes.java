@@ -4,52 +4,33 @@
  */
 package spp.presentacion.menus;
 
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import spp.logicadenegocio.enums.TipoMensaje;
 import spp.presentacion.mensajeria.ControladorListaMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorSubMenuMensajes {
+public class ControladorSubMenuMensajes extends ControladorMenus{
     
     private void abrirMensajes(TipoMensaje tipoMensaje, String tituloVentana) {
 
-        try {
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaMensajes.fxml",
+        tituloVentana);
 
-            FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/VistaListaMensajes.fxml"));
+        if(cargador != null){
 
-            Parent raizVentana = cargadorFXML.load();
-
-            ControladorListaMensajes controlador = cargadorFXML.getController();
+            ControladorListaMensajes controlador = cargador.getController();
 
             controlador.setTipoMensaje(tipoMensaje);
 
-            Stage escenario = new Stage();
-
-            escenario.setScene(new Scene(raizVentana));
-
-            escenario.setTitle(tituloVentana);
-
-            escenario.show();
-
-        } catch(IOException e) {
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error de acceso",
-                "No se pudo abrir la ventana de mensajes");
-            
         }
+        
     }
     
     @FXML
@@ -71,8 +52,7 @@ public class ControladorSubMenuMensajes {
     @FXML
     private void abrirEnvioMensaje(ActionEvent evento){
         
-        CargadorVentana.cargarVentana("/fxml/VistaEnvioMensajes.fxml", "Enviar Mensaje");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaEnvioMensajes.fxml", "Enviar Mensaje", evento);
         
     }
     

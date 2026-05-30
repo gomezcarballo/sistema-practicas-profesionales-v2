@@ -123,36 +123,49 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     }
 
     @Override
-    public boolean actualizarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion {
-        
-        boolean actualizacionExitosa = false;
+    public List<Practicante> consultarPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion {
 
-        String consultaSQL = "UPDATE Practicante SET matricula = ?, genero = ?, "
-                + "lenguaIndigena = ?, fechaNacimiento = ? "
-                + "WHERE matricula = ?";
+        List<Practicante> listaPracticantes = new ArrayList<>();
 
-        try ( Connection conexion = ConexionBD.getConexion();
-             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL) ) {
+        String consultaSQL =
+        "SELECT DISTINCT u.idUsuario AS idUsuario, u.nombre, u.apellidoPaterno, " +
+        "u.apellidoMaterno, u.correoInstitucional, " +
+        "p.matricula, p.fechaNacimiento, p.genero, p.lenguaIndigena " +
+        "FROM Practicante p " +
+        "INNER JOIN Usuario u ON p.idUsuario = u.idUsuario " +
+        "INNER JOIN solicitudProyecto sp ON p.idUsuario = sp.Practicante_idUsuario";
 
-            consultaPreparada.setString(1, practicante.getMatricula());
-            consultaPreparada.setString(2, practicante.getGenero());
-            consultaPreparada.setBoolean(3, practicante.getHablaLenguaIndigena());
-            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
-            consultaPreparada.setDate(4, fechaParaBD);
-            consultaPreparada.setString(5, practicante.getMatricula());
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            while (resultadosConsulta.next()) {
 
-            if (filasAfectadas > 0) {
-                actualizacionExitosa = true;
+                Practicante practicante = new Practicante();
+
+                practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                practicante.setNombre(resultadosConsulta.getString("nombre"));
+                practicante.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                practicante.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                practicante.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
+                practicante.setMatricula(resultadosConsulta.getString("matricula"));
+                practicante.setGenero(resultadosConsulta.getString("genero"));
+                practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
+                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
+
+                listaPracticantes.add(practicante);
+                
             }
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            
         }
 
-    return actualizacionExitosa;
-    
+        return listaPracticantes;
     }
+        
     
     @Override
     public UsuarioEncontrado buscarPracticante (String matricula) throws OperacionesDeDaoExcepcion{
@@ -181,25 +194,6 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
         }
     
-    }
-    
-    @Override
-    public void asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion {
-
-        String consultaSQL = "UPDATE Practicante SET Proyecto_idProyecto = ? WHERE idUsuario = ?";
-
-        try (Connection conexion = ConexionBD.getConexion();
-             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
-
-            consultaPreparada.setInt(1, idProyecto);
-            consultaPreparada.setInt(2, idUsuario);
-
-            consultaPreparada.executeUpdate();
-
-        } catch (SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
-        }
     }
     
 }

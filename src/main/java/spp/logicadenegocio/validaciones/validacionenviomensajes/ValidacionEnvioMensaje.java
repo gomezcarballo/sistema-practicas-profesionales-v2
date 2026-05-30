@@ -36,6 +36,7 @@ public class ValidacionEnvioMensaje {
         try{
             
             validarTamañoMensaje(mensaje);
+            
             existeDestinatario(correoDestinatario);
             
             int idDestinatario = new UsuarioDAO().buscarIdPorCorreo(correoDestinatario);
@@ -79,6 +80,7 @@ public class ValidacionEnvioMensaje {
         }
   
     }
+    
     public void validarTamañoMensaje(Mensaje mensaje) throws ReglaDeNegocioExcepcion {
         
         if (mensaje.getAsunto().length() > MAXIMO_CARACTERES_ASUNTO) {

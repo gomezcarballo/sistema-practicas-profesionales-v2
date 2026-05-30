@@ -4,8 +4,8 @@
  */
 package spp.presentacion.controladores.coordinador;
 
+import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,6 +14,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
@@ -47,6 +48,16 @@ public class ControladorAsignacionProyecto {
     
     private GestorAsignacionProyectos gestorAsignacionProyecto;
     
+    private Practicante practicante;
+    
+    public void inicializarDatos(Practicante practicante){
+
+        this.practicante = practicante;
+        
+        cargarProyectosSolicitados();
+
+    }
+    
     @FXML
     public void initialize() {
         
@@ -61,8 +72,6 @@ public class ControladorAsignacionProyecto {
         tblProyectosSolicitados.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
         configurarColumnas();
-
-        cargarProyectosSolicitados();
         
     }
     
@@ -79,15 +88,12 @@ public class ControladorAsignacionProyecto {
     }
     
     private void cargarProyectosSolicitados(){
+        
         try{
-            
-            int idUsuario = 6;
-            
-            ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
-            (gestorSolicitudes.recuperarProyectosSolicitados(idUsuario));
-            
-            tblProyectosSolicitados.setItems(proyectos);
-            
+                        
+            List<Proyecto> lista = gestorSolicitudes.recuperarProyectosSolicitados(practicante.getIdUsuario());
+
+            tblProyectosSolicitados.setItems(FXCollections.observableArrayList(lista));
             
         }catch(ReglaDeNegocioExcepcion e){
             
@@ -95,6 +101,7 @@ public class ControladorAsignacionProyecto {
             "Hubo un error al recuperar los Proyectos solicitados. Intente más tarde");
 
         }
+        
     } 
     
     @FXML
@@ -118,14 +125,12 @@ public class ControladorAsignacionProyecto {
 
         try {
             
-            int idUsuario = 10;
-            gestorAsignacionProyecto.asignarProyecto(proyectoSeleccionado.getIdProyecto(), idUsuario);
+            gestorAsignacionProyecto.asignarProyecto(proyectoSeleccionado.getIdProyecto(), practicante.getIdUsuario());
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
             "El proyecto fue asignado correctamente");
             
-            CargadorVentana.cargarVentana("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos");
-            CerradorVentana.cerrarVentana(evento);
+            regresar(evento);
 
         } catch (ReglaDeNegocioExcepcion e) {
 
@@ -135,9 +140,9 @@ public class ControladorAsignacionProyecto {
     }
     
     @FXML
-    public void cancelar(ActionEvent evento) {
+    public void regresar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaSubMenuProyectos.fxml", "Menú de Proyectos");
+        CargadorVentana.cargarVentana("/fxml/VistaSolicitudesPracticantes.fxml", "Solicitudes de Proyectos");
         CerradorVentana.cerrarVentana(evento);
         
     }

@@ -52,24 +52,37 @@ public class ValidacionInicioDeSesion {
                 tipoRol = usuario.getRolUsuarioEncontrado();
                 
             }
+
+            validarContraseña(contraseñaIngresada, usuario);
             
-            boolean esContraseñaCorrecta = HasheoContrasena.verificarContraseña(contraseñaIngresada,
-                    usuario.getHashUsuarioEncontrado());
-            
-            if (!esContraseñaCorrecta) {
-                throw new ReglaDeNegocioExcepcion("La contraseña no es correcta");
-            }
-            
-            SesionUsuario sesionUsuario = SesionUsuario.getInstancia();            
-            sesionUsuario.iniciarSesion(usuario.getIdUsuarioEncontrado(),usuario.getRolUsuarioEncontrado(),
-            identificador, usuario.getHashUsuarioEncontrado());
+            iniciarSesion(usuario, identificador);
             
         }catch(OperacionesDeDaoExcepcion e){
             
             throw new ReglaDeNegocioExcepcion(e);
+            
         }
             
         return tipoRol;
+        
+    }
+    
+    private void validarContraseña(String contraseñaIngresada, UsuarioEncontrado usuario)throws ReglaDeNegocioExcepcion{
+        
+        boolean esContraseñaCorrecta = HasheoContrasena.verificarContraseña(contraseñaIngresada,
+        usuario.getHashUsuarioEncontrado());
+            
+        if (!esContraseñaCorrecta) {
+            throw new ReglaDeNegocioExcepcion("La contraseña no es correcta");
+        }
+    }
+    
+    private void iniciarSesion(UsuarioEncontrado usuario, String identificador){
+        
+        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();            
+        sesionUsuario.iniciarSesion(usuario.getIdUsuarioEncontrado(),usuario.getRolUsuarioEncontrado(),
+        identificador, usuario.getHashUsuarioEncontrado());
+        
     }
     
     public void sonCamposValidosPorReglaNegocio( String identificador ) throws ReglaDeNegocioExcepcion {

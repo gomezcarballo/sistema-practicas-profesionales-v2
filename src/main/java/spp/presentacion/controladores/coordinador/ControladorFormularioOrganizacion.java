@@ -102,7 +102,6 @@ public class ControladorFormularioOrganizacion {
         }
     }
     
-    @FXML
     private boolean camposValidos(){
         
         boolean sonCamposValidos = true; 

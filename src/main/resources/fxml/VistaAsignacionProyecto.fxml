@@ -25,7 +25,7 @@
                   <TableColumn fx:id="colCupoMaximo" prefWidth="107.20001220703125" text="Cupo máximo" />
                </columns></TableView>
             <Button fx:id="btnAsignar" layoutX="192.0" layoutY="302.0" mnemonicParsing="false" onAction="#asignarProyecto" text="Asignar" />
-            <Button fx:id="btnCancelar" layoutX="304.0" layoutY="302.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+            <Button fx:id="btnCancelar" layoutX="304.0" layoutY="302.0" mnemonicParsing="false" onAction="#regresar" text="Cancelar" />
             <Label fx:id="lblInstruccion" layoutX="123.0" layoutY="88.0" text="Por favor, seleccione un proyecto para asignarlo al practicante" />
          </children>
       </AnchorPane>

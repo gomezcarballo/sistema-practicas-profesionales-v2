@@ -18,6 +18,7 @@ public interface IProyectoDAO {
     public boolean inactivarProyecto(int idProyecto)throws OperacionesDeDaoExcepcion;
     public boolean inactivarProyectosDeOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion;
     public boolean actualizarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion;
+    public void asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion;
     public List<Proyecto> obtenerProyectosActivos()throws OperacionesDeDaoExcepcion;
     public List<Proyecto> obtenerProyectosActivosPorOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion;
 }

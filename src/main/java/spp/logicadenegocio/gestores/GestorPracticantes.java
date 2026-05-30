@@ -33,6 +33,21 @@ public class GestorPracticantes {
         
     }
     
+    public List<Practicante> obtenerPracticantesConSolicitudes() throws ReglaDeNegocioExcepcion {
+    
+        try{
+            
+            practicanteDAO = new PracticanteDAO();
+            return practicanteDAO.consultarPracticantesConSolicitudes();
+            
+        }catch(OperacionesDeDaoExcepcion e){
+            
+            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los practicantes con solicitudes");
+            
+        }
+    
+    }
+    
     public void inactivarPracticante(int idPracticante)throws ReglaDeNegocioExcepcion {
        
        try{

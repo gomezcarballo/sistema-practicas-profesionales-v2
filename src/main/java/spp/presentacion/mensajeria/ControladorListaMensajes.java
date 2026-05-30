@@ -22,6 +22,8 @@ import javafx.util.StringConverter;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
+import static spp.logicadenegocio.enums.TipoMensaje.ENVIADOS;
+import static spp.logicadenegocio.enums.TipoMensaje.RECIBIDOS;
 import spp.logicadenegocio.gestores.GestorMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
@@ -54,27 +56,6 @@ public class ControladorListaMensajes {
     
     private TipoMensaje tipoMensaje;
     
-    public void setTipoMensaje(TipoMensaje tipoMensaje) {
-        
-        this.tipoMensaje = tipoMensaje;
-        
-        switch(tipoMensaje) {
-
-            case RECIBIDOS ->
-                lblTituloMensajes.setText("Mensajes Recibidos");
-
-            case ENVIADOS ->
-                lblTituloMensajes.setText("Mensajes Enviados");
-                
-        }   
-        
-        configurarColumnas();
-        
-        configurarFecha();
-
-        cargarMensajes();
-    }   
-    
     @FXML
     public void initialize() {
         
@@ -85,6 +66,37 @@ public class ControladorListaMensajes {
         tblMensajes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
     }
+    
+    public void setTipoMensaje(TipoMensaje tipoMensaje) {
+        
+        this.tipoMensaje = tipoMensaje;        
+        
+        actualizarVista();
+        
+    }   
+    
+    private void actualizarVista(){
+        
+        switch(tipoMensaje) {
+
+            case RECIBIDOS :
+                lblTituloMensajes.setText("Mensajes Recibidos");
+            break;
+            
+            case ENVIADOS :
+                lblTituloMensajes.setText("Mensajes Enviados");
+            break;    
+        }   
+        
+        configurarColumnas();
+        
+        configurarFecha();
+
+        cargarMensajes();
+        
+    }
+    
+    
     
     private void configurarColumnas() {
 
@@ -97,7 +109,7 @@ public class ControladorListaMensajes {
                 colCorreoUsuario.setText("Remitente");
                 colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoRemitente"));
                 
-            return;
+            break;
             
             }
 
@@ -106,7 +118,7 @@ public class ControladorListaMensajes {
                 colCorreoUsuario.setText("Destinatario");
                 colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correoDestinatario"));
                 
-            return; 
+            break; 
             
             }
         }
@@ -146,12 +158,13 @@ public class ControladorListaMensajes {
 
             switch(tipoMensaje) {
                 
-                case RECIBIDOS -> {
+                case RECIBIDOS :
                     mensajes = gestorMensajes.consultarMensajesRecibidos(idUsuario);
-                }
-                case ENVIADOS -> {
+                break;
+                
+                case ENVIADOS :
                     mensajes = gestorMensajes.consultarMensajesEnviados(idUsuario);
-                }
+                break;
             }
             
             tblMensajes.getItems().clear();

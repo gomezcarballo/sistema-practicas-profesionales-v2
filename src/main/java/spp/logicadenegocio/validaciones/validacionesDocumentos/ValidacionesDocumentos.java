@@ -31,56 +31,15 @@ public class ValidacionesDocumentos {
     
     public Path crearDireccionArchivo(TipoDocumento tipoDocumento, File archivoSeleccionado) throws ProcesamientoSistemaExcepcion{
         
-        if (archivoSeleccionado == null) {
-            throw new ProcesamientoSistemaExcepcion("Error: No se recibió ningún archivo para guardar.");
-        }
-        
+        validarArchivoSeleccionado(archivoSeleccionado);
+    
         String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
-
         String rutaProyecto = System.getProperty("user.dir");
-        String carpetaDocumentosSistema = "Documentos_SPP";
-        Path rutaCarpetaFinal; 
+        String carpeta = obtenerNombreCarpeta(tipoDocumento);
+        Path rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos_SPP", carpeta, identificador);
+        
+        return crearRutaDestino(rutaCarpetaFinal, archivoSeleccionado);
 
-        switch (tipoDocumento) {
-            case FORMATO_PRESENTACION -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "FormatoPresentacion", identificador);
-            }
-            case REPORTE_MENSUAL -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "ReportesMensuales", identificador);
-            }
-            case REPORTE_PARCIAL -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "ReportesParciales", identificador);
-            }
-            case ACTIVIDAD -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Actividades", identificador);
-            }
-            case BITACORA_PSP -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Bitacora_PSP", identificador);
-            }
-            case HORARIO -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Horario", identificador);
-            }
-            case AUTOEVALUACION -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Autoevaluacion", identificador);
-            }
-            case PLAN_ACTIVIDADES -> {
-                rutaCarpetaFinal = Paths.get(rutaProyecto, carpetaDocumentosSistema, "Autoevaluacion", identificador);
-            }
-            
-            default -> {
-                throw new ProcesamientoSistemaExcepcion("No se pudo crear la dirección, no coincide con ningún tipo de archivo permitido");
-            }
-        }
-       
-        try{   
-            
-            Files.createDirectories(rutaCarpetaFinal);
-            Path destinoCompleto = rutaCarpetaFinal.resolve(archivoSeleccionado.getName()); 
-            return destinoCompleto; 
-            
-        }catch(IOException e){
-            throw new ProcesamientoSistemaExcepcion("No se pudo crear la dirección para guardar el archivo",e);
-        }
     }
     
     public void guardarDocumento(TipoDocumento tipoDocumento, File archivoSeleccionado) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
@@ -95,8 +54,7 @@ public class ValidacionesDocumentos {
         
         try {
 
-            Path direccionFinalArchivo;
-            direccionFinalArchivo = crearDireccionArchivo(tipoDocumento, archivoSeleccionado);
+            Path direccionFinalArchivo = crearDireccionArchivo(tipoDocumento, archivoSeleccionado);
 
             Files.copy(archivoSeleccionado.toPath(), direccionFinalArchivo, StandardCopyOption.REPLACE_EXISTING);
             return direccionFinalArchivo;
@@ -108,8 +66,17 @@ public class ValidacionesDocumentos {
     
     public void guardarDocumentoEnBaseDatos (String tipoDocumento, File archivoSeleccionado, Path rutaArchivo ) throws OperacionesDeDaoExcepcion{
 
-        Documento documento = new Documento();
+        Documento documento = crearDocumento(tipoDocumento, archivoSeleccionado, rutaArchivo);
+
         DocumentoDAO documentoDao = new DocumentoDAO();
+
+        documentoDao.insertarDocumento(documento);  
+    }
+    
+    private Documento crearDocumento(String tipoDocumento, File archivoSeleccionado, Path rutaArchivo){
+        
+        Documento documento = new Documento();
+        
         int identificador = SesionUsuario.getInstancia().getIdUsuario();
 
         documento.setNombre(archivoSeleccionado.getName());
@@ -117,8 +84,8 @@ public class ValidacionesDocumentos {
         String rutaArchivoFinal = rutaArchivo.toString();
         documento.setRuta(rutaArchivoFinal);
         documento.setIdUsuario(identificador);
-
-        documentoDao.insertarDocumento(documento);  
+        
+        return documento;
     }
 
     public void archivoValidoPorReglaDeNegocio(File archivoSeleccionado) throws ReglaDeNegocioExcepcion {
@@ -128,4 +95,73 @@ public class ValidacionesDocumentos {
         }  
         
     }
+    
+    public void validarArchivoSeleccionado(File archivoSeleccionado)throws ProcesamientoSistemaExcepcion{
+        
+        if (archivoSeleccionado == null) {
+            throw new ProcesamientoSistemaExcepcion("Error: No se recibió ningún archivo para guardar.");
+        }
+        
+    }
+    
+    private String obtenerNombreCarpeta(TipoDocumento tipoDocumento)throws ProcesamientoSistemaExcepcion{
+        
+        String carpeta;
+        switch (tipoDocumento) {
+
+            case FORMATO_PRESENTACION:
+                carpeta = "FormatoPresentacion";
+                break;
+
+            case REPORTE_MENSUAL:
+                carpeta = "ReportesMensuales";
+                break;
+
+            case REPORTE_PARCIAL:
+                carpeta = "ReportesParciales";
+                break;
+
+            case ACTIVIDAD:
+                carpeta = "Actividades";
+                break;
+
+            case BITACORA_PSP:
+                carpeta = "Bitacora_PSP";
+                break;
+
+            case HORARIO:
+                carpeta = "Horario";
+                break;
+
+            case AUTOEVALUACION:
+                carpeta = "Autoevaluacion";
+                break;
+
+            case PLAN_ACTIVIDADES:
+                carpeta = "PlanActividades";
+                break;
+
+            default:
+                throw new ProcesamientoSistemaExcepcion("No se encontró una carpeta válida para el documento.");
+          
+        }
+        
+        return carpeta;
+    }
+    
+    private Path crearRutaDestino(Path rutaCarpeta, File archivoSeleccionado)throws ProcesamientoSistemaExcepcion{
+        
+         try {
+
+            Files.createDirectories(rutaCarpeta);
+
+            return rutaCarpeta.resolve(archivoSeleccionado.getName());
+
+        } catch (IOException e) {
+
+            throw new ProcesamientoSistemaExcepcion("No se pudo crear la dirección para guardar el archivo", e);
+        
+        }
+    }
+
 }

@@ -18,104 +18,66 @@ import spp.utilerias.cerradordeventanas.CerradorVentana;
  */
 public class ControladorSubirEvidenciaPracticas {
     
-    @FXML 
-    private void agregarReporteParcial(){
+    private void abrirDocumento(TipoDocumento tipoDocumento){
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
+       FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
         "Subir Documento");
         
         if(cargador != null){
             
             ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.REPORTE_PARCIAL);
+            controlador.configurarTipoDocumento(tipoDocumento);
             
-        }
+        } 
+        
+    }
+    
+    @FXML 
+    private void agregarReporteParcial(){
+        
+        abrirDocumento(TipoDocumento.REPORTE_PARCIAL);
+        
     }
     
     @FXML
     private void agregarHorario() {
+
+        abrirDocumento(TipoDocumento.HORARIO);  
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
-        "Subir Documento");
-        
-        if(cargador != null){
-            
-            ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.HORARIO);
-            
-        }
     }
     
     
     @FXML
     private void agregarActividad() {
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
-        "Subir Documento");
-        
-        if(cargador != null){
-            
-            ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.ACTIVIDAD);
-            
-        }
+        abrirDocumento(TipoDocumento.ACTIVIDAD);
     }
     
     @FXML
     private void agregarReporteMensual() {
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
-        "Subir Documento");
+        abrirDocumento(TipoDocumento.REPORTE_MENSUAL);
         
-        if(cargador != null){
-            
-            ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.REPORTE_MENSUAL);
-            
-        }
     }
     
     @FXML
     private void agregarBitacoraPSP() {
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
-        "Subir Documento");
+        abrirDocumento(TipoDocumento.BITACORA_PSP);
         
-        if(cargador != null){
-            
-            ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.BITACORA_PSP);
-            
-        }
     }
     
     @FXML
     private void agregarAutoevaluacion() {
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
-        "Subir Documento");
-        
-        if(cargador != null){
-            
-            ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.AUTOEVALUACION);
-            
-        }
+        abrirDocumento(TipoDocumento.AUTOEVALUACION);
         
     }
     
     @FXML
     private void agregarPlanActividades() {
         
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubidaDocumentos.fxml",
-        "Subir Documento");
-        
-        if(cargador != null){
-            
-            ControladorDocumentos controlador = cargador.getController();
-            controlador.configurarTipoDocumento(TipoDocumento.PLAN_ACTIVIDADES);
-            
-        }
+        abrirDocumento(TipoDocumento.AUTOEVALUACION);
         
     }
     

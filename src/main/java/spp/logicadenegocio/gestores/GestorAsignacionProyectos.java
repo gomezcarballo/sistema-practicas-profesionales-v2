@@ -4,7 +4,7 @@
  */
 package spp.logicadenegocio.gestores;
 
-import spp.logicadenegocio.clasesdao.PracticanteDAO;
+import spp.logicadenegocio.clasesdao.ProyectoDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -18,8 +18,8 @@ public class GestorAsignacionProyectos {
 
         try {
             
-            PracticanteDAO practicanteDAO = new PracticanteDAO();
-            practicanteDAO.asignarProyecto(idProyecto, idUsuario);
+            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            proyectoDAO.asignarProyecto(idProyecto, idUsuario);
 
         } catch (OperacionesDeDaoExcepcion e) {
 

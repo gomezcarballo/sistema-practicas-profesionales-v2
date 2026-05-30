@@ -19,7 +19,6 @@ public class ValidacionOrganizacion {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionOrganizacion.class.getName());
     
-    private static final int LONGITUD_MAXIMA_NOMBRE = 50;
     private static final int LONGITUD_MAXIMA_DIRECCION = 50;
     
     public void ingresarOrganizacion(Organizacion organizacion)throws ReglaDeNegocioExcepcion{
@@ -68,18 +67,9 @@ public class ValidacionOrganizacion {
         String nombre = organizacion.getNombre();
         String direccion = organizacion.getDireccion();
         
-        if( !(nombre.matches("^[\\p{L} ]+$") ) ){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
-            
-        }
+        ValidacionDatos validacionDatos = new ValidacionDatos();
         
-        if( nombre.length() > LONGITUD_MAXIMA_NOMBRE){
-            
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_NOMBRE +"caracteres");
-            
-        }       
+        validacionDatos.validarNombre(nombre);
         
         if( direccion.length() > LONGITUD_MAXIMA_DIRECCION){
             

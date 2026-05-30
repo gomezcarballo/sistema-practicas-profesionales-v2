@@ -25,12 +25,20 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
  */
 public class ControladorDocumentos {
     
-    @FXML private Label lblNombreArchivo;
-    @FXML private Label lblPesoArchivo;
-    @FXML private VBox vbPrevisualizacion;
-    @FXML private Label lblTituloDocumento; 
+    @FXML 
+    private Label lblNombreArchivo;
+    
+    @FXML 
+    private Label lblPesoArchivo;
+    
+    @FXML 
+    private VBox vbPrevisualizacion;
+    
+    @FXML 
+    private Label lblTituloDocumento; 
     
     private File archivoSeleccionado = null;
+    
     private TipoDocumento tipoDocumento;
 
     @FXML
@@ -56,14 +64,12 @@ public class ControladorDocumentos {
             try {
                 
                 ValidacionesDocumentos validador = new ValidacionesDocumentos();
+                
                 validador.archivoValidoPorReglaDeNegocio(archivoTemporal);
 
                 archivoSeleccionado = archivoTemporal;
 
-                lblNombreArchivo.setText(archivoSeleccionado.getName());
-                lblPesoArchivo.setText((archivoSeleccionado.length() / 1024) + " KB");
-                vbPrevisualizacion.setVisible(true);
-                vbPrevisualizacion.setManaged(true);
+                actualizarVistaArchivo();
 
             } catch (ReglaDeNegocioExcepcion e) {
                 
@@ -80,26 +86,47 @@ public class ControladorDocumentos {
         if (archivoSeleccionado != null) {
             
             try {
+                
                 ValidacionesDocumentos validador = new ValidacionesDocumentos();
                 
                 validador.guardarDocumento(tipoDocumento, archivoSeleccionado);
                 
-                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", "Documento guardado y registrado en la base de datos.");
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", 
+                "Documento guardado y registrado en la base de datos.");
                 
-                vbPrevisualizacion.setVisible(false);
-                archivoSeleccionado = null;
+                limpiarVista();
                 
             } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
+                
                 VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al subir el archivo.", e.getMessage());
+                
             } 
             
         }
     }
     
+    private void actualizarVistaArchivo() {
+
+        lblNombreArchivo.setText(archivoSeleccionado.getName());
+        lblPesoArchivo.setText((archivoSeleccionado.length() / 1024) + " KB");
+
+        vbPrevisualizacion.setVisible(true);
+        vbPrevisualizacion.setManaged(true);
+        
+    }
+    
     public void configurarTipoDocumento(TipoDocumento tipoDocumento){
+        
         this.tipoDocumento = tipoDocumento;
         
-        lblTituloDocumento.setText("Subir "+tipoDocumento.getDescripcion());
+        lblTituloDocumento.setText("Subir " + tipoDocumento.getDescripcion());
+        
+    }
+    
+    private void limpiarVista() {
+
+        vbPrevisualizacion.setVisible(false);
+        archivoSeleccionado = null;
         
     }
     

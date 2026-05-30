@@ -44,14 +44,7 @@ public class ControladorCambioContraseña {
         
         if(sonCamposValidos()){
             
-            String contraseñaActual = pfContraseñaActual.getText();
-            String nuevaContraseña = pfNuevaContraseña.getText();
-            String contraseñaConfirmada = pfContraseñaConfirmada.getText();
-            
-            CredencialContraseña credencialContraseña = new CredencialContraseña();
-            credencialContraseña.setContraseñaActual(contraseñaActual);
-            credencialContraseña.setContraseñaNueva(nuevaContraseña);
-            credencialContraseña.setContraseñaConfirmada(contraseñaConfirmada);
+            CredencialContraseña credencialContraseña = crearCredenciales();
             
             cambiarContraseña(credencialContraseña, usuario, evento);
         
@@ -61,6 +54,20 @@ public class ControladorCambioContraseña {
             "Faltan datos por agregar. Por favor ingreselos");
             
         }  
+    }
+    
+    private CredencialContraseña crearCredenciales(){
+        
+        String contraseñaActual = pfContraseñaActual.getText();
+        String nuevaContraseña = pfNuevaContraseña.getText();
+        String contraseñaConfirmada = pfContraseñaConfirmada.getText();
+
+        CredencialContraseña credencialContraseña = new CredencialContraseña();
+        credencialContraseña.setContraseñaActual(contraseñaActual);
+        credencialContraseña.setContraseñaNueva(nuevaContraseña);
+        credencialContraseña.setContraseñaConfirmada(contraseñaConfirmada);
+        
+        return credencialContraseña;
     }
     
     private boolean sonCamposValidos(){
@@ -88,8 +95,7 @@ public class ControladorCambioContraseña {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Contraseña actualizada",
             "La contraseña se actualizó correctamente");
             
-            CargadorVentana.cargarVentana("/fxml/VistaPerfilUsuario.fxml","Mi Perfil");
-            CerradorVentana.cerrarVentana(evento);
+            regresarPerfil(evento);
 
         } catch (ReglaDeNegocioExcepcion e) {
 
@@ -101,7 +107,7 @@ public class ControladorCambioContraseña {
     }
 
     @FXML
-    private void cancelar(ActionEvent evento) {
+    private void regresarPerfil(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaPerfilUsuario.fxml","Mi Perfil");
         CerradorVentana.cerrarVentana(evento);

@@ -16,7 +16,7 @@ import spp.utilerias.cerradordesesion.CerradorSesion;
  *
  * @author Luz Fernanda H J
  */
-public class ControladorMenuPrincipalProfesor {
+public class ControladorMenuPrincipalProfesor extends ControladorMenus{
 
     @FXML
     private void agregarFormatoPresentacion() {
@@ -35,14 +35,14 @@ public class ControladorMenuPrincipalProfesor {
     @FXML
     private void abrirSubMenuMensajes(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
+        abrirVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");
         
     }
     
     @FXML
     private void abrirVerPerfil(){
         
-        CargadorVentana.cargarVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
+        abrirVentana("/fxml/VistaPerfilUsuario.fxml", "Mensajes");
         
     }
     

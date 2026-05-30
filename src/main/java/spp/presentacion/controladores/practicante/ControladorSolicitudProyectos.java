@@ -127,8 +127,8 @@ public class ControladorSolicitudProyectos {
     }
     
     private void cargarProyectos(){
-        try{
-            
+        
+        try{           
             
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
             (gestorProyectos.recuperarProyectosActivos());
@@ -176,9 +176,7 @@ public class ControladorSolicitudProyectos {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
             "Las solicitudes se registraron correctamente");
             
-            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
-            "Menú Principal para Practicante");
-            CerradorVentana.cerrarVentana(evento);
+            irAlMenu(evento);
 
         } catch (ReglaDeNegocioExcepcion e) {
 
@@ -187,12 +185,19 @@ public class ControladorSolicitudProyectos {
         }
     }
     
-    @FXML
-    public void cancelar(ActionEvent evento) {
+    private void irAlMenu(ActionEvent evento){
         
         CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
         "Menú Principal para Practicante");
+        
         CerradorVentana.cerrarVentana(evento);
+        
+    }
+    
+    @FXML
+    public void cancelar(ActionEvent evento) {
+        
+        irAlMenu(evento);
         
     }
 

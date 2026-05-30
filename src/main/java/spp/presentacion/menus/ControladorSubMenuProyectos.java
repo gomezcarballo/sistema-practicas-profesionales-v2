@@ -7,20 +7,18 @@ package spp.presentacion.menus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.presentacion.controladores.coordinador.ControladorFormularioProyecto;
 import spp.presentacion.controladores.coordinador.ControladorListaProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author Luz Fernanda H J
  */
-public class ControladorSubMenuProyectos {
+public class ControladorSubMenuProyectos extends ControladorMenus{
     
     @FXML
     private Label lblTitulo;
@@ -53,7 +51,7 @@ public class ControladorSubMenuProyectos {
     }
 
     @FXML
-    private void abrirconsultarProyectos(ActionEvent evento){
+    private void abrirConsultarProyectos(ActionEvent evento){
 
         FXMLLoader cargadorListaProyectos = CargadorVentana.cargarVentanaConControlador(
         "/fxml/VistaListaProyectos.fxml","Lista de Proyectos");
@@ -72,8 +70,7 @@ public class ControladorSubMenuProyectos {
     @FXML
     public void regresar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentana("/fxml/VistaListaOrganizaciones.fxml", "Lista de Organizaciones");
-        CerradorVentana.cerrarVentana(evento);
+        cambiarVentana("/fxml/VistaListaOrganizaciones.fxml", "Lista de Organizaciones", evento);
         
     }
     
