@@ -176,7 +176,6 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             CallableStatement consultaPreparada = conexion.prepareCall(consultaSQL);) {
             
             consultaPreparada.setString(1, matricula);
-
            
             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
             
@@ -193,6 +192,36 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
         }
+    
+    }
+
+    @Override
+    public boolean tieneProyectoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion {
+    
+        boolean yaEstaAsignado = false;
+
+        String consultaSQL = "SELECT Proyecto_idProyecto FROM Practicante WHERE idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                if (resultadosConsulta.next() && resultadosConsulta.getObject("Proyecto_idProyecto") != null) {
+
+                    yaEstaAsignado = true;
+                    
+                }
+            }
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+    return yaEstaAsignado;
     
     }
     

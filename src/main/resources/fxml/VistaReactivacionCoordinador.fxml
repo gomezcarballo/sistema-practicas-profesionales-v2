@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.administrador.ControladorReactivacionCoordinador">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.administrador.ControladorReactivacionCoordinador">
    <children>
       <TableView fx:id="tblCoordinadoresInactivos" layoutX="52.0" layoutY="100.0" prefHeight="229.0" prefWidth="510.0">
          <columns>
@@ -18,12 +17,13 @@
             <TableColumn fx:id="colCorreoInstitucional" prefWidth="152.00006103515625" text="CorreoInstitucional" />
          </columns>
       </TableView>
-      <Label fx:id="lblTituloCoordinadoresInactivos" layoutX="211.0" layoutY="48.0" text="Coordinadores Inactivos">
+      <Label fx:id="lblTituloCoordinadoresInactivos" layoutX="211.0" layoutY="39.0" text="Coordinadores Inactivos">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnReactivarCoordinador" layoutX="232.0" layoutY="351.0" mnemonicParsing="false" text="Reactivar" onAction="#reactivarCoordinador"/>
-      <Button fx:id="btnRegresar" layoutX="333.0" layoutY="351.0" mnemonicParsing="false" text="Cancelar" onAction="#cancelar" />
+      <Button fx:id="btnReactivarCoordinador" layoutX="232.0" layoutY="351.0" mnemonicParsing="false" onAction="#reactivarCoordinador" text="Reactivar" />
+      <Button fx:id="btnRegresar" layoutX="333.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <Label fx:id="lblInstruccion" layoutX="180.0" layoutY="66.0" prefHeight="26.0" prefWidth="240.0" text="Seleccione a un coordinador para reactivarlo" />
    </children>
 </AnchorPane>

@@ -19,6 +19,7 @@ public class GeneradorContrasena {
     private static final SecureRandom aleatorio = new SecureRandom();
 
     public static String generarContraseña(int longitud) {
+        
         StringBuilder contraseña = new StringBuilder(longitud);
 
         for (int i = 0; i < longitud; i++) {

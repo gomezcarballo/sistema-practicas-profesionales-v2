@@ -24,6 +24,7 @@ import spp.presentacion.controladores.coordinador.ControladorDetalleProyecto;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.seleccionproyecto.SeleccionProyecto;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -81,10 +82,10 @@ public class ControladorSolicitudProyectos {
 
         colNombreOrganizacion.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
 
-        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
+        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));     
         
-        colSeleccionar.setCellValueFactory(celda -> celda.getValue().propiedadEsSeleccionado());
-        
+        colSeleccionar.setCellValueFactory(new SeleccionProyecto());
+
         colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
         
     }

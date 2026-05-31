@@ -5,6 +5,7 @@
 package spp.logicadenegocio.gestores;
 
 import java.util.List;
+import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.SolicitudDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
@@ -26,11 +27,18 @@ public class GestorSolicitudesProyectos {
 
         try {
             
+            PracticanteDAO practicanteDAO = new PracticanteDAO();
+            SolicitudDAO solicitudDAO = new SolicitudDAO();
+            
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             int idUsuario = sesionUsuario.getIdUsuario();
             
-            SolicitudDAO solicitudDAO = new SolicitudDAO();
+            if (practicanteDAO.tieneProyectoAsignado(idUsuario)) {
 
+                throw new ReglaDeNegocioExcepcion("No puedes solicitar proyectos porque ya tienes uno asignado");
+            
+            }
+            
             for(Proyecto proyecto : proyectosSeleccionados) {
 
                 solicitudDAO.guardarSolicitud(idUsuario, proyecto.getIdProyecto());
@@ -46,23 +54,29 @@ public class GestorSolicitudesProyectos {
     
     public List<Proyecto> recuperarProyectosSolicitados(int idUsuario) throws ReglaDeNegocioExcepcion{
        
-       try{
+        try{
            
            SolicitudDAO solicitudDAO = new SolicitudDAO();
            return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
            
-       }catch(OperacionesDeDaoExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
            
            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos solicitados");
            
-       }
+        }
    }
     
     private void validarSolicitudes(List<Proyecto> proyectosSeleccionados) throws ReglaDeNegocioExcepcion {
 
+        if (proyectosSeleccionados == null) {
+            
+            throw new ReglaDeNegocioExcepcion("No hay proyectos seleccionados");
+            
+        }
+        
         if(proyectosSeleccionados.size() != NUMERO_SOLICITUDES) {
             
-            throw new ReglaDeNegocioExcepcion("Debe seleccionar exactamente 3 proyectos");
+            throw new ReglaDeNegocioExcepcion("Debe seleccionar exactamente " + NUMERO_SOLICITUDES + "proyectos");
             
         }
         

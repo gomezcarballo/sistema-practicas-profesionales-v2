@@ -44,24 +44,23 @@ public class EnvioCorreo {
             propiedades.load(entrada);
 
             correoRemitente = propiedades.getProperty("correospp.usuario");
+            
             contrasenaRemitente = propiedades.getProperty("correospp.contrasena");
 
         } catch (IOException e) {
+            
             throw new RuntimeException("Error cargando configuracion", e);
+            
         }
         
     }
 
     private Session conectarGmail() {
-        
-        return Session.getInstance(propiedades, new Authenticator() {
-            
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(correoRemitente, contrasenaRemitente);
-            }
-        });
-        
+
+        Authenticator autenticador = new AutenticadorCorreo(correoRemitente, contrasenaRemitente);
+
+        return Session.getInstance(propiedades, autenticador);
+
     }
 
     public boolean enviarContraseña(String correoDestino, String contrasena) {
@@ -92,7 +91,9 @@ public class EnvioCorreo {
             return true;
 
         } catch (MessagingException e) {
+            
             throw new RuntimeException("No se pudo enviar el correo", e);
+            
         }
         
     }

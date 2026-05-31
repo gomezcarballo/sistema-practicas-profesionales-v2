@@ -71,7 +71,16 @@ public class ControladorDetallePracticante {
         txtMatricula.setText(practicante.getMatricula());
         txtGenero.setText(practicante.getGenero());
         txtFechaNacimiento.setText(FormatoFechas.formatearFecha(practicante.getFechaNacimiento()));
-        txtHablaLenguaIndigena.setText(practicante.getHablaLenguaIndigena() ? "Sí" : "No");
+        
+        if (practicante.getHablaLenguaIndigena()) {
+            
+            txtHablaLenguaIndigena.setText("Sí");
+            
+        } else {
+            
+            txtHablaLenguaIndigena.setText("No");
+        
+        }
         
     }
 

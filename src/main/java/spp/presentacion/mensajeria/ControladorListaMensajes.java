@@ -18,7 +18,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.StringConverter;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
@@ -28,7 +27,7 @@ import spp.logicadenegocio.gestores.GestorMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.formatofechas.FormatoFechas;
+import spp.utilerias.formatofechas.ConvertidorFechaHoraLocal;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -129,21 +128,7 @@ public class ControladorListaMensajes {
         
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
-        colFecha.setCellFactory(TextFieldTableCell.forTableColumn
-            (new StringConverter<LocalDateTime>() {
-
-                    @Override
-                    public String toString(LocalDateTime fecha) {
-                        return FormatoFechas.formatearFechaHora(fecha);
-                    }
-
-                    @Override
-                    public LocalDateTime fromString(String texto) {
-                        return LocalDateTime.parse(texto);
-                    }
-                }
-            )
-        );
+        colFecha.setCellFactory(TextFieldTableCell.forTableColumn(new ConvertidorFechaHoraLocal()));
             
     }
     

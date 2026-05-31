@@ -44,7 +44,7 @@ public class ControladorMenuPrincipalAdministrador extends ControladorMenus {
     @FXML
     private void abrirReactivarProfesor(ActionEvent evento) {
         
-        cambiarVentana("/fxml/VistaReactivacionProfesor", "Reactivar Profesor", evento);
+        cambiarVentana("/fxml/VistaReactivacionProfesor.fxml", "Reactivar Profesor", evento);
         
     }
     

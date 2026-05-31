@@ -53,48 +53,33 @@ public class ProyectoDAO implements IProyectoDAO {
     }
        
     @Override
-    public Proyecto consultarProyecto(String nombre)throws OperacionesDeDaoExcepcion {
+    public boolean disminuirCupoProyecto(int idProyecto)throws OperacionesDeDaoExcepcion {
         
-        Proyecto proyecto = null;
+        boolean actualizado = false;
         
-         String consultaSQL = "SELECT * FROM Proyecto WHERE nombre = ?";
+        String consultaSQL = "UPDATE Proyecto SET cupoMaximo = cupoMaximo - 1 "+
+        "WHERE idProyecto = ? AND cupoMaximo > 0";
 
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
           
-            consultaPreparada.setString(1, nombre);
+            consultaPreparada.setInt(1, idProyecto);
 
-            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+            int resultadosConsulta = consultaPreparada.executeUpdate();
 
-            if (resultadosConsulta.next()) {
-                proyecto = new Proyecto();
-
-                proyecto.setIdProyecto(resultadosConsulta.getInt("idProyecto"));
-                proyecto.setNombre(resultadosConsulta.getString("nombre"));
-                proyecto.setDescripcion(resultadosConsulta.getString("descripcion"));
-                proyecto.setNombreResponsable(resultadosConsulta.getString("nombreResponsable"));
-                proyecto.setCupoMaximo(resultadosConsulta.getInt("cupoMaximo"));
+            if(resultadosConsulta > 0){
                 
-                int esActivo = resultadosConsulta.getInt("estado");
-                if (esActivo == 1) {
-                    proyecto.setEsActivo(true);
-                } else {
-                    proyecto.setEsActivo(false);
-                }
+                actualizado = true;
                 
-                Organizacion organizacion = new Organizacion();
-                organizacion.setIdOrganizacion(resultadosConsulta.getInt("Organizacion_idOrganizacion"));
-
-                proyecto.setOrganizacion(organizacion);
             }
 
-            conexion.close();
-
         } catch (SQLException e) {
+            
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        
         }
 
-    return proyecto;
+    return actualizado;
         
     }
 
