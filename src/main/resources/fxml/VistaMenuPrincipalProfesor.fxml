@@ -16,7 +16,7 @@
                </font>
             </Label>
             <Button fx:id="btnEvaluarReporte" layoutX="36.0" layoutY="93.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="134.0" text="Evaluar Reporte" />
-            <Button fx:id="btnCrearActividad" layoutX="196.0" layoutY="93.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="134.0" text="Crear nueva Actividad" />
+            <Button fx:id="btnCrearActividad" layoutX="196.0" layoutY="93.0" mnemonicParsing="false" onAction="#abrirRegistroNuevaActividad" prefHeight="39.0" prefWidth="134.0" text="Crear nueva Actividad" />
             <Button fx:id="btnCerrarSesion" layoutX="235.0" layoutY="311.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
             <Button fx:id="btnSubirPresentacion" layoutX="349.0" layoutY="93.0" mnemonicParsing="false" onAction="#agregarFormatoPresentacion" prefHeight="39.0" prefWidth="191.0" text="Subir formato de presentación" />
             <Button fx:id="btnMensajes" layoutX="196.0" layoutY="156.0" mnemonicParsing="false" onAction="#abrirSubMenuMensajes" prefHeight="39.0" prefWidth="134.0" text="Mensajes" />

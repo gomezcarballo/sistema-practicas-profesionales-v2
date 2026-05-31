@@ -5,7 +5,6 @@
 package spp.logicadenegocio.clasesdto;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  *
@@ -17,20 +16,20 @@ public class Actividad {
     private String titulo;
     private String descripcion;
     private LocalDateTime fechaLimite;
-    private Profesor profesor;
+    private int idProfesor;
     
     public Actividad(){
         
     }
     
     public Actividad(int idActividad, String titulo, String descripcion, 
-            LocalDateTime fechaLimite, Profesor profesor){
+            LocalDateTime fechaLimite, int idProfesor){
         
         this.idActividad = idActividad; 
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaLimite = fechaLimite;
-        this.profesor = profesor;
+        this.idProfesor = idProfesor;
         
     }
     
@@ -66,51 +65,12 @@ public class Actividad {
         this.fechaLimite = fechaLimite;
     }
 
-    public Profesor getProfesor() {
-        return profesor;
+    public int getIdProfesor() {
+        return idProfesor;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + this.idActividad;
-        hash = 53 * hash + Objects.hashCode(this.titulo);
-        hash = 53 * hash + Objects.hashCode(this.descripcion);
-        hash = 53 * hash + Objects.hashCode(this.fechaLimite);
-        hash = 53 * hash + Objects.hashCode(this.profesor);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object objeto) {
-        if (this == objeto) {
-            return true;
-        }
-        if (objeto == null) {
-            return false;
-        }
-        if (getClass() != objeto.getClass()) {
-            return false;
-        }
-        final Actividad actividadReferencia = (Actividad) objeto;
-        if (this.idActividad != actividadReferencia.idActividad) {
-            return false;
-        }
-        if (!Objects.equals(this.titulo, actividadReferencia.titulo)) {
-            return false;
-        }
-        if (!Objects.equals(this.descripcion, actividadReferencia.descripcion)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechaLimite, actividadReferencia.fechaLimite)) {
-            return false;
-        }
-        return Objects.equals(this.profesor, actividadReferencia.profesor);
-    }
-       
+    public void setIdProfesor(int idProfesor) {
+        this.idProfesor = idProfesor;
+    }       
     
 }

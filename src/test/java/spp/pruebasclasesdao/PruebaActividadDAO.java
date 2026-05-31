@@ -34,8 +34,7 @@ public class PruebaActividadDAO {
         LocalDateTime fechaFormateada = LocalDateTime.parse("25-10-2023 14:30", formatoFecha);
         
         actividadInsertada.setFechaLimite(fechaFormateada);
-        profesor.setIdUsuario(2);
-        actividadInsertada.setProfesor(profesor);
+        actividadInsertada.setIdProfesor(2);
         
         boolean registroExitoso = actividadDao.insertarActividad(actividadInsertada);
         assertTrue("Registro de actividad exitoso es: ", registroExitoso);

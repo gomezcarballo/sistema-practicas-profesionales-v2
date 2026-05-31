@@ -33,6 +33,13 @@ public class ControladorMenuPrincipalProfesor extends ControladorMenus{
     }
     
     @FXML
+    private void abrirRegistroNuevaActividad(ActionEvent evento){
+        
+       cambiarVentana("/fxml/VistaRegistroNuevaActividad.fxml", "Nueva Actividad", evento); 
+        
+    }
+    
+    @FXML
     private void abrirSubMenuMensajes(){
         
         abrirVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");

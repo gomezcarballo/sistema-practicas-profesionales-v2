@@ -45,6 +45,7 @@ public class ControladorInicioSesion {
             "Por favor, ingresa un correo electronico institucional o una matricula");
             
         }
+        
     }
     
     private boolean sonCamposValidos(){
@@ -84,24 +85,24 @@ public class ControladorInicioSesion {
     
     private void abrirMenuSegunRol(String tipoRol){
         
-        if( tipoRol.equals("Administrador") ){
-                CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
-                    "Menú Principal para Administrador");
+        if(tipoRol.equals("Administrador")){
+            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml",
+            "Menú Principal para Administrador");
         }
 
-        if( tipoRol.equals("Profesor") ){
-             CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalProfesor.fxml",
-                "Menú Principal para Profesores");
+        if(tipoRol.equals("Profesor")){
+            CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalProfesor.fxml",
+            "Menú Principal para Profesores");
         }
 
-        if( tipoRol.equals("Coordinador") ){
+        if(tipoRol.equals("Coordinador")){
             CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalCoordinador.fxml",
-                "Menú Principal para Coordinador");
+            "Menú Principal para Coordinador");
         }
 
-        if( tipoRol.equals("Practicante")){
+        if(tipoRol.equals("Practicante")){
             CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
-                "Menú Principal para Practicante");
+            "Menú Principal para Practicante");
         }
         
     }
