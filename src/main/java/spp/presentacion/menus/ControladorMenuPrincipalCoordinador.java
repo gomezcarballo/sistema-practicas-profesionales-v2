@@ -38,7 +38,7 @@ public class ControladorMenuPrincipalCoordinador extends ControladorMenus{
     @FXML
     private void abrirReporteIndicadores(ActionEvent evento) {
         
-        cambiarVentana("/fxml/VistaReporteIndicadores", "Reporte de Indicadores", evento);
+        cambiarVentana("/fxml/VistaReporteIndicadores.fxml", "Reporte de Indicadores", evento);
         
     }
     

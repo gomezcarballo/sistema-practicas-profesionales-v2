@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.gestores.GestorProfesores;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
@@ -69,8 +70,8 @@ public class ControladorReactivacionProfesor {
 
         try{
             
-            ValidacionProfesor validacion = new ValidacionProfesor();
-            List<Profesor> profesores = validacion.obtenerProfesoresInactivos();
+            GestorProfesores gestorProfesores = new GestorProfesores();
+            List<Profesor> profesores = gestorProfesores.obtenerProfesoresInactivos();
 
             tblProfesoresInactivos.getItems().clear();
 
@@ -106,13 +107,13 @@ public class ControladorReactivacionProfesor {
         
         if(profesorSeleccionado != null){
             
-            ValidacionProfesor validacion = new ValidacionProfesor();
+            GestorProfesores gestorProfesores = new GestorProfesores();
             
             try{
 
-                if(validacion.hayCupoProfesores()){
+                if(gestorProfesores.hayCupoProfesores()){
 
-                    validacion.reactivarProfesorInactivo(profesorSeleccionado.getIdUsuario());
+                    gestorProfesores.reactivarProfesorInactivo(profesorSeleccionado.getIdUsuario());
 
                     mostrarMensajeReactivacionExitosa();
 
@@ -145,11 +146,11 @@ public class ControladorReactivacionProfesor {
 
         try{
 
-            ValidacionProfesor validacion = new ValidacionProfesor();
+            GestorProfesores gestorProfesores = new GestorProfesores();
 
-            validacion.inactivarProfesor(profesorAnterior.getIdUsuario());
+            gestorProfesores.inactivarProfesor(profesorAnterior.getIdUsuario());
 
-            validacion.reactivarProfesorInactivo(profesorNuevo.getIdUsuario());
+            gestorProfesores.reactivarProfesorInactivo(profesorNuevo.getIdUsuario());
 
             mostrarMensajeReactivacionExitosa();
 

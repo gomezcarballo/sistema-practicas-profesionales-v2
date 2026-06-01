@@ -13,5 +13,6 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public interface IAdministradorDAO {
     public void insertarAdministrador(Administrador administrador) throws OperacionesDeDaoExcepcion;
+    public boolean inactivarAdministrador() throws OperacionesDeDaoExcepcion;
     public Administrador consultarAdministrador(String numeroDePersonal) throws OperacionesDeDaoExcepcion;
 }

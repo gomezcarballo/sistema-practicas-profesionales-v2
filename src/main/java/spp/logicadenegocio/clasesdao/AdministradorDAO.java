@@ -43,6 +43,31 @@ public class AdministradorDAO implements IAdministradorDAO{
         }
         
     }
+    
+    @Override
+    public boolean inactivarAdministrador() throws OperacionesDeDaoExcepcion{
+        
+        boolean inactivacionExitosa = false;
+        
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Administrador a ON u.idUsuario = a.idUsuario"
+                + "SET u.estado = 0 WHERE u.estado = 1";
+        
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
+                        
+            int filasAfectadas = consultaPreparada.executeUpdate();
+            
+            if(filasAfectadas > 0){
+                inactivacionExitosa = true;
+            }
+            
+        }catch(SQLException e){
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+        
+    return inactivacionExitosa;
+    
+    }
 
     @Override
     public Administrador consultarAdministrador(String numeroDePersonal) throws OperacionesDeDaoExcepcion{

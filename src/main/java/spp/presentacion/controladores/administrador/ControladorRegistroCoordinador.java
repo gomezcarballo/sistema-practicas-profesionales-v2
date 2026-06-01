@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Coordinador;
-import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionCoordinador;
+import spp.logicadenegocio.gestores.GestorCoordinadores;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -59,18 +59,21 @@ public class ControladorRegistroCoordinador extends ControladorRegistroPersonal{
         
         try{
             
-            ValidacionCoordinador validacion = new ValidacionCoordinador();
+            GestorCoordinadores gestorCoordinadores = new GestorCoordinadores();
             
-            boolean puedeRegistrar = validarCoordinadorActivo(validacion, evento);
+            boolean continuarRegistro = confirmarReemplazoCoordinador(gestorCoordinadores);
             
-            if(puedeRegistrar){
+            if(continuarRegistro){
                 
-                ingresarCoordinador(coordinador, validacion, evento);
+                gestorCoordinadores.reemplazarCoordinador(coordinador);
+                
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso",
+                "Coordinador registrado exitosamente");
+                
+                regresar(evento);
                 
             }
-                 
-            validacion.ingresarCoordinador(coordinador);
-            
+                             
         }catch(ReglaDeNegocioExcepcion e){
             
             mostrarMensajeErrorRegistro(e.getMessage());
@@ -79,45 +82,22 @@ public class ControladorRegistroCoordinador extends ControladorRegistroPersonal{
         
     }
     
-    private boolean validarCoordinadorActivo(ValidacionCoordinador validacion, ActionEvent evento) 
+    private boolean confirmarReemplazoCoordinador(GestorCoordinadores gestorCoordinadores) 
     throws ReglaDeNegocioExcepcion{
         
-        boolean puedeRegistrar = true;
+        boolean continuarRegistro = true;
         
-        if(validacion.verificarCoordinadorActivo()){
+        if(gestorCoordinadores.verificarCoordinadorActivo()){
                 
-            boolean confirmarInactivacion = VentanaMensaje.mostrarConfirmacion("Coordinador activo", 
+            continuarRegistro = VentanaMensaje.mostrarConfirmacion("Coordinador activo", 
             "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con el registro?");
-
-            if(confirmarInactivacion){
-
-                validacion.inactivarCoordinadorActivo();
-
-            }else {
-
-                regresar(evento);
-                puedeRegistrar = false;
-
-            }
 
         }
         
-        return puedeRegistrar;
+        return continuarRegistro;
 
     }
-    
-    private void ingresarCoordinador(Coordinador coordinador, ValidacionCoordinador validacion, 
-    ActionEvent evento) throws ReglaDeNegocioExcepcion{
-        
-        validacion.ingresarCoordinador(coordinador);
-        
-        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
-        "Coordinador registrado exitosamente");
-        
-        regresar(evento);
-        
-    }
-    
+
     private void mostrarMensajeErrorRegistro(String mensaje){
         
         VentanaMensaje.mostrarVentanaMensaje( AlertType.ERROR, "Registro fallido", mensaje );

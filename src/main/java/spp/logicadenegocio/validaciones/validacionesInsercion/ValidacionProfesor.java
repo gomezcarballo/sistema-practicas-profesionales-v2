@@ -4,7 +4,6 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
@@ -76,88 +75,7 @@ public class ValidacionProfesor {
         usuario.setEsActivo(true);
         
         return usuario;
-    }
-    
-    public boolean hayCupoProfesores()throws ReglaDeNegocioExcepcion {
-        
-        ProfesorDAO profesorDao = new ProfesorDAO();
-        int cantidadMaximaProfesores = 2;
-
-        try{
-
-            return profesorDao.obtenerCantidadProfesoresActivos() < cantidadMaximaProfesores;
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudo verificar la disponibilidad de profesores.");
-
-        }
-
-    }
-    
-    public List<Profesor> obtenerProfesoresActivos()throws ReglaDeNegocioExcepcion {
-
-        ProfesorDAO profesorDao = new ProfesorDAO();
-
-        try{
-
-            return profesorDao.consultarProfesoresActivos();
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudo obtener la lista de profesores activos.");
-
-        }
-
-    }
-    
-    public List<Profesor> obtenerProfesoresInactivos()throws ReglaDeNegocioExcepcion{
-        
-        ProfesorDAO profesorDao = new ProfesorDAO();
-        try{
-            
-            return profesorDao.consultarProfesoresInactivos();
-            
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudieron recuperar los Profesores inactivos.");
-
-        }
-        
-    }
-    
-    public void inactivarProfesor(int idUsuario)throws ReglaDeNegocioExcepcion {
-
-        ProfesorDAO profesorDao = new ProfesorDAO();
-
-        try{
-
-            profesorDao.inactivarProfesor(idUsuario);
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("Error al inactivar al profesor.");
-
-        }
-
-    }
-    
-    public void reactivarProfesorInactivo(int idUsuario)throws ReglaDeNegocioExcepcion{
-        
-        ProfesorDAO profesorDao = new ProfesorDAO();
-        
-        try{
-            
-            profesorDao.reactivarProfesor(idUsuario);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            throw new ReglaDeNegocioExcepcion("No se pudo reactivar al coordinador");
-            
-        }
-        
-    }
-
+    }   
     
     public void sonCamposValidosPorReglaNegocio(Profesor profesor) throws ReglaDeNegocioExcepcion {
         

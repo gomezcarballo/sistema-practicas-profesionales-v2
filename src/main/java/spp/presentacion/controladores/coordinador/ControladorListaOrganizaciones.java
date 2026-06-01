@@ -200,6 +200,7 @@ public class ControladorListaOrganizaciones {
                 "Error al inactivar Organización", e.getMessage());
 
             }
+            
         }
 
     }

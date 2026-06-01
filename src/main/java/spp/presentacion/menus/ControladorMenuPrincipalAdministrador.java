@@ -31,7 +31,7 @@ public class ControladorMenuPrincipalAdministrador extends ControladorMenus {
     @FXML
     private void abrirRegistroNuevoAdministrador(ActionEvent evento) {
         
-        cambiarVentana("/fxml/Vista.fxml", "Registro de Administrador", evento);
+        cambiarVentana("/fxml/VistaFormularioRegistroAdministrador.fxml", "Registro de un nuevo Administrador", evento);
         
     }
     

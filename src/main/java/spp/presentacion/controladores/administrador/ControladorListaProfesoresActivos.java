@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.gestores.GestorProfesores;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
@@ -79,8 +80,8 @@ public class ControladorListaProfesoresActivos {
 
         try{
             
-            ValidacionProfesor validacion = new ValidacionProfesor();
-            List<Profesor> profesores = validacion.obtenerProfesoresActivos();
+            GestorProfesores gestorProfesores = new GestorProfesores();
+            List<Profesor> profesores = gestorProfesores.obtenerProfesoresActivos();
 
             tblProfesoresActivos.getItems().clear();
 

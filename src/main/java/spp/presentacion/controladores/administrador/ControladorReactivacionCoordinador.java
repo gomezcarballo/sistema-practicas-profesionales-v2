@@ -16,7 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Coordinador;
-import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionCoordinador;
+import spp.logicadenegocio.gestores.GestorCoordinadores;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -69,8 +69,8 @@ public class ControladorReactivacionCoordinador {
 
         try{
             
-            ValidacionCoordinador validacion = new ValidacionCoordinador();
-            List<Coordinador> coordinadores = validacion.obtenerCoordinadoresInactivos();
+            GestorCoordinadores gestorCoordinadores = new GestorCoordinadores();
+            List<Coordinador> coordinadores = gestorCoordinadores.obtenerCoordinadoresInactivos();
 
             tblCoordinadoresInactivos.getItems().clear();
 
@@ -106,20 +106,20 @@ public class ControladorReactivacionCoordinador {
 
         if(coordinadorSeleccionado != null){
 
-            ValidacionCoordinador validacion =  new ValidacionCoordinador();
+            GestorCoordinadores gestorCoordinadores =  new GestorCoordinadores();
 
             try{
 
                 boolean continuarReactivacion = true;
 
-                if(validacion.verificarCoordinadorActivo()){
+                if(gestorCoordinadores.verificarCoordinadorActivo()){
 
                     continuarReactivacion = VentanaMensaje.mostrarConfirmacion("Coordinador activo",
                     "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con la reactivación?");
 
                     if(continuarReactivacion){
 
-                        validacion.inactivarCoordinadorActivo();
+                        gestorCoordinadores.inactivarCoordinadorActivo();
 
                     }else{
 
@@ -131,7 +131,7 @@ public class ControladorReactivacionCoordinador {
 
                 if(continuarReactivacion){
 
-                    validacion.reactivarCoordinadorInactivo(coordinadorSeleccionado.getIdUsuario());
+                    gestorCoordinadores.reactivarCoordinadorInactivo(coordinadorSeleccionado.getIdUsuario());
 
                     VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION,"Reactivación exitosa",
                      "Coordinador reactivado exitosamente");

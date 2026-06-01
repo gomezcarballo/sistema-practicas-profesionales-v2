@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.gestores.GestorProfesores;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -62,15 +63,16 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         try{
             
             ValidacionProfesor validacion = new ValidacionProfesor();
+            GestorProfesores gestorProfesores = new GestorProfesores();
             
-            if(validacion.hayCupoProfesores()){
+            if(gestorProfesores.hayCupoProfesores()){
                 
                 ingresarProfesor(profesor, validacion, evento);
                 
                 
             }else{
                 
-                abrirVentanaProfesores(profesor);
+                abrirSeleccionProfesorReemplazo(profesor);
       
             }
             
@@ -90,7 +92,7 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         
     }
     
-    private void abrirVentanaProfesores(Profesor profesor){
+    private void abrirSeleccionProfesorReemplazo(Profesor profesor){
         
         FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador
         ("/fxml/VistaListaProfesoresActivos.fxml", "Profesores Activos");
@@ -114,9 +116,10 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
 
         try{
 
+            GestorProfesores gestorProfesores = new GestorProfesores();
             ValidacionProfesor validacion = new ValidacionProfesor();
 
-            validacion.inactivarProfesor(profesorAnterior.getIdUsuario());
+            gestorProfesores.inactivarProfesor(profesorAnterior.getIdUsuario());
 
             validacion.ingresarProfesor(profesorNuevo);
 
