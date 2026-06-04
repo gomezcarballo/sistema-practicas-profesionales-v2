@@ -21,8 +21,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
-import static spp.logicadenegocio.enums.TipoMensaje.ENVIADOS;
-import static spp.logicadenegocio.enums.TipoMensaje.RECIBIDOS;
 import spp.logicadenegocio.gestores.GestorMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;

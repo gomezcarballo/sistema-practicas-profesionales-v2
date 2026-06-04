@@ -1,49 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporte">
+<VBox alignment="TOP_CENTER" prefHeight="650.0" prefWidth="750.0" spacing="15.0" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporte">
    <children>
-      <Pane fx:id="pnlFormularioReporte" layoutX="23.0" layoutY="22.0" prefHeight="351.0" prefWidth="558.0">
+      <Label text="Generar Reporte Parcial">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+
+      <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+         <tabs>
+            
+            <Tab text="1. Datos Generales">
+               <content>
+                  <VBox spacing="20.0" style="-fx-padding: 20;">
+                     <children>
+                        <GridPane hgap="15.0" vgap="20.0">
+                           <children>
+                              <Label text="Período del reporte:">
+                                 <font><Font name="System Bold" size="13.0" /></font>
+                              </Label>
+                              <TextField fx:id="txtPeriodo" prefWidth="250.0" promptText="Ej. Feb - Jul 2026" GridPane.columnIndex="1" />
+                              
+                              <Label text="Horas cubiertas:" GridPane.rowIndex="1">
+                                 <font><Font name="System Bold" size="13.0" /></font>
+                              </Label>
+                              <TextField fx:id="txtHoras" onKeyReleased="#validarNumeros" prefWidth="250.0" promptText="Ej. 150" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <Tab text="2. Plan de Trabajo">
+               <content>
+                  <HBox fx:id="hbContenedorPrincipal" spacing="20.0" style="-fx-padding: 20;">
+                     <children>
+                        
+                        <VBox fx:id="vbFormularioActividad" prefWidth="350.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="lblTituloNuevaActividad" text="Agregar Nueva Actividad">
+                                 <font><Font name="System Bold" size="14.0" /></font>
+                              </Label>
+                              
+                              <VBox fx:id="vbContenedorDescripcion" spacing="5.0">
+                                 <Label fx:id="lblInstruccionDescripcion" text="Descripción:" />
+                                 <TextField fx:id="txtNuevaActividad" promptText="Ej. Diseño de base de datos..." />
+                                 <Label fx:id="lblTiempoPlan" text="Horas planeadas:" />
+                                 <TextField fx:id="txtTiempoPlan" onKeyReleased="#validarNumeros" promptText="Ej. 8" />
+                                 <Label fx:id="lblTiempoReal" text="Horas reales:" />
+                                 <TextField fx:id="txtTiempoReal" onKeyReleased="#validarNumeros" promptText="Ej. 9" />
+                              </VBox>
+
+                              <Label fx:id="lblInstruccionSemanas" text="Distribución de semanas:" />
+                              
+                              <GridPane hgap="10.0" style="-fx-background-color: #f4f4f4; -fx-padding: 10; -fx-background-radius: 5;" vgap="10.0">
+                                 <children>
+                                    <Label text="S1" GridPane.columnIndex="1" />
+                                    <Label text="S2" GridPane.columnIndex="2" />
+                                    <Label text="S3" GridPane.columnIndex="3" />
+                                    <Label text="S4" GridPane.columnIndex="4" />
+                                    <Label text="S5" GridPane.columnIndex="5" />
+                                    <Label text="S6" GridPane.columnIndex="6" />
+                                    <Label text="S7" GridPane.columnIndex="7" />
+                                    <Label text="S8" GridPane.columnIndex="8" />
+
+                                    <Label text="Plan:" GridPane.rowIndex="1">
+                                       <font><Font name="System Bold" size="12.0" /></font>
+                                    </Label>
+                                    <CheckBox fx:id="chkPlanS1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS3" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS4" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS5" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS6" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS7" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="chkPlanS8" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+
+                                    <Label text="Real:" GridPane.rowIndex="2">
+                                       <font><Font name="System Bold" size="12.0" /></font>
+                                    </Label>
+                                    <CheckBox fx:id="chkRealS1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS3" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS4" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS5" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS6" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS7" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="chkRealS8" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                              </GridPane>
+
+                              <Button fx:id="btnAgregarActividad" mnemonicParsing="false" onAction="#leerDatosDeActividad" prefWidth="150.0" text="Agregar a la tabla" />
+                           </children>
+                        </VBox>
+
+                        <VBox fx:id="vbListaActividades" prefWidth="250.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="lblTituloActividadesRegistradas" text="Actividades Registradas">
+                                 <font><Font name="System Bold" size="14.0" /></font>
+                              </Label>
+                              <TableView fx:id="tblActividades" VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn fx:id="colDescripcionActividad" prefWidth="240.0" text="Nombre de la Actividad" />
+                                </columns>
+                              </TableView>
+                              <Button fx:id="btnEliminarActividad" mnemonicParsing="false" onAction="#eliminarActividad" style="-fx-text-fill: red;" text="Eliminar seleccionada" />
+                           </children>
+                        </VBox>
+
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+
+            <Tab text="3. Resultados y Observaciones">
+               <content>
+                  <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                     <content>
+                        <VBox spacing="20.0" style="-fx-padding: 20 20 10 10;">
+                           <children>
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <Label text="Resultados obtenidos al momento:">
+                                       <font><Font name="System Bold" size="13.0" /></font>
+                                    </Label>
+                                    <TextArea fx:id="taResultados" prefRowCount="5" promptText="Redacta los resultados..." wrapText="true" />
+                                 </children>
+                              </VBox>
+
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <Label text="Observaciones:">
+                                       <font><Font name="System Bold" size="13.0" /></font>
+                                    </Label>
+                                    <TextArea fx:id="taObservaciones" prefRowCount="5" promptText="Añade observaciones adicionales..." wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+
+         </tabs>
+      </TabPane>
+
+      <HBox alignment="CENTER" spacing="30.0" style="-fx-padding: 10 0 0 0;">
          <children>
-            <Label fx:id="lblTituloFormularioReporte" layoutX="190.0" layoutY="14.0" text="Formulario de Reporte">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <RadioButton fx:id="btnReporteMensual" layoutX="141.0" layoutY="51.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="118.0" text="Reporte mensual">
-               <toggleGroup>
-                  <ToggleGroup fx:id="tgTipoReportes" />
-               </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="btnReporteParcial" layoutX="296.0" layoutY="51.0" mnemonicParsing="false" text="Reporte parcial" toggleGroup="$tgTipoReportes"/>
-            <AnchorPane layoutX="21.0" layoutY="80.0" prefHeight="256.0" prefWidth="519.0">
-               <children>
-                  <Label fx:id="lblPeriodoEscolar" layoutX="28.0" layoutY="47.0" text="Periodo escolar: " />
-                  <Label fx:id="lblHorasCubiertas" layoutX="28.0" layoutY="88.0" text="Horas cubiertas" />
-                  <Label fx:id="lblTiempoPlaneado" layoutX="25.0" layoutY="132.0" text="Tiempo planeado: " />
-                  <Label fx:id="lblTiempoReal" layoutX="35.0" layoutY="177.0" text="Tiempo real: " />
-                  <TextField fx:id="txtPeriodoEscolar" layoutX="130.0" layoutY="43.0" />
-                  <TextField fx:id="txtHorasCubiertas" layoutX="130.0" layoutY="84.0" />
-                  <TextField fx:id="txtTiempoPlaneado" layoutX="130.0" layoutY="128.0" />
-                  <TextField fx:id="txtTiempoReal" layoutX="130.0" layoutY="173.0" />
-                  <Label fx:id="lblFechaInicio" layoutX="300.0" layoutY="29.0" text="Fecha de inicio: " />
-                  <DatePicker fx:id="dpFechaInicio" layoutX="297.0" layoutY="62.0" />
-                  <Label fx:id="lblTiempoTermino" layoutX="300.0" layoutY="101.0" text="Fecha de termino: " />
-                  <DatePicker fx:id="dpFechaTermino" layoutX="297.0" layoutY="132.0" />
-                  <Button fx:id="btnGenerar" layoutX="190.0" layoutY="216.0" mnemonicParsing="false" onAction="#leerDatosDeReporte" text="Generar" />
-                  <Button fx:id="btnRegresar" layoutX="271.0" layoutY="216.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
-               </children>
-            </AnchorPane>
+            <Button fx:id="btnGenerar" mnemonicParsing="false" onAction="#generarReporte" prefHeight="30.0" prefWidth="130.0" text="Guardar Reporte" />
+            <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" prefHeight="30.0" prefWidth="130.0" text="Regresar" />
          </children>
-      </Pane>
+      </HBox>
+      
    </children>
-</AnchorPane>
+</VBox>

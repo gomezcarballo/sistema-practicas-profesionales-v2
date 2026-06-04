@@ -171,18 +171,27 @@ public class UsuarioDAO implements IUsuarioDAO {
             
             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
             
-            if(!resultadosConsulta.next()){
-                return null;
+            UsuarioEncontrado usuarioEncontrado;
+            
+            if(resultadosConsulta.next()){
+                
+                int idEncontrado = resultadosConsulta.getInt("idUsuario");
+                String rolEncontrado = resultadosConsulta.getString("rol");
+                String hashEncontrado = resultadosConsulta.getString("hash");
+            
+                usuarioEncontrado = new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
+                
+            }else{
+                
+                usuarioEncontrado =  null;
+                
             }
-            
-            int idEncontrado = resultadosConsulta.getInt("idUsuario");
-            String rolEncontrado = resultadosConsulta.getString("rol");
-            String hashEncontrado = resultadosConsulta.getString("hash");
-            
-            return new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
+            return usuarioEncontrado; 
             
         }catch(SQLException e){
+            
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
+            
         }
     }
     
