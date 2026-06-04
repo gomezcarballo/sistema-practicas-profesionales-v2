@@ -11,9 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import spp.logicadenegocio.enums.TipoDocumento;
-import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -57,6 +55,7 @@ public class ControladorDocumentos {
     @FXML
     private void validarArchivoTemporal(File archivoTemporal){
 
+        /* 
         if (archivoTemporal != null) {
             
             try {
@@ -76,6 +75,7 @@ public class ControladorDocumentos {
             }
             
         }
+            */
     }
     
     @FXML
