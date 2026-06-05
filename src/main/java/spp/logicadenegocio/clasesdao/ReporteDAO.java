@@ -14,25 +14,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
-import spp.logicadenegocio.interfacesdao.IReporteParcialDAO;
+import spp.logicadenegocio.interfacesdao.IReportDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
-public class ReporteParcialDAO implements IReporteParcialDAO{
+public class ReporteDAO implements IReportDAO{
     
     @Override
-    public ReporteParcial recuperarDatosReporte(int idPRacticante) throws OperacionesDeDaoExcepcion {
+    public ReporteParcial recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion {
         
         ReporteParcial reporteParcial = new ReporteParcial();
 
         String consultaSQL = """
-            SELECT * FROM VistaDatosReporteParcial 
+            SELECT * FROM VistaDatosReporte
             WHERE idPracticante = ?
             """;
 
         try( Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL) ){
             
-            consultaPreparada.setInt(1, idPRacticante);
+            consultaPreparada.setInt(1, idPracticante);
            
             try (ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
 
@@ -57,4 +57,5 @@ public class ReporteParcialDAO implements IReporteParcialDAO{
 
         return reporteParcial;
     }
+    
 }

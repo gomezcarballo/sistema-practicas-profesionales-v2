@@ -56,6 +56,16 @@
             .center {
                 text-align: center;
             }
+
+            .caja-exclusiva {
+                background-color: #d9d9d9;
+                border: 1px solid black;
+                text-align: center;
+                font-weight: bold;
+                font-size: 14px;
+                padding: 10px;
+                margin-top: 40px;
+            }
             
         </style>
     </head>
@@ -89,7 +99,7 @@
             </tr>
             <tr>
                 <td><strong>Alumno(s):</strong></td>
-                <td colspan="3" th:text="${alumnos}">Integrantes del equipo</td>
+                <td colspan="3" th:text="${alumno}">Integrantes del equipo</td>
             </tr>
             <tr>
                 <td><strong>Proyecto:</strong></td>
@@ -155,29 +165,27 @@
     
                     <tr>
                         <td rowspan="2" th:text="${act.descripcion}">Nombre de la Actividad</td>
-                        <td th:text="${act.horasPlaneadas}"></td>
-                        <td>Plan</td>
-                        <td th:text="${act.semanasPlan[0] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[1] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[2] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[3] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[4] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[5] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[6] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasPlan[7] ? 'X' : ''}"></td>
+                        <td th:text="|Plan : ${act.horasPlaneadas}|"></td>
+                        <td class="center" th:text="${act.semanasPlan[0] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[1] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[2] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[3] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[4] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[5] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[6] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasPlan[7] ? 'X' : ''}"></td>
                     </tr>
                     
                     <tr>
-                        <td th:text="${act.horasReales}"></td>
-                        <td>Real</td>
-                        <td th:text="${act.semanasReal[0] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[1] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[2] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[3] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[4] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[5] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[6] ? 'X' : ''}"></td>
-                        <td th:text="${act.semanasReal[7] ? 'X' : ''}"></td>
+                        <td th:text="|Real : ${act.horasReales}|"></td>
+                        <td class="center" th:text="${act.semanasReal[0] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[1] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[2] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[3] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[4] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[5] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[6] ? 'X' : ''}"></td>
+                        <td class="center" th:text="${act.semanasReal[7] ? 'X' : ''}"></td>
                     </tr>
                     
                 </th:block>
@@ -205,6 +213,104 @@
         <p>NOTA: El presente documento debe entregase anexando:<br />
         • Bitácora de trabajo.<br />
         • Formato de evaluación de desempeño del o los estudiantes, debidamente firmado y sellado por el Responsable Técnico designado por la organización vinculada.</p>
+
+        <div style="page-break-before: always;"></div>
+
+        <div class="caja-exclusiva">
+            Sección EXCLUSIVA para llenado por parte del Responsable Técnico designado por la Organización Vinculada
+        </div>
+
+        <table style="width: 50%; margin: 20px auto;">
+            <tr>
+                <th colspan="2" class="title-row">CRITERIOS</th>
+            </tr>
+            <tr>
+                <td>Nunca</td>
+                <td class="center" style="width: 15%;">1</td>
+            </tr>
+            <tr>
+                <td>Pocas veces</td>
+                <td class="center">2</td>
+            </tr>
+            <tr>
+                <td>Algunas veces</td>
+                <td class="center">3</td>
+            </tr>
+            <tr>
+                <td>Muchas veces</td>
+                <td class="center">4</td>
+            </tr>
+            <tr>
+                <td>Siempre</td>
+                <td class="center">5</td>
+            </tr>
+        </table>
+
+        <p>INSTRUCCIONES: Tache según corresponda a los criterios de evaluación del desempeño demostrado en el período correspondiente al presente informe técnico.</p>
+
+        <table>
+            <tr>
+                <th class="title-row" colspan="2">FORMATO DE EVALUACIÓN DE DESEMPEÑO</th>
+                <th class="title-row" style="width: 5%;">1</th>
+                <th class="title-row" style="width: 5%;">2</th>
+                <th class="title-row" style="width: 5%;">3</th>
+                <th class="title-row" style="width: 5%;">4</th>
+                <th class="title-row" style="width: 5%;">5</th>
+            </tr>
+            <tr>
+                <td class="center" style="width: 5%;">1</td>
+                <td>Responsabilidad en las actividades asignadas.</td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td>Aporte de ideas para la toma de decisiones en la solución.</td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td class="center">3</td>
+                <td>Organización en el desarrollo del trabajo.</td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td class="center">4</td>
+                <td>Aplicación de conocimientos teórico-prácticos en el desarrollo de sus actividades.</td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td class="center">5</td>
+                <td>Realizó las actividades encomendadas correctamente.</td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+        </table>
+
+        <table style="margin-top: 30px; text-align: center; border-collapse: collapse; table-layout: fixed;">
+            <tr>
+                <td rowspan="3" style="width: 50%; vertical-align: top; text-align: left; padding: 20px;">
+                    <br />
+                    <strong>Estudiante: </strong> <span th:text="${alumno}">Nombre del Estudiante</span><br /><br />
+                    <strong>Matrícula: </strong> <span th:text="${matricula}">S00000000</span><br />
+                    <br /><br /><br /><br /><br /><br />
+                </td>
+                <td style="width: 50%; height: 80px; vertical-align: bottom; padding-bottom: 10px;">
+                    <span th:text="${nombreResponsable}">Nombre del Responsable</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="title-row" style="padding: 10px;">
+                    Vo. Bo.<br />
+                    Nombre, Puesto y Firma del Responsable Técnico designado por la organización vinculada
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 100px;">
+                </td>
+            </tr>
+            <tr>
+                <td class="title-row" style="padding: 10px;">Nombre(s) y Firma(s) de los Estudiantes miembros del equipo (si aplica)</td>
+                <td class="title-row" style="padding: 10px;">Sello de la organización vinculada</td>
+            </tr>
+        </table>
             
     </body>
     

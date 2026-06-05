@@ -34,12 +34,20 @@
                        styleClass="etiqueta-instruccion"
                        wrapText="true"/>
 
-                <Button fx:id="btnReportes"
+                <Button fx:id="btnReporteParcial"
                         mnemonicParsing="false"
-                        onAction="#abrirReportes"
+                        onAction="#abrirReporteParcial"
                         prefWidth="260.0"
                         prefHeight="40.0"
-                        text="Reportes"
+                        text="Reporte Parcial"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnReporteFinal"
+                        mnemonicParsing="false"
+                        onAction="#abrirReporteFinal"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Reporte Final"
                         styleClass="boton-accion"/>
 
                 <Button fx:id="btnAutoevaluacion"

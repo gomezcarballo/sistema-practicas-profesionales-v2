@@ -10,7 +10,8 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  *
  * @author Luz Fernanda H J
  */
-public interface IReporteParcialDAO {
-    public ReporteParcial recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion ;
+public interface IReportDAO {
+    public ReporteParcial recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion;
+    
 }
 

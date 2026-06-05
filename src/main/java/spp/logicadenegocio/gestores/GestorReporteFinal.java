@@ -9,14 +9,15 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import java.io.File;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import spp.logicadenegocio.clasesdao.ReporteDAO;
+import spp.logicadenegocio.clasesdto.ReporteFinal;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
-public class GestorReporteParcial {
+public class GestorReporteFinal {
 
-    public void generarReporteParcial(ReporteParcial reporte) throws ProcesamientoSistemaExcepcion, OperacionesDeDaoExcepcion {
+    public void generarReporteParcial(ReporteFinal reporte) throws ProcesamientoSistemaExcepcion, OperacionesDeDaoExcepcion {
         
         completarDatosDeBaseDeDatos(reporte);
 
@@ -28,7 +29,7 @@ public class GestorReporteParcial {
         
         String rutaDescargas = rutaInicioUsuario + File.separator + "Downloads";
         String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
-        String nombreBase = "Reporte_Parcial_" + identificador;
+        String nombreBase = "Reporte_Final_" + identificador;
         String extension = ".pdf";
 
         File archivoPdf = new File(rutaDescargas, nombreBase + extension);
@@ -43,7 +44,7 @@ public class GestorReporteParcial {
         
     }
 
-    private void completarDatosDeBaseDeDatos(ReporteParcial reporte) throws OperacionesDeDaoExcepcion {
+    private void completarDatosDeBaseDeDatos(ReporteFinal reporte) throws OperacionesDeDaoExcepcion {
 
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
         int idPracticante = sesionUsuario.getIdUsuario();
@@ -65,7 +66,7 @@ public class GestorReporteParcial {
 
     }
 
-    private Context prepararContexto(ReporteParcial reporte) {
+    private Context prepararContexto(ReporteFinal reporte) {
         
         Context contexto = new Context();
         
@@ -76,11 +77,8 @@ public class GestorReporteParcial {
         contexto.setVariable("proyecto", reporte.getProyecto());
         contexto.setVariable("organizacion", reporte.getOrganizacion());
         contexto.setVariable("fechaReporte", reporte.getFechaReporte());
-        contexto.setVariable("periodoHoras", reporte.getPeriodoReporteYHorasCubiertas());
-        contexto.setVariable("numInforme", reporte.getNumeroInforme());
         contexto.setVariable("objetivoGeneral", reporte.getObjetivoGeneral());
         contexto.setVariable("metodologia", reporte.getMetodologia());
-        contexto.setVariable("resultados", reporte.getResultados());
         contexto.setVariable("observaciones", reporte.getObservaciones());
         contexto.setVariable("actividades", reporte.getActividades());
         contexto.setVariable("alumno", reporte.getAlumno());
@@ -92,7 +90,7 @@ public class GestorReporteParcial {
     private String procesarPlantillaHtml(Context contexto) {
         
         ClassLoaderTemplateResolver resolutor = new ClassLoaderTemplateResolver();
-        resolutor.setPrefix("/documentos/reporteparcial/");
+        resolutor.setPrefix("/documentos/reportefinal/");
         resolutor.setSuffix(".html");
         resolutor.setTemplateMode("HTML");
         resolutor.setCharacterEncoding("UTF-8");
@@ -100,7 +98,7 @@ public class GestorReporteParcial {
         TemplateEngine motorPlantillas = new TemplateEngine();
         motorPlantillas.setTemplateResolver(resolutor);
 
-        return motorPlantillas.process("reporteParcial", contexto);
+        return motorPlantillas.process("reporteFinal", contexto);
         
     }
 
