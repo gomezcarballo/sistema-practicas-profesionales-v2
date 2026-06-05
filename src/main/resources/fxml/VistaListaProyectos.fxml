@@ -17,7 +17,7 @@
       <TableView fx:id="tblListaProyectos" layoutX="54.0" layoutY="106.0" prefHeight="233.0" prefWidth="506.0">
         <columns>
           <TableColumn fx:id="colNombre" prefWidth="141.5999755859375" text="Nombre" />
-          <TableColumn fx:id="colDescripcion" minWidth="8.0" prefWidth="128.0" text="Descripción" />
+          <TableColumn fx:id="colObjetivoGeneral" minWidth="8.0" prefWidth="128.0" text="Objetivo General" />
             <TableColumn fx:id="colResponsable" prefWidth="128.79998779296875" text="Responsable" />
             <TableColumn fx:id="colCupoMaximo" prefWidth="107.19998779296873" text="Cupo Maximo" />
         </columns>

@@ -16,19 +16,21 @@ public class Practicante extends Usuario {
     private String genero;
     private LocalDate fechaNacimiento;
     private boolean hablaLenguaIndigena;
+    private String nrcAsignado;
 
     public Practicante() {
     }
 
     public Practicante(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
            String correoInstitucional,String contraseña, boolean esActivo, String matricula, String genero, 
-           LocalDate fechaNacimiento, boolean hablaLenguaIndigena) {
+           LocalDate fechaNacimiento, boolean hablaLenguaIndigena, String nrcAsignado) {
         
         super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, contraseña, esActivo);
         this.matricula = matricula;
         this.genero = genero;
         this.fechaNacimiento = fechaNacimiento;
         this.hablaLenguaIndigena = hablaLenguaIndigena;
+        this.nrcAsignado = nrcAsignado;
         
     }
 
@@ -63,5 +65,13 @@ public class Practicante extends Usuario {
     public void setHablaLenguaIndigena(boolean hablaLenguaIndigena) {
         this.hablaLenguaIndigena = hablaLenguaIndigena;
     }
+
+    public String getNrcAsignado() {
+        return nrcAsignado;
+    }
+
+    public void setNrcAsignado(String nrcAsignado) {
+        this.nrcAsignado = nrcAsignado;
+    }   
 
 }

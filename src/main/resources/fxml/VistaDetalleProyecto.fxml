@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetalleProyecto">
+<AnchorPane id="AnchorPane" prefHeight="671.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetalleProyecto">
    <children>
       <AnchorPane fx:id="pnlDetalleProyecto" layoutX="27.0" layoutY="20.0" prefHeight="342.0" prefWidth="545.0">
          <children>
@@ -16,18 +16,22 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblNombre" layoutX="66.0" layoutY="109.0" text="Nombre:" />
-            <Label fx:id="lblDescripcion" layoutX="64.0" layoutY="259.0" text="Descripción:" />
-            <Label fx:id="lblNombreResponsable" layoutX="66.0" layoutY="152.0" text="Nombre del responsable:" />
-            <Label fx:id="lblCupoMaximo" layoutX="64.0" layoutY="195.0" text="Cupo maximo:" />
+            <Label fx:id="lblNombre" layoutX="64.0" layoutY="109.0" text="Nombre:" />
+            <Label fx:id="lblNombreResponsable" layoutX="64.0" layoutY="152.0" text="Nombre del responsable:" />
+            <Label fx:id="lblCupoMaximo" layoutX="73.0" layoutY="241.0" text="Cupo maximo:" />
             <TextField fx:id="txtNombre" layoutX="202.0" layoutY="105.0" prefHeight="26.0" prefWidth="276.0" />
             <TextField fx:id="txtNombreResponsable" layoutX="202.0" layoutY="148.0" prefHeight="26.0" prefWidth="276.0" />
-            <TextField fx:id="txtCupoMaximo" layoutX="202.0" layoutY="191.0" prefHeight="26.0" prefWidth="276.0" />
-            <Button fx:id="btnRegresar" layoutX="230.0" layoutY="315.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
-            <Label fx:id="lblNombreOrganizacion" layoutX="66.0" layoutY="72.0" text="Organización:" />
+            <TextField fx:id="txtCupoMaximo" layoutX="202.0" layoutY="237.0" prefHeight="26.0" prefWidth="276.0" />
+            <Label fx:id="lblNombreOrganizacion" layoutX="64.0" layoutY="72.0" text="Organización:" />
             <TextField fx:id="txtNombreOrganizacion" layoutX="202.0" layoutY="68.0" prefHeight="26.0" prefWidth="276.0" />
-            <TextArea fx:id="taDescripcion" layoutX="202.0" layoutY="236.0" prefHeight="63.0" prefWidth="276.0" />
+            <TextField fx:id="txtContactoResponsable" layoutX="202.0" layoutY="194.0" prefHeight="26.0" prefWidth="276.0" />
+            <TextArea fx:id="taObjetivoGeneral" layoutX="202.0" layoutY="278.0" prefHeight="63.0" prefWidth="276.0" />
+            <Label fx:id="lblObjetivoGeneral" layoutX="67.0" layoutY="301.0" text="Objetivo General:" />
+            <Label fx:id="lblContactoResponsable" layoutX="74.0" layoutY="199.0" text="Contacto:" />
          </children>
       </AnchorPane>
+      <Button fx:id="btnRegresar" layoutX="253.0" layoutY="624.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+      <TextArea fx:id="taMetodologia" layoutX="231.0" layoutY="380.0" prefHeight="122.0" prefWidth="276.0" />
+      <Label fx:id="lblMetodologia" layoutX="100.0" layoutY="424.0" text="Metodología:" />
    </children>
 </AnchorPane>

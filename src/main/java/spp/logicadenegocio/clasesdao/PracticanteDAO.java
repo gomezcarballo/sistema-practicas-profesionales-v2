@@ -29,7 +29,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         boolean registroExitoso = false;
         
         String consultaSQL = "INSERT INTO Practicante (idUsuario, matricula, genero, "
-                + "lenguaIndigena, fechaNacimiento) VALUES (?, ?, ?, ?, ?)";
+                + "lenguaIndigena, fechaNacimiento, nrcAsignado) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
@@ -40,6 +40,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setBoolean(4, practicante.getHablaLenguaIndigena());
             java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
             consultaPreparada.setDate(5, fechaParaBD);
+            consultaPreparada.setString(6, practicante.getNrcAsignado());
             
             consultaPreparada.executeUpdate();
             
@@ -60,7 +61,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         String consultaSQL = "SELECT u.idUsuario, u.nombre, u.apellidoPaterno, "
             + "u.apellidoMaterno, u.correoInstitucional, "
             + "p.matricula, p.genero, p.lenguaIndigena, "
-            + "p.fechaNacimiento "
+            + "p.fechaNacimiento, p.nrcAsignado "
             + "FROM Practicante p "
             + "INNER JOIN Usuario u "
             + "ON p.idUsuario = u.idUsuario "
@@ -83,6 +84,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
                 practicante.setGenero(resultadosConsulta.getString("genero"));
                 practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
                 practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
+                practicante.setNrcAsignado(resultadosConsulta.getString("nrcAsignado"));
                 
                 practicantes.add(practicante);
             }
@@ -130,7 +132,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         String consultaSQL =
         "SELECT DISTINCT u.idUsuario AS idUsuario, u.nombre, u.apellidoPaterno, " +
         "u.apellidoMaterno, u.correoInstitucional, " +
-        "p.matricula, p.fechaNacimiento, p.genero, p.lenguaIndigena " +
+        "p.matricula, p.fechaNacimiento, p.genero, p.lenguaIndigena, p.nrcAsignado " +
         "FROM Practicante p " +
         "INNER JOIN Usuario u ON p.idUsuario = u.idUsuario " +
         "INNER JOIN solicitudProyecto sp ON p.idUsuario = sp.Practicante_idUsuario";
@@ -151,6 +153,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
                 practicante.setMatricula(resultadosConsulta.getString("matricula"));
                 practicante.setGenero(resultadosConsulta.getString("genero"));
                 practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
+                practicante.setNrcAsignado(resultadosConsulta.getString("nrcAsignado"));
                 practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
 
                 listaPracticantes.add(practicante);

@@ -60,7 +60,7 @@ public class ValidacionActividad {
         
         if(descripcion.length() > longitudMaximaDescripcion){
             
-            throw new ReglaDeNegocioExcepcion("El título excede la longitud maxima de " + 
+            throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de " + 
             longitudMaximaDescripcion + " caracteres");
             
         } 

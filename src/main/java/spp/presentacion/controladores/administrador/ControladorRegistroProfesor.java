@@ -4,11 +4,13 @@
  */
 package spp.presentacion.controladores.administrador;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.gestores.GestorProfesores;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor;
@@ -23,9 +25,34 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
     
     @FXML
+    private ComboBox<String> cbOpcionesNrc;
+    
+    @FXML
+    public void initialize(){
+        
+        cbOpcionesNrc.setItems(FXCollections.observableArrayList("Nrc01", "Nrc02"));
+        
+    }
+    
+    @FXML
+    private boolean esNrcAsignadoValido(){
+        
+        boolean esNrcValido = true;
+        
+        if(cbOpcionesNrc.getValue() == null){
+            
+            esNrcValido = false;
+            
+        }
+        
+        return esNrcValido;
+        
+    }
+    
+    @FXML
     private void leerDatosDelProfesor(ActionEvent evento){
         
-        if(camposValidos()){
+        if(camposValidos() && esNrcAsignadoValido()){
             
             Profesor profesor = crearProfesor();
 
@@ -45,6 +72,7 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         String apellidoMaterno = txtApellidoMaterno.getText();
         String correoInstitucional = txtCorreo.getText();
         String numeroPersonal = txtNumeroPersonal.getText();
+        String nrcAsignado = cbOpcionesNrc.getValue();
 
         Profesor profesor = new Profesor();
         profesor.setNombre(nombre);
@@ -52,6 +80,7 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         profesor.setApellidoMaterno(apellidoMaterno);
         profesor.setCorreoInstitucional(correoInstitucional);
         profesor.setNumeroDePersonal(numeroPersonal);
+        profesor.setNrcAsignado(nrcAsignado);
         
         return profesor;
         

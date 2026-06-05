@@ -22,10 +22,16 @@ public class ControladorDetalleProyecto {
     private TextField txtNombre;
 
     @FXML
-    private TextArea taDescripcion;
+    private TextArea taObjetivoGeneral;
 
     @FXML
     private TextField txtNombreResponsable;
+    
+    @FXML
+    private TextField txtContactoResponsable;
+    
+    @FXML
+    private TextField taMetodologia;
 
     @FXML
     private TextField txtCupoMaximo;
@@ -40,13 +46,17 @@ public class ControladorDetalleProyecto {
 
         txtNombre.setEditable(false);
 
-        taDescripcion.setEditable(false);
+        taObjetivoGeneral.setEditable(false);
 
         txtNombreResponsable.setEditable(false);
 
         txtCupoMaximo.setEditable(false);
         
         txtNombreOrganizacion.setEditable(false);
+        
+        txtContactoResponsable.setEditable(false);
+                
+        taMetodologia.setEditable(false);       
         
     }
     
@@ -61,14 +71,18 @@ public class ControladorDetalleProyecto {
         this.organizacion = organizacion;
         
         cargarDatosProyecto(proyecto);
+        
     }
     
     public void cargarDatosProyecto(Proyecto proyecto){
         
         txtNombre.setText(proyecto.getNombre());
-        taDescripcion.setText(proyecto.getDescripcion());
+        taObjetivoGeneral.setText(proyecto.getObjetivoGeneral());
         txtNombreResponsable.setText(proyecto.getNombreResponsable());
         txtCupoMaximo.setText(String.valueOf(proyecto.getCupoMaximo()));
+        taMetodologia.setText(proyecto.getMetodologia());
+        txtContactoResponsable.setText(proyecto.getContactoResponsable());
+        
         if (organizacion != null) {
 
             txtNombreOrganizacion.setText(organizacion.getNombre());

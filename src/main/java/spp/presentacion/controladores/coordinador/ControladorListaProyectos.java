@@ -37,7 +37,7 @@ public class ControladorListaProyectos {
     private TableColumn<Proyecto, String> colNombre;
 
     @FXML
-    private TableColumn<Proyecto, String> colDescripcion;
+    private TableColumn<Proyecto, String> colObjetivoGeneral;
 
     @FXML
     private TableColumn<Proyecto, String> colResponsable;
@@ -78,7 +78,7 @@ public class ControladorListaProyectos {
     private void configurarColumnas(){
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivoGeneral"));
         colResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
         colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
 

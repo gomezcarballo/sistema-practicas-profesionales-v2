@@ -28,18 +28,21 @@ public class ProyectoDAO implements IProyectoDAO {
         
         boolean registroExitoso = false;
         
-        String consultaSQL = "INSERT INTO Proyecto (nombre, descripcion, nombreResponsable, "
-                + "cupoMaximo, estado, Organizacion_idOrganizacion) VALUES (?, ?, ?, ?, ?, ?)";
+        String consultaSQL = "INSERT INTO Proyecto (nombre, objetivoGeneral, nombreResponsable, "
+                + "contactoResponsable, cupoMaximo, estado, metodologia, Organizacion_idOrganizacion) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
 
             consultaPreparada.setString(1, proyecto.getNombre());
-            consultaPreparada.setString(2, proyecto.getDescripcion());
+            consultaPreparada.setString(2, proyecto.getObjetivoGeneral());
             consultaPreparada.setString(3, proyecto.getNombreResponsable());
-            consultaPreparada.setInt(4, proyecto.getCupoMaximo());
-            consultaPreparada.setBoolean(5, proyecto.getEsActivo());
-            consultaPreparada.setInt(6, proyecto.getOrganizacion().getIdOrganizacion());
+            consultaPreparada.setString(4, proyecto.getContactoResponsable());
+            consultaPreparada.setInt(5, proyecto.getCupoMaximo());
+            consultaPreparada.setBoolean(6, proyecto.getEsActivo());
+            consultaPreparada.setString(7, proyecto.getMetodologia());
+            consultaPreparada.setInt(8, proyecto.getOrganizacion().getIdOrganizacion());
             
             consultaPreparada.executeUpdate();
             
@@ -141,17 +144,20 @@ public class ProyectoDAO implements IProyectoDAO {
         
         boolean actualizacionExitosa = false;
 
-        String consultaSQL = "UPDATE PROYECTO SET nombre = ?, descripcion = ?, "
-                + "nombreResponsable = ?, cupoMaximo = ? WHERE idProyecto = ? ";
+        String consultaSQL = "UPDATE PROYECTO SET nombre = ?, objetivoGeneral = ?, "
+                + "nombreResponsable = ?, contactoResponsable = ?, cupoMaximo = ?, metodologia = ? "
+                + "WHERE idProyecto = ? ";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
                 
             consultaPreparada.setString(1, proyecto.getNombre());
-            consultaPreparada.setString(2, proyecto.getDescripcion());
+            consultaPreparada.setString(2, proyecto.getObjetivoGeneral());
             consultaPreparada.setString(3, proyecto.getNombreResponsable());
-            consultaPreparada.setInt(4, proyecto.getCupoMaximo());
-            consultaPreparada.setInt(5, proyecto.getIdProyecto());
+            consultaPreparada.setString(4, proyecto.getContactoResponsable());
+            consultaPreparada.setInt(5, proyecto.getCupoMaximo());
+            consultaPreparada.setString(6, proyecto.getMetodologia());
+            consultaPreparada.setInt(7, proyecto.getIdProyecto());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
@@ -192,8 +198,10 @@ public class ProyectoDAO implements IProyectoDAO {
         
          String consultaSQL = "SELECT p.idProyecto, " +
                             "p.nombre, " +
-                            "p.descripcion, " +
+                            "p.objetivoGeneral, " +
                             "p.nombreResponsable, " +
+                            "p.contactoResponsable, " +
+                            "p.metodologia, " +
                             "p.cupoMaximo, " +
                             "o.nombre AS nombreOrganizacion " +
                             "FROM Proyecto p " +
@@ -212,8 +220,10 @@ public class ProyectoDAO implements IProyectoDAO {
                 
                 proyecto.setIdProyecto(resultadosConsulta.getInt("idProyecto"));
                 proyecto.setNombre(resultadosConsulta.getString("nombre"));
-                proyecto.setDescripcion(resultadosConsulta.getString("descripcion"));
+                proyecto.setObjetivoGeneral(resultadosConsulta.getString("objetivoGeneral"));
                 proyecto.setNombreResponsable(resultadosConsulta.getString("nombreResponsable"));
+                proyecto.setContactoResponsable(resultadosConsulta.getString("contactoResponsable"));
+                proyecto.setMetodologia(resultadosConsulta.getString("metodologia"));
                 proyecto.setCupoMaximo(resultadosConsulta.getInt("cupoMaximo"));
                 
                 Organizacion organizacion = new Organizacion();
@@ -235,7 +245,8 @@ public class ProyectoDAO implements IProyectoDAO {
         
         List<Proyecto> proyectos = new ArrayList<>();
         
-         String consultaSQL = "SELECT idProyecto, nombre, descripcion, nombreResponsable, cupoMaximo FROM Proyecto "
+         String consultaSQL = "SELECT idProyecto, nombre, objetivoGeneral, nombreResponsable, contactoResponsable, "
+                 + "metodologia, cupoMaximo FROM Proyecto "
                  + "WHERE Organizacion_idOrganizacion = ? AND estado = 1";
 
         try(Connection conexion = ConexionBD.getConexion();
@@ -250,8 +261,10 @@ public class ProyectoDAO implements IProyectoDAO {
                 
                 proyecto.setIdProyecto(resultadosConsulta.getInt("idProyecto"));
                 proyecto.setNombre(resultadosConsulta.getString("nombre"));
-                proyecto.setDescripcion(resultadosConsulta.getString("descripcion"));
+                proyecto.setObjetivoGeneral(resultadosConsulta.getString("objetivoGeneral"));
                 proyecto.setNombreResponsable(resultadosConsulta.getString("nombreResponsable"));
+                proyecto.setContactoResponsable(resultadosConsulta.getString("contactoResponsable"));
+                proyecto.setMetodologia(resultadosConsulta.getString("metodologia"));
                 proyecto.setCupoMaximo(resultadosConsulta.getInt("cupoMaximo"));
 
                 proyectos.add(proyecto);

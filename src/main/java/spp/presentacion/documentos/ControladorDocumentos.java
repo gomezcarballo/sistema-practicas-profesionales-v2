@@ -10,9 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
@@ -35,11 +38,12 @@ public class ControladorDocumentos {
     private Label lblTituloDocumento; 
     
     private File archivoSeleccionado = null;
-    //private TipoDocumento tipoDocumento;
+    
+    private TipoDocumento tipoDocumento;
 
     @FXML
     private void elegirDocumento() {
-        /* 
+        
         FileChooser explorador = new FileChooser();
         explorador.setTitle("Selecciona el archivo deseado");
 
@@ -49,7 +53,7 @@ public class ControladorDocumentos {
         File archivoTemporal = explorador.showOpenDialog(null);
         
         validarArchivoTemporal(archivoTemporal);
-        */
+        
        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "¡UY!", "Funcionalidad en progreso.");
         
     }
@@ -57,6 +61,7 @@ public class ControladorDocumentos {
     @FXML
     private void validarArchivoTemporal(File archivoTemporal){
 
+        
         if (archivoTemporal != null) {
             
             try {
@@ -76,12 +81,12 @@ public class ControladorDocumentos {
             }
             
         }
+            
     }
     
     @FXML
     private void subirDocumento() {
-        /* 
-        
+
         if (archivoSeleccionado != null) {
             
             try {
@@ -101,17 +106,17 @@ public class ControladorDocumentos {
             } 
             
         }
-            */
+
 
         VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "¡UY!", "Funcionalidad en progreso.");
     }
     
     public void configurarTipoDocumento(TipoDocumento tipoDocumento){
-        /* 
+        
         this.tipoDocumento = tipoDocumento;
         
         lblTituloDocumento.setText("Subir "+tipoDocumento.getDescripcion());
-        */
+        
         
     }
 

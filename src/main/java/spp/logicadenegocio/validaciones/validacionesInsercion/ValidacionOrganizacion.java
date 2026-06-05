@@ -73,8 +73,8 @@ public class ValidacionOrganizacion {
         
         if( direccion.length() > LONGITUD_MAXIMA_DIRECCION){
             
-            throw new ReglaDeNegocioExcepcion("La dirección excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_DIRECCION + "caracteres");
+            throw new ReglaDeNegocioExcepcion("La dirección excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_DIRECCION + " caracteres");
             
         }
         

@@ -79,4 +79,5 @@ public class ControladorDetalleMensaje {
         CerradorVentana.cerrarVentana(evento);
         
     }
+    
 }

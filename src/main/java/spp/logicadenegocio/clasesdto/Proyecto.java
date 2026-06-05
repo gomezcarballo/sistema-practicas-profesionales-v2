@@ -15,8 +15,10 @@ public class Proyecto {
     
     private int idProyecto; 
     private String nombre; 
-    private String descripcion;
+    private String objetivoGeneral;
     private String nombreResponsable;
+    private String contactoResponsable;
+    private String metodologia;
     private int cupoMaximo;
     private boolean esActivo;
     private BooleanProperty esSeleccionado = new SimpleBooleanProperty(false);
@@ -25,13 +27,15 @@ public class Proyecto {
     public Proyecto (){
     }
     
-    public Proyecto(int idProyecto, String nombre, String descripcion, String nombreResponsable,
-           int cupoMaximo, boolean esActivo, Organizacion Organizacion) {
+    public Proyecto(int idProyecto, String nombre, String objetivoGeneral, String nombreResponsable,
+           int cupoMaximo, String contactoResponsable, String metodologia, boolean esActivo, Organizacion Organizacion) {
         
         this.idProyecto = idProyecto;
         this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.objetivoGeneral = objetivoGeneral;
         this.nombreResponsable = nombreResponsable;
+        this.contactoResponsable = contactoResponsable;
+        this.metodologia = metodologia;
         this.cupoMaximo = cupoMaximo;
         this.esActivo = esActivo;
         this.organizacion = Organizacion;
@@ -54,12 +58,12 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getObjetivoGeneral() {
+        return objetivoGeneral;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setObjetivoGeneral(String objetivoGeneral) {
+        this.objetivoGeneral = objetivoGeneral;
     }
 
     public String getNombreResponsable() {
@@ -111,5 +115,23 @@ public class Proyecto {
         return organizacion.getNombre();
 
     }
+
+    public String getContactoResponsable() {
+        return contactoResponsable;
+    }
+
+    public void setContactoResponsable(String contactoResponsable) {
+        this.contactoResponsable = contactoResponsable;
+    }
+
+    public String getMetodologia() {
+        return metodologia;
+    }
+
+    public void setMetodologia(String metodologia) {
+        this.metodologia = metodologia;
+    }
+    
+    
     
 }

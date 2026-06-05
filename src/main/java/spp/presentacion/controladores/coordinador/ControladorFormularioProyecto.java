@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
@@ -30,10 +31,16 @@ public class ControladorFormularioProyecto {
     private TextField txtNombre;
     
     @FXML
-    private TextField txtDescripcion;
+    private TextArea taObjetivoGeneral;
     
     @FXML
     private TextField txtNombreResponsable;
+    
+    @FXML
+    private TextField txtContactoResponsable;
+    
+    @FXML
+    private TextField taMetodologia;
     
     @FXML
     private TextField txtCupoMaximo;
@@ -89,8 +96,10 @@ public class ControladorFormularioProyecto {
         this.organizacion = organizacion;
             
         txtNombre.setText(proyecto.getNombre());
-        txtDescripcion.setText(proyecto.getDescripcion());
+        taObjetivoGeneral.setText(proyecto.getObjetivoGeneral());
         txtNombreResponsable.setText(proyecto.getNombreResponsable());
+        txtContactoResponsable.setText(proyecto.getContactoResponsable());
+        taMetodologia.setText(proyecto.getMetodologia());
         txtCupoMaximo.setText(String.valueOf(proyecto.getCupoMaximo()));      
         
         lblTituloFormulario.setText("Actualizar Proyecto");
@@ -124,13 +133,17 @@ public class ControladorFormularioProyecto {
         }
 
         String nombre = txtNombre.getText();
-        String descripcion = txtDescripcion.getText();
+        String objetivoGeneral = taObjetivoGeneral.getText();
         String nombreResponsable = txtNombreResponsable.getText();
+        String contactoResponsable = txtContactoResponsable.getText();
+        String metodologia = taMetodologia.getText();
         int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
 
         proyecto.setNombre(nombre);
-        proyecto.setDescripcion(descripcion);
+        proyecto.setObjetivoGeneral(objetivoGeneral);
         proyecto.setNombreResponsable(nombreResponsable);
+        proyecto.setContactoResponsable(contactoResponsable);
+        proyecto.setMetodologia(metodologia);
         proyecto.setCupoMaximo(cupoMaximo);
         proyecto.setOrganizacion(organizacion);
 
@@ -153,8 +166,9 @@ public class ControladorFormularioProyecto {
         
         boolean sonCamposValidos = true; 
         
-        if(txtNombre.getText().isBlank() ||  txtDescripcion.getText().isBlank() || 
-           txtNombreResponsable.getText().isBlank() || txtCupoMaximo.getText().isBlank()){
+        if(txtNombre.getText().isBlank() ||  taObjetivoGeneral.getText().isBlank() || 
+           txtNombreResponsable.getText().isBlank() || txtCupoMaximo.getText().isBlank() ||
+           txtContactoResponsable.getText().isBlank() || taMetodologia.getText().isBlank()){
             
             sonCamposValidos = false; 
 

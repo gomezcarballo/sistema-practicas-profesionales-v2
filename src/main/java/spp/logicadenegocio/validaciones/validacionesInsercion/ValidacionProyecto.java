@@ -19,7 +19,11 @@ public class ValidacionProyecto {
     
     private static final Logger bitacora = Logger.getLogger(ValidacionProyecto.class.getName());
         
-    private static final int LONGITUD_MAXIMA_DESCRIPCION = 100;
+    private static final int LONGITUD_MAXIMA_OBJETIVO_GENERAL = 300;
+    
+    private static final int LONGITUD_MAXIMA_METODOLOGIA = 200;
+    
+    private static final int LONGITUD_MAXIMA_CONTACTO_RESPONSABLE = 50;
         
     private static final int CANTIDAD_MAXIMA_CUPO = 50;
 
@@ -67,8 +71,10 @@ public class ValidacionProyecto {
     public void sonCamposValidosPorReglaNegocio(Proyecto proyecto) throws ReglaDeNegocioExcepcion{
         
         String nombre = proyecto.getNombre();
-        String descripcion = proyecto.getDescripcion();
         String nombreResponsable = proyecto.getNombreResponsable();
+        String contactoResponsable = proyecto.getContactoResponsable();
+        String objetivoGeneral = proyecto.getObjetivoGeneral();
+        String metodologia = proyecto.getMetodologia();
         int cupoMaximo = proyecto.getCupoMaximo();
         
         ValidacionDatos validacionDatos = new ValidacionDatos();
@@ -77,12 +83,26 @@ public class ValidacionProyecto {
         
         validacionDatos.validarNombre(nombreResponsable);
         
-        if(descripcion.length() > LONGITUD_MAXIMA_DESCRIPCION){
+        if(objetivoGeneral.length() > LONGITUD_MAXIMA_OBJETIVO_GENERAL){
             
-            throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_DESCRIPCION + " caracteres");
+            throw new ReglaDeNegocioExcepcion("El objetivo general excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_OBJETIVO_GENERAL + " caracteres");
             
-        }        
+        }   
+        
+        if(metodologia.length() > LONGITUD_MAXIMA_METODOLOGIA){
+            
+            throw new ReglaDeNegocioExcepcion("La metodología excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_METODOLOGIA + " caracteres");
+            
+        }
+        
+        if(contactoResponsable.length() > LONGITUD_MAXIMA_CONTACTO_RESPONSABLE){
+            
+            throw new ReglaDeNegocioExcepcion("El contacto del responsable excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_CONTACTO_RESPONSABLE + " caracteres");
+            
+        }
         
         if(cupoMaximo >= CANTIDAD_MAXIMA_CUPO){
             

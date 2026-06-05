@@ -27,8 +27,8 @@ public class ValidacionDatos {
 
         if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
 
-            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_NOMBRE + "caracteres");
+            throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_NOMBRE + " caracteres");
 
         }
     }
@@ -43,8 +43,8 @@ public class ValidacionDatos {
 
         if(apellidoPaterno.length() > LONGITUD_MAXIMA_APELLIDO){
 
-            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de" + 
-            LONGITUD_MAXIMA_APELLIDO +"caracteres.");
+            throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_APELLIDO +" caracteres.");
 
         }
         
@@ -60,8 +60,8 @@ public class ValidacionDatos {
 
         if (apellidoMaterno != null && apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
 
-            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de" + 
-            LONGITUD_MAXIMA_APELLIDO +"caracteres.");
+            throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de " + 
+            LONGITUD_MAXIMA_APELLIDO +" caracteres.");
 
         }
         
