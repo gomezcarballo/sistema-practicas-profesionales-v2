@@ -50,7 +50,7 @@ public class SolicitudDAO implements ISolicitudDAO{
 
         String consultaSQL = "SELECT p.idProyecto, "
                             + "p.nombre, "
-                            + "p.descripcion, "
+                            + "p.objetivoGeneral, "
                             + "p.nombreResponsable, "
                             + "p.cupoMaximo "
                             + "FROM SolicitudProyecto sp "
@@ -73,7 +73,7 @@ public class SolicitudDAO implements ISolicitudDAO{
 
                     proyecto.setNombre(resultadosConsulta.getString("nombre"));
 
-                    proyecto.setDescripcion(resultadosConsulta.getString("descripcion"));
+                    proyecto.setObjetivoGeneral(resultadosConsulta.getString("objetivoGeneral"));
 
                     proyecto.setNombreResponsable( resultadosConsulta.getString("nombreResponsable"));
 

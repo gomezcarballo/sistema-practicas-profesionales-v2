@@ -36,7 +36,7 @@ public class ControladorAsignacionProyecto {
     private TableColumn<Proyecto, String> colNombre;
     
     @FXML
-    private TableColumn<Proyecto, String> colDescripcion;
+    private TableColumn<Proyecto, String> colObjetivoGeneral;
 
     @FXML
     private TableColumn<Proyecto, String> colNombreResponsable;
@@ -79,7 +79,7 @@ public class ControladorAsignacionProyecto {
         
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivoGeneral"));
 
         colNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
 
