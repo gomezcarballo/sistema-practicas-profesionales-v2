@@ -5,7 +5,6 @@
 package spp.logicadenegocio.clasesdto;
 
 import java.time.LocalDate;
-//import java.util.Date;
 
 /**
  *

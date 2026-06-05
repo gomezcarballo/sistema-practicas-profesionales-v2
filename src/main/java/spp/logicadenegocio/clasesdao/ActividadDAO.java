@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.sql.SQLException;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Actividad;
-import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IActividadDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
