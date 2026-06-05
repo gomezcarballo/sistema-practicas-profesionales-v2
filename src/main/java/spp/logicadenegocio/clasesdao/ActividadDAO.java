@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Actividad;
-import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IActividadDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
