@@ -58,7 +58,7 @@ public class ValidacionInicioDeSesion {
             iniciarSesion(usuario, identificador);
             
         }catch(OperacionesDeDaoExcepcion e){
-            
+           
             throw new ReglaDeNegocioExcepcion(e);
             
         }

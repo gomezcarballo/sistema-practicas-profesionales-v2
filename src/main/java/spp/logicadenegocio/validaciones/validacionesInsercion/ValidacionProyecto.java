@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ProyectoDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -40,7 +41,7 @@ public class ValidacionProyecto {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo proyecto.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo proyecto.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo registrar el Proyecto por un problema "
                 + "interno del sistema. Intente más tarde.");
             
@@ -60,7 +61,7 @@ public class ValidacionProyecto {
 
         } catch (OperacionesDeDaoExcepcion e) {
 
-            bitacora.log(Level.SEVERE,"Fallo crítico de base de datos al actualizar un proyecto.",e);
+            RegistroErrores.registrarError(Level.SEVERE,"Fallo crítico de base de datos al actualizar un proyecto.",e);
             throw new ReglaDeNegocioExcepcion("No se pudo actualizar el proyecto por un problema "
             + "interno del sistema. Intente más tarde");
 

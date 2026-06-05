@@ -10,6 +10,7 @@ import spp.logicadenegocio.clasesdao.AdministradorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -21,9 +22,7 @@ import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
  * @author gomes
  */
 public class ValidacionAdministrador {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionAdministrador.class.getName());
-    
+        
     public void ingresarAdministrador(Administrador administrador)throws ReglaDeNegocioExcepcion{
         
         sonCamposValidosPorReglaNegocio(administrador);
@@ -50,13 +49,13 @@ public class ValidacionAdministrador {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo administrador.", e);  
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo administrador.", e);  
             throw new ReglaDeNegocioExcepcion("No se pudo registrar al Administrador por un problema "
                 + "interno del sistema. Intente más tarde.", e);
             
         }catch(RuntimeException e){
             
-             bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
             
         }

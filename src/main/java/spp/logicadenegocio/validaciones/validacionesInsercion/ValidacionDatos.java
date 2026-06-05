@@ -52,14 +52,17 @@ public class ValidacionDatos {
 
     public void validarApellidoMaterno(String apellidoMaterno) throws ReglaDeNegocioExcepcion{
         
-            
-        if(apellidoMaterno != null && !(apellidoMaterno.matches("^[\\p{L} ]+$"))){
+        if(apellidoMaterno == null || apellidoMaterno.isBlank()){
+            return;
+        }
+        
+        if(!apellidoMaterno.matches("^[\\p{L} ]+$")){
 
             throw new ReglaDeNegocioExcepcion("El apellido materno solo debe contener letras.");
 
         }
 
-        if (apellidoMaterno != null && apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
+        if (apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
 
             throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de " + 
             LONGITUD_MAXIMA_APELLIDO +" caracteres.");

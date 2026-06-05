@@ -10,6 +10,7 @@ import spp.logicadenegocio.clasesdao.CoordinadorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -21,9 +22,7 @@ import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
  * @author Luz Fernanda H J
  */
 public class ValidacionCoordinador {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionCoordinador.class.getName());
-    
+        
     private static final int LONGITUD_MAXIMA_NUMEROPERSONAL = 5;
 
     public void ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion{
@@ -51,13 +50,13 @@ public class ValidacionCoordinador {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo registrar al Coordinador por un problema "
                 + "interno del sistema. Intente más tarde.");
             
         }catch(RuntimeException e){
             
-             bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
             
         }

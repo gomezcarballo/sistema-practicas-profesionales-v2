@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.logging.Level;
 
 /**
  *
@@ -20,31 +21,42 @@ public class RegistroErrores {
 
     private static final String DIRECTORIO_LOGS = "logs/";
 
-    public static void registrarError(Exception excepcion) {
+    public static void registrarError(Level nivel, String mensaje, Exception excepcion) {
         
         String fechaActual = LocalDate.now().toString();
         String nombreArchivo = "log_" + fechaActual + ".txt";
-        Path rutaArchivo = Paths.get(DIRECTORIO_LOGS + nombreArchivo);
-
+        Path ruta = Paths.get(DIRECTORIO_LOGS, nombreArchivo);
+        
         try {
+            
             Files.createDirectories(Paths.get(DIRECTORIO_LOGS));
-
-            try (FileWriter escritor = new FileWriter(rutaArchivo.toFile(), true)) {
-                escritor.write(construirEntradaLog(excepcion));
+            
+            try (FileWriter escritor = new FileWriter(ruta.toFile(), true)) {
+                
+                escritor.write(construirEntradaLog(nivel, mensaje, excepcion));
+                
             }
 
-        } catch (IOException excepcionIO) {
+        } catch (IOException e) {
             
-            excepcionIO.printStackTrace();
+            System.err.println("Error crítico: No se pudo escribir en el archivo de log. " + e.getMessage());
             
         }
+        
     }
 
-    private static String construirEntradaLog(Exception excepcion) {
+    private static String construirEntradaLog(Level nivel, String mensaje, Exception excepcion) {
         
-        return "[" + LocalDateTime.now() + "] " +
-                excepcion.getClass().getSimpleName() + ": " +
-                excepcion.getMessage() + "\n";
+        String entradaLog = "[" + LocalDateTime.now() + "] [" + nivel.getName() + "] " + mensaje;
+
+        if (excepcion != null) {
+            
+            entradaLog += " - Detalles: " + excepcion.getMessage();
+            
+        }
+
+        return entradaLog + "\n";
+        
     }
     
 }

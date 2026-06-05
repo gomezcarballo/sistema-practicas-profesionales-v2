@@ -52,7 +52,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         List<Coordinador> coordinadoresInactivos = new ArrayList<>();
         
         String consultaSQL = """
-            SELECT c.noPersonal,
+            SELECT c.noPersonal AS numeroDePersonal,
             c.idUsuario,
             u.nombre,
             u.apellidoPaterno,
