@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ActividadDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -36,7 +37,7 @@ public class ValidacionActividad {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva actividad.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva actividad.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo registrar la Actividad por un problema "
                 + "interno del sistema. Intente más tarde.");
             

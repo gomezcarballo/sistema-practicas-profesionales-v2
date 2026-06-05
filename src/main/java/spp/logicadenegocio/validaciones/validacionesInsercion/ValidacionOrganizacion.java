@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.OrganizacionDAO;
 import spp.logicadenegocio.clasesdto.Organizacion;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -34,7 +35,7 @@ public class ValidacionOrganizacion {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva organización.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva organización.", e);
             throw new ReglaDeNegocioExcepcion("No se pudo registrar la Organización por un problema "
                 + "interno del sistema. Intente más tarde.");
             
@@ -54,7 +55,7 @@ public class ValidacionOrganizacion {
 
         }catch(OperacionesDeDaoExcepcion e){
 
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al actualizar una organización.",e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al actualizar una organización.",e);
             throw new ReglaDeNegocioExcepcion("No se pudo actualizar la Organización por un problema "
             + "interno del sistema. Intente más tarde.");
 

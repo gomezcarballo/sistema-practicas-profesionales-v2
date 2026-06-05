@@ -51,7 +51,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         List<Profesor> profesoresActivos = new ArrayList<>();
 
         String consultaSQL = """
-            SELECT p.noPersonal,
+            SELECT p.noPersonal as numeroDePersonal,
             p.idUsuario,
             p.nrcAsignado,                                 
             u.nombre,

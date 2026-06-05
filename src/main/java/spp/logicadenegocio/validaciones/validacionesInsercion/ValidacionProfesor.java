@@ -10,6 +10,7 @@ import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -51,13 +52,13 @@ public class ValidacionProfesor {
             
         }catch(OperacionesDeDaoExcepcion e){
             
-           bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);          
+           RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);          
            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Profesor por un problema "
                 + "interno del sistema. Intente más tarde.", e);
             
         }catch(RuntimeException e){
             
-             bitacora.log(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);             
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);             
             throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
             
         }

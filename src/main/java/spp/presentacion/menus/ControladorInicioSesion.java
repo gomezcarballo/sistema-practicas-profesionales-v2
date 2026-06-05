@@ -4,6 +4,7 @@
  */
 package spp.presentacion.menus;
 
+import java.util.logging.Level;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import spp.logicadenegocio.validaciones.validacionesiniciosesion.ValidacionInicioDeSesion;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -75,7 +77,7 @@ public class ControladorInicioSesion {
             escenarioActual.close();
 
         }catch(ReglaDeNegocioExcepcion e){
-
+            
             String causa = e.getMessage();
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Inicio de sesión fallido", 
             causa);

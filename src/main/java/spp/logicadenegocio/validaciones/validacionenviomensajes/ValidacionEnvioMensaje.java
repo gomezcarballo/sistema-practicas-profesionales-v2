@@ -11,6 +11,7 @@ import spp.logicadenegocio.clasesdao.MensajeDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -48,7 +49,7 @@ public class ValidacionEnvioMensaje {
             
         }catch(OperacionesDeDaoExcepcion e){
            
-            bitacora.log(Level.SEVERE, "Fallo crítico de base de datos al registrar un mensaje.", e);
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un mensaje.", e);
              throw new ReglaDeNegocioExcepcion("No se pudo enviar el Mensaje por un problema "
                 + "interno del sistema. Intente más tarde.", e);
             
@@ -73,7 +74,7 @@ public class ValidacionEnvioMensaje {
 
         } catch (OperacionesDeDaoExcepcion e) {
 
-            bitacora.log(Level.SEVERE,"Error al validar destinatario", e);
+            RegistroErrores.registrarError(Level.SEVERE,"Error al validar destinatario", e);
 
             throw new ReglaDeNegocioExcepcion("Error al validar el usuario. Intente más tarde.",e);
             
