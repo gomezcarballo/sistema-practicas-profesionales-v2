@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Actividad;
+import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.formatofechas.FormatoFechas;
 
@@ -55,8 +56,11 @@ public class ControladorDetalleActividad {
     @FXML
     public void regresar(ActionEvent evento) {
         
+        CargadorVentana.cargarVentana("/fxml/VistaListaActividades.fxml", "Lista de Actividades");
         CerradorVentana.cerrarVentana(evento);
         
     }
+    
+    
     
 }

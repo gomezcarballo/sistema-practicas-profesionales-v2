@@ -4,8 +4,6 @@
  */
 package spp.logicadenegocio.clasesdto;
 
-import java.util.Objects;
-
 /**
  *
  * @author Luz Fernanda H J
@@ -13,12 +11,13 @@ import java.util.Objects;
 public class Profesor extends Usuario{
     
     private String numeroDePersonal;
+    private String nrcAsignado;
 
     public Profesor() {
     }
 
     public Profesor(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno,
-           String correoInstitucional, String contraseña, boolean esActivo,String numeroDePersonal) {
+           String correoInstitucional, String contraseña, boolean esActivo,String numeroDePersonal, String nrcAsignado) {
         
         super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, contraseña, esActivo);
         this.numeroDePersonal = numeroDePersonal;
@@ -33,27 +32,12 @@ public class Profesor extends Usuario{
         this.numeroDePersonal = numeroDePersonal;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.numeroDePersonal);
-        return hash;
+    public String getNrcAsignado() {
+        return nrcAsignado;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Profesor other = (Profesor) obj;
-        return Objects.equals(this.numeroDePersonal, other.numeroDePersonal);
+    public void setNrcAsignado(String nrcAsignado) {
+        this.nrcAsignado = nrcAsignado;
     }
-    
     
 }

@@ -7,6 +7,7 @@ package spp.presentacion.controladores.practicante;
 import java.time.LocalDateTime;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -19,6 +20,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.gestores.GestorActividades;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.formatofechas.ConvertidorFechaHoraLocal;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -36,9 +38,6 @@ public class ControladorListaActividades {
     private TableColumn<Actividad, String> colTitulo;
 
     @FXML
-    private TableColumn<Actividad, String> colDescripcion;
-
-    @FXML
     private TableColumn<Actividad, LocalDateTime> colFechaLimite;
     
     @FXML
@@ -52,14 +51,13 @@ public class ControladorListaActividades {
         
         configurarFecha();
         
-        //cargarActividades();
+        cargarActividades();
         
     }
 
     private void configurarColumnas(){
 
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
     }
     
@@ -70,7 +68,7 @@ public class ControladorListaActividades {
         colFechaLimite.setCellFactory(TextFieldTableCell.forTableColumn(new ConvertidorFechaHoraLocal()));
             
     }
-/*
+
     private void cargarActividades(){
 
         try{
@@ -90,7 +88,7 @@ public class ControladorListaActividades {
         }
 
     }
-*/
+
     private Actividad obtenerActividadSeleccionada() {
 
         Actividad actividadSeleccionada = tblListaActividades.getSelectionModel().getSelectedItem();
@@ -125,6 +123,14 @@ public class ControladorListaActividades {
 
         }
 
+    }
+    
+    @FXML
+    public void regresar(ActionEvent evento) {
+        
+        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml", "Menú para Practicantes");
+        CerradorVentana.cerrarVentana(evento);
+        
     }
     
 }

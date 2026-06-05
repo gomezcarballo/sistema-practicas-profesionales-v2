@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.practicante.ControladorListaActividades">
+   <children>
+      <Label fx:id="lblTituloListaActividades" layoutX="240.0" layoutY="44.0" text="Actividades Asignadas" />
+      <Label fx:id="lblInstruccion" layoutX="178.0" layoutY="75.0" text="Seleccione una Actividad para ver sus detalles" />
+      <TableView fx:id="tblListaActividades" layoutX="63.0" layoutY="115.0" prefHeight="200.0" prefWidth="481.0">
+        <columns>
+          <TableColumn fx:id="colTitulo" prefWidth="346.4000244140625" text="Titulo" />
+          <TableColumn fx:id="colFechaLimite" prefWidth="134.39996337890625" text="Fecha Límite" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnVerDetalles" layoutX="200.0" layoutY="342.0" mnemonicParsing="false" onAction="#abrirDetalleActividad" text="Ver detalles" />
+      <Button fx:id="btnRegresar" layoutX="317.0" layoutY="342.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+   </children>
+</AnchorPane>

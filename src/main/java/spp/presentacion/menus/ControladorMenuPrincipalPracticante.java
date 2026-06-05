@@ -37,6 +37,13 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
     }
     
     @FXML
+    private void abrirListaActividades(ActionEvent evento){
+        
+        cambiarVentana("/fxml/VistaListaActividades.fxml", "Lista de Actividades", evento);
+        
+    }
+    
+    @FXML
     private void abrirSubMenuMensajes(){
         
         abrirVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");

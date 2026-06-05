@@ -26,13 +26,14 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?)";
+        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal, nrcAsignado) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
 
             consultaPreparada.setInt(1, profesor.getIdUsuario());
             consultaPreparada.setString(2, profesor.getNumeroDePersonal());
+            consultaPreparada.setString(3, profesor.getNrcAsignado());
             
             consultaPreparada.executeUpdate();
             
@@ -52,6 +53,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         String consultaSQL = """
             SELECT p.noPersonal,
             p.idUsuario,
+            p.nrcAsignado,                                 
             u.nombre,
             u.apellidoPaterno,
             u.apellidoMaterno,
@@ -72,6 +74,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
                 profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
                 profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
+                profesor.setNrcAsignado(resultadoConsulta.getString("nrcAsignado"));
                 profesor.setNombre(resultadoConsulta.getString("nombre"));
                 profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
                 profesor.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));
@@ -99,6 +102,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         String consultaSQL = """
             SELECT p.noPersonal,
             p.idUsuario,
+            p.nrcAsignado,
             u.nombre,
             u.apellidoPaterno,
             u.apellidoMaterno,
@@ -119,6 +123,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
                 profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
                 profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
+                profesor.setNrcAsignado(resultadoConsulta.getString("nrcAsignado"));
                 profesor.setNombre(resultadoConsulta.getString("nombre"));
                 profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
                 profesor.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));

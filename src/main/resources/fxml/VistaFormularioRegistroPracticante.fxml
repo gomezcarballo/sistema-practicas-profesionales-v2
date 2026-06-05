@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="425.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorRegistroPracticante">
+<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorRegistroPracticante">
    <children>
       <Label fx:id="lblTituloFormulario" layoutX="215.0" layoutY="29.0" prefHeight="27.0" prefWidth="170.0" text="Registrar Practicante">
          <font>
@@ -28,11 +28,13 @@
       <ComboBox fx:id="cbOpcionesGenero" layoutX="256.0" layoutY="272.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese género" />
       <DatePicker fx:id="dpFechaNacimiento" layoutX="256.0" layoutY="306.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese fecha de nacimiento" />
       <ComboBox fx:id="cbOpcionesLenguaIndigena" layoutX="256.0" layoutY="341.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese valor" />
-      <Button fx:id="btnRegistrar" layoutX="220.0" layoutY="385.0" mnemonicParsing="false" onAction="#leerDatosDePracticante" text="Registrar" />
-      <Button fx:id="btnCancelar" layoutX="326.0" layoutY="385.0" mnemonicParsing="false" onAction="#regresar" text="Cancelar" />
+      <Button fx:id="btnRegistrar" layoutX="220.0" layoutY="452.0" mnemonicParsing="false" onAction="#leerDatosDePracticante" text="Registrar" />
+      <Button fx:id="btnCancelar" layoutX="323.0" layoutY="452.0" mnemonicParsing="false" onAction="#regresar" text="Cancelar" />
       <Label fx:id="lblInstruccion" layoutX="215.0" layoutY="56.0" text="Ingrese los campos solicitados" />
       <TextField fx:id="txtCorreo" layoutX="255.0" layoutY="233.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese el correo " />
       <Label fx:id="lblCorreo" layoutX="70.0" layoutY="238.0" prefHeight="18.0" prefWidth="172.0" text="Correo institucional:" />
       <TextField fx:id="txtMatricula" layoutX="256.0" layoutY="200.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese la matricula" />
+      <ComboBox fx:id="cbOpcionesNrc" layoutX="256.0" layoutY="382.0" prefHeight="26.0" prefWidth="270.0" promptText="Ingrese un nrc" />
+      <Label fx:id="lblNrc" layoutX="70.0" layoutY="387.0" prefHeight="18.0" prefWidth="142.0" text="Grupo (nrc):" />
    </children>
 </AnchorPane>

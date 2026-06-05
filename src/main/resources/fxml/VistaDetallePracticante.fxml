@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetallePracticante">
+<AnchorPane id="AnchorPane" prefHeight="432.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetallePracticante">
    <children>
       <AnchorPane fx:id="pnlDetallePracticante" layoutX="20.0" layoutY="24.0" prefHeight="364.0" prefWidth="562.0">
          <children>
@@ -31,8 +31,10 @@
             <Label fx:id="lblLenguaIndigena" layoutX="14.0" layoutY="290.0" prefHeight="18.0" prefWidth="185.0" text="¿Habla alguna lengua indígena?" />
             <TextField fx:id="txtFechaNacimiento" layoutX="220.0" layoutY="255.0" prefHeight="26.0" prefWidth="312.0" />
             <TextField fx:id="txtHablaLenguaIndigena" layoutX="220.0" layoutY="287.0" prefHeight="26.0" prefWidth="312.0" />
-            <Button fx:id="btnRegresar" layoutX="250.0" layoutY="324.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+            <TextField fx:id="txtNrcAsignado" layoutX="220.0" layoutY="325.0" prefHeight="26.0" prefWidth="312.0" />
+            <Label fx:id="lblNrc" layoutX="65.0" layoutY="329.0" text="Grupo (nrc):" />
          </children>
       </AnchorPane>
+      <Button fx:id="btnRegresar" layoutX="227.0" layoutY="392.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
    </children>
 </AnchorPane>
