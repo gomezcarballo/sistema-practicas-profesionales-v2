@@ -26,7 +26,7 @@
                </padding>
 
                <children>
-                  <VBox fx:id="vbTarjetaRegistro" alignment="CENTER" maxWidth="600.0" spacing="25.0" styleClass="tarjeta-blanca">
+                  <VBox fx:id="vbTarjetaRegistro" alignment="CENTER" maxWidth="500.0" spacing="20.0" styleClass="tarjeta-blanca">
                      <children>  
                         <VBox alignment="CENTER" spacing="5.0">
                            <children>
@@ -66,8 +66,22 @@
 
                               <Label fx:id="lblLenguaIndigena" styleClass="etiqueta-campo" text="¿Habla alguna lengua indígena?:" GridPane.rowIndex="7" />
                               <ComboBox fx:id="cbOpcionesLenguaIndigena" maxWidth="1.7976931348623157E308" promptText="Seleccione opción" styleClass="combo-box-personalizado" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              
+                              <Label fx:id="lblNrc"
+                                styleClass="etiqueta-campo"
+                                text="NRC:"
+                                GridPane.rowIndex="8" />
+
+                            <ComboBox fx:id="cbOpcionesNrc"
+                                      maxWidth="1.7976931348623157E308"
+                                      promptText="Seleccione NRC"
+                                      styleClass="combo-box-personalizado"
+                                      GridPane.columnIndex="1"
+                                      GridPane.rowIndex="8" />
+                              
                            </children>
                            <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />

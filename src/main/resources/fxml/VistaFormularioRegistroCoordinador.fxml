@@ -31,7 +31,7 @@
 
                <children>
 
-                  <VBox fx:id="vbTarjetaRegistro" alignment="CENTER" maxWidth="600.0" spacing="25.0" 
+                  <VBox fx:id="vbTarjetaRegistro" alignment="CENTER" maxWidth="500.0" spacing="20.0" 
                      styleClass="tarjeta-blanca">
 
                      <children>  

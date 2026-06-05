@@ -1,28 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorMenuPrincipalCoordinador">
-   <children>
-      <Pane fx:id="pnlMenuCoordinador" layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="571.0">
-         <children>
-            <Label fx:id="lblTituloMenuCoordiador" layoutX="154.0" layoutY="25.0" text="Menú Principal para Coordinador">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnPracticante" layoutX="177.0" layoutY="71.0" mnemonicParsing="false" onAction="#abrirSubMenuPracticantes" prefHeight="38.0" prefWidth="217.0" text="Practicantes" />
-            <Button fx:id="btnOrganizacionVinculada" layoutX="177.0" layoutY="120.0" mnemonicParsing="false" onAction="#abrirSubMenuOrganizacionVinculada" prefHeight="38.0" prefWidth="217.0" text="Organizaciones y Proyectos" />
-            <Button fx:id="btnReporteIndicadores" layoutX="177.0" layoutY="217.0" mnemonicParsing="false" onAction="#abrirReporteIndicadores" prefHeight="38.0" prefWidth="217.0" text="Reporte de indicadores" />
-            <Button fx:id="btnCerrarSesion" layoutX="243.0" layoutY="325.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
-            <Button fx:id="btnMensajes" layoutX="177.0" layoutY="271.0" mnemonicParsing="false" onAction="#abrirSubMenuMensajes" prefHeight="38.0" prefWidth="217.0" text="Mensajes" />
-            <Button fx:id="btnPerfil" layoutX="499.0" layoutY="26.0" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="25.0" prefWidth="50.0" text="Perfil" />
-            <Button fx:id="btnAsignacionesProyecto" layoutX="177.0" layoutY="167.0" mnemonicParsing="false" onAction="#abrirAsignarProyecto" prefHeight="38.0" prefWidth="217.0" text="Asignaciones de Proyectos" />
-         </children>
-      </Pane>
-   </children>
-</AnchorPane>
+<VBox fx:id="vbRaiz"
+      alignment="CENTER"
+      prefHeight="400.0"
+      prefWidth="600.0"
+      spacing="20.0"
+      styleClass="panel-raiz"
+      stylesheets="@../css/estilos.css"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="spp.presentacion.menus.ControladorMenuPrincipalCoordinador">
+
+    <children>
+
+        <VBox fx:id="vbTarjetaMenuCoordinador"
+              alignment="CENTER"
+              maxWidth="500.0"
+              spacing="15.0"
+              styleClass="tarjeta-blanca">
+
+            <children>
+
+                <Label fx:id="lblTituloMenuCoordiador"
+                       text="Menú Principal de Coordinador"
+                       styleClass="etiqueta-titulo"/>
+
+                <Button fx:id="btnPracticante"
+                        mnemonicParsing="false"
+                        onAction="#abrirSubMenuPracticantes"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Practicantes"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnOrganizacionVinculada"
+                        mnemonicParsing="false"
+                        onAction="#abrirSubMenuOrganizacionVinculada"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Organizaciones y Proyectos"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnAsignacionesProyecto"
+                        mnemonicParsing="false"
+                        onAction="#abrirAsignarProyecto"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Asignaciones de Proyectos"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnReporteIndicadores"
+                        mnemonicParsing="false"
+                        onAction="#abrirReporteIndicadores"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Reporte de Indicadores"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnMensajes"
+                        mnemonicParsing="false"
+                        onAction="#abrirSubMenuMensajes"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Mensajes"
+                        styleClass="boton-accion"/>
+
+                <HBox alignment="CENTER"
+                      spacing="15.0">
+
+                    <children>
+
+                        <Button fx:id="btnPerfil"
+                                mnemonicParsing="false"
+                                onAction="#abrirVerPerfil"
+                                prefWidth="120.0"
+                                text="Perfil"
+                                styleClass="boton-accion"/>
+
+                        <Button fx:id="btnCerrarSesion"
+                                mnemonicParsing="false"
+                                onAction="#cerrarSesion"
+                                prefWidth="120.0"
+                                text="Cerrar sesión"
+                                styleClass="boton-cancelar"/>
+
+                    </children>
+
+                </HBox>
+
+            </children>
+
+            <padding>
+                <Insets top="35.0"
+                        right="35.0"
+                        bottom="35.0"
+                        left="35.0"/>
+            </padding>
+
+        </VBox>
+
+    </children>
+
+</VBox>

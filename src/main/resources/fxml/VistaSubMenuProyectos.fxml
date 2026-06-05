@@ -1,24 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorSubMenuProyectos">
-   <children>
-      <Pane fx:id="pnlMenuProyectos" layoutX="14.0" layoutY="14.0" prefHeight="369.0" prefWidth="571.0">
-         <children>
-            <Label fx:id="lblTitulo" layoutX="209.0" layoutY="26.0" text="Menu de Proyectos">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnRegistrarProyecto" layoutX="209.0" layoutY="119.0" mnemonicParsing="false" onAction="#abrirRegistrarProyecto" prefHeight="56.0" prefWidth="153.0" text="Registrar Proyecto" />
-            <Button fx:id="btnConsultarProyectos" layoutX="209.0" layoutY="194.0" mnemonicParsing="false" onAction="#abrirConsultarProyectos" prefHeight="56.0" prefWidth="153.0" text="Consultar Proyectos" />
-            <Button fx:id="btnRegresar" layoutX="254.0" layoutY="315.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
-         </children>
-      </Pane>
-   </children>
-</AnchorPane>
+<VBox fx:id="vbRaiz"
+      alignment="CENTER"
+      prefHeight="400.0"
+      prefWidth="600.0"
+      spacing="20.0"
+      styleClass="panel-raiz"
+      stylesheets="@../css/estilos.css"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="spp.presentacion.menus.ControladorSubMenuProyectos">
+
+    <children>
+
+        <VBox fx:id="vbTarjetaProyectos"
+              alignment="CENTER"
+              maxWidth="450.0"
+              spacing="18.0"
+              styleClass="tarjeta-blanca">
+
+            <children>
+
+                <Label fx:id="lblTitulo"
+                       text="Proyectos"
+                       styleClass="etiqueta-titulo"/>
+
+                <Label text="Seleccione una opción"
+                       styleClass="etiqueta-instruccion"/>
+
+                <Button fx:id="btnRegistrarProyecto"
+                        mnemonicParsing="false"
+                        onAction="#abrirRegistrarProyecto"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Registrar Proyecto"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnConsultarProyectos"
+                        mnemonicParsing="false"
+                        onAction="#abrirConsultarProyectos"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Consultar Proyectos"
+                        styleClass="boton-accion"/>
+
+                <Button fx:id="btnRegresar"
+                        mnemonicParsing="false"
+                        onAction="#regresar"
+                        prefWidth="140.0"
+                        text="Regresar"
+                        styleClass="boton-cancelar"/>
+
+            </children>
+
+            <padding>
+                <Insets top="35.0"
+                        right="35.0"
+                        bottom="35.0"
+                        left="35.0"/>
+            </padding>
+
+        </VBox>
+
+    </children>
+
+</VBox>

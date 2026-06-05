@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorListaActividades">
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.practicante.ControladorListaActividades">
-   <children>
-      <Label fx:id="lblTituloListaActividades" layoutX="240.0" layoutY="44.0" text="Actividades Asignadas" />
-      <Label fx:id="lblInstruccion" layoutX="178.0" layoutY="75.0" text="Seleccione una Actividad para ver sus detalles" />
-      <TableView fx:id="tblListaActividades" layoutX="63.0" layoutY="115.0" prefHeight="200.0" prefWidth="481.0">
-        <columns>
-          <TableColumn fx:id="colTitulo" prefWidth="346.4000244140625" text="Titulo" />
-          <TableColumn fx:id="colFechaLimite" prefWidth="134.39996337890625" text="Fecha Límite" />
-        </columns>
-      </TableView>
-      <Button fx:id="btnVerDetalles" layoutX="200.0" layoutY="342.0" mnemonicParsing="false" onAction="#abrirDetalleActividad" text="Ver detalles" />
-      <Button fx:id="btnRegresar" layoutX="317.0" layoutY="342.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
-   </children>
-</AnchorPane>
+    <children>
+
+        <VBox fx:id="vbTarjetaActividades" alignment="CENTER" maxWidth="550.0" spacing="20.0" styleClass="tarjeta-blanca">
+
+            <children>
+
+                <VBox alignment="CENTER" spacing="5.0">
+
+                    <children>
+
+                        <Label fx:id="lblTituloListaActividades" styleClass="etiqueta-titulo" text="Actividades Asignadas" />
+
+                        <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" text="Seleccione una actividad para ver sus detalles" wrapText="true" />
+
+                    </children>
+
+                </VBox>
+
+                <TableView fx:id="tblListaActividades" prefHeight="250.0" prefWidth="480.0" styleClass="tabla-estandar">
+
+                    <columns>
+
+                        <TableColumn fx:id="colTitulo" prefWidth="342.40004205703735" text="Título" />
+
+                        <TableColumn fx:id="colFechaLimite" prefWidth="143.9999938964844" text="Fecha límite" />
+
+                    </columns>
+
+                </TableView>
+
+                <BorderPane>
+
+                    <left>
+                        <Button fx:id="btnVerDetalles" mnemonicParsing="false" onAction="#abrirDetalleActividad" styleClass="boton-accion" text="Ver detalles" BorderPane.alignment="CENTER" />
+                    </left>
+
+                    <right>
+                        <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" styleClass="boton-cancelar" text="Regresar" BorderPane.alignment="CENTER" />
+                    </right>
+
+                </BorderPane>
+
+            </children>
+
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+
+        </VBox>
+
+    </children>
+
+</VBox>

@@ -98,7 +98,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         
         boolean inactivacionExitosa = false;
         
-        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario"
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario "
                 + "SET u.estado = 0 WHERE u.estado = 1";
         
         try(Connection conexion = ConexionBD.getConexion();

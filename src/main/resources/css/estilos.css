@@ -242,11 +242,18 @@
 
 
 .tabla-estandar .column-header-background {
-    -fx-background-color: #114B5F;
+    -fx-background-color: #F7FAFC;
     -fx-background-radius: 5px 5px 0 0;
 }
+
+
+.tabla-estandar .column-header {
+    -fx-backgroung-color: #F7FAFC;
+}
+
+
 .tabla-estandar .column-header .label {
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #114B5F;
     -fx-font-weight: bold;
     -fx-padding: 8px;
 }
@@ -321,4 +328,27 @@
 
 .scroll-pane > .corner {
     -fx-background-color: transparent;
+}
+
+.contenedor-documento {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #CBD5E0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.icono-documento {
+    -fx-font-size: 40px;
+}
+
+.nombre-documento {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #114B5F;
+}
+
+.detalle-documento {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748B;
 }

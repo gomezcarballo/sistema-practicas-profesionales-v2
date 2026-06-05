@@ -1,25 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
+<VBox fx:id="vbRaiz"
+      alignment="CENTER"
+      prefHeight="418.0"
+      prefWidth="600.0"
+      spacing="20.0"
+      styleClass="panel-raiz"
+      stylesheets="@../css/estilos.css"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="spp.presentacion.controladores.coordinador.ControladorSolicitudesPracticantes">
 
-<AnchorPane id="AnchorPane" prefHeight="418.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorSolicitudesPracticantes">
-   <children>
-      <TableView fx:id="tblPracticantes" layoutX="47.0" layoutY="123.0" prefHeight="200.0" prefWidth="496.0">
-        <columns>
-          <TableColumn fx:id="colNombre" prefWidth="119.20001220703125" text="Nombre" />
-          <TableColumn fx:id="colApellidoPaterno" prefWidth="141.5999755859375" text="Apellido Paterno" />
-            <TableColumn fx:id="colApellidoMaterno" prefWidth="131.199951171875" text="Apellido Materno" />
-            <TableColumn fx:id="colMatricula" prefWidth="102.4000244140625" text="Matricula" />
-        </columns>
-      </TableView>
-      <Label fx:id="lblTituloSolicitudesPracticantes" layoutX="220.0" layoutY="52.0" text="Solicitudes de los Practicantes" />
-      <Label fx:id="lblInstruccion" layoutX="145.0" layoutY="89.0" text="Seleccione a un Practicante para ver sus proyectos solicitados" />
-      <Button fx:id="btnVerSolicitudes" layoutX="188.0" layoutY="359.0" mnemonicParsing="false" onAction="#verSolicitudes" text="Ver solicitudes" />
-      <Button fx:id="btnRegresar" layoutX="327.0" layoutY="359.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="98.0" text="Regresar" />
-   </children>
-</AnchorPane>
+    <children>
+
+        <VBox fx:id="vbTarjetaSolicitudes"
+              alignment="CENTER"
+              maxWidth="560.0"
+              spacing="20.0"
+              styleClass="tarjeta-blanca">
+
+            <children>
+
+                <VBox alignment="CENTER"
+                      spacing="5.0">
+
+                    <children>
+
+                        <Label fx:id="lblTituloSolicitudesPracticantes"
+                               text="Solicitudes de los Practicantes"
+                               styleClass="etiqueta-titulo"/>
+
+                        <Label fx:id="lblInstruccion"
+                               text="Seleccione un practicante para ver sus proyectos solicitados"
+                               styleClass="etiqueta-instruccion"
+                               wrapText="true"/>
+
+                    </children>
+
+                </VBox>
+
+                <TableView fx:id="tblPracticantes"
+                           prefHeight="220.0"
+                           prefWidth="500.0"
+                           styleClass="tabla-estandar">
+
+                    <columns>
+
+                        <TableColumn fx:id="colNombre"
+                                     text="Nombre"
+                                     prefWidth="120.0"
+                                     reorderable="false"/>
+
+                        <TableColumn fx:id="colApellidoPaterno"
+                                     text="Apellido paterno"
+                                     prefWidth="140.0"
+                                     reorderable="false"/>
+
+                        <TableColumn fx:id="colApellidoMaterno"
+                                     text="Apellido materno"
+                                     prefWidth="140.0"
+                                     reorderable="false"/>
+
+                        <TableColumn fx:id="colMatricula"
+                                     text="Matrícula"
+                                     prefWidth="100.0"
+                                     reorderable="false"/>
+
+                    </columns>
+
+                </TableView>
+
+                <HBox alignment="CENTER"
+                      spacing="15.0">
+
+                    <children>
+
+                        <Button fx:id="btnVerSolicitudes"
+                                mnemonicParsing="false"
+                                onAction="#verSolicitudes"
+                                text="Ver solicitudes"
+                                styleClass="boton-accion"/>
+
+                        <Button fx:id="btnRegresar"
+                                mnemonicParsing="false"
+                                onAction="#regresar"
+                                text="Regresar"
+                                styleClass="boton-cancelar"/>
+
+                    </children>
+
+                </HBox>
+
+            </children>
+
+            <padding>
+                <Insets top="30.0"
+                        right="30.0"
+                        bottom="30.0"
+                        left="30.0"/>
+            </padding>
+
+        </VBox>
+
+    </children>
+
+</VBox>
