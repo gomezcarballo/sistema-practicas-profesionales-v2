@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.interfacesdao.IOrganizacionDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -87,27 +89,27 @@ public class OrganizacionDAO implements IOrganizacionDAO{
     }
 
     @Override
-    public boolean eliminarOrganizacion(String nombre)throws OperacionesDeDaoExcepcion{
+    public boolean inactivarOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion{
         
-        boolean eliminacionExitosa = false;
+        boolean inactivacionExitosa = false;
 
-        String consultaSQL = "DELETE FROM Organizacion WHERE nombre = ?";
+        String consultaSQL = "UPDATE Organizacion SET estado = 0 WHERE idOrganizacion = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString (1, nombre );
+            consultaPreparada.setInt(1, idOrganizacion);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
             if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
+                inactivacionExitosa = true;
             }
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
 
-    return eliminacionExitosa; 
+    return inactivacionExitosa; 
 
     }
 
@@ -117,7 +119,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
         boolean actualizacionExitosa = false;
 
         String consultaSQL = "UPDATE Organizacion SET nombre = ?, direccion = ?, "
-                + "sector = ? WHERE nombre = ?";
+                + "sector = ? WHERE idOrganizacion = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -125,7 +127,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
             consultaPreparada.setString(1, organizacion.getNombre());
             consultaPreparada.setString(2, organizacion.getDireccion());
             consultaPreparada.setString(3, organizacion.getSector());
-            consultaPreparada.setString(4, organizacion.getNombre());
+            consultaPreparada.setInt(4, organizacion.getIdOrganizacion());
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
@@ -138,6 +140,42 @@ public class OrganizacionDAO implements IOrganizacionDAO{
 
     return actualizacionExitosa;
     
+    }
+    
+    @Override
+    public List<Organizacion>obtenerOrganizacionesActivas() throws OperacionesDeDaoExcepcion {
+
+        List<Organizacion> organizaciones = new ArrayList<>();
+
+        String consultaSQL = "SELECT idOrganizacion, nombre, direccion, sector "
+        + "FROM Organizacion WHERE estado = 1";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
+
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+
+            while(resultadosConsulta.next()){
+
+                Organizacion organizacion = new Organizacion();
+
+                organizacion.setIdOrganizacion(resultadosConsulta.getInt("idOrganizacion"));
+                organizacion.setNombre(resultadosConsulta.getString("nombre"));
+                organizacion.setDireccion(resultadosConsulta.getString( "direccion"));
+                organizacion.setSector(resultadosConsulta.getString("sector"));
+
+                organizaciones.add(organizacion);
+
+            }
+
+        }catch(SQLException e){
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            
+        }
+
+        return organizaciones;
+
     }
  
 }

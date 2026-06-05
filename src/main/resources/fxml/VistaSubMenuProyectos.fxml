@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorSubMenuProyectos">
+   <children>
+      <Pane fx:id="pnlMenuProyectos" layoutX="14.0" layoutY="14.0" prefHeight="369.0" prefWidth="571.0">
+         <children>
+            <Label fx:id="lblTitulo" layoutX="209.0" layoutY="26.0" text="Menu de Proyectos">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnRegistrarProyecto" layoutX="209.0" layoutY="119.0" mnemonicParsing="false" onAction="#abrirRegistrarProyecto" prefHeight="56.0" prefWidth="153.0" text="Registrar Proyecto" />
+            <Button fx:id="btnConsultarProyectos" layoutX="209.0" layoutY="194.0" mnemonicParsing="false" onAction="#abrirConsultarProyectos" prefHeight="56.0" prefWidth="153.0" text="Consultar Proyectos" />
+            <Button fx:id="btnRegresar" layoutX="254.0" layoutY="315.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

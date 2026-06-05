@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorReporteIndicadores">
+   <children>
+      <Pane fx:id="pnlReporteIndicadores" layoutX="18.0" layoutY="19.0" prefHeight="361.0" prefWidth="562.0">
+         <children>
+            <Label fx:id="lblTituloReporteIndicadores" layoutX="100.0" layoutY="45.0" text="Reporte de Indicadores sobre los Practicantes">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblIndicadores" layoutX="21.0" layoutY="91.0" prefHeight="200.0" prefWidth="528.0">
+              <columns>
+                <TableColumn fx:id="colIndicador" prefWidth="264.79998779296875" text="Indicador" />
+                <TableColumn fx:id="colValor" prefWidth="263.2000732421875" text="Cantidad" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnDescargarReporte" layoutX="161.0" layoutY="316.0" mnemonicParsing="false" text="Descargar PDF" />
+            <Button fx:id="btnRegresar" layoutX="308.0" layoutY="316.0" mnemonicParsing="false" onAction="#regresar" prefHeight="25.0" prefWidth="93.0" text="Regresar" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

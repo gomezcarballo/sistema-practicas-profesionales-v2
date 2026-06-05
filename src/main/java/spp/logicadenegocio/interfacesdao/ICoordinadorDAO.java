@@ -4,6 +4,7 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -12,8 +13,9 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface ICoordinadorDAO {
-    public boolean insertarCoordinador(Coordinador coordinador)throws OperacionesDeDaoExcepcion;
-    public Coordinador consultarCoordinador(String numeroDePersonal)throws OperacionesDeDaoExcepcion;
-    public boolean eliminarCoordinador(String numeroDePersonal)throws OperacionesDeDaoExcepcion;
-    public boolean actualizarCoordinador(Coordinador coordinador)throws OperacionesDeDaoExcepcion;       
+    public void insertarCoordinador(Coordinador coordinador)throws OperacionesDeDaoExcepcion;
+    public List<Coordinador> consultarCoordinadoresInactivos() throws OperacionesDeDaoExcepcion;
+    public boolean inactivarCoordinador()throws OperacionesDeDaoExcepcion;
+    public boolean reactivarCoordinador(int idUsuario)throws OperacionesDeDaoExcepcion;
+    public boolean existeCoordinadorActivo() throws OperacionesDeDaoExcepcion;
 }

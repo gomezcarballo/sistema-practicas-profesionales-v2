@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 /**
@@ -18,107 +21,150 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public class CoordinadorDAO implements ICoordinadorDAO {
-
+    
     @Override
-    public boolean insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
+    public void insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
         
-        boolean registroExitoso = false;
-        
-        String consultaSQL = "INSERT INTO Coordinador (Usuario_idUsuario, noPersonal) VALUES (?, ?)";
+        String consultaSQL = "INSERT INTO Coordinador (idUsuario, noPersonal) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
             
             consultaPreparada.setInt(1, coordinador.getIdUsuario());
             consultaPreparada.setString(2, coordinador.getNumeroDePersonal());
-            consultaPreparada.executeUpdate();
-            registroExitoso=true;
+            int filasAfectadas = consultaPreparada.executeUpdate();
             
-        }catch(SQLException e){
-            e.printStackTrace();
+            if (filasAfectadas == 0) {
+                throw new OperacionesDeDaoExcepcion("Fallo al guardar: No se reflejaron los cambios en la base de datos");               
+            }
+            
+        }catch( SQLIntegrityConstraintViolationException  e){
+            throw new OperacionesDeDaoExcepcion("El numero de personal ya existe",e);
+        }catch( SQLException e ){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
-        
-    return registroExitoso;
         
     }
 
     @Override
-    public Coordinador consultarCoordinador(String numeroDePersonal) throws OperacionesDeDaoExcepcion{
+    public List<Coordinador> consultarCoordinadoresInactivos() throws OperacionesDeDaoExcepcion{
         
-        Coordinador coordinador = null;
+        List<Coordinador> coordinadoresInactivos = new ArrayList<>();
         
-        String consultaSQL = "SELECT idUsuario, noPersonal FROM Coordinador WHERE "
-                + "noPersonal = ?";
-        
+        String consultaSQL = """
+            SELECT c.noPersonal,
+            c.idUsuario,
+            u.nombre,
+            u.apellidoPaterno,
+            u.apellidoMaterno,
+            u.correoInstitucional
+            FROM Coordinador c
+            INNER JOIN Usuario u
+            ON c.idUsuario = u.idUsuario
+            WHERE u.estado = 0
+            """;
+
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement
-            (consultaSQL);){
-            
-            consultaPreparada.setString(1, numeroDePersonal);
-            
-            try(ResultSet resultadosConsulta = consultaPreparada.executeQuery();){
-                if(resultadosConsulta.next() ){
-                    coordinador = new Coordinador();
-                    coordinador.setNumeroDePersonal
-                    (resultadosConsulta.getString("noPersonal"));
-                }
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+
+            while(resultadoConsulta.next()) {
+
+                Coordinador coordinador = new Coordinador();
+
+                coordinador.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
+                coordinador.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
+                coordinador.setNombre(resultadoConsulta.getString("nombre"));
+                coordinador.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
+                coordinador.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));
+                coordinador.setCorreoInstitucional(resultadoConsulta.getString("correoInstitucional"));
+
+                coordinadoresInactivos.add(coordinador);
+
             }
-            
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+
         }
-    return coordinador;
+        
+    return coordinadoresInactivos;
     
     }
     
     @Override
-    public boolean eliminarCoordinador(String numeroDePersonal) throws OperacionesDeDaoExcepcion{
+    public boolean inactivarCoordinador() throws OperacionesDeDaoExcepcion{
         
-        boolean eliminacionExitosa = false;
+        boolean inactivacionExitosa = false;
         
-        String consultaSQL = "DELETE FROM Coordinador WHERE noPersonal = ?";
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario"
+                + "SET u.estado = 0 WHERE u.estado = 1";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
-            
-            consultaPreparada.setString(1, numeroDePersonal);
-            
+                        
             int filasAfectadas = consultaPreparada.executeUpdate();
+            
             if(filasAfectadas > 0){
-                eliminacionExitosa = true;
+                inactivacionExitosa = true;
             }
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         
-    return eliminacionExitosa;
+    return inactivacionExitosa;
     
     }
 
     @Override
-    public boolean actualizarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion {
+    public boolean reactivarCoordinador(int idUsuario) throws OperacionesDeDaoExcepcion {
         
-        boolean actualizacionExitosa = false;
+        boolean reactivacionExitosa = false;
         
-        String consultaSQL = "UPDATE Coordinador SET noPersonal WHERE idUsuario = ?";
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario"
+                + "SET u.estado = 1 WHERE u.idUsuario = ?";
         
         try(Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
             
-            consultaPreparada.setInt(1, coordinador.getIdUsuario());
+            consultaPreparada.setInt(1, idUsuario);
             
             int filasAfectadas = consultaPreparada.executeUpdate();
+            
             if(filasAfectadas > 0){
-                actualizacionExitosa = true;
+                reactivacionExitosa = true;
             }
+            
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         
-    return actualizacionExitosa;
+    return reactivacionExitosa;
         
+    }
+    
+    @Override
+    public boolean existeCoordinadorActivo() throws OperacionesDeDaoExcepcion {
+
+        boolean existeCoordinador = false;
+
+        String consultaSQL = "SELECT existeCoordinadorActivo()";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+
+            if(resultadoConsulta.next()) {
+                existeCoordinador = resultadoConsulta.getBoolean(1);
+            }
+
+        } catch(SQLException e) {
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return existeCoordinador;
     }
     
 }

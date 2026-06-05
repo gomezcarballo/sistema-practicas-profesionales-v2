@@ -41,7 +41,7 @@ public class PruebaProyectoDAO {
         ProyectoDAO proyectoDao = new ProyectoDAO();
         
         proyecto.setNombre("Proyecto Odessa");
-        proyecto.setDescripcion("Crear un superhéroe definitivo");
+        proyecto.setObjetivoGeneral("Crear un superhéroe definitivo");
         proyecto.setCupoMaximo(7);
         proyecto.setNombreResponsable("Godolkin");
         proyecto.setOrganizacion(organizacion);

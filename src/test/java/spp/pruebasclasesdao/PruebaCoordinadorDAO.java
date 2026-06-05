@@ -6,7 +6,6 @@ package spp.pruebasclasesdao;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
@@ -43,23 +42,15 @@ public class PruebaCoordinadorDAO {
         
         coordinador.setIdUsuario(idUsuario);
         coordinador.setNumeroDePersonal("p2401");
-        
-        boolean registroExitoso = coordinadorDao.insertarCoordinador(coordinador);
+        boolean registroExitoso; 
+        try{
+            coordinadorDao.insertarCoordinador(coordinador);
+            registroExitoso = true;
+        }catch(OperacionesDeDaoExcepcion e){
+            registroExitoso = false;
+        }
         assertTrue(registroExitoso);
         
     }
-    
-    @After
-    public void recursoEliminarUsuario()throws OperacionesDeDaoExcepcion{
-        
-        if(idUsuario < 0){
-            
-           CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-           UsuarioDAO usuarioDao = new UsuarioDAO();
-           coordinadorDao.eliminarCoordinador("p2401");
-           usuarioDao.eliminarUsuario(idUsuario);
-           System.out.println("Usuario y coordinador de prueba eliminados");
-           
-        }
-    }
+
 }

@@ -4,7 +4,7 @@
  */
 package spp.logicadenegocio.clasesdto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,21 +14,23 @@ public class Practicante extends Usuario {
     
     private String matricula; 
     private String genero;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private boolean hablaLenguaIndigena;
+    private String nrcAsignado;
 
     public Practicante() {
     }
 
     public Practicante(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
-           String contraseña, boolean esActivo, String matricula, String genero, Date fechaNacimiento, 
-           boolean hablaLenguaIndigena) {
+           String correoInstitucional,String contraseña, boolean esActivo, String matricula, String genero, 
+           LocalDate fechaNacimiento, boolean hablaLenguaIndigena, String nrcAsignado) {
         
-        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, contraseña,esActivo);
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, contraseña, esActivo);
         this.matricula = matricula;
         this.genero = genero;
         this.fechaNacimiento = fechaNacimiento;
         this.hablaLenguaIndigena = hablaLenguaIndigena;
+        this.nrcAsignado = nrcAsignado;
         
     }
 
@@ -48,20 +50,28 @@ public class Practicante extends Usuario {
         this.genero = genero;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public boolean gethablaLenguaIndigena() {
+    public boolean getHablaLenguaIndigena() {
         return hablaLenguaIndigena;
     }
 
     public void setHablaLenguaIndigena(boolean hablaLenguaIndigena) {
         this.hablaLenguaIndigena = hablaLenguaIndigena;
     }
+
+    public String getNrcAsignado() {
+        return nrcAsignado;
+    }
+
+    public void setNrcAsignado(String nrcAsignado) {
+        this.nrcAsignado = nrcAsignado;
+    }   
 
 }

@@ -8,7 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.interfacesdao.IMensajeDAO;
@@ -21,61 +24,129 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class MensajeDAO implements IMensajeDAO{
 
     @Override
-    public boolean insertarMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
-        boolean registroExitoso = false;
+    public int insertarMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
         
-        String consultaSQL = """
-                INSERT INTO Mensaje 
-                (asunto, cuerpo, fecha) VALUES (?, ?, ?)""";
+        String consultaSQL = "INSERT INTO Mensaje (asunto, cuerpo, fecha) VALUES (?, ?, NOW())";
+        
+        int idMensajeGenerado = -1;
         
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, 
+            Statement.RETURN_GENERATED_KEYS);) {
 
             consultaPreparada.setString(1, mensaje.getAsunto());
             consultaPreparada.setString(2, mensaje.getCuerpo());
-            consultaPreparada.setObject(3, mensaje.getFecha());
             
             consultaPreparada.executeUpdate();
             
-            registroExitoso = true;
+            ResultSet resultado = consultaPreparada.getGeneratedKeys();
+
+            if(resultado.next()) {
+                idMensajeGenerado = resultado.getInt(1);
+            }
 
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         
-    return registroExitoso;  
+        return idMensajeGenerado;  
     }
-
+    
     @Override
-    public Mensaje consultarMensaje(String asunto) throws OperacionesDeDaoExcepcion{
-        
-        Mensaje mensaje = null;
-        
-        String consultaSQL = "SELECT idMensaje, asunto, cuerpo, fecha FROM Mensaje WHERE asunto = ?";
-        
-        
+    public List<Mensaje> consultarMensajesPorDestinatario(int idUsuario)throws OperacionesDeDaoExcepcion {
+
+        List<Mensaje> mensajes = new ArrayList<>();
+
+        String consultaSQL = """
+            SELECT 
+                m.idMensaje,
+                m.asunto,
+                m.cuerpo,
+                m.fecha,
+                u.correoInstitucional
+            FROM Mensaje m
+            INNER JOIN EnvioMensaje em
+                ON m.idMensaje = em.Mensaje_idMensaje
+            INNER JOIN Usuario u
+                ON em.Usuario_idRemitente = u.idUsuario
+            WHERE em.Usuario_idDestinatario = ?
+            ORDER BY m.fecha DESC
+         """;
+
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
-            
-            consultaPreparada.setString(1, asunto); 
-            
-            try(ResultSet resultadosConsulta = consultaPreparada.executeQuery();){
-                if(resultadosConsulta.next() ){
-                    
-                mensaje = new Mensaje();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            ResultSet resultado = consultaPreparada.executeQuery();
+
+            while(resultado.next()) {
+
+                Mensaje mensaje = new Mensaje();
+
+                mensaje.setIdMensaje(resultado.getInt("idMensaje"));
+                mensaje.setAsunto(resultado.getString("asunto"));
+                mensaje.setCuerpo(resultado.getString("cuerpo"));
+                mensaje.setFecha(resultado.getObject("fecha",LocalDateTime.class));
+                mensaje.setCorreoRemitente(resultado.getString("correoInstitucional"));
+
+                mensajes.add(mensaje);
                 
-                mensaje.setIdMensaje(resultadosConsulta.getInt("idMensaje"));
-                mensaje.setAsunto(resultadosConsulta.getString("asunto"));
-                mensaje.setFecha(resultadosConsulta.getObject("fecha", LocalDateTime.class));
-                
-                }
             }
-            
-        }catch(SQLException e){
+
+        } catch(SQLException e) {
+
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
-        
-    return mensaje; 
+        return mensajes;
+    }
+    
+    @Override
+    public List<Mensaje> consultarMensajesEnviados(int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        List<Mensaje> mensajes = new ArrayList<>();
+
+        String consultaSQL = """
+            SELECT
+                m.idMensaje,
+                m.asunto,
+                m.cuerpo,
+                m.fecha,
+                u.correoInstitucional AS destinatario
+            FROM Mensaje m
+            INNER JOIN EnvioMensaje em
+                ON m.idMensaje = em.Mensaje_idMensaje
+            INNER JOIN Usuario u
+                ON em.Usuario_idDestinatario = u.idUsuario
+            WHERE em.Usuario_idRemitente = ?
+            ORDER BY m.fecha DESC
+            """;
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            ResultSet resultado = consultaPreparada.executeQuery();
+
+            while(resultado.next()) {
+
+                Mensaje mensaje = new Mensaje();
+
+                mensaje.setIdMensaje(resultado.getInt("idMensaje"));
+                mensaje.setAsunto(resultado.getString("asunto"));
+                mensaje.setCuerpo(resultado.getString("cuerpo"));
+                mensaje.setFecha(resultado.getObject("fecha",LocalDateTime.class));
+                mensaje.setCorreoDestinatario(resultado.getString("destinatario"));
+                mensajes.add(mensaje);
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los mensajes enviados",e);
+        }
+
+        return mensajes;
     }
     
 }

@@ -4,12 +4,16 @@
  */
 package spp.logicadenegocio.clasesdao;
 
+import java.sql.CallableStatement;
 import spp.accesoadatos.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.logicadenegocio.interfacesdao.IPracticanteDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -25,7 +29,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         boolean registroExitoso = false;
         
         String consultaSQL = "INSERT INTO Practicante (idUsuario, matricula, genero, "
-                + "lenguaIndigena, fechaNacimiento) VALUES (?, ?, ?, ?, ?)";
+                + "lenguaIndigena, fechaNacimiento, nrcAsignado) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
@@ -33,10 +37,10 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setInt(1, practicante.getIdUsuario());
             consultaPreparada.setString(2, practicante.getMatricula());
             consultaPreparada.setString(3, practicante.getGenero());
-            consultaPreparada.setBoolean(4, practicante.gethablaLenguaIndigena());
-
-            java.sql.Date fechaParaBD = new java.sql.Date(practicante.getFechaNacimiento().getTime());
+            consultaPreparada.setBoolean(4, practicante.getHablaLenguaIndigena());
+            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
             consultaPreparada.setDate(5, fechaParaBD);
+            consultaPreparada.setString(6, practicante.getNrcAsignado());
             
             consultaPreparada.executeUpdate();
             
@@ -50,95 +54,178 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     }
      
     @Override
-    public Practicante consultarPracticante(String matricula)throws OperacionesDeDaoExcepcion{
+    public List<Practicante> consultarPracticantes()throws OperacionesDeDaoExcepcion {
 
-        Practicante practicante = null;
-        
-        String consultaSQL = "SELECT idUsuario, matricula, genero, lenguaIndigena, "
-                + "fechaNacimiento FROM Practicante WHERE matricula = ?";
-        
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
-            
-            consultaPreparada.setString(1, matricula);
+        List<Practicante> practicantes = new ArrayList<>();
+
+        String consultaSQL = "SELECT u.idUsuario, u.nombre, u.apellidoPaterno, "
+            + "u.apellidoMaterno, u.correoInstitucional, "
+            + "p.matricula, p.genero, p.lenguaIndigena, "
+            + "p.fechaNacimiento, p.nrcAsignado "
+            + "FROM Practicante p "
+            + "INNER JOIN Usuario u "
+            + "ON p.idUsuario = u.idUsuario "
+            + "WHERE u.estado = 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
 
-            if (resultadosConsulta.next()) {
+            while(resultadosConsulta.next()) {
 
-                practicante = new Practicante();
-
+                Practicante practicante = new Practicante();
                 practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                practicante.setNombre(resultadosConsulta.getString("nombre"));
+                practicante.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                practicante.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                practicante.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
                 practicante.setMatricula(resultadosConsulta.getString("matricula"));
                 practicante.setGenero(resultadosConsulta.getString("genero"));
                 practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
-                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento"));
-
+                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
+                practicante.setNrcAsignado(resultadosConsulta.getString("nrcAsignado"));
+                
+                practicantes.add(practicante);
             }
 
         } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+
         }
 
-    return practicante;
+    return practicantes;
     
     }
 
     @Override
-    public boolean eliminarPracticante(String matricula)throws OperacionesDeDaoExcepcion {
+    public boolean inactivarPracticante(int idUsuario)throws OperacionesDeDaoExcepcion {
         
-        boolean eliminacionExitosa = false;
+        boolean inactivacionExitosa = false;
 
-        String consultaSQL = "DELETE FROM Practicante WHERE matricula = ?";
+        String consultaSQL = "UPDATE Practicante SET estado = 0 WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
+            consultaPreparada.setInt(1, idUsuario);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                inactivacionExitosa = true;
+            }
+        }catch(SQLException e){
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+
+    return inactivacionExitosa; 
+
+    }
+
+    @Override
+    public List<Practicante> consultarPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion {
+
+        List<Practicante> listaPracticantes = new ArrayList<>();
+
+        String consultaSQL =
+        "SELECT DISTINCT u.idUsuario AS idUsuario, u.nombre, u.apellidoPaterno, " +
+        "u.apellidoMaterno, u.correoInstitucional, " +
+        "p.matricula, p.fechaNacimiento, p.genero, p.lenguaIndigena, p.nrcAsignado " +
+        "FROM Practicante p " +
+        "INNER JOIN Usuario u ON p.idUsuario = u.idUsuario " +
+        "INNER JOIN solicitudProyecto sp ON p.idUsuario = sp.Practicante_idUsuario";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+            while (resultadosConsulta.next()) {
+
+                Practicante practicante = new Practicante();
+
+                practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                practicante.setNombre(resultadosConsulta.getString("nombre"));
+                practicante.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                practicante.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                practicante.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
+                practicante.setMatricula(resultadosConsulta.getString("matricula"));
+                practicante.setGenero(resultadosConsulta.getString("genero"));
+                practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
+                practicante.setNrcAsignado(resultadosConsulta.getString("nrcAsignado"));
+                practicante.setFechaNacimiento(resultadosConsulta.getDate("fechaNacimiento").toLocalDate());
+
+                listaPracticantes.add(practicante);
+                
+            }
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            
+        }
+
+        return listaPracticantes;
+    }
+        
+    
+    @Override
+    public UsuarioEncontrado buscarPracticante (String matricula) throws OperacionesDeDaoExcepcion{
+        
+        String consultaSQL = "{CALL obtener_datos_practicante(?)}";
+        
+        try(Connection conexion = ConexionBD.getConexion();
+            CallableStatement consultaPreparada = conexion.prepareCall(consultaSQL);) {
+            
             consultaPreparada.setString(1, matricula);
-
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
+           
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+            
+            if (!resultadosConsulta.next()){
+                return null;
             }
+            
+            int idEncontrado = resultadosConsulta.getInt("idUsuario");
+            String rolEncontrado = resultadosConsulta.getString("rol");
+            String hashEncontrado = resultadosConsulta.getString("hash");
+            
+            return new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
+            
         }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
         }
-
-    return eliminacionExitosa; 
-
+    
     }
 
     @Override
-    public boolean actualizarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion {
-        
-        boolean actualizacionExitosa = false;
+    public boolean tieneProyectoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion {
+    
+        boolean yaEstaAsignado = false;
 
-        String consultaSQL = "UPDATE Practicante SET matricula = ?, genero = ?, "
-                + "lenguaIndigena = ?, fechaNacimiento = ? "
-                + "WHERE matricula = ?";
+        String consultaSQL = "SELECT Proyecto_idProyecto FROM Practicante WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, practicante.getMatricula());
-            consultaPreparada.setString(2, practicante.getGenero());
-            consultaPreparada.setBoolean(3, practicante.gethablaLenguaIndigena());
-            java.sql.Date fechaParaBD = new java.sql.Date(practicante.getFechaNacimiento().getTime());
-            consultaPreparada.setDate(4, fechaParaBD);
-            consultaPreparada.setString(5, practicante.getMatricula());
+            consultaPreparada.setInt(1, idPracticante);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
 
-            if (filasAfectadas > 0) {
-                actualizacionExitosa = true;
+                if (resultadosConsulta.next() && resultadosConsulta.getObject("Proyecto_idProyecto") != null) {
+
+                    yaEstaAsignado = true;
+                    
+                }
             }
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
         }
 
-    return actualizacionExitosa;
+    return yaEstaAsignado;
     
     }
-   
+    
 }

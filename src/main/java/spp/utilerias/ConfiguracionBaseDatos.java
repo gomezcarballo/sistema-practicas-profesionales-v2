@@ -4,6 +4,7 @@
  */
 package spp.utilerias;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -16,16 +17,15 @@ public class ConfiguracionBaseDatos {
     
     static{ 
         try{
-            InputStream entrada = ConfiguracionBaseDatos.class
-                    .getClassLoader()
-                    .getResourceAsStream("baseDatos.properties");
+            InputStream entrada = ConfiguracionBaseDatos.class.getClassLoader().getResourceAsStream("baseDatos.properties");
             
             if(entrada == null){
                 throw new RuntimeException("No se encontró baseDatos.properties");
             }
             
             propiedades.load(entrada);
-        }catch (Exception e) {
+            
+        }catch (IOException e) {
             throw new RuntimeException("Error cargando configuracion",e);
         }
     }    

@@ -4,6 +4,7 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -16,4 +17,5 @@ public interface IActividadDAO {
     public Actividad consultarActividad(String titulo) throws OperacionesDeDaoExcepcion;
     public boolean eliminarActividad(String titulo)throws OperacionesDeDaoExcepcion;
     public boolean actualizarActividad(Actividad actividad)throws OperacionesDeDaoExcepcion;
+    public List<Actividad> consultarActividadesAsignadas(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

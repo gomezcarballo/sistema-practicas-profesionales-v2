@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorListaOrganizaciones">
+   <children>
+      <AnchorPane fx:id="pnlListaOrganizaciones" layoutX="23.0" layoutY="22.0" prefHeight="353.0" prefWidth="551.0">
+         <children>
+            <Label fx:id="lblTituloOrganizaciones" layoutX="204.0" layoutY="31.0" text="Organizaciones">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblListaOrganizaciones" layoutX="32.0" layoutY="83.0" prefHeight="200.0" prefWidth="486.0">
+               <columns>
+                  <TableColumn fx:id="colNombre" prefWidth="128.00006103515625" text="Nombre" 
+                  resizable="" reorderable="false"  />
+                  <TableColumn fx:id="colSector" prefWidth="194.39996337890625" text="Sector" 
+                  reorderable="false"/>
+                  <TableColumn fx:id="colDireccion" prefWidth="163.20001220703125" text="Direccion"
+                  reorderable="false"/>
+               </columns></TableView>
+            <Button fx:id="btnActualizarOrganizacion" layoutX="234.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirActualizarOrganizacion" prefHeight="26.0" prefWidth="92.0" text="Actualizar" />
+            <Label fx:id="lblInstruccion" layoutX="140.0" layoutY="58.0" text="Seleccione una organización y escoja una acción">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnRegresar" layoutX="434.0" layoutY="300.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="83.0" text="Regresar" />
+            <Button fx:id="btnInactivarOrganizacion" layoutX="338.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirInactivarOrganizacion" prefHeight="26.0" prefWidth="83.0" text="Inactivar" />
+            <Button fx:id="btnVerMenuProyectos" layoutX="32.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirMenuProyectos" prefHeight="26.0" prefWidth="92.0" text="Ver proyectos" />
+            <Button fx:id="btnVerDetalleOrganizacion" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" onAction="#abrirDetalleOrganizacion" prefHeight="26.0" prefWidth="92.0" text="Ver detalle" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="418.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="spp.presentacion.controladores.coordinador.ControladorSolicitudesPracticantes">
+   <children>
+      <TableView fx:id="tblPracticantes" layoutX="47.0" layoutY="123.0" prefHeight="200.0" prefWidth="496.0">
+        <columns>
+          <TableColumn fx:id="colNombre" prefWidth="119.20001220703125" text="Nombre" />
+          <TableColumn fx:id="colApellidoPaterno" prefWidth="141.5999755859375" text="Apellido Paterno" />
+            <TableColumn fx:id="colApellidoMaterno" prefWidth="131.199951171875" text="Apellido Materno" />
+            <TableColumn fx:id="colMatricula" prefWidth="102.4000244140625" text="Matricula" />
+        </columns>
+      </TableView>
+      <Label fx:id="lblTituloSolicitudesPracticantes" layoutX="220.0" layoutY="52.0" text="Solicitudes de los Practicantes" />
+      <Label fx:id="lblInstruccion" layoutX="145.0" layoutY="89.0" text="Seleccione a un Practicante para ver sus proyectos solicitados" />
+      <Button fx:id="btnVerSolicitudes" layoutX="188.0" layoutY="359.0" mnemonicParsing="false" onAction="#verSolicitudes" text="Ver solicitudes" />
+      <Button fx:id="btnRegresar" layoutX="327.0" layoutY="359.0" mnemonicParsing="false" onAction="#regresar" prefHeight="26.0" prefWidth="98.0" text="Regresar" />
+   </children>
+</AnchorPane>

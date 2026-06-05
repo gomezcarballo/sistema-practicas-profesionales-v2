@@ -4,6 +4,7 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -12,6 +13,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface IMensajeDAO {
-    public boolean insertarMensaje(Mensaje mensaje)throws OperacionesDeDaoExcepcion;
-    public Mensaje consultarMensaje(String asunto)throws OperacionesDeDaoExcepcion;
+    public int insertarMensaje(Mensaje mensaje)throws OperacionesDeDaoExcepcion;
+    public List<Mensaje> consultarMensajesPorDestinatario(int idUsuario)throws OperacionesDeDaoExcepcion;
+    public List<Mensaje> consultarMensajesEnviados(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

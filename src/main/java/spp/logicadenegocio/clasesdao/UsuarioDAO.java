@@ -4,15 +4,18 @@
  */
 package spp.logicadenegocio.clasesdao;
 
-import spp.accesoadatos.ConexionBD;
+
+import java.sql.CallableStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import spp.logicadenegocio.clasesdto.Usuario;
 import java.sql.ResultSet;
 import spp.logicadenegocio.interfacesdao.IUsuarioDAO;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import java.sql.SQLException;
+import spp.accesoadatos.ConexionBD;
+import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 
 /**
  *
@@ -26,7 +29,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         boolean registroExitoso = false;
         
         String consultaSQL = "INSERT INTO Usuario (nombre, apellidoPaterno, apellidoMaterno, "
-                + "contrasena, estado) VALUES (?, ?, ?, ?, ?)";
+                + "correoInstitucional, contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement
@@ -35,8 +38,9 @@ public class UsuarioDAO implements IUsuarioDAO {
             consultaPreparada.setString(1, usuario.getNombre());
             consultaPreparada.setString(2, usuario.getApellidoPaterno());
             consultaPreparada.setString(3, usuario.getApellidoMaterno());
-            consultaPreparada.setString(4, usuario.getContraseña());
-            consultaPreparada.setBoolean(5, usuario.getEsActivo());
+            consultaPreparada.setString(4, usuario.getCorreoInstitucional());
+            consultaPreparada.setString(5, usuario.getContraseña());
+            consultaPreparada.setBoolean(6, usuario.getEsActivo());
 
             consultaPreparada.executeUpdate();
             
@@ -67,7 +71,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         Usuario usuario = null;
         
         String consultaSQL = "SELECT idUsuario, nombre, apellidoPaterno, apellidoMaterno, "
-                + "estado FROM USUARIO WHERE idUsuario = ?";
+                + "correoInstitucional, estado FROM Usuario WHERE idUsuario = ?";
 
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
@@ -84,6 +88,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                 usuario.setNombre(resultadosConsulta.getString("nombre"));
                 usuario.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
                 usuario.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                usuario.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
 
                 int esActivo = resultadosConsulta.getInt("estado");
                 if (esActivo == 1) {
@@ -99,7 +104,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
 
     return usuario;
-}
+    }
 
     @Override
     public boolean eliminarUsuario(int idUsuario)throws OperacionesDeDaoExcepcion {
@@ -128,20 +133,17 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-    public boolean actualizarUsuario(Usuario usuario)throws OperacionesDeDaoExcepcion {
+    public boolean actualizarContraseña(int idUsuario, String nuevaContraseña)throws OperacionesDeDaoExcepcion {
         
         boolean actualizacionExitosa = false;
 
-        String consultaSQL = "UPDATE Usuario SET nombre = ?, apellidoPaterno = ?, "
-                + "apellidoMaterno = ? WHERE idUsuario = ?";
+        String consultaSQL = "UPDATE Usuario SET contrasena = ? WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, usuario.getNombre());
-            consultaPreparada.setString(2, usuario.getApellidoPaterno());
-            consultaPreparada.setString(3, usuario.getApellidoMaterno());
-            consultaPreparada.setInt(4, usuario.getIdUsuario());
+            consultaPreparada.setString(1, nuevaContraseña);
+            consultaPreparada.setInt(2, idUsuario);
 
             int filasAfectadas = consultaPreparada.executeUpdate();
 
@@ -155,6 +157,67 @@ public class UsuarioDAO implements IUsuarioDAO {
 
     return actualizacionExitosa;
     
+    }
+    
+    @Override
+    public UsuarioEncontrado buscarUsuario(String correoInstitucional)throws OperacionesDeDaoExcepcion{
+        
+        String consultaSQL = "{CALL obtener_datos_inicio_sesion(?)}";
+        
+        try(Connection conexion = ConexionBD.getConexion();
+            CallableStatement consultaPreparada = conexion.prepareCall(consultaSQL);) {
+            
+            consultaPreparada.setString(1, correoInstitucional);
+            
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+            
+            UsuarioEncontrado usuarioEncontrado;
+            
+            if(resultadosConsulta.next()){
+                
+                int idEncontrado = resultadosConsulta.getInt("idUsuario");
+                String rolEncontrado = resultadosConsulta.getString("rol");
+                String hashEncontrado = resultadosConsulta.getString("hash");
+            
+                usuarioEncontrado = new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
+                
+            }else{
+                
+                usuarioEncontrado =  null;
+                
+            }
+            return usuarioEncontrado; 
+            
+        }catch(SQLException e){
+            
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
+            
+        }
+    }
+    
+    @Override
+    public int buscarIdPorCorreo(String correo) throws OperacionesDeDaoExcepcion {
+         
+        int idUsuario = 0;
+        
+        String consultaSQL = "SELECT idUsuario FROM Usuario WHERE correoInstitucional = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setString(1, correo.trim().toLowerCase());
+
+            ResultSet resultado = consultaPreparada.executeQuery();
+
+            if (resultado.next()) {
+                idUsuario = resultado.getInt("idUsuario");
+            }
+
+            
+        } catch (SQLException e) {
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+        return idUsuario;
     }
  
 }

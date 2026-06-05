@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorGenerarEvidenciaPracticas">
+   <children>
+      <Pane fx:id="pnlGenerarEvidenciaPracticas" layoutX="13.0" layoutY="15.0" prefHeight="370.0" prefWidth="574.0">
+         <children>
+            <Label fx:id="lbTituloGenerarEvidenciasPracticas" layoutX="163.0" layoutY="36.0" text="Generar Evidencias de Practicas">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnReportes" layoutX="222.0" layoutY="94.0" mnemonicParsing="false" onAction="#abrirReportes" prefHeight="52.0" prefWidth="111.0" text="Reportes" />
+            <Button fx:id="btnAutoevaluacion" layoutX="222.0" layoutY="185.0" mnemonicParsing="false" onAction="#abrirAutoevaluacion" prefHeight="52.0" prefWidth="111.0" text="Autoevaluación" />
+            <Button fx:id="btnRegresar" layoutX="240.0" layoutY="285.0" mnemonicParsing="false" onAction="#regresar" prefHeight="27.0" prefWidth="75.0" text="Regresar" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

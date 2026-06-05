@@ -5,26 +5,31 @@
 package spp;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 /**
  *
  * @author gomes
  */
 public class App extends Application{
+    
     @Override
-    public void start(Stage stage) {
-        Label label = new Label("Sistema listo 🚀");
+    public void start(Stage escenarioPrincipal) throws Exception {
 
-        Scene scene = new Scene(label, 400, 200);
+        FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource("/fxml/VistaInicioSesion.fxml"));
 
-        stage.setScene(scene);
-        stage.setTitle("Prueba inicial");
-        stage.show();
+        Parent raiz = cargadorFXML.load();
+
+        Scene vistaPrincipal = new Scene(raiz);
+        escenarioPrincipal.setScene(vistaPrincipal);
+        escenarioPrincipal.setTitle("Sistema Principal");
+        escenarioPrincipal.show();
+        
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

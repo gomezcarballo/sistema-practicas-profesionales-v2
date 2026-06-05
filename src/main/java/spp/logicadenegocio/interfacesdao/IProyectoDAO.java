@@ -4,6 +4,7 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -13,7 +14,11 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public interface IProyectoDAO {
     public boolean insertarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion;
-    public Proyecto consultarProyecto(String nombre)throws OperacionesDeDaoExcepcion;
-    public boolean eliminarProyecto(String nombre)throws OperacionesDeDaoExcepcion;
+    public boolean disminuirCupoProyecto(int idProyecto)throws OperacionesDeDaoExcepcion;
+    public boolean inactivarProyecto(int idProyecto)throws OperacionesDeDaoExcepcion;
+    public boolean inactivarProyectosDeOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion;
     public boolean actualizarProyecto(Proyecto proyecto)throws OperacionesDeDaoExcepcion;
+    public void asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion;
+    public List<Proyecto> obtenerProyectosActivos()throws OperacionesDeDaoExcepcion;
+    public List<Proyecto> obtenerProyectosActivosPorOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion;
 }

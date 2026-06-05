@@ -9,9 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Actividad;
-import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IActividadDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -26,7 +27,7 @@ public class ActividadDAO implements IActividadDAO{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = "INSERT INTO Actividad (titulo, descripcion, "
+        String consultaSQL = "INSERT INTO Practica (titulo, descripcion, "
                 + "fechaLimite, Profesor_idUsuario) VALUES (?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -36,7 +37,7 @@ public class ActividadDAO implements IActividadDAO{
             consultaPreparada.setString(1,actividad.getTitulo());
             consultaPreparada.setString(2,actividad.getDescripcion());
             consultaPreparada.setObject(3,actividad.getFechaLimite());
-            consultaPreparada.setInt(4,actividad.getProfesor().getIdUsuario());
+            consultaPreparada.setInt(4,actividad.getIdProfesor());
             
             consultaPreparada.executeUpdate();
             registroExitoso = true;
@@ -55,7 +56,7 @@ public class ActividadDAO implements IActividadDAO{
         Actividad actividad = null;
         
         String consultaSQL = "SELECT idActividad, titulo, descripcion, fechaLimite, Profesor_idUsuario "
-                + "FROM Actividad WHERE titulo = ? ";
+                + "FROM Practica WHERE titulo = ? ";
         
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -72,10 +73,7 @@ public class ActividadDAO implements IActividadDAO{
                 actividad.setTitulo(resultadosConsulta.getString("titulo"));
                 actividad.setDescripcion(resultadosConsulta.getString("descripcion"));
                 actividad.setFechaLimite(resultadosConsulta.getObject("fechaLimite",LocalDateTime.class));
-                
-                Profesor profesor = new Profesor();
-                profesor.setIdUsuario(resultadosConsulta.getInt("Profesor_idUsuario"));
-                actividad.setProfesor(profesor);
+                actividad.setIdProfesor(resultadosConsulta.getInt("idProfesor"));
                 
                 }
             }
@@ -86,13 +84,64 @@ public class ActividadDAO implements IActividadDAO{
     return actividad;
     
     }
+    
+    @Override
+    public List<Actividad> consultarActividadesAsignadas(int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        List<Actividad> actividades = new ArrayList<>();
+
+        String consultaSQL = "SELECT "
+                + "a.idActividad, "
+                + "a.titulo, "
+                + "a.descripcion, "
+                + "a.fechaLimite "
+                + "FROM practicante pr "
+                + "INNER JOIN profesor p "
+                + "ON pr.nrcAsignado = p.nrcAsignado "
+                + "INNER JOIN practica a "
+                + "ON a.Profesor_idUsuario = p.idUsuario "
+                + "WHERE pr.idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+
+            while (resultadosConsulta.next()) {
+
+                Actividad actividad = new Actividad();
+
+                actividad.setIdActividad(resultadosConsulta.getInt("idActividad"));
+                actividad.setTitulo(resultadosConsulta.getString("titulo"));
+                actividad.setDescripcion(resultadosConsulta.getString("descripcion"));
+
+                if (resultadosConsulta.getTimestamp("fechaLimite") != null) {
+                    
+                    actividad.setFechaLimite(resultadosConsulta.getTimestamp("fechaLimite").toLocalDateTime());
+                    
+                }
+
+                actividades.add(actividad);
+                
+            }
+
+        } catch (SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.", e);
+            
+        }
+
+        return actividades;
+    }
 
     @Override
     public boolean eliminarActividad(String titulo) throws OperacionesDeDaoExcepcion {
         
         boolean eliminacionExitosa = false;
         
-        String consultaSQL = "DELETE FROM Actividad WHERE titulo = ?";
+        String consultaSQL = "DELETE FROM Practica WHERE titulo = ?";
         
          try(Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -117,7 +166,7 @@ public class ActividadDAO implements IActividadDAO{
         
         boolean actualizacionExitosa = false;
         
-        String consultaSQL = "UPDATE Actividad SET titulo = ?, descripcion = ?, "
+        String consultaSQL = "UPDATE Practica SET titulo = ?, descripcion = ?, "
                 + "fechaLimite = ?  WHERE titulo = ?";
         
         try(Connection conexion = ConexionBD.getConexion();

@@ -14,6 +14,7 @@ public class Usuario {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    private String correoInstitucional;
     private String contraseña;
     private boolean esActivo;
 
@@ -21,12 +22,13 @@ public class Usuario {
     }
     
     public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, 
-           String contraseña, boolean esActivo) {
+           String correoInstitucional, String contraseña, boolean esActivo) {
         
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.correoInstitucional = correoInstitucional;
         this.contraseña = contraseña;
         this.esActivo=esActivo;
         
@@ -62,6 +64,14 @@ public class Usuario {
     
     public void setApellidoMaterno(String apellidoMaterno){
         this.apellidoMaterno = apellidoMaterno;
+    }
+    
+    public String getCorreoInstitucional(){
+        return correoInstitucional;
+    }
+    
+    public void setCorreoInstitucional(String correoInstitucional){
+        this.correoInstitucional = correoInstitucional;
     }
     
     public String getContraseña() {

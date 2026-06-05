@@ -4,6 +4,7 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -13,7 +14,9 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public interface IProfesorDAO {
     public boolean insertarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion;
-    public Profesor consultarProfesor(String numeroDePersonal)throws OperacionesDeDaoExcepcion;
-    public boolean eliminarProfesor(String numeroDePersonal)throws OperacionesDeDaoExcepcion;
-    public boolean actualizarProfesor(Profesor profesor)throws OperacionesDeDaoExcepcion;
+    public List<Profesor> consultarProfesoresActivos()throws OperacionesDeDaoExcepcion;
+    public int obtenerCantidadProfesoresActivos()throws OperacionesDeDaoExcepcion;
+    public List<Profesor> consultarProfesoresInactivos() throws OperacionesDeDaoExcepcion;
+    public boolean inactivarProfesor(int idUsuario)throws OperacionesDeDaoExcepcion;
+    public boolean reactivarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

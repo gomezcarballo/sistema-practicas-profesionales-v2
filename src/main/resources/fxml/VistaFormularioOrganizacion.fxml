@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorFormularioOrganizacion">
+   <children>
+      <Label fx:id="lblTituloFormulario" layoutX="210.0" layoutY="35.0" text="Registrar Organización">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblInstruccion" layoutX="222.0" layoutY="73.0" text="Ingrese los campos solicitados">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNombre" layoutX="78.0" layoutY="140.0" text="Nombre de la Organizacion:" />
+      <Label fx:id="lblDireccion" layoutX="78.0" layoutY="192.0" text="Dirección de la Organización:" />
+      <Label fx:id="lblSector" layoutX="78.0" layoutY="248.0" text="Sector de la Organización:" />
+      <TextField fx:id="txtNombre" layoutX="242.0" layoutY="136.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa el nombre" />
+      <TextField fx:id="txtDireccion" layoutX="242.0" layoutY="188.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa la dirección" />
+      <ComboBox fx:id="cbOpcionesSector" layoutX="242.0" layoutY="244.0" prefHeight="26.0" prefWidth="238.0" promptText="Ingresa el sector" />
+      <Button fx:id="btnGuardar" layoutX="216.0" layoutY="327.0" mnemonicParsing="false" onAction="#leerDatosDeOrganizacion" text="Registrar" />
+      <Button fx:id="btnCancelar" layoutX="317.0" layoutY="327.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+   </children>
+</AnchorPane>

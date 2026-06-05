@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorSubMenuOrganizacionVinculada">
+   <children>
+      <Pane fx:id="pnlMenuOrganizacionesVinculadas" layoutX="23.0" layoutY="22.0" prefHeight="353.0" prefWidth="554.0">
+         <children>
+            <Label fx:id="lblTituloMenuOrganizacionesVinculadas" layoutX="133.0" layoutY="30.0" text="Menu de Organizaciones Vinculadas">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnRegistrarOrganizacionVinculada" layoutX="146.0" layoutY="96.0" mnemonicParsing="false" onAction="#abrirRegistroOrganizacionVinculada" prefHeight="42.0" prefWidth="262.0" text="Registrar Organización Vinculada" />
+            <Button fx:id="btnConsultarOrganizaciones" layoutX="146.0" layoutY="167.0" mnemonicParsing="false" onAction="#abrirConsultarOrganizaciones" prefHeight="42.0" prefWidth="262.0" text="Consultar Organizaciones y Proyectos" />
+            <Button fx:id="btnRegresar" layoutX="245.0" layoutY="303.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
