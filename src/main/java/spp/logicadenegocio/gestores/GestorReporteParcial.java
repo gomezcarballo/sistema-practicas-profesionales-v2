@@ -1,13 +1,8 @@
 package spp.logicadenegocio.gestores;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import org.thymeleaf.TemplateEngine;
+import spp.utilerias.generadordocumentospdf.GeneradorDocumentoPdf;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import java.io.File;
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import spp.logicadenegocio.clasesdao.ReporteDAO;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
@@ -16,30 +11,18 @@ import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
 public class GestorReporteParcial {
 
-    public void generarReporteParcial(ReporteParcial reporte) throws ProcesamientoSistemaExcepcion, OperacionesDeDaoExcepcion {
+    public void generarReporteParcial(ReporteParcial reporte) throws ProcesamientoSistemaExcepcion, 
+    OperacionesDeDaoExcepcion {
+        
+        GeneradorDocumentoPdf generadorDocumentoPdf = new GeneradorDocumentoPdf();
         
         completarDatosDeBaseDeDatos(reporte);
 
         Context contextoThymeleaf = prepararContexto(reporte);
 
-        String htmlProcesado = procesarPlantillaHtml(contextoThymeleaf);
+        String htmlProcesado = generadorDocumentoPdf.procesarPlantillaHtml(contextoThymeleaf, "/documentos/reporteparcial/", "reporteParcial");
         
-        String rutaInicioUsuario = System.getProperty("user.home");
-        
-        String rutaDescargas = rutaInicioUsuario + File.separator + "Downloads";
-        String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
-        String nombreBase = "Reporte_Parcial_" + identificador;
-        String extension = ".pdf";
-
-        File archivoPdf = new File(rutaDescargas, nombreBase + extension);
-        int contador = 1;
-
-        while (archivoPdf.exists()) {
-            archivoPdf = new File(rutaDescargas, nombreBase + " (" + contador + ")" + ".pdf");
-            contador++;
-        }
-
-        exportarAPdf(htmlProcesado, archivoPdf.getAbsolutePath());
+        generadorDocumentoPdf.generarArchivoPdf(htmlProcesado, "Reporte_Parcial_");
         
     }
 
@@ -88,37 +71,5 @@ public class GestorReporteParcial {
         return contexto;
         
     }
-
-    private String procesarPlantillaHtml(Context contexto) {
-        
-        ClassLoaderTemplateResolver resolutor = new ClassLoaderTemplateResolver();
-        resolutor.setPrefix("/documentos/reporteparcial/");
-        resolutor.setSuffix(".html");
-        resolutor.setTemplateMode("HTML");
-        resolutor.setCharacterEncoding("UTF-8");
-
-        TemplateEngine motorPlantillas = new TemplateEngine();
-        motorPlantillas.setTemplateResolver(resolutor);
-
-        return motorPlantillas.process("reporteParcial", contexto);
-        
-    }
-
-    private void exportarAPdf(String html, String rutaCompleta) throws ProcesamientoSistemaExcepcion {
-        
-        try (OutputStream flujoSalida = new FileOutputStream(rutaCompleta)) {
-            
-            PdfRendererBuilder constructorPdf = new PdfRendererBuilder();
-            
-            constructorPdf.withHtmlContent(html, null);
-            constructorPdf.toStream(flujoSalida);
-            constructorPdf.run();
-            
-        } catch (Exception excepcion) {
-            
-            throw new ProcesamientoSistemaExcepcion("Ocurrió un error al generar el PDF: " + excepcion.getMessage());
-            
-        }
-        
-    }
+    
 }

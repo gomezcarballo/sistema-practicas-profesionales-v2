@@ -27,6 +27,7 @@ import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 
 /**
  *
@@ -34,7 +35,6 @@ import javafx.scene.control.Alert;
  */
 public class ControladorFormularioReporte {
    
-
     @FXML private TextField txtPeriodo;
     @FXML private TextField txtHoras;
 
@@ -86,16 +86,7 @@ public class ControladorFormularioReporte {
     public void validarNumeros(KeyEvent evento) {
         
         TextField campoTexto = (TextField) evento.getSource();
-        String texto = campoTexto.getText();
-
-        if (!texto.matches("[0-9]*")) {
-
-            texto = texto.replaceAll("[^0-9]", "");
-
-            campoTexto.setText(texto);
-            campoTexto.positionCaret(texto.length());
-
-        }
+        ValidadorEnteros.validarSoloNumeros(campoTexto);
         
     }
 
@@ -346,6 +337,7 @@ public class ControladorFormularioReporte {
             }
             
         }
+        
     }
 
 }

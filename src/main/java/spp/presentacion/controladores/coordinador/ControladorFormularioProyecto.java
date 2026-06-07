@@ -19,6 +19,7 @@ import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProyecto
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -68,20 +69,9 @@ public class ControladorFormularioProyecto {
     @FXML
     private void validarCupoMaximo(KeyEvent evento) {
 
-        
-        String texto = txtCupoMaximo.getText();
-
-        if (!texto.matches("[0-9]*")) {
-
-            texto = texto.replaceAll("[^0-9]", "");
-
-            txtCupoMaximo.setText(texto);
-            
-            txtCupoMaximo.positionCaret(texto.length());
-
-        }
-
-        
+        TextField campoTexto = (TextField) evento.getSource();
+        ValidadorEnteros.validarSoloNumeros(campoTexto);
+     
     }
     
     public void inicializarOrganizacion(Organizacion organizacion){
@@ -194,6 +184,7 @@ public class ControladorFormularioProyecto {
         }
         
         return esCupoMaximo;
+        
     }
     
     

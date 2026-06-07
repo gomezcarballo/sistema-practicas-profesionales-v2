@@ -49,4 +49,5 @@ public class PruebaActividadDAO {
         assertEquals(actividadResultante, actividadInsertada);
         
     } 
+    
 }
