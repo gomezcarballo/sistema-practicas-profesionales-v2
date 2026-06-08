@@ -11,7 +11,7 @@ package spp.logicadenegocio.clasesdto;
 public class EncabezadoReporte {
     
     private String proyecto;
-    private String nombreResponsable;
+    private String nombreResponsableProyecto;
     private String metodologia;
     private String objetivoGeneral;
     private String organizacion;
@@ -32,7 +32,7 @@ public class EncabezadoReporte {
         this.proyecto = proyecto;
         this.objetivoGeneral = objetivoGeneral;
         this.metodologia = metodologia;
-        this.nombreResponsable = nombreResponsable;
+        this.nombreResponsableProyecto = nombreResponsable;
         this.matricula = matricula;
     }
 
@@ -99,12 +99,12 @@ public class EncabezadoReporte {
         this.metodologia = metodologia;
     }
 
-    public String getNombreResponsable() {
-        return nombreResponsable;
+    public String getNombreResponsableProyecto() {
+        return nombreResponsableProyecto;
     }
 
-    public void setNombreResponsable(String nombreResponsable) {
-        this.nombreResponsable = nombreResponsable;
+    public void setNombreResponsableProyecto(String nombreResponsable) {
+        this.nombreResponsableProyecto = nombreResponsable;
     }
 
     public String getCarrera(){

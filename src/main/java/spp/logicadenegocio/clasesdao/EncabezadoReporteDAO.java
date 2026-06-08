@@ -40,7 +40,7 @@ public class EncabezadoReporteDAO implements IEncabezadoReporteDAO{
                 if (resultadoConsulta.next()) {
 
                     encabezado.setProyecto(resultadoConsulta.getString("nombreProyecto"));
-                    encabezado.setNombreResponsable(resultadoConsulta.getString("nombreResponsable"));
+                    encabezado.setNombreResponsableProyecto(resultadoConsulta.getString("nombreResponsable"));
                     encabezado.setMetodologia(resultadoConsulta.getString("metodologia"));
                     encabezado.setObjetivoGeneral(resultadoConsulta.getString("objetivoGeneral"));
                     encabezado.setOrganizacion(resultadoConsulta.getString("nombreOrganizacion"));

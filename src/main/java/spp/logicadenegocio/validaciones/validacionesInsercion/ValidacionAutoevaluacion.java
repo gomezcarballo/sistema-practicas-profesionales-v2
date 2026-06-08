@@ -29,23 +29,23 @@ public class ValidacionAutoevaluacion {
         return true;
     }
     
-    public static int calcularPuntuacionFinal(Autoevaluacion autoevaluacion) {
+    public int calcularPuntuacionFinal(Autoevaluacion autoevaluacion) {
         
-        int suma = 0;
+        int puntuacionFinal = 0;
         
         int[] valores = obtenerArregloValores(autoevaluacion);
         
         for (int valor : valores) {
             
-            suma += valor;
+            puntuacionFinal += valor;
             
         }
         
-        return suma;
+        return puntuacionFinal;
         
     }
     
-    private static int[] obtenerArregloValores(Autoevaluacion autoevaluacion) {
+    private int[] obtenerArregloValores(Autoevaluacion autoevaluacion) {
         
         return new int[]{
             autoevaluacion.getValorPrimeraAfirmacion(),

@@ -47,14 +47,14 @@ public class ControladorDocumentos {
         FileChooser explorador = new FileChooser();
         explorador.setTitle("Selecciona el archivo deseado");
 
-        FileChooser.ExtensionFilter filtroPdf = new FileChooser.ExtensionFilter("Documentos PDF (*.pdf)", "*.pdf");
+        String descipcion = "Documentos PDF (*.pdf)"; 
+        String extensionArchivo = "*.pdf";
+        FileChooser.ExtensionFilter filtroPdf = new FileChooser.ExtensionFilter(descipcion, extensionArchivo);
         explorador.getExtensionFilters().add(filtroPdf);
 
         File archivoTemporal = explorador.showOpenDialog(null);
         
         validarArchivoTemporal(archivoTemporal);
-        
-       VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "¡UY!", "Funcionalidad en progreso.");
         
     }
     
@@ -97,7 +97,7 @@ public class ControladorDocumentos {
         
                 VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", "Documento subido correctamente.");
 
-                 limpiarVista();
+                limpiarVista();
                 
             } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
                 
@@ -107,16 +107,13 @@ public class ControladorDocumentos {
             
         }
 
-
-        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "¡UY!", "Funcionalidad en progreso.");
     }
     
     public void configurarTipoDocumento(TipoDocumento tipoDocumento){
         
         this.tipoDocumento = tipoDocumento;
         
-        lblTituloDocumento.setText("Subir "+tipoDocumento.getDescripcion());
-        
+        lblTituloDocumento.setText("Subir "+ tipoDocumento.getDescripcion());
         
     }
 
@@ -130,7 +127,9 @@ public class ControladorDocumentos {
     private void actualizarVistaArchivo() {
 
         lblNombreArchivo.setText(archivoSeleccionado.getName());
-        lblPesoArchivo.setText((archivoSeleccionado.length() / 1024) + " KB");
+        int CONVERSION_KB = 1024;
+        String KILO_BYTES = "KB";
+        lblPesoArchivo.setText((archivoSeleccionado.length() / CONVERSION_KB) + KILO_BYTES);
 
         vbPrevisualizacion.setVisible(true);
         vbPrevisualizacion.setManaged(true);

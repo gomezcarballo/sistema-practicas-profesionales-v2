@@ -26,7 +26,7 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class ValidacionesDocumentos {
     
     public final long BYTES_POR_MEGABYTE = 1024L * 1024L;
-    public final long LIMITE_TAMANIO_MB = 5L;
+    public final long LIMITE_TAMANIO_MB = 50L;
     public final long LIMITE_MAXIMO_BYTES = BYTES_POR_MEGABYTE * LIMITE_TAMANIO_MB; 
     
     public Path crearDireccionArchivo(TipoDocumento tipoDocumento, File archivoSeleccionado) throws ProcesamientoSistemaExcepcion{
@@ -35,8 +35,9 @@ public class ValidacionesDocumentos {
     
         String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
         String rutaProyecto = System.getProperty("user.dir");
-        String carpeta = obtenerNombreCarpeta(tipoDocumento);
-        Path rutaCarpetaFinal = Paths.get(rutaProyecto, "Documentos_SPP", carpeta, identificador);
+        String carpetaTipoDocumento = obtenerNombreCarpeta(tipoDocumento);
+        String carpetaGeneralDocumentos = "Documentos_SPP";
+        Path rutaCarpetaFinal = Paths.get(rutaProyecto,carpetaGeneralDocumentos ,carpetaTipoDocumento, identificador);
         
         return crearRutaDestino(rutaCarpetaFinal, archivoSeleccionado);
 

@@ -50,7 +50,7 @@ public class GestorReporteFinal {
         reporte.setOrganizacion(reporteBaseDatos.getOrganizacion());
         reporte.setObjetivoGeneral(reporteBaseDatos.getObjetivoGeneral());
         reporte.setMetodologia(reporteBaseDatos.getMetodologia());
-        reporte.setNombreResponsable(reporteBaseDatos.getNombreResponsable());
+        reporte.setNombreResponsableProyecto(reporteBaseDatos.getNombreResponsableProyecto());
         reporte.setProyecto(reporteBaseDatos.getProyecto());
         reporte.setMatricula(matricula);
 

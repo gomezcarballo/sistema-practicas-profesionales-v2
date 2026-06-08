@@ -34,23 +34,12 @@ import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 public class ControladorFormularioReporteFinal {
 
-    @FXML
-    private TableView<ActividadReporteFinal> tblActividades;
-
-    @FXML
-    private TableColumn<ActividadReporteFinal, String> colActividad;
-
-    @FXML
-    private TableColumn<ActividadReporteFinal, String> colAvance;
-
-    @FXML
-    private TableColumn<ActividadReporteFinal, String> colObservaciones;
-
-    @FXML
-    private TableColumn<ActividadReporteFinal, Boolean> colEntregable;
-
-    @FXML 
-    private TextArea taObservacionesGenerales;
+    @FXML private TableView<ActividadReporteFinal> tblActividades;
+    @FXML private TableColumn<ActividadReporteFinal, String> colActividad;
+    @FXML private TableColumn<ActividadReporteFinal, String> colAvance;
+    @FXML private TableColumn<ActividadReporteFinal, String> colObservaciones;
+    @FXML private TableColumn<ActividadReporteFinal, Boolean> colEntregable;
+    @FXML private TextArea taObservacionesGenerales;
 
     private ObservableList<ActividadReporteFinal> listaActividadesFinales;
 
@@ -124,13 +113,6 @@ public class ControladorFormularioReporteFinal {
         
     }
 
-    private void mostrarMensaje() {
-        
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "!UY¡", 
-        "En progreso.");
-        
-    }
-
     @FXML
     public void generarReporte(ActionEvent evento) {
         
@@ -150,7 +132,7 @@ public class ControladorFormularioReporteFinal {
             try {
                 
                 gestor.generarReporteFinal(reporte); 
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Éxito", 
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
                 "Reporte Final generado correctamente.");
                 
             } catch (Exception e) {

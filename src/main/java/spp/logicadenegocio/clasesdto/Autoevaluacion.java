@@ -8,7 +8,7 @@ package spp.logicadenegocio.clasesdto;
  *
  * @author gomes
  */
-public class Autoevaluacion {
+public class Autoevaluacion extends EncabezadoReporte{
     
     private int valorPrimeraAfirmacion;
     private int valorSegundaAfirmacion;
