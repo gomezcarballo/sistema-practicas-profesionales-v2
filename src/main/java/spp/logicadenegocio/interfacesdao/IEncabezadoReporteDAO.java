@@ -10,8 +10,8 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  *
  * @author Luz Fernanda H J
  */
+
 public interface IEncabezadoReporteDAO {
-    public EncabezadoReporte recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion;
-    
+    public EncabezadoReporte recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion;  
 }
 

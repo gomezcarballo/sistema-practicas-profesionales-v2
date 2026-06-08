@@ -4,8 +4,14 @@
  */
 package spp.pruebasclasesdao;
 
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -16,19 +22,130 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class PruebaUsuarioDAO {
     
+    private UsuarioDAO usuarioDAO;
+    private Usuario usuarioPrueba;
+    private int idUsuarioPrueba;
+
+    @Before
+    public void inicializarDatosPrueba() {
+
+        usuarioDAO = new UsuarioDAO();
+
+        usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombre("Juan");
+        usuarioPrueba.setApellidoPaterno("Perez");
+        usuarioPrueba.setApellidoMaterno("Lopez");
+        usuarioPrueba.setCorreoInstitucional("prueba_" + System.currentTimeMillis() + "@uv.mx");
+        usuarioPrueba.setContraseña("123456");
+        usuarioPrueba.setEsActivo(true);
+
+        idUsuarioPrueba = 0;
+        
+    }
+
+    @After
+    public void eliminarDatosPrueba() throws OperacionesDeDaoExcepcion {
+
+        if (idUsuarioPrueba > 0) {
+
+            Usuario usuario = usuarioDAO.consultarUsuario(idUsuarioPrueba);
+
+            if (usuario != null) {
+                usuarioDAO.eliminarUsuario(idUsuarioPrueba);
+            }
+        }
+    }
+
     @Test
-    public void pruebaInsertarUsuarioDaoExitosa()throws OperacionesDeDaoExcepcion{
-       
-        Usuario usuario = new Usuario();
-        UsuarioDAO usuarioDao = new UsuarioDAO();
+    public void pruebaInsertarUsuarioExitoso()throws OperacionesDeDaoExcepcion {
+
+        idUsuarioPrueba = usuarioDAO.insertarUsuario(usuarioPrueba);
+
+        Usuario usuarioConsultado = usuarioDAO.consultarUsuario(idUsuarioPrueba);
+
+        assertNotNull(usuarioConsultado);
         
-        usuario.setNombre("Jorge Octavio");
-        usuario.setApellidoPaterno("Ocharan Hernandez");
-        usuario.setContraseña("password");
-        usuario.setEsActivo(true);
+    }
+
+    @Test
+    public void pruebaConsultarUsuarioExistente()throws OperacionesDeDaoExcepcion {
+
+        idUsuarioPrueba = usuarioDAO.insertarUsuario(usuarioPrueba);
+
+        Usuario usuarioConsultado = usuarioDAO.consultarUsuario(idUsuarioPrueba);
+
+        assertNotNull(usuarioConsultado);
         
-        int idGenerado = usuarioDao.insertarUsuario(usuario);
-        assertTrue("No se generó un ID válido", idGenerado > 0);
+    }
+
+    @Test
+    public void pruebaConsultarUsuarioInexistente()throws OperacionesDeDaoExcepcion {
+
+        Usuario usuarioConsultado = usuarioDAO.consultarUsuario(-1);
+
+        assertNull(usuarioConsultado);
+        
+    }
+
+    @Test
+    public void pruebaEliminarUsuarioExistente()throws OperacionesDeDaoExcepcion {
+
+        idUsuarioPrueba = usuarioDAO.insertarUsuario(usuarioPrueba);
+
+        boolean eliminacionExitosa = usuarioDAO.eliminarUsuario(idUsuarioPrueba);
+
+        idUsuarioPrueba = 0;
+
+        assertTrue(eliminacionExitosa);
+        
+    }
+
+    @Test
+    public void pruebaEliminarUsuarioInexistente()throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = usuarioDAO.eliminarUsuario(-1);
+
+        assertFalse(eliminacionExitosa);
+        
+    }
+
+    @Test
+    public void pruebaActualizarContrasenaExistente()throws OperacionesDeDaoExcepcion {
+
+        idUsuarioPrueba = usuarioDAO.insertarUsuario(usuarioPrueba);
+
+        boolean actualizacionExitosa = usuarioDAO.actualizarContraseña(idUsuarioPrueba, "Nueva123");
+
+        assertTrue(actualizacionExitosa);
+        
+    }
+
+    @Test
+    public void pruebaActualizarContrasenaInexistente()throws OperacionesDeDaoExcepcion {
+
+        boolean actualizacionExitosa = usuarioDAO.actualizarContraseña(-1, "Nueva123");
+
+        assertFalse(actualizacionExitosa);
+        
+    }
+
+    @Test
+    public void pruebaBuscarIdPorCorreoExistente() throws OperacionesDeDaoExcepcion {
+
+        idUsuarioPrueba = usuarioDAO.insertarUsuario(usuarioPrueba);
+
+        int idEncontrado = usuarioDAO.buscarIdPorCorreo(usuarioPrueba.getCorreoInstitucional());
+
+        assertEquals(idUsuarioPrueba, idEncontrado);
+        
+    }
+
+    @Test
+    public void pruebaBuscarIdPorCorreoInexistente()throws OperacionesDeDaoExcepcion {
+
+        int idEncontrado = usuarioDAO.buscarIdPorCorreo("correo_inexistente@uv.mx");
+
+        assertEquals(0, idEncontrado);
         
     }
     

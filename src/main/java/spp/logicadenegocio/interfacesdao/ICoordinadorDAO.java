@@ -18,4 +18,5 @@ public interface ICoordinadorDAO {
     public boolean inactivarCoordinador()throws OperacionesDeDaoExcepcion;
     public boolean reactivarCoordinador(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean existeCoordinadorActivo() throws OperacionesDeDaoExcepcion;
+    public boolean eliminarCoordinador(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

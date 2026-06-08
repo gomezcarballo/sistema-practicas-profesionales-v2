@@ -18,6 +18,7 @@ import spp.logicadenegocio.interfacesdao.IEncabezadoReporteDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 public class EncabezadoReporteDAO implements IEncabezadoReporteDAO{
+
     
     @Override
     public EncabezadoReporte recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion {

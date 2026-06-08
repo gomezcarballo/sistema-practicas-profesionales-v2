@@ -74,8 +74,6 @@ public class DocumentoDAO implements IDocumentoDAO {
                 
             }
 
-            conexion.close();
-
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
@@ -83,5 +81,31 @@ public class DocumentoDAO implements IDocumentoDAO {
     return documento;
     
     }
+    
+    @Override
+    public boolean eliminarDocumento(String nombre) throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Documento WHERE nombre = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setString(1, nombre);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
+    } 
     
 }

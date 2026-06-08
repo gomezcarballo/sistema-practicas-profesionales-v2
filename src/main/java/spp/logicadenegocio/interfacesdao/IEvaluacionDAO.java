@@ -12,6 +12,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface IEvaluacionDAO {
-    public void insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion;
+    public int insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion;
     public Evaluacion consultarEvaluacion(int idEvaluacion) throws OperacionesDeDaoExcepcion;
+    public boolean eliminarEvaluacion(int idEvaluacion)throws OperacionesDeDaoExcepcion;
 }

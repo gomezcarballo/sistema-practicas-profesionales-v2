@@ -16,4 +16,5 @@ public interface IMensajeDAO {
     public int insertarMensaje(Mensaje mensaje)throws OperacionesDeDaoExcepcion;
     public List<Mensaje> consultarMensajesPorDestinatario(int idUsuario)throws OperacionesDeDaoExcepcion;
     public List<Mensaje> consultarMensajesEnviados(int idUsuario) throws OperacionesDeDaoExcepcion;
+    public boolean eliminarMensaje(int idMensaje) throws OperacionesDeDaoExcepcion;
 }

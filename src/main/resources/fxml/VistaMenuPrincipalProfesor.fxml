@@ -16,7 +16,7 @@
 
                 <Label fx:id="lblTituloMenuProfesores" styleClass="etiqueta-titulo" text="Menú Principal de Profesor" />
 
-                <Button fx:id="btnEvaluarReporte" mnemonicParsing="false" prefHeight="40.0" prefWidth="280.0" styleClass="boton-accion" text="Evaluar Reporte" />
+                <Button fx:id="btnEvaluarDocumento" mnemonicParsing="false" onAction="#abrirEvaluarDocumento" prefHeight="40.0" prefWidth="280.0" styleClass="boton-accion" text="Evaluar Documento" />
 
                 <Button fx:id="btnCrearActividad" mnemonicParsing="false" onAction="#abrirRegistroNuevaActividad" prefHeight="40.0" prefWidth="280.0" styleClass="boton-accion" text="Crear Nueva Actividad" />
 

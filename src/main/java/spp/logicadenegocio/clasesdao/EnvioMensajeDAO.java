@@ -45,5 +45,38 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
 
         return registroExitoso;      
     }
+    
+    @Override
+    public boolean eliminarEnvioMensaje(int idMensaje,int idRemitente,int idDestinatario)throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL =
+                "DELETE FROM EnvioMensaje "
+                + "WHERE Mensaje_idMensaje = ? "
+                + "AND Usuario_idRemitente = ? "
+                + "AND Usuario_idDestinatario = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idMensaje);
+            consultaPreparada.setInt(2, idRemitente);
+            consultaPreparada.setInt(3, idDestinatario);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            
+        }
+
+        return eliminacionExitosa;
+    }
 
 }

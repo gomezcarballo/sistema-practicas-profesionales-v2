@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Autoevaluación del Alumno - PDF</title>
+        <style>
+            @page {
+                size: letter;
+                margin: 3cm 2cm 2cm 2cm;
+                
+                @top-center{
+                    content: element(header);
+                }
+            }
+            
+            div.header {
+                position: running(header);
+                text-align: center;
+                font-weight: bold;
+                border-bottom: 2px solid black;
+                padding-bottom: 10px;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                line-height: 1.3;
+                margin-top: 20px;
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            
+            th, td {
+                border: 1px solid black;
+                padding: 6px;
+                text-align: left;
+                vertical-align: middle;
+            }
+
+            th {
+                background-color: #f2f2f2;
+                text-align: center;
+            }
+            
+            .title-row {
+                background-color: #d9d9d9;
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            .center {
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            .data-cell {
+                color: #333;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div class="header">
+            <p style="margin: 0;">Universidad Veracruzana</p>
+            <p style="margin: 0;">FACULTAD DE ESTADÍSTICA E INFORMÁTICA</p>
+            <p style="margin: 0;">Licenciatura en Ingeniería de Software</p>
+        </div>
+        
+        <div th:object="${autoevaluacion}">
+            
+            <table>
+                <tr>
+                    <th colspan="4" class="title-row">Datos Generales</th>
+                </tr>
+                <tr>
+                    <td style="width: 20%;"><strong>Nombre del alumno:</strong></td>
+                    <td colspan="3" class="data-cell" th:text="*{nombreAlumno}">Nombre del alumno</td>
+                </tr>
+                <tr>
+                    <td><strong>Matrícula:</strong></td>
+                    <td style="width: 30%;" class="data-cell" th:text="*{matricula}">S00000000</td>
+                    <td style="width: 20%;"><strong>Organización vinculada:</strong></td>
+                    <td style="width: 30%;" class="data-cell" th:text="*{organizacion}">Empresa S.A.</td>
+                </tr>
+                <tr>
+                    <td><strong>Responsable del proyecto:</strong></td>
+                    <td colspan="3" class="data-cell" th:text="*{responsableProyecto}">Ing. Responsable</td>
+                </tr>
+                <tr>
+                    <td><strong>Nombre del proyecto:</strong></td>
+                    <td colspan="3" class="data-cell" th:text="*{nombreProyecto}">Nombre del Proyecto</td>
+                </tr>
+            </table>
+
+            <table style="width: 60%; margin: 20px auto;">
+                <tr>
+                    <th colspan="2" class="title-row">CRITERIOS</th>
+                </tr>
+                <tr>
+                    <td>Totalmente en desacuerdo</td>
+                    <td class="center" style="width: 15%;">1</td>
+                </tr>
+                <tr>
+                    <td>En desacuerdo</td>
+                    <td class="center">2</td>
+                </tr>
+                <tr>
+                    <td>Indeciso</td>
+                    <td class="center">3</td>
+                </tr>
+                <tr>
+                    <td>De acuerdo</td>
+                    <td class="center">4</td>
+                </tr>
+                <tr>
+                    <td>Totalmente de acuerdo</td>
+                    <td class="center">5</td>
+                </tr>
+            </table>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="title-row" style="width: 85%;">AFIRMACIONES</th>
+                        <th class="title-row" style="width: 15%;">VALOR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Mi participación en la Organización Vinculada fue productiva.</td>
+                        <td class="center" th:text="*{valorPrimeraAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>2. Logré la aplicación de los conocimientos teórico-prácticos adquiridos en la Licenciatura en Ingeniería de Software.</td>
+                        <td class="center" th:text="*{valorSegundaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>3. Me sentí seguro al realizar las actividades encomendadas.</td>
+                        <td class="center" th:text="*{valorTerceraAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>4. Las actividades encomendadas despertaron mi interés.</td>
+                        <td class="center" th:text="*{valorCuartaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>5. La Organización Vinculada me proporcionó la información y facilidades adecuados durante el desarrollo de las prácticas.</td>
+                        <td class="center" th:text="*{valorQuintaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>6. La Organización Vinculada me dio a conocer las reglas internas que debía seguir al conducirme durante el desarrollo de las prácticas.</td>
+                        <td class="center" th:text="*{valorSextaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>7. El Responsable del Proyecto me orientó correctamente para el desarrollo de mis actividades.</td>
+                        <td class="center" th:text="*{valorSeptimaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>8. El Responsable del Proyecto realizó un seguimiento efectivo de mis actividades.</td>
+                        <td class="center" th:text="*{valorOctavaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>9. El proyecto es congruente con la formación de mi carrera.</td>
+                        <td class="center" th:text="*{valorNovenaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td>10. Considero que las prácticas son importantes para mi formación profesional.</td>
+                        <td class="center" th:text="*{valorDecimaAfirmacion}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title-row" style="text-align: right;">PUNTUACIÓN FINAL</td>
+                        <td class="center" style="font-size: 14px; background-color: #f2f2f2;" th:text="*{puntuacionFinal}">0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table style="margin-top: 40px; border: none;">
+                <tr>
+                    <td style="border: none; width: 50%; vertical-align: top;">
+                        <strong>LUGAR Y FECHA:</strong> <br/>
+                        <span class="data-cell" th:text="*{lugarFecha}">Xalapa, Ver., a 07 de Junio de 2026</span>
+                    </td>
+                    <td style="border: none; width: 50%; text-align: center; vertical-align: bottom; height: 80px;">
+                        <hr style="border-top: 1px solid black; width: 80%; margin-bottom: 5px;" />
+                        <strong>NOMBRE Y FIRMA DEL ALUMNO</strong><br/>
+                        <span class="data-cell" th:text="*{nombreAlumno}">Nombre del Alumno</span>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </body>
+</html>

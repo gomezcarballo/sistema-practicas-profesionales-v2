@@ -1,12 +1,10 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasclasesdao;
 
-import java.util.List;
 import org.junit.After;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,26 +19,26 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  *
  * @author gomes
  */
-public class PruebaMensajeDAO {
+public class PruebaEnvioMensajeDAO {
     
-    private MensajeDAO mensajeDAO;
     private EnvioMensajeDAO envioMensajeDAO;
     private UsuarioDAO usuarioDAO;
+    private MensajeDAO mensajeDAO;
 
-    private int idMensajePrueba;
     private int idRemitentePrueba;
     private int idDestinatarioPrueba;
+    private int idMensajePrueba;
 
     @Before
     public void inicializarDatosPrueba() {
 
-        mensajeDAO = new MensajeDAO();
         envioMensajeDAO = new EnvioMensajeDAO();
         usuarioDAO = new UsuarioDAO();
+        mensajeDAO = new MensajeDAO();
 
-        idMensajePrueba = 0;
         idRemitentePrueba = 0;
         idDestinatarioPrueba = 0;
+        idMensajePrueba = 0;
         
     }
 
@@ -50,7 +48,6 @@ public class PruebaMensajeDAO {
         if (idMensajePrueba > 0 && idRemitentePrueba > 0 && idDestinatarioPrueba > 0) {
 
             envioMensajeDAO.eliminarEnvioMensaje(idMensajePrueba, idRemitentePrueba, idDestinatarioPrueba);
-            
         }
 
         if (idMensajePrueba > 0) {
@@ -64,11 +61,6 @@ public class PruebaMensajeDAO {
         if (idDestinatarioPrueba > 0) {
             usuarioDAO.eliminarUsuario(idDestinatarioPrueba);
         }
-
-        idMensajePrueba = 0;
-        idRemitentePrueba = 0;
-        idDestinatarioPrueba = 0;
-        
     }
 
     private Usuario crearUsuario(String prefijo) {
@@ -98,18 +90,7 @@ public class PruebaMensajeDAO {
     }
 
     @Test
-    public void pruebaInsertarMensajeExitoso()throws OperacionesDeDaoExcepcion {
-
-        Mensaje mensaje = crearMensaje();
-
-        idMensajePrueba = mensajeDAO.insertarMensaje(mensaje);
-
-        assertTrue(idMensajePrueba > 0);
-        
-    }
-
-    @Test
-    public void pruebaConsultarMensajesPorDestinatarioExistente()throws OperacionesDeDaoExcepcion {
+    public void pruebaInsertarEnvioMensajeExitoso() throws OperacionesDeDaoExcepcion {
 
         Usuario remitente = crearUsuario("remitente");
         Usuario destinatario = crearUsuario("destinatario");
@@ -120,49 +101,11 @@ public class PruebaMensajeDAO {
 
         idMensajePrueba = mensajeDAO.insertarMensaje(crearMensaje());
 
-        envioMensajeDAO.insertarEnvioMensaje(idMensajePrueba, idRemitentePrueba, idDestinatarioPrueba);
+        boolean registroExitoso = envioMensajeDAO.insertarEnvioMensaje(idMensajePrueba, idRemitentePrueba,
+        idDestinatarioPrueba);
 
-        List<Mensaje> mensajes = mensajeDAO.consultarMensajesPorDestinatario(idDestinatarioPrueba);
-
-        assertFalse(mensajes.isEmpty());
+        assertTrue(registroExitoso);
         
-    }
-
-    @Test
-    public void pruebaConsultarMensajesPorDestinatarioInexistente()throws OperacionesDeDaoExcepcion {
-
-        List<Mensaje> mensajes = mensajeDAO.consultarMensajesPorDestinatario(-1);
-
-        assertTrue(mensajes.isEmpty());
-        
-    }
-
-    @Test
-    public void pruebaConsultarMensajesEnviadosExistente()throws OperacionesDeDaoExcepcion {
-
-        Usuario remitente = crearUsuario("remitente");
-        Usuario destinatario = crearUsuario("destinatario");
-
-        idRemitentePrueba = usuarioDAO.insertarUsuario(remitente);
-
-        idDestinatarioPrueba = usuarioDAO.insertarUsuario(destinatario);
-
-        idMensajePrueba = mensajeDAO.insertarMensaje(crearMensaje());
-
-        envioMensajeDAO.insertarEnvioMensaje(idMensajePrueba, idRemitentePrueba, idDestinatarioPrueba);
-
-        List<Mensaje> mensajes = mensajeDAO.consultarMensajesEnviados(idRemitentePrueba);
-
-        assertFalse(mensajes.isEmpty());
-        
-    }
-
-    @Test
-    public void pruebaConsultarMensajesEnviadosInexistente()throws OperacionesDeDaoExcepcion {
-
-        List<Mensaje> mensajes = mensajeDAO.consultarMensajesEnviados(-1);
-
-        assertTrue(mensajes.isEmpty());
     }
     
 }

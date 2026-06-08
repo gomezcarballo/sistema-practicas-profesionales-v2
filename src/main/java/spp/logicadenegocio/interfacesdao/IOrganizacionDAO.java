@@ -18,4 +18,5 @@ public interface IOrganizacionDAO {
     public boolean inactivarOrganizacion(int idOrganizacion)throws OperacionesDeDaoExcepcion;
     public boolean actualizarOrganizacion(Organizacion organizacion)throws OperacionesDeDaoExcepcion;
     public List<Organizacion>obtenerOrganizacionesActivas() throws OperacionesDeDaoExcepcion;
+    public boolean eliminarOrganizacion(String nombre) throws OperacionesDeDaoExcepcion;
 }

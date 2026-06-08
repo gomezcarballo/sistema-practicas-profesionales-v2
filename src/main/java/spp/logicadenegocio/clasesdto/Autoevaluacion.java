@@ -20,6 +20,7 @@ public class Autoevaluacion {
     private int valorOctavaAfirmacion;
     private int valorNovenaAfirmacion;
     private int valorDecimaAfirmacion;
+    private int puntuacionFinal;
 
     public Autoevaluacion() {
     }
@@ -102,6 +103,14 @@ public class Autoevaluacion {
 
     public void setValorDecimaAfirmacion(int valorDecimaAfirmacion) {
         this.valorDecimaAfirmacion = valorDecimaAfirmacion;
+    }
+
+    public int getPuntuacionFinal() {
+        return puntuacionFinal;
+    }
+
+    public void setPuntuacionFinal(int puntuacionFinal) {
+        this.puntuacionFinal = puntuacionFinal;
     }
     
 }

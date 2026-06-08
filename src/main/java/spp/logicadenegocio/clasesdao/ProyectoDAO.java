@@ -54,6 +54,61 @@ public class ProyectoDAO implements IProyectoDAO {
     return registroExitoso;
     
     }
+    
+    @Override
+    public Proyecto consultarProyecto(String nombre)throws OperacionesDeDaoExcepcion {
+
+        Proyecto proyecto = null;
+
+        String consultaSQL =
+                "SELECT p.idProyecto, "
+                + "p.nombre, "
+                + "p.objetivoGeneral, "
+                + "p.nombreResponsable, "
+                + "p.contactoResponsable, "
+                + "p.metodologia, "
+                + "p.cupoMaximo, "
+                + "p.estado, "
+                + "o.idOrganizacion, "
+                + "o.nombre AS nombreOrganizacion "
+                + "FROM Proyecto p "
+                + "INNER JOIN Organizacion o "
+                + "ON p.Organizacion_idOrganizacion = o.idOrganizacion "
+                + "WHERE p.nombre = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setString(1, nombre);
+
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+
+            if(resultadosConsulta.next()) {
+
+                proyecto = new Proyecto();
+
+                proyecto.setIdProyecto(resultadosConsulta.getInt("idProyecto"));
+                proyecto.setNombre(resultadosConsulta.getString("nombre"));
+                proyecto.setObjetivoGeneral(resultadosConsulta.getString("objetivoGeneral"));
+                proyecto.setNombreResponsable(resultadosConsulta.getString("nombreResponsable"));
+                proyecto.setContactoResponsable(resultadosConsulta.getString("contactoResponsable"));
+                proyecto.setMetodologia(resultadosConsulta.getString("metodologia"));
+                proyecto.setCupoMaximo(resultadosConsulta.getInt("cupoMaximo"));
+                proyecto.setEsActivo(resultadosConsulta.getInt("estado") == 1);
+                Organizacion organizacion = new Organizacion();
+                organizacion.setIdOrganizacion(resultadosConsulta.getInt("idOrganizacion"));
+                organizacion.setNombre(resultadosConsulta.getString("nombreOrganizacion"));
+                proyecto.setOrganizacion(organizacion);
+                
+            }          
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return proyecto;
+    }
        
     @Override
     public boolean disminuirCupoProyecto(int idProyecto)throws OperacionesDeDaoExcepcion {
@@ -274,6 +329,50 @@ public class ProyectoDAO implements IProyectoDAO {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         return proyectos;
+    }
+    
+    @Override
+    public boolean eliminarProyecto(String nombre) throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Proyecto WHERE nombre = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setString(1, nombre);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion( "No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
+    }
+    
+    @Override
+    public boolean desasignarProyecto(int idUsuario)throws OperacionesDeDaoExcepcion {
+
+        String consultaSQL = "UPDATE Practicante SET Proyecto_idProyecto = NULL WHERE idUsuario = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            return consultaPreparada.executeUpdate() > 0;
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
     }
     
 }

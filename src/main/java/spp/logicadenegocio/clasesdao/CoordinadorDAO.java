@@ -123,7 +123,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         
         boolean reactivacionExitosa = false;
         
-        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario"
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario "
                 + "SET u.estado = 1 WHERE u.idUsuario = ?";
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -166,5 +166,31 @@ public class CoordinadorDAO implements ICoordinadorDAO {
 
         return existeCoordinador;
     }
+    
+    @Override
+    public boolean eliminarCoordinador(int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Coordinador WHERE idUsuario = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
+    }   
     
 }

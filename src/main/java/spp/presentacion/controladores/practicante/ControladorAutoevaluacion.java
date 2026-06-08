@@ -11,10 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Autoevaluacion;
 import spp.logicadenegocio.gestores.GestorAutoevaluacion;
+import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionAutoevaluacion;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
+import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
@@ -38,16 +40,7 @@ public class ControladorAutoevaluacion {
     public void validarNumeros(KeyEvent evento) {
         
         TextField campoTexto = (TextField) evento.getSource();
-        String texto = campoTexto.getText();
-
-        if (!texto.matches("[0-9]*")) {
-
-            texto = texto.replaceAll("[^0-9]", "");
-
-            campoTexto.setText(texto);
-            campoTexto.positionCaret(texto.length());
-
-        }
+        ValidadorEnteros.validarSoloNumeros(campoTexto);
         
     }
     
@@ -57,8 +50,21 @@ public class ControladorAutoevaluacion {
         if(sonCamposDeAutoevaluacionValidos()){
             
             Autoevaluacion autoevaluacion = crearAutoevaluacion();
+            ValidacionAutoevaluacion validacionAutoevaluacion = new ValidacionAutoevaluacion();
             
-            guardarAutoevaluacion(autoevaluacion);
+            if(validacionAutoevaluacion.sonValoresValidos(autoevaluacion)){
+                
+                int puntuacionTotal = validacionAutoevaluacion.calcularPuntuacionFinal(autoevaluacion);
+                autoevaluacion.setPuntuacionFinal(puntuacionTotal);
+                
+                guardarAutoevaluacion(autoevaluacion);
+                
+            }else{
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Valores fuera de rango", 
+                "Asegúrese de que todas las calificaciones estén entre 1 y 5.");
+                
+            }
             
         }else{
             

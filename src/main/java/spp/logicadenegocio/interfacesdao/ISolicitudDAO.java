@@ -15,4 +15,5 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public interface ISolicitudDAO {
     public void guardarSolicitud(int idUsuario, int idProyecto) throws OperacionesDeDaoExcepcion;
     public List<Proyecto> obtenerProyectosSolicitados(int idUsuario)throws OperacionesDeDaoExcepcion;
+    public boolean eliminarSolicitud(int idUsuario, int idProyecto)throws OperacionesDeDaoExcepcion;
 }

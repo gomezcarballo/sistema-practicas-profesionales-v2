@@ -17,6 +17,13 @@
     -fx-text-fill: #005BAA; 
 }
 
+.etiqueta-afirmacion {
+    -fx-text-fill: #114B5F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: left; 
+    -fx-alignment: center-left;
+}
 
 .etiqueta-titulo {
     -fx-font-size: 22px;

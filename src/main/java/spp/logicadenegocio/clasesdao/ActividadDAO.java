@@ -73,7 +73,7 @@ public class ActividadDAO implements IActividadDAO{
                 actividad.setTitulo(resultadosConsulta.getString("titulo"));
                 actividad.setDescripcion(resultadosConsulta.getString("descripcion"));
                 actividad.setFechaLimite(resultadosConsulta.getObject("fechaLimite",LocalDateTime.class));
-                actividad.setIdProfesor(resultadosConsulta.getInt("idProfesor"));
+                actividad.setIdProfesor(resultadosConsulta.getInt("Profesor_idUsuario"));
                 
                 }
             }

@@ -41,6 +41,13 @@ public class ControladorMenuPrincipalProfesor extends ControladorMenus{
     }
     
     @FXML
+    private void abrirEvaluarDocumento(ActionEvent evento){
+        
+        cambiarVentana("/fxml/VistaPracticantesConDocumentos.fxml", "Lista de Practicantes", evento);
+        
+    }
+    
+    @FXML
     private void abrirSubMenuMensajes(){
         
         abrirVentana("/fxml/VistaSubMenuMensajes.fxml", "Mensajes");

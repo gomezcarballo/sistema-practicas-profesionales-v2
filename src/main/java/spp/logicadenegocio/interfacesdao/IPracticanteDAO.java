@@ -20,4 +20,5 @@ public interface IPracticanteDAO {
     public boolean tieneProyectoAsignado(int idPracticante)throws OperacionesDeDaoExcepcion;
     public List<Practicante> consultarPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion;
     public UsuarioEncontrado buscarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
+    public boolean eliminarPracticante(int idUsuario) throws OperacionesDeDaoExcepcion;
 }

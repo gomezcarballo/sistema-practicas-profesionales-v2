@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -15,326 +16,206 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="650.0" prefWidth="750.0" spacing="15.0" styleClass="panel-raiz" 
-   stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" 
-   xmlns:fx="http://javafx.com/fxml/1" 
-   fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporte">
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="650.0" prefWidth="750.0" spacing="15.0"
+      styleClass="panel-raiz" stylesheets="@../css/estilos.css"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporte">
+
+   <padding>
+      <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+   </padding>
 
    <children>
 
       <Label styleClass="etiqueta-titulo" text="Generar Reporte Parcial" />
-      
+
       <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-         
+
          <tabs>
-            
-            <Tab text="1. Datos Generales" styleClass="etiqueta-subtitulo" />
-               <content>
 
-                  <VBox spacing="20.0" style="-fx-padding: 20;">
-                     
+            <Tab text="1. Datos Generales" styleClass="etiqueta-subtitulo">
+               <content>
+                  <VBox spacing="20.0" styleClass="tarjeta-blanca">
+                     <padding>
+                        <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+                     </padding>
                      <children>
-                        
                         <GridPane hgap="15.0" vgap="20.0">
-                           
-                           <children>
-                              
-                              <Label text="Período del reporte:">
-                                
-                                 <font><Font name="System Bold" size="13.0" /></font>
-                              
-                              </Label>
-                              
-                              <TextField fx:id="txtPeriodo" prefWidth="250.0" promptText="Ej. Feb - Jul 2026" GridPane.columnIndex="1" />
-                              
-                              <Label text="Horas cubiertas:" GridPane.rowIndex="1">
-                                
-                                 <font><Font name="System Bold" size="13.0" /></font>
-                              
-                              </Label>
-                             
-                              <TextField fx:id="txtHoras" onKeyReleased="#validarNumeros" prefWidth="250.0" promptText="Ej. 150" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                           
-                           </children>
-                           
                            <columnConstraints>
-                            
-                              <ColumnConstraints />
-                             
-                              <ColumnConstraints />
-                           
-                           
+                              <ColumnConstraints halignment="RIGHT" />
+                              <ColumnConstraints hgrow="ALWAYS" />
                            </columnConstraints>
-                           
                            <rowConstraints>
-                              
-                              <RowConstraints />
-                              
-                              <RowConstraints />
-                           
+                              <RowConstraints prefHeight="30.0"/>
+                              <RowConstraints prefHeight="30.0"/>
                            </rowConstraints>
-                       
+                           <children>
+                              <Label text="Período del reporte:" styleClass="etiqueta-campo" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                              <TextField fx:id="txtPeriodo" prefWidth="250.0" promptText="Ej. Feb - Jul 2026" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                              <Label text="Horas cubiertas:" styleClass="etiqueta-campo" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                              <TextField fx:id="txtHoras" onKeyReleased="#validarNumeros" prefWidth="250.0" promptText="Ej. 150" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                           </children>
                         </GridPane>
-                     
                      </children>
-                 
                   </VBox>
-               
                </content>
-           
             </Tab>
 
-            <Tab text="2. Plan de Trabajo">
-              
+            <Tab text="2. Plan de Trabajo" styleClass="etiqueta-subtitulo">
                <content>
-                  
-                  <HBox fx:id="hbContenedorPrincipal" spacing="20.0" style="-fx-padding: 20;">
-                    
-                     <children>
-                        
-                        <VBox fx:id="vbFormularioActividad" prefWidth="350.0" spacing="15.0" HBox.hgrow="ALWAYS">
-                           
-                           <children>
-                             
-                              <Label fx:id="lblTituloNuevaActividad" text="Agregar Nueva Actividad">
-                              
-                                 <font><Font name="System Bold" size="14.0" /></font>
-                             
-                              </Label>
-                              
-                              <VBox fx:id="vbContenedorDescripcion" spacing="5.0">
-                                
-                                 <Label fx:id="lblInstruccionDescripcion" text="Descripción:" />
-                                
-                                 <TextField fx:id="txtNuevaActividad" promptText="Ej. Diseño de base de datos..." />
-                                
-                                 <Label fx:id="lblTiempoPlan" text="Horas planeadas:" />
-                                
-                                 <TextField fx:id="txtTiempoPlan" onKeyReleased="#validarNumeros" promptText="Ej. 8" />
-                                
-                                 <Label fx:id="lblTiempoReal" text="Horas reales:" />
-                                 
-                                 <TextField fx:id="txtTiempoReal" onKeyReleased="#validarNumeros" promptText="Ej. 9" />
-                              
-                              </VBox>
-
-                              <Label fx:id="lblInstruccionSemanas" text="Distribución de semanas:" />
-                              
-                              <GridPane hgap="10.0" style="-fx-background-color: #f4f4f4; -fx-padding: 10; -fx-background-radius: 5;" vgap="10.0">
-                                 
-                                 <children>
-                                   
-                                    <Label text="S1" GridPane.columnIndex="1" />
-                                    
-                                    <Label text="S2" GridPane.columnIndex="2" />
-                                    
-                                    <Label text="S3" GridPane.columnIndex="3" />
-                                    
-                                   
-                                    <Label text="S4" GridPane.columnIndex="4" />
-                                    
-                                    <Label text="S5" GridPane.columnIndex="5" />
-                                    
-                                    <Label text="S6" GridPane.columnIndex="6" />
-                                   
-                                    <Label text="S7" GridPane.columnIndex="7" />
-                                   
-                                    <Label text="S8" GridPane.columnIndex="8" />
-
-                                    <Label text="Plan:" GridPane.rowIndex="1">
-                                      
-                                       <font><Font name="System Bold" size="12.0" /></font>
-                                  
-                                    </Label>
-                                    
-                                    <CheckBox fx:id="chkPlanS1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    
-                                    <CheckBox fx:id="chkPlanS2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    
-                                    <CheckBox fx:id="chkPlanS3" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    
-                                    <CheckBox fx:id="chkPlanS4" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                   
-                                    <CheckBox fx:id="chkPlanS5" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                                    
-                                    <CheckBox fx:id="chkPlanS6" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                                    
-                                    <CheckBox fx:id="chkPlanS7" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-                                   
-                                    <CheckBox fx:id="chkPlanS8" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-
-                                    <Label text="Real:" GridPane.rowIndex="2">
-                                     
-                                       <font><Font name="System Bold" size="12.0" /></font>
-                                    
-                                    </Label>
-                                   
-                                    <CheckBox fx:id="chkRealS1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS3" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS4" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS5" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS6" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS7" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-                                    
-                                    <CheckBox fx:id="chkRealS8" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-                                
-                                 </children>
-                                
-                                 <columnConstraints>
-                                    
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                   
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                    
-                                    <ColumnConstraints />
-                                
-                                 </columnConstraints>
-                                
-                                 <rowConstraints>
-                                  
-                                    <RowConstraints />
-                                    
-                                    <RowConstraints />
-                                    
-                                    <RowConstraints />
-                               
-                                 </rowConstraints>
-                              
-                              </GridPane>
-
-                              <Button fx:id="btnAgregarActividad" mnemonicParsing="false" onAction="#leerDatosDeActividad" prefWidth="150.0" text="Agregar a la tabla" />
-                           
-                           </children>
-                       
-                        </VBox>
-
-                        <VBox fx:id="vbListaActividades" prefWidth="250.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                          
-                           <children>
-                            
-                              <Label fx:id="lblTituloActividadesRegistradas" text="Actividades Registradas">
-                              
-                                 <font><Font name="System Bold" size="14.0" /></font>
-                              
-                              </Label>
-                             
-                              <TableView fx:id="tblActividades" VBox.vgrow="ALWAYS">
-                               
-                                <columns>
-                                
-                                  <TableColumn fx:id="colDescripcionActividad" prefWidth="240.0" text="Nombre de la Actividad" />
-                               
-                                </columns>
-                             
-                              </TableView>
-                              
-                              <Button fx:id="btnEliminarActividad" mnemonicParsing="false" onAction="#eliminarActividad" style="-fx-text-fill: red;" text="Eliminar seleccionada" />
-                          
-                           </children>
-                       
-                        </VBox>
-
-                     </children>
-                  
-                  </HBox>
-              
-               </content>
-           
-            </Tab>
-
-            <Tab text="3. Resultados y Observaciones">
-              
-               <content>
-                
-                  <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
-                   
+                  <ScrollPane fitToWidth="true" styleClass="scroll-pane">
                      <content>
-                      
-                        <VBox spacing="20.0" style="-fx-padding: 20 20 10 10;">
-                         
+                        <HBox fx:id="hbContenedorPrincipal" spacing="20.0" styleClass="tarjeta-blanca">
+                           <padding>
+                              <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                           </padding>
                            <children>
-                           
-                              <VBox spacing="10.0">
-                                 
-                                 <children>
-                                  
-                                    <Label text="Resultados obtenidos al momento:">
-                                     
-                                       <font><Font name="System Bold" size="13.0" /></font>
-                                  
-                                    </Label>
-                                  
-                                    <TextArea fx:id="taResultados" prefRowCount="5" promptText="Redacta los resultados..." wrapText="true" />
                               
+                              <VBox fx:id="vbFormularioActividad" prefWidth="350.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="lblTituloNuevaActividad" text="Agregar Nueva Actividad" styleClass="etiqueta-subtitulo" />
+
+                                    <VBox fx:id="vbContenedorDescripcion" spacing="5.0">
+                                       <children>
+                                          <Label fx:id="lblInstruccionDescripcion" text="Descripción:" styleClass="etiqueta-campo"/>
+                                          <TextField fx:id="txtNuevaActividad" promptText="Ej. Diseño de base de datos..." styleClass="campo-entrada"/>
+
+                                          <Label fx:id="lblTiempoPlan" text="Horas planeadas:" styleClass="etiqueta-campo">
+                                             <VBox.margin><Insets top="10.0"/></VBox.margin>
+                                          </Label>
+                                          <TextField fx:id="txtTiempoPlan" onKeyReleased="#validarNumeros" promptText="Ej. 8" styleClass="campo-entrada"/>
+
+                                          <Label fx:id="lblTiempoReal" text="Horas reales:" styleClass="etiqueta-campo">
+                                             <VBox.margin><Insets top="10.0"/></VBox.margin>
+                                          </Label>
+                                          <TextField fx:id="txtTiempoReal" onKeyReleased="#validarNumeros" promptText="Ej. 9" styleClass="campo-entrada"/>
+                                       </children>
+                                    </VBox>
+
+                                    <Label fx:id="lblInstruccionSemanas" text="Distribución de semanas:" styleClass="etiqueta-campo" />
+
+                                    <GridPane hgap="10.0" vgap="10.0" styleClass="panel-raiz">
+                                       <padding>
+                                          <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+                                       </padding>
+                                       <columnConstraints>
+                                          <ColumnConstraints prefWidth="40.0" halignment="LEFT"/>
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                          <ColumnConstraints halignment="CENTER" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints prefHeight="25.0" valignment="CENTER"/>
+                                          <RowConstraints prefHeight="25.0" valignment="CENTER"/>
+                                          <RowConstraints prefHeight="25.0" valignment="CENTER"/>
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="S1" GridPane.columnIndex="1" styleClass="etiqueta-campo"/>
+                                          <Label text="S2" GridPane.columnIndex="2" styleClass="etiqueta-campo"/>
+                                          <Label text="S3" GridPane.columnIndex="3" styleClass="etiqueta-campo"/>
+                                          <Label text="S4" GridPane.columnIndex="4" styleClass="etiqueta-campo"/>
+                                          <Label text="S5" GridPane.columnIndex="5" styleClass="etiqueta-campo"/>
+                                          <Label text="S6" GridPane.columnIndex="6" styleClass="etiqueta-campo"/>
+                                          <Label text="S7" GridPane.columnIndex="7" styleClass="etiqueta-campo"/>
+                                          <Label text="S8" GridPane.columnIndex="8" styleClass="etiqueta-campo"/>
+
+                                          <Label text="Plan:" GridPane.rowIndex="1" styleClass="etiqueta-campo" />
+                                          <CheckBox fx:id="chkPlanS1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS3" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS4" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS5" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS6" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS7" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkPlanS8" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+
+                                          <Label text="Real:" GridPane.rowIndex="2" styleClass="etiqueta-campo" />
+                                          <CheckBox fx:id="chkRealS1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS3" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS4" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS5" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS6" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS7" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="chkRealS8" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+
+                                    <Button fx:id="btnAgregarActividad" mnemonicParsing="false" onAction="#leerDatosDeActividad" prefWidth="150.0" text="Agregar a la tabla" styleClass="boton-accion"/>
                                  </children>
-                             
+                              </VBox>
+
+                              <VBox fx:id="vbListaActividades" prefWidth="250.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="lblTituloActividadesRegistradas" text="Actividades Registradas" styleClass="etiqueta-subtitulo" />
+
+                                    <TableView fx:id="tblActividades" VBox.vgrow="ALWAYS" styleClass="tabla-estandar">
+                                       <columns>
+                                          <TableColumn fx:id="colDescripcionActividad" prefWidth="280.0" text="Nombre de la Actividad" />
+                                       </columns>
+                                    </TableView>
+
+                                    <Button fx:id="btnEliminarActividad" mnemonicParsing="false" onAction="#eliminarActividad" text="Eliminar seleccionada" styleClass="boton-cancelar"/>
+                                 </children>
+                              </VBox>
+
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+
+            <Tab text="3. Resultados y Observaciones" styleClass="etiqueta-subtitulo">
+               <content>
+                  <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+                     <content>
+                        <VBox spacing="20.0" styleClass="tarjeta-blanca">
+                           <padding>
+                              <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+                           </padding>
+                           <children>
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <Label text="Resultados obtenidos al momento:" styleClass="etiqueta-campo" />
+                                    <TextArea fx:id="taResultados" prefRowCount="5" promptText="Redacta los resultados..." wrapText="true" styleClass="area-texto"/>
+                                 </children>
                               </VBox>
 
                               <VBox spacing="10.0">
-                                
                                  <children>
-                                  
-                                    <Label text="Observaciones:">
-                                   
-                                       <font><Font name="System Bold" size="13.0" /></font>
-                                   
-                                    </Label>
-                                  
-                                    <TextArea fx:id="taObservaciones" prefRowCount="5" promptText="Añade observaciones adicionales..." wrapText="true" />
-                                
+                                    <Label text="Observaciones:" styleClass="etiqueta-campo" />
+                                    <TextArea fx:id="taObservaciones" prefRowCount="5" promptText="Añade observaciones adicionales..." wrapText="true" styleClass="area-texto"/>
                                  </children>
-                             
                               </VBox>
-                          
                            </children>
-                       
                         </VBox>
-                   
                      </content>
-                 
                   </ScrollPane>
-               
                </content>
-          
             </Tab>
 
          </tabs>
 
       </TabPane>
 
-      <HBox alignment="CENTER" spacing="30.0" style="-fx-padding: 10 0 0 0;">
-         
+      <HBox alignment="CENTER" spacing="30.0">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
          <children>
-            
-            <Button fx:id="btnGenerar" mnemonicParsing="false" onAction="#generarReporte" prefHeight="30.0" prefWidth="130.0" text="Guardar Reporte" />
-           
-            <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" prefHeight="30.0" prefWidth="130.0" text="Regresar" />
-        
+            <Button fx:id="btnGenerar" mnemonicParsing="false" onAction="#generarReporte" prefHeight="35.0" prefWidth="150.0" text="Guardar Reporte" styleClass="boton-accion"/>
+            <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" prefHeight="35.0" prefWidth="150.0" text="Regresar" styleClass="boton-cancelar"/>
          </children>
-      
       </HBox>
-      
+
    </children>
 
 </VBox>

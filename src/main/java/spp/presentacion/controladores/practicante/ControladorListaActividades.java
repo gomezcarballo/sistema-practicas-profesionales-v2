@@ -105,7 +105,7 @@ public class ControladorListaActividades {
     }
     
     @FXML
-    private void abrirDetalleActividad(){
+    private void abrirDetalleActividad(ActionEvent evento){
 
         Actividad actividadSeleccionada = obtenerActividadSeleccionada();
 
@@ -118,6 +118,7 @@ public class ControladorListaActividades {
 
                 ControladorDetalleActividad controlador = cargador.getController();
                 controlador.cargarActividad(actividadSeleccionada);
+                CerradorVentana.cerrarVentana(evento);
 
             }
 

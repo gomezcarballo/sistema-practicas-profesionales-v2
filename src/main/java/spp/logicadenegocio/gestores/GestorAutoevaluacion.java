@@ -8,6 +8,8 @@ package spp.logicadenegocio.gestores;
 import spp.utilerias.generadordocumentospdf.GeneradorDocumentoPdf;
 import org.thymeleaf.context.Context;
 import spp.logicadenegocio.clasesdto.Autoevaluacion;
+import spp.logicadenegocio.clasesdto.ReporteParcial;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
@@ -22,7 +24,7 @@ public class GestorAutoevaluacion{
         
         GeneradorDocumentoPdf generadorDocumentoPdf = new GeneradorDocumentoPdf();
         
-        //completarDatosBaseDeDatos(autoevaluacion);
+        completarDatosBaseDeDatos(autoevaluacion);
         
         //Context contextoThymeleaf = prepararContexto(autoevaluacion);
         
@@ -30,6 +32,18 @@ public class GestorAutoevaluacion{
                 
         //generadorDocumentoPdf.generarArchivoPdf(htmlProcesado, "Autoevaluacion_");
         
+    }
+    
+    private void completarDatosBaseDeDatos(Autoevaluacion autoevaluacion)throws OperacionesDeDaoExcepcion{
+        /*
+        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
+        int idPracticante = sesionUsuario.getIdUsuario();
+        String matricula = sesionUsuario.getIdentificador();
+        
+        ReporteDAO autoevaluacionDAO = new ReporteDAO();
+        Autoevaluacion autoevaluacion;
+        autoevaluacion = autoevaluacionDAO.recuperarDatosReporte(idPracticante); 
+        */
     }
     
 }

@@ -149,4 +149,30 @@ public class MensajeDAO implements IMensajeDAO{
         return mensajes;
     }
     
+    @Override
+    public boolean eliminarMensaje(int idMensaje) throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Mensaje WHERE idMensaje = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idMensaje);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
+    }
+    
 }

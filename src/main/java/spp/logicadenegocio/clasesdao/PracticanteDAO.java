@@ -104,7 +104,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         
         boolean inactivacionExitosa = false;
 
-        String consultaSQL = "UPDATE Practicante SET estado = 0 WHERE idUsuario = ?";
+        String consultaSQL = "UPDATE Usuario SET estado = 0 WHERE idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
@@ -226,6 +226,32 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
 
     return yaEstaAsignado;
     
+    }
+    
+    @Override
+    public boolean eliminarPracticante(int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Practicante WHERE idUsuario = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
     }
     
 }

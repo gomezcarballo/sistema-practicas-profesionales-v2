@@ -91,4 +91,34 @@ public class SolicitudDAO implements ISolicitudDAO{
         return proyectos;
     }
     
+    @Override
+    public boolean eliminarSolicitud(int idUsuario, int idProyecto)throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL =
+                "DELETE FROM SolicitudProyecto "
+                + "WHERE Practicante_idUsuario = ? "
+                + "AND Proyecto_idProyecto = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+            consultaPreparada.setInt(2, idProyecto);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
+    }
+    
 }

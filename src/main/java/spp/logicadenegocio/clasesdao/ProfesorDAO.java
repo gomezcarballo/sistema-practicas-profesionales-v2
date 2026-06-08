@@ -26,7 +26,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal, nrcAsignado) VALUES (?, ?)";
+        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal, nrcAsignado) VALUES (?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
@@ -207,7 +207,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         
         boolean reactivacionExitosa = false;
         
-        String consultaSQL = "UPDATE Usuario u INNER JOIN Profesor p ON u.idUsuario = p.idUsuario"
+        String consultaSQL = "UPDATE Usuario u INNER JOIN Profesor p ON u.idUsuario = p.idUsuario "
                 + "SET u.estado = 1 WHERE u.idUsuario = ?";
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -227,6 +227,32 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         
     return reactivacionExitosa;
     
-    }    
+    }   
+    
+    @Override
+    public boolean eliminarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Profesor WHERE idUsuario = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuario);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
+    }   
 
 }

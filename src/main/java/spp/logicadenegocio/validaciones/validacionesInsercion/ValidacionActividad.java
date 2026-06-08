@@ -39,6 +39,7 @@ public class ValidacionActividad {
                 + "interno del sistema. Intente más tarde.");
             
         }
+        
     }
 
     public void sonCamposValidosPorReglaDeNegocio(Actividad actividad) throws ReglaDeNegocioExcepcion{

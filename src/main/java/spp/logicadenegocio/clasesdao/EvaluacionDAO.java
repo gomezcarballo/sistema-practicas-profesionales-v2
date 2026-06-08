@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
@@ -22,13 +23,15 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class EvaluacionDAO implements IEvaluacionDAO{
 
     @Override
-    public void insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
+    public int insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
         
         String consultaSQL = "INSERT INTO Evaluacion (nrc, periodo, calificacionFinal, Profesor_idUsuario, "
                 + "Practicante_idUsuario) VALUES (?, ?, ?, ?, ?)";
         
+        boolean registroExitoso = false;
+        
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS);){
             
             consultaPreparada.setString(1, evaluacion.getNrc());
             consultaPreparada.setString(2, evaluacion.getPeriodo());
@@ -36,14 +39,25 @@ public class EvaluacionDAO implements IEvaluacionDAO{
             consultaPreparada.setInt(4, evaluacion.getProfesor().getIdUsuario());
             consultaPreparada.setInt(5, evaluacion.getPracticante().getIdUsuario());
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            consultaPreparada.executeUpdate();
             
-            if (filasAfectadas == 0) {
-                throw new OperacionesDeDaoExcepcion("Fallo al guardar: No se reflejaron los cambios en la base de datos");               
+            ResultSet resultadosConsulta = consultaPreparada.getGeneratedKeys();
+
+            if (resultadosConsulta.next()) {
+                int idGenerado = resultadosConsulta.getInt(1);
+                evaluacion.setIdEvaluacion(idGenerado);
             }
+            
+            registroExitoso = true;
             
         }catch( SQLException e ){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        }
+        
+        if(registroExitoso){
+            return evaluacion.getIdEvaluacion();
+        }else{
+            return 0;
         }
         
     }
@@ -78,14 +92,38 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 evaluacion.setPracticante(practicante);
             }
 
-            conexion.close();
-
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
 
     return evaluacion;
         
+    }
+    
+    @Override
+    public boolean eliminarEvaluacion(int idEvaluacion)throws OperacionesDeDaoExcepcion {
+
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Evaluacion WHERE idEvaluacion = ?";
+
+        try(Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idEvaluacion);
+
+            int filasAfectadas = consultaPreparada.executeUpdate();
+
+            if(filasAfectadas > 0) {
+                eliminacionExitosa = true;
+            }
+
+        } catch(SQLException e) {
+
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        }
+
+        return eliminacionExitosa;
     }
     
 }

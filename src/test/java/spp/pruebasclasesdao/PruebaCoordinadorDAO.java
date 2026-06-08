@@ -4,6 +4,10 @@
  */
 package spp.pruebasclasesdao;
 
+import java.util.List;
+import org.junit.After;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.assertTrue;
@@ -19,37 +23,103 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class PruebaCoordinadorDAO {
     
-    Usuario usuario = new Usuario();
-    int idUsuario;
-    
+    private UsuarioDAO usuarioDAO;
+    private CoordinadorDAO coordinadorDAO;
+
+    private int idUsuario;
+    private String correoUnico;
+    private String numeroPersonal;
+
+    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
+
     @Before
-    public void recursoInsertarUsuario()throws OperacionesDeDaoExcepcion{
+    public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
+        usuarioDAO = new UsuarioDAO();
+        coordinadorDAO = new CoordinadorDAO();
+
+        secuencia++;
+
+        correoUnico = secuencia + "@uv.mx";
+        numeroPersonal = "12345";
+
+        idUsuario = crearUsuarioBase();
+        crearCoordinadorBase();
+    }
+
+    @After
+    public void eliminarDatosPrueba() throws OperacionesDeDaoExcepcion {
         
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        usuario.setNombre("Juan Carlos");
-        usuario.setApellidoPaterno("Perez Arriaga");
-        usuario.setContraseña("password");
+        coordinadorDAO.eliminarCoordinador(idUsuario);
+
+        usuarioDAO.eliminarUsuario(idUsuario);
+
+    }
+
+    private int crearUsuarioBase() throws OperacionesDeDaoExcepcion {
+        
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Test");
+        usuario.setApellidoPaterno("Coord");
+        usuario.setApellidoMaterno("DAO");
+        usuario.setCorreoInstitucional(correoUnico);
+        usuario.setContraseña("123");
         usuario.setEsActivo(true);
-        idUsuario = usuarioDao.insertarUsuario(usuario);
+
+        return usuarioDAO.insertarUsuario(usuario);
         
     }
-    
-    @Test
-    public void pruebaInsertarCoordinadorDaoExitoso()throws OperacionesDeDaoExcepcion{
-       
-        Coordinador coordinador = new Coordinador();
-        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+
+    private void crearCoordinadorBase() throws OperacionesDeDaoExcepcion {
         
+        Coordinador coordinador = new Coordinador();
         coordinador.setIdUsuario(idUsuario);
-        coordinador.setNumeroDePersonal("p2401");
-        boolean registroExitoso; 
-        try{
-            coordinadorDao.insertarCoordinador(coordinador);
-            registroExitoso = true;
-        }catch(OperacionesDeDaoExcepcion e){
-            registroExitoso = false;
-        }
-        assertTrue(registroExitoso);
+        coordinador.setNumeroDePersonal(numeroPersonal);
+
+        coordinadorDAO.insertarCoordinador(coordinador);
+        
+    }
+
+    @Test
+    public void pruebaInsertarCoordinadorExitoso() throws OperacionesDeDaoExcepcion {
+        
+        boolean existe = coordinadorDAO.existeCoordinadorActivo();
+        assertTrue(existe);
+        
+    }
+
+    @Test
+    public void pruebaConsultarCoordinadoresInactivosNoVacio() throws OperacionesDeDaoExcepcion {
+        
+        coordinadorDAO.inactivarCoordinador();
+        List<Coordinador> resultado = coordinadorDAO.consultarCoordinadoresInactivos();
+        
+        assertFalse(resultado.isEmpty());
+        
+    }
+
+    @Test
+    public void pruebaInactivarCoordinadorExitoso() throws OperacionesDeDaoExcepcion {
+        
+        boolean resultado = coordinadorDAO.inactivarCoordinador();
+        assertTrue(resultado);
+        
+    }
+
+    @Test
+    public void pruebaReactivarCoordinadorExitoso() throws OperacionesDeDaoExcepcion {
+        
+        coordinadorDAO.inactivarCoordinador();
+        boolean resultado = coordinadorDAO.reactivarCoordinador(idUsuario);
+        
+        assertTrue(resultado);
+        
+    }
+
+    @Test
+    public void pruebaExisteCoordinadorActivo() throws OperacionesDeDaoExcepcion {
+        
+        boolean resultado = coordinadorDAO.existeCoordinadorActivo();
+        assertTrue(resultado);
         
     }
 

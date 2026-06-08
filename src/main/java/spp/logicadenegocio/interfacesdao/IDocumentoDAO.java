@@ -14,4 +14,5 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public interface IDocumentoDAO {
     public boolean insertarDocumento(Documento documento)throws OperacionesDeDaoExcepcion;
     public Documento consultarDocumento(String nombre)throws OperacionesDeDaoExcepcion;
+    public boolean eliminarDocumento(String nombre) throws OperacionesDeDaoExcepcion;
 }

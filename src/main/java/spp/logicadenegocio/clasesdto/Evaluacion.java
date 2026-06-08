@@ -14,19 +14,23 @@ public class Evaluacion {
     private String nrc;
     private String periodo;
     private double calificacionFinal;
+    private String observaciones;
     private Profesor profesor;
     private Practicante practicante;
 
     public Evaluacion() {
     }
 
-    public Evaluacion(int idEvaluacion, String nrc, String periodo, double calificacionFinal, Profesor profesor, Practicante practicante) {
+    public Evaluacion(int idEvaluacion, String nrc, String periodo, double calificacionFinal, 
+           String observaciones, Profesor profesor, Practicante practicante) {
         this.idEvaluacion = idEvaluacion;
         this.nrc = nrc;
         this.periodo = periodo;
         this.calificacionFinal = calificacionFinal;
         this.profesor = profesor;
         this.practicante = practicante;
+        this.observaciones = observaciones;
+                
     }
 
     public int getIdEvaluacion() {
@@ -75,6 +79,14 @@ public class Evaluacion {
 
     public void setPracticante(Practicante practicante) {
         this.practicante = practicante;
-    }       
+    }   
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
     
 }

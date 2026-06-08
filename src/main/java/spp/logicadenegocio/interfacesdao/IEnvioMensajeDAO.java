@@ -12,4 +12,5 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public interface IEnvioMensajeDAO {
     public boolean insertarEnvioMensaje(int idMensaje, int idRemitente, int idDestinatario)throws OperacionesDeDaoExcepcion;
+    public boolean eliminarEnvioMensaje(int idMensaje,int idRemitente,int idDestinatario)throws OperacionesDeDaoExcepcion;
 }
