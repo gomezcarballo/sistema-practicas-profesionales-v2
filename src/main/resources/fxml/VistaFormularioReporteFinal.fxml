@@ -6,13 +6,18 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="500.0" prefWidth="700.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporteFinal">
+
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="500.0" prefWidth="700.0" styleClass="panel-raiz" 
+stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="spp.presentacion.controladores.practicante.ControladorFormularioReporteFinal">
    <children>
 
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" 
+      styleClass="scroll-pane" VBox.vgrow="ALWAYS">
          <content>
 
             <VBox alignment="CENTER" styleClass="panel-raiz">
@@ -22,7 +27,8 @@
                </padding>
 
                <children>
-                  <VBox fx:id="vbTarjeta" alignment="CENTER" maxWidth="750.0" spacing="25.0" styleClass="tarjeta-blanca">
+                  <VBox fx:id="vbTarjeta" alignment="CENTER" maxWidth="750.0" spacing="25.0" 
+                  styleClass="tarjeta-blanca">
                      
                      <padding>
                         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
@@ -32,19 +38,24 @@
                         
                         <VBox alignment="CENTER" spacing="5.0">
                            <children>
-                              <Label fx:id="lblTitulo" styleClass="etiqueta-titulo" text="Avance de Actividades" />
-                              <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" text="Ingrese el porcentaje de avance y observaciones (Doble clic para editar):" />
+                              <Label fx:id="lblTitulo" styleClass="etiqueta-titulo" 
+                                    text="Avance de Actividades" />
+                              <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" 
+                              text="Ingrese el porcentaje de avance y observaciones (Doble clic para editar):" />
                            </children>
                         </VBox>
 
-                        <TableView fx:id="tblActividades" editable="true" prefHeight="250.0" styleClass="tabla-estandar" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tblActividades" editable="true" prefHeight="250.0" 
+                        styleClass="tabla-estandar" VBox.vgrow="ALWAYS">
                           <columns>
                           
-                            <TableColumn fx:id="colActividad" editable="false" prefWidth="250.0" text="Actividad Programada" />
+                            <TableColumn fx:id="colActividad" editable="false" prefWidth="250.0" 
+                            text="Actividad Programada" />
                             
                             <TableColumn fx:id="colAvance" prefWidth="100.0" text="\% Avance" />
-                            <TableColumn fx:id="colObservaciones" prefWidth="250.0" text="Observaciones" />
-                            <TableColumn fx:id="colEntregable" prefWidth="100.0" text="¿Entregable?" />
+                            <TableColumn fx:id="colObservaciones" prefWidth="200.0" text="Observaciones" />
+                            <TableColumn fx:id="colEntregable" prefWidth="150.0" text="¿Entregable?" />
+
                           </columns>
                           
                            <columnResizePolicy>
@@ -52,12 +63,25 @@
                            </columnResizePolicy>
                         </TableView>
 
+                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label styleClass="etiqueta-instruccion" text="Observaciones Generales del Reporte:" />
+                              <TextArea fx:id="taObservacionesGenerales" prefHeight="80.0" wrapText="true" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </VBox>
+
                         <BorderPane>
                            <left>
-                              <Button fx:id="btnGenerarReporte" mnemonicParsing="false" onAction="#generarReporte" styleClass="boton-accion" text="Generar Reporte" BorderPane.alignment="CENTER" />
+                              <Button fx:id="btnGenerarReporte" mnemonicParsing="false" 
+                              onAction="#generarReporte" styleClass="boton-accion" text="Generar Reporte" 
+                              BorderPane.alignment="CENTER" />
                            </left>
                            <right>
-                              <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#regresar" styleClass="boton-cancelar" text="Cancelar" BorderPane.alignment="CENTER" />
+                              <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#regresar" 
+                              styleClass="boton-cancelar" text="Cancelar" BorderPane.alignment="CENTER" />
                            </right>
                            <VBox.margin>
                               <Insets top="10.0" />

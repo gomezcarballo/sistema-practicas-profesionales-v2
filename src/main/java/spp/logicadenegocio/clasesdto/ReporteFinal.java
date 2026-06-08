@@ -9,6 +9,7 @@ public class ReporteFinal extends EncabezadoReporte {
     private LocalDate fechaReporte;
     private String observaciones;
     private List<ActividadReporteFinal> actividades;
+    private List<ActividadReporteFinal> entregables;
     private String tipoReporte; 
 
 
@@ -93,5 +94,12 @@ public class ReporteFinal extends EncabezadoReporte {
         this.tipoReporte = tipoReporte;
     }
 
+    public List<ActividadReporteFinal> getEntregables() {
+        return entregables;
+    }
+
+    public void setEntregables(List<ActividadReporteFinal> entregables) {
+        this.entregables = entregables;
+    }
 }
 

@@ -28,7 +28,7 @@ public class GestorReporteFinal {
         String htmlProcesado = generadorDocumentoPdf.procesarPlantillaHtml(contextoThymeleaf, 
             rutaPlantillaHtml, nombrePlantillaHtml);
 
-        String prefijoNombreArchivo = "Reporte_Final";
+        String prefijoNombreArchivo = "Reporte_Final_";
         
         generadorDocumentoPdf.generarArchivoPdf(htmlProcesado, prefijoNombreArchivo);
         
@@ -80,6 +80,7 @@ public class GestorReporteFinal {
         contexto.setVariable("metodologia", reporte.getMetodologia());
         contexto.setVariable("observaciones", reporte.getObservaciones());
         contexto.setVariable("actividades", reporte.getActividades());
+        contexto.setVariable("entregables", reporte.getEntregables());
         contexto.setVariable("alumno", reporte.getAlumno());
         contexto.setVariable("matricula",reporte.getMatricula());
         return contexto;

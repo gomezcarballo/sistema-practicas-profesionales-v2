@@ -13,16 +13,23 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.ActividadReporteFinal;
+import spp.logicadenegocio.clasesdto.ReporteFinal;
 import spp.logicadenegocio.gestores.GestorActividades;
+import spp.logicadenegocio.gestores.GestorReporteFinal;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.numerosentablas.FabricaCeldaNumerica;
 import spp.utilerias.seleccionactividadentregable.SeleccionActividadEntregable;
+import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 public class ControladorFormularioReporteFinal {
@@ -42,6 +49,9 @@ public class ControladorFormularioReporteFinal {
     @FXML
     private TableColumn<ActividadReporteFinal, Boolean> colEntregable;
 
+    @FXML 
+    private TextArea taObservacionesGenerales;
+
     private ObservableList<ActividadReporteFinal> listaActividadesFinales;
 
     @FXML
@@ -56,12 +66,20 @@ public class ControladorFormularioReporteFinal {
         
     }
 
+    @FXML
+    private void validarPorcentajeAvance(KeyEvent evento) {
+
+        TextField campoTexto = (TextField) evento.getSource();
+        ValidadorEnteros.validarSoloNumeros(campoTexto);
+     
+    }
+
     private void configurarColumnas() {
         
         colActividad.setCellValueFactory(new PropertyValueFactory<>("nombreActividad"));
 
         colAvance.setCellValueFactory(new PropertyValueFactory<>("porcentajeAvance"));
-        colAvance.setCellFactory(TextFieldTableCell.forTableColumn());
+        colAvance.setCellFactory(new FabricaCeldaNumerica());
         colAvance.setOnEditCommit(new EdicionAvanceListener());
 
         colObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
@@ -117,11 +135,29 @@ public class ControladorFormularioReporteFinal {
     public void generarReporte(ActionEvent evento) {
         
         boolean estanLlenas = actividadesLlenas();
+
+        if(taObservacionesGenerales.getText().trim().isEmpty()) {
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incompletos", 
+            "Por favor, llena el campo de observaciones generales.");
+            return;
+        }
         
         if(estanLlenas) {
-            // Lógica para enviar a generar el PDF (GestorReporteFinal)
-            mostrarMensaje();
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Exito", "Generando PDF...");
+            
+            ReporteFinal reporte = crearReporteFinal();
+            GestorReporteFinal gestor = new GestorReporteFinal();
+            
+            try {
+                
+                gestor.generarReporteFinal(reporte); 
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Éxito", 
+                "Reporte Final generado correctamente.");
+                
+            } catch (Exception e) {
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, 
+                "Error en Generación", e.getMessage());
+            }
+
         } else {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incompletos", 
             "Asegúrate de llenar el % de avance en todas las actividades.");
@@ -134,12 +170,35 @@ public class ControladorFormularioReporteFinal {
         boolean estanLlenas = true;
         String valorPrederminado = "0";
         for(ActividadReporteFinal act : listaActividadesFinales) {
-            if(!act.getPorcentajeAvance().equals(valorPrederminado)) {
+            if(act.getPorcentajeAvance().equals(valorPrederminado)) {
                 estanLlenas = false;
                 break;
             }
         }
         return estanLlenas;
+    }
+
+    private ReporteFinal crearReporteFinal(){
+
+        ReporteFinal reporte = new ReporteFinal();
+        
+        reporte.setObservaciones(taObservacionesGenerales.getText().trim());
+        
+        List<ActividadReporteFinal> soloActividades = new ArrayList<>();
+        List<ActividadReporteFinal> soloEntregables = new ArrayList<>();
+
+        for(ActividadReporteFinal act : listaActividadesFinales) {
+            if(act.isEsEntregable()) {
+                soloEntregables.add(act);
+            } else {
+                soloActividades.add(act);
+            }
+        }
+
+        reporte.setActividades(soloActividades);
+        reporte.setEntregables(soloEntregables);
+        
+        return reporte;
     }
 
     @FXML
