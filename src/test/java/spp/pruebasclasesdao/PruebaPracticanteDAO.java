@@ -46,7 +46,7 @@ public class PruebaPracticanteDAO {
 
         Usuario usuario = new Usuario();
 
-        usuario.setNombre("Juan");
+        usuario.setNombre("Uri");
         usuario.setApellidoPaterno("Perez");
         usuario.setApellidoMaterno("Lopez");
         usuario.setCorreoInstitucional(correoPrueba);

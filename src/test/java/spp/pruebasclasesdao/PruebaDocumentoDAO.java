@@ -29,21 +29,19 @@ public class PruebaDocumentoDAO {
     private int idUsuarioFalso;
     private String nombreDocumentoPrueba;
 
-    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
-
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
+        
         usuarioDAO = new UsuarioDAO();
         documentoDAO = new DocumentoDAO();
 
-        secuencia++;
-        nombreDocumentoPrueba = "Doc_Prueba_" + secuencia + ".pdf";
+        nombreDocumentoPrueba = "RepoMensual.pdf";
 
         Usuario usuario = new Usuario();
-        usuario.setNombre("Test");
-        usuario.setApellidoPaterno("Doc");
+        usuario.setNombre("Antonio");
+        usuario.setApellidoPaterno("Tablada");
         usuario.setApellidoMaterno("DAO");
-        usuario.setCorreoInstitucional("usuario_doc" + secuencia + "@uv.mx");
+        usuario.setCorreoInstitucional("tablada@uv.mx");
         usuario.setContraseña("123");
         usuario.setEsActivo(true);
 
@@ -71,7 +69,7 @@ public class PruebaDocumentoDAO {
     @Test
     public void pruebaInsertarDocumentoExitoso() throws OperacionesDeDaoExcepcion {
         
-        String nombreNuevo = "Doc_Extra_" + secuencia + ".docx";
+        String nombreNuevo = "Exposicion.docx";
         
         Documento nuevoDocumento = new Documento();
         nuevoDocumento.setNombre(nombreNuevo);

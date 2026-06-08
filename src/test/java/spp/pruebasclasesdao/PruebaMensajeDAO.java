@@ -75,9 +75,9 @@ public class PruebaMensajeDAO {
 
         Usuario usuario = new Usuario();
 
-        usuario.setNombre("Usuario");
-        usuario.setApellidoPaterno("Prueba");
-        usuario.setApellidoMaterno("DAO");
+        usuario.setNombre("Taylor");
+        usuario.setApellidoPaterno("Swift");
+        usuario.setApellidoMaterno("Perez");
         usuario.setCorreoInstitucional(prefijo + "_" + System.currentTimeMillis() + "@uv.mx");
         usuario.setContraseña("123456");
         usuario.setEsActivo(true);

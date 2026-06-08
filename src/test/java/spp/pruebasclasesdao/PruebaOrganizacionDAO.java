@@ -31,7 +31,7 @@ public class PruebaOrganizacionDAO {
         organizacionDAO = new OrganizacionDAO();
 
         organizacionPrueba = new Organizacion();
-        organizacionPrueba.setNombre("OrganizacionPrueba_" + System.currentTimeMillis());
+        organizacionPrueba.setNombre("OrganizacionPrueba");
         organizacionPrueba.setDireccion("Direccion Prueba");
         organizacionPrueba.setSector("Tecnologia");
         organizacionPrueba.setEsActivo(true);

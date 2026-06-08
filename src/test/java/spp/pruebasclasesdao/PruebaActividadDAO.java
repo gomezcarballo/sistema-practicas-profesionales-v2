@@ -35,29 +35,26 @@ public class PruebaActividadDAO {
     private int idUsuarioFalso;
     private String tituloActividad;
 
-    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
-
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
         actividadDAO = new ActividadDAO();
         usuarioDAO = new UsuarioDAO();
         profesorDAO = new ProfesorDAO();
 
-        secuencia++;
-        tituloActividad = "Practica_BD_" + secuencia;
+        tituloActividad = "Ensayo";
 
         Usuario usuario = new Usuario();
-        usuario.setNombre("Prof");
-        usuario.setApellidoPaterno("Actividad");
-        usuario.setApellidoMaterno("Test");
-        usuario.setCorreoInstitucional("prof_act" + secuencia + "@uv.mx");
+        usuario.setNombre("Jose Guillermo");
+        usuario.setApellidoPaterno("Hernandez");
+        usuario.setApellidoMaterno("Calderon");
+        usuario.setCorreoInstitucional("memo@uv.mx");
         usuario.setContraseña("123");
         usuario.setEsActivo(true);
         idUsuarioFalso = usuarioDAO.insertarUsuario(usuario);
 
         Profesor p = new Profesor();
         p.setIdUsuario(idUsuarioFalso);
-        p.setNumeroDePersonal("PA" + secuencia);
+        p.setNumeroDePersonal("44569");
         p.setNrcAsignado("NRC01");
         profesorDAO.insertarProfesor(p);
 
@@ -85,7 +82,7 @@ public class PruebaActividadDAO {
     @Test
     public void pruebaInsertarActividadExitoso() throws OperacionesDeDaoExcepcion {
         
-        String tituloNuevo = "Practica_Extra_" + secuencia;
+        String tituloNuevo = "Exposicion Tema 2";
         Actividad nuevaActividad = new Actividad();
         nuevaActividad.setTitulo(tituloNuevo);
         nuevaActividad.setDescripcion("Otra práctica insertada desde el test");

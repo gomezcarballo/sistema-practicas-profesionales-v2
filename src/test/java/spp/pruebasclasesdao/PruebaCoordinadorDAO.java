@@ -7,7 +7,6 @@ package spp.pruebasclasesdao;
 import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.assertTrue;
@@ -28,22 +27,16 @@ public class PruebaCoordinadorDAO {
 
     private int idUsuario;
     private String correoUnico;
-    private String numeroPersonal;
-
-    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
 
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
+        
         usuarioDAO = new UsuarioDAO();
         coordinadorDAO = new CoordinadorDAO();
 
-        secuencia++;
-
-        correoUnico = secuencia + "@uv.mx";
-        numeroPersonal = "12345";
-
         idUsuario = crearUsuarioBase();
         crearCoordinadorBase();
+        
     }
 
     @After
@@ -58,9 +51,9 @@ public class PruebaCoordinadorDAO {
     private int crearUsuarioBase() throws OperacionesDeDaoExcepcion {
         
         Usuario usuario = new Usuario();
-        usuario.setNombre("Test");
-        usuario.setApellidoPaterno("Coord");
-        usuario.setApellidoMaterno("DAO");
+        usuario.setNombre("Javier");
+        usuario.setApellidoPaterno("Lily");
+        usuario.setApellidoMaterno("Reyes");
         usuario.setCorreoInstitucional(correoUnico);
         usuario.setContraseña("123");
         usuario.setEsActivo(true);
@@ -73,7 +66,7 @@ public class PruebaCoordinadorDAO {
         
         Coordinador coordinador = new Coordinador();
         coordinador.setIdUsuario(idUsuario);
-        coordinador.setNumeroDePersonal(numeroPersonal);
+        coordinador.setNumeroDePersonal("69954");
 
         coordinadorDAO.insertarCoordinador(coordinador);
         

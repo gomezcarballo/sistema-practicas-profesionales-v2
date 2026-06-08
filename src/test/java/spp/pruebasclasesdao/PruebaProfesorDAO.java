@@ -6,8 +6,10 @@ package spp.pruebasclasesdao;
 
 import java.util.List;
 import org.junit.After;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
@@ -27,15 +29,11 @@ public class PruebaProfesorDAO {
     private int idUsuarioPrueba;
     private Profesor profesorPrueba;
 
-    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
-
     @Before
     public void inicializarDatos() throws OperacionesDeDaoExcepcion {
         
         usuarioDAO = new UsuarioDAO();
         profesorDAO = new ProfesorDAO();
-
-        secuencia++;
 
         Usuario usuario = crearUsuarioPrueba();
         idUsuarioPrueba = usuarioDAO.insertarUsuario(usuario);
@@ -56,11 +54,15 @@ public class PruebaProfesorDAO {
     @Test
     public void pruebaInsertarProfesorExitoso() throws OperacionesDeDaoExcepcion {
         
-        Profesor resultado = profesorDAO.consultarProfesoresActivos()
-                .stream()
-                .filter(p -> p.getIdUsuario() == idUsuarioPrueba)
-                .findFirst()
-                .orElse(null);
+        Profesor resultado = null;
+        List<Profesor> profesoresActivos = profesorDAO.consultarProfesoresActivos();
+        
+        for (Profesor profesor : profesoresActivos) {
+            if (profesor.getIdUsuario() == idUsuarioPrueba) {
+                resultado = profesor;
+                break; 
+            }
+        }
 
         assertNotNull(resultado);
         
@@ -110,11 +112,11 @@ public class PruebaProfesorDAO {
     private Usuario crearUsuarioPrueba() {
         
         Usuario usuario = new Usuario();
-        usuario.setNombre("Test");
-        usuario.setApellidoPaterno("Profesor");
-        usuario.setApellidoMaterno("DAO");
-        usuario.setCorreoInstitucional("prof" + secuencia + "@uv.mx");
-        usuario.setContraseña("123");
+        usuario.setNombre("Endric");
+        usuario.setApellidoPaterno("Vera");
+        usuario.setApellidoMaterno("Toledo");
+        usuario.setCorreoInstitucional("juan.perez@uv.mx");
+        usuario.setContraseña("secreta123");
         usuario.setEsActivo(true);
         return usuario;
         
@@ -124,7 +126,7 @@ public class PruebaProfesorDAO {
         
         Profesor profesor = new Profesor();
         profesor.setIdUsuario(idUsuario);
-        profesor.setNumeroDePersonal("P" + secuencia);
+        profesor.setNumeroDePersonal("87654");
         profesor.setNrcAsignado("NRC01");
         return profesor;
         

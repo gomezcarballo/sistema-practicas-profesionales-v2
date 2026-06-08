@@ -28,22 +28,19 @@ public class PruebaAdministradorDAO {
     private int idUsuarioPrueba;
     private String numeroPersonalPrueba;
     
-    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
-
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
         
         usuarioDAO = new UsuarioDAO();
         administradorDAO = new AdministradorDAO();
 
-        secuencia++;
-        numeroPersonalPrueba = "AD" + secuencia;
+        numeroPersonalPrueba = "78623";
 
         Usuario usuario = new Usuario();
         usuario.setNombre("Test");
         usuario.setApellidoPaterno("Admin");
         usuario.setApellidoMaterno("DAO");
-        usuario.setCorreoInstitucional("admin" + secuencia + "@uv.mx");
+        usuario.setCorreoInstitucional("admin@uv.mx");
         usuario.setContraseña("123");
         usuario.setEsActivo(true);
 
@@ -69,19 +66,18 @@ public class PruebaAdministradorDAO {
     @Test
     public void pruebaInsertarAdministradorExitoso() throws OperacionesDeDaoExcepcion {
 
-        secuencia++;
-        Usuario uNuevo = new Usuario();
-        uNuevo.setNombre("Test2");
-        uNuevo.setApellidoPaterno("Insert");
-        uNuevo.setApellidoMaterno("DAO");
-        uNuevo.setCorreoInstitucional("admin" + secuencia + "@uv.mx");
-        uNuevo.setContraseña("123");
-        uNuevo.setEsActivo(true);
-        int idNuevo = usuarioDAO.insertarUsuario(uNuevo);
+        Usuario usuarioNuevo = new Usuario();
+        usuarioNuevo.setNombre("Test2");
+        usuarioNuevo.setApellidoPaterno("Insert");
+        usuarioNuevo.setApellidoMaterno("DAO");
+        usuarioNuevo.setCorreoInstitucional("admin455@uv.mx");
+        usuarioNuevo.setContraseña("123");
+        usuarioNuevo.setEsActivo(true);
+        int idNuevo = usuarioDAO.insertarUsuario(usuarioNuevo);
 
         Administrador adminNuevo = new Administrador();
         adminNuevo.setIdUsuario(idNuevo);
-        adminNuevo.setNumeroDePersonal("AD" + secuencia);
+        adminNuevo.setNumeroDePersonal("75698");
 
 
         administradorDAO.insertarAdministrador(adminNuevo);

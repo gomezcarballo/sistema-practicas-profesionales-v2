@@ -32,10 +32,10 @@ public class PruebaUsuarioDAO {
         usuarioDAO = new UsuarioDAO();
 
         usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombre("Juan");
+        usuarioPrueba.setNombre("Victor");
         usuarioPrueba.setApellidoPaterno("Perez");
         usuarioPrueba.setApellidoMaterno("Lopez");
-        usuarioPrueba.setCorreoInstitucional("prueba_" + System.currentTimeMillis() + "@uv.mx");
+        usuarioPrueba.setCorreoInstitucional("prueba_@uv.mx");
         usuarioPrueba.setContraseña("123456");
         usuarioPrueba.setEsActivo(true);
 

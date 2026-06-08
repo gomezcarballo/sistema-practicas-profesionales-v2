@@ -37,7 +37,7 @@ public class PruebaSolicitudProyectoDAO {
     private final String correoPrueba = "solicitud.prueba@uv.mx";
     private final String matriculaPrueba = "S24000001";
     private final String nombreOrganizacionPrueba = "Organizacion Solicitud";
-    private final String nombreProyectoPrueba = "Proyecto Solicitud";
+    private final String nombreProyectoPrueba = "Proyecto para Solicitud";
 
     @Before
     public void inicializarDatosPrueba() {

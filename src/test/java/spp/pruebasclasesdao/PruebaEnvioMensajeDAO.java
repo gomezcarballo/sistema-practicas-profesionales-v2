@@ -70,7 +70,7 @@ public class PruebaEnvioMensajeDAO {
         usuario.setNombre("Usuario");
         usuario.setApellidoPaterno("Prueba");
         usuario.setApellidoMaterno("DAO");
-        usuario.setCorreoInstitucional(prefijo + "_" + System.currentTimeMillis() + "@uv.mx");
+        usuario.setCorreoInstitucional(prefijo + "@uv.mx");
         usuario.setContraseña("123456");
         usuario.setEsActivo(true);
 

@@ -36,8 +36,6 @@ public class PruebaEvaluacionDAO {
     private int idUsuarioPracticante;
     private int idEvaluacionPrueba;
 
-    private static int secuencia = (int) (System.currentTimeMillis() % 10000);
-
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
         
@@ -46,35 +44,33 @@ public class PruebaEvaluacionDAO {
         profesorDAO = new ProfesorDAO();
         practicanteDAO = new PracticanteDAO(); 
 
-        secuencia++;
-
         Usuario usuarioProfesor = new Usuario();
-        usuarioProfesor.setNombre("Prof");
-        usuarioProfesor.setApellidoPaterno("Eval");
-        usuarioProfesor.setApellidoMaterno("Test");
-        usuarioProfesor.setCorreoInstitucional("prof_eval" + secuencia + "@uv.mx");
-        usuarioProfesor.setContraseña("123");
+        usuarioProfesor.setNombre("Lizbeth");
+        usuarioProfesor.setApellidoPaterno("Harnandez");
+        usuarioProfesor.setApellidoMaterno("Gonzalez");
+        usuarioProfesor.setCorreoInstitucional("liz@uv.mx");
+        usuarioProfesor.setContraseña("secreta123");
         usuarioProfesor.setEsActivo(true);
         idUsuarioProfesor = usuarioDAO.insertarUsuario(usuarioProfesor);
 
         Profesor profesor = new Profesor();
         profesor.setIdUsuario(idUsuarioProfesor);
-        profesor.setNumeroDePersonal("PE" + secuencia);
+        profesor.setNumeroDePersonal("45239");
         profesor.setNrcAsignado("NRC01");
         profesorDAO.insertarProfesor(profesor);
 
         Usuario usuarioPracticante = new Usuario();
-        usuarioPracticante.setNombre("Prac");
-        usuarioPracticante.setApellidoPaterno("Eval");
-        usuarioPracticante.setApellidoMaterno("Test");
-        usuarioPracticante.setCorreoInstitucional("prac_eval" + secuencia + "@uv.mx");
-        usuarioPracticante.setContraseña("123");
+        usuarioPracticante.setNombre("Brian");
+        usuarioPracticante.setApellidoPaterno("Morales");
+        usuarioPracticante.setApellidoMaterno("Juarez");
+        usuarioPracticante.setCorreoInstitucional("brian@uv.mx");
+        usuarioPracticante.setContraseña("secreta123");
         usuarioPracticante.setEsActivo(true);
         idUsuarioPracticante = usuarioDAO.insertarUsuario(usuarioPracticante);
 
         Practicante practicante = new Practicante();
         practicante.setIdUsuario(idUsuarioPracticante);
-        practicante.setMatricula("S" + secuencia); 
+        practicante.setMatricula("S22013256"); 
         practicante.setFechaNacimiento(java.time.LocalDate.now());
         practicante.setNrcAsignado("NRC01");
         practicanteDAO.insertarPracticante(practicante);
