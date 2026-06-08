@@ -5,7 +5,6 @@
 package spp.logicadenegocio.validaciones.validacionenviomensajes;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.EnvioMensajeDAO;
 import spp.logicadenegocio.clasesdao.MensajeDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
@@ -21,7 +20,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionEnvioMensaje {
     
-    private static final Logger bitacora = Logger.getLogger(ValidacionEnvioMensaje.class.getName());
     
     private static final int MAXIMO_CARACTERES_ASUNTO = 50;
     private static final int MAXIMO_CARACTERES_CUERPO = 750;

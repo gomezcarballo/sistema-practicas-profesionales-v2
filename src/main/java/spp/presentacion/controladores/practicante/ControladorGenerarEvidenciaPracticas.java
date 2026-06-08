@@ -6,9 +6,7 @@ package spp.presentacion.controladores.practicante;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import spp.presentacion.menus.ControladorMenus;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -27,14 +25,8 @@ public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
     @FXML 
     private void abrirReporteFinal(ActionEvent evento){
         
-        mostrarMensaje();      
-        
-    }
+        cambiarVentana("/fxml/VistaFormularioReporteFinal.fxml", "Formulario de Reporte Final", evento);       
 
-    private void mostrarMensaje(){
-        
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "¡UY!", 
-        "Funcionalidad en progreso...");           
         
     }
 

@@ -3,45 +3,26 @@ package spp.logicadenegocio.clasesdto;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ReporteFinal {
+public class ReporteFinal extends EncabezadoReporte {
     
-    private String carrera; 
-    private String nrc;
-    private String profesor;
     private String periodoEscolar; 
-    private String alumno;
-    private String organizacion;
-    private String proyecto;
     private LocalDate fechaReporte;
-    private String objetivoGeneral;
-    private String metodologia;
-    private String nombreResponsable;
     private String observaciones;
     private List<ActividadReporteFinal> actividades;
     private String tipoReporte; 
-    private String matricula;
 
 
-    public ReporteFinal(String carrera, String nrc, String profesor, String periodoEscolar, String alumno,
-            String organizacion, String proyecto, LocalDate fechaReporte, String objetivoGeneral, String metodologia,
-            String nombreResponsable, String observaciones, List<ActividadReporteFinal> actividades,
-            String tipoReporte, String matricula) {
+    public ReporteFinal(String nrc, String profesor, String alumno, String organizacion, 
+        String proyecto, String objetivoGeneral, String metodologia, String nombreResponsable, 
+        String carrera, String matricula,  String periodoEscolar, LocalDate fechaReporte, 
+        String observaciones,List<ActividadReporteFinal> actividades, String tipoReporte){
 
-        this.carrera = carrera;
-        this.nrc = nrc;
-        this.profesor = profesor;
+        super(nrc, profesor, alumno, organizacion, proyecto, objetivoGeneral, metodologia, nombreResponsable, carrera, matricula);    
         this.periodoEscolar = periodoEscolar;
-        this.alumno = alumno;
-        this.organizacion = organizacion;
-        this.proyecto = proyecto;
         this.fechaReporte = fechaReporte;
-        this.objetivoGeneral = objetivoGeneral;
-        this.metodologia = metodologia;
-        this.nombreResponsable = nombreResponsable;
         this.observaciones = observaciones;
         this.actividades = actividades;
         this.tipoReporte = tipoReporte;
-        this.matricula = matricula;
 
     }
 
@@ -66,16 +47,8 @@ public class ReporteFinal {
         this.fechaReporte = LocalDate.now();
     }
 
-    public void asignarCarreraPorDefecto() {
-        this.carrera = "Ingenieria de Software";
-    }
-
-    public String getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(String profesor) {
-        this.profesor = profesor;
+    public void asignarTipoReporteDefecto(){
+        this.tipoReporte = "Final";
     }
 
     public String getPeriodoEscolar() {
@@ -87,30 +60,6 @@ public class ReporteFinal {
         this.periodoEscolar = periodoEscolar;
     }
 
-    public String getAlumno() {
-        return alumno;
-    }
-
-    public void setAlumno(String alumno) {
-        this.alumno = alumno;
-    }
-
-    public String getOrganizacion() {
-        return organizacion;
-    }
-
-    public void setOrganizacion(String organizacion) {
-        this.organizacion = organizacion;
-    }
-
-    public String getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(String proyecto) {
-        this.proyecto = proyecto;
-    }
-
     public LocalDate getFechaReporte() {
         asignarFechaActual();
         return fechaReporte;
@@ -118,30 +67,6 @@ public class ReporteFinal {
 
     public void setFechaReporte(LocalDate fechaReporte) {
         this.fechaReporte = fechaReporte;
-    }
-
-    public String getObjetivoGeneral() {
-        return objetivoGeneral;
-    }
-
-    public void setObjetivoGeneral(String objetivoGeneral) {
-        this.objetivoGeneral = objetivoGeneral;
-    }
-
-    public String getMetodologia() {
-        return metodologia;
-    }
-
-    public void setMetodologia(String metodologia) {
-        this.metodologia = metodologia;
-    }
-
-    public String getNombreResponsable() {
-        return nombreResponsable;
-    }
-
-    public void setNombreResponsable(String nombreResponsable) {
-        this.nombreResponsable = nombreResponsable;
     }
 
     public String getObservaciones() {
@@ -166,31 +91,6 @@ public class ReporteFinal {
 
     public void setTipoReporte(String tipoReporte) {
         this.tipoReporte = tipoReporte;
-    }
-
-    public String getCarrera() {
-        asignarCarreraPorDefecto();
-        return carrera;
-    }
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
-    
-    public String getNrc() {
-        return nrc;
-    }
-
-    public void setNrc(String nrc) {
-        this.nrc = nrc;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
 }

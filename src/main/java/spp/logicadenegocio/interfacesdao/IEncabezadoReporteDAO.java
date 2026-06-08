@@ -4,14 +4,14 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
-import spp.logicadenegocio.clasesdto.ReporteParcial;
+import spp.logicadenegocio.clasesdto.EncabezadoReporte;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 /**
  *
  * @author Luz Fernanda H J
  */
-public interface IReportDAO {
-    public ReporteParcial recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion;
+public interface IEncabezadoReporteDAO {
+    public EncabezadoReporte recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion;
     
 }
 

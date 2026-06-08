@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Reporte Final</title>
+        <style>
+            @page {
+                size: letter;
+                margin: 3cm 2cm 2cm 2cm;
+                
+                @top-center{
+                    content: element(header);
+                }
+            }
+            
+            div.header {
+                position: running(header);
+                text-align: center;
+                font-weight: bold;
+                border-bottom: 2px solid black;
+                padding-bottom: 10px;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                line-height: 1.3;
+                margin-top: 20px;
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            
+            th, td {
+                border: 1px solid black;
+                padding: 6px;
+                text-align: left;
+                vertical-align: middle;
+            }
+
+            th {
+                background-color: #f2f2f2;
+                text-align: center;
+            }
+            
+            .title-row {
+                background-color: #d9d9d9;
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            .center {
+                text-align: center;
+            }
+            
+            .nota-informativa {
+                font-style: italic;
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div class="header">
+            <p style="margin: 0;">Universidad Veracruzana</p>
+            <p style="margin: 0;">FACULTAD DE ESTADÍSTICA E INFORMÁTICA</p>
+            <p style="margin: 0;">Licenciatura en Ingeniería de Software</p>
+            <p style="margin: 5px 0 0 0; font-size: 11px; font-weight: normal;">Formato: INFORME FINAL EE Prácticas de Ingeniería Software</p>
+        </div>
+        
+        <table>
+            <tr>
+                <th colspan="4" class="title-row">Datos Generales de la EE</th>
+            </tr>
+            <tr>
+                <td style="width: 20%;"><strong>Carrera:</strong></td>
+                <td style="width: 30%;" th:text="${carrera}"></td>
+                <td style="width: 20%;"><strong>NRC:</strong></td>
+                <td style="width: 30%;" th:text="${nrc}"></td>
+            </tr>
+            <tr>
+                <td><strong>Profesor:</strong></td>
+                <td th:text="${profesor}"></td>
+                <td><strong>Período escolar:</strong></td>
+                <td th:text="${periodoEscolar}"></td>
+            </tr>
+            
+            <tr>
+                <th colspan="4" class="title-row">Datos del Proyecto</th>
+            </tr>
+            <tr>
+                <td><strong>Alumno(s):</strong></td>
+                <td th:text="${alumno}"></td>
+                <td><strong>Organización vinculada:</strong></td>
+                <td th:text="${organizacion}"></td>
+            </tr>
+            <tr>
+                <td><strong>Proyecto:</strong></td>
+                <td th:text="${proyecto}"></td>
+                <td><strong>Total de horas cubiertas:</strong></td>
+                <td th:text="${totalHoras}"></td>
+            </tr>
+            <tr>
+                <td><strong>Fecha del reporte:</strong></td>
+                <td th:text="${fechaReporte}">--/--/----</td>
+                <td><strong>Reporte:</strong></td>
+                <td style="font-weight: bold; text-align: center;">FINAL</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th class="title-row">Objetivo(s) general del proyecto</th>
+            </tr>
+            <tr>
+                <td style="height: 50px;" th:text="${objetivoGeneral}"></td>
+            </tr>
+            <tr>
+                <th class="title-row">Metodología aplicada</th>
+            </tr>
+            <tr>
+                <td style="height: 50px;" th:text="${metodologia}"></td>
+            </tr>
+        </table>
+
+        <h3 style="margin-bottom: 5px;">Avance de actividades realizadas en relación al plan de trabajo</h3>
+        <table style="margin-top: 5px;">
+            <thead>
+                <tr class="center">
+                    <th style="width: 45%;">Actividad programada</th>
+                    <th style="width: 15%;">% Avance</th>
+                    <th style="width: 40%;">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="act : ${actividades}">
+                    <td th:text="${act.descripcion}"></td>
+                    <td class="center" th:text="${act.porcentajeAvance} + '%'"></td>
+                    <td th:text="${act.observaciones}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="nota-informativa">NOTA: En caso de que alguna actividad programada no hubiera sido cubierta con un 100% de avance, indicar las razones y acuerdos en la columna de observaciones.</p>
+
+        <h3 style="margin-bottom: 5px;">Resultados en término de productos comprometidos</h3>
+        <table style="margin-top: 5px;">
+            <thead>
+                <tr class="center">
+                    <th style="width: 45%;">Resultado entregable</th>
+                    <th style="width: 15%;">% Avance</th>
+                    <th style="width: 40%;">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="entregable : ${entregables}">
+                    <td th:text="${entregable.descripcion}"></td>
+                    <td class="center" th:text="${entregable.porcentajeAvance} + '%'"></td>
+                    <td th:text="${entregable.observaciones}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="nota-informativa">NOTA: En caso de que algún producto comprometido no hubiera sido cubierto al 100%, indicar las razones y acuerdos en la columna de observaciones.</p>
+
+        <table>
+            <tr>
+                <th class="title-row">Observaciones</th>
+            </tr>
+            <tr>
+                <td style="height: 60px;" th:text="${observaciones}"></td>
+            </tr>
+        </table>
+
+        <p style="margin-top: 15px;">NOTA: El presente documento debe entregase anexando:<br />
+        • Formato de autoevaluación del alumno.<br />
+        • Formato de evaluación por parte de la Organización Vinculada, debidamente firmado y sellado por el Responsable Técnico designado.</p>
+
+        <div style="page-break-before: always;"></div>
+
+        <table style="margin-top: 50px; text-align: center; border-collapse: collapse; table-layout: fixed;">
+            <tr>
+                <td rowspan="3" style="width: 50%; vertical-align: top; text-align: left; padding: 20px;">
+                    <br />
+                    <strong>Estudiante: </strong> <span th:text="${alumno}"></span><br /><br />
+                    <strong>Matrícula: </strong> <span th:text="${matricula}"></span><br />
+                    <br /><br /><br /><br /><br /><br />
+                </td>
+                <td style="width: 50%; height: 80px; vertical-align: bottom; padding-bottom: 10px;">
+                    <span th:text="${nombreResponsable}">Nombre del Responsable</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="title-row" style="padding: 10px;">
+                    Vo. Bo.<br />
+                    Nombre, Puesto y Firma del Responsable Técnico designado por la organización vinculada
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 120px;">
+                </td>
+            </tr>
+            <tr>
+                <td class="title-row" style="padding: 10px;">Nombre(s) y Firma(s) de los Estudiantes miembros del equipo (si aplica)</td>
+                <td class="title-row" style="padding: 10px;">Sello de la organización vinculada</td>
+            </tr>
+        </table>
+            
+    </body>
+</html>

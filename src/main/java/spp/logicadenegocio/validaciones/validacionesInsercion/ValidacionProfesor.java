@@ -5,7 +5,6 @@
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Profesor;
@@ -22,8 +21,6 @@ import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
  * @author gomes
  */
 public class ValidacionProfesor {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionProfesor.class.getName());
     
     private static final int LONGITUD_MAXIMA_NUMEROPERSONAL = 5;    
     

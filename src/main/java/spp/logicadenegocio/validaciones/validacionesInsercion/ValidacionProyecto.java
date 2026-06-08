@@ -5,7 +5,6 @@
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ProyectoDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.utilerias.bitacora.RegistroErrores;
@@ -17,8 +16,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class ValidacionProyecto {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionProyecto.class.getName());
         
     private static final int LONGITUD_MAXIMA_OBJETIVO_GENERAL = 300;
     

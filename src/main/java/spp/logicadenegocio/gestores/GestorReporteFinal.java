@@ -1,46 +1,36 @@
 package spp.logicadenegocio.gestores;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-
-import java.io.File;
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
-import spp.logicadenegocio.clasesdao.ReporteDAO;
+import spp.logicadenegocio.clasesdao.EncabezadoReporteDAO;
 import spp.logicadenegocio.clasesdto.ReporteFinal;
-import spp.logicadenegocio.clasesdto.ReporteParcial;
+import spp.logicadenegocio.clasesdto.EncabezadoReporte;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
+import spp.utilerias.generadordocumentospdf.GeneradorDocumentoPdf;
 
 public class GestorReporteFinal {
 
-    public void generarReporteParcial(ReporteFinal reporte) throws ProcesamientoSistemaExcepcion, OperacionesDeDaoExcepcion {
+    public void generarReporteFinal(ReporteFinal reporte) throws ProcesamientoSistemaExcepcion, 
+    OperacionesDeDaoExcepcion {
         
         completarDatosDeBaseDeDatos(reporte);
+        completarDatosCalculados(reporte);
 
         Context contextoThymeleaf = prepararContexto(reporte);
 
-        String htmlProcesado = procesarPlantillaHtml(contextoThymeleaf);
+        GeneradorDocumentoPdf generadorDocumentoPdf = new GeneradorDocumentoPdf();
+
+        String rutaPlantillaHtml = "/documentos/reportefinal/";
+
+        String nombrePlantillaHtml = "reporteFinal";
+
+        String htmlProcesado = generadorDocumentoPdf.procesarPlantillaHtml(contextoThymeleaf, 
+            rutaPlantillaHtml, nombrePlantillaHtml);
+
+        String prefijoNombreArchivo = "Reporte_Final";
         
-        String rutaInicioUsuario = System.getProperty("user.home");
-        
-        String rutaDescargas = rutaInicioUsuario + File.separator + "Downloads";
-        String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
-        String nombreBase = "Reporte_Final_" + identificador;
-        String extension = ".pdf";
-
-        File archivoPdf = new File(rutaDescargas, nombreBase + extension);
-        int contador = 1;
-
-        while (archivoPdf.exists()) {
-            archivoPdf = new File(rutaDescargas, nombreBase + " (" + contador + ")" + ".pdf");
-            contador++;
-        }
-
-        exportarAPdf(htmlProcesado, archivoPdf.getAbsolutePath());
+        generadorDocumentoPdf.generarArchivoPdf(htmlProcesado, prefijoNombreArchivo);
         
     }
 
@@ -50,8 +40,8 @@ public class GestorReporteFinal {
         int idPracticante = sesionUsuario.getIdUsuario();
         String matricula = sesionUsuario.getIdentificador();
 
-        ReporteDAO reporteParcialDAO = new ReporteDAO();
-        ReporteParcial reporteBaseDatos;
+        EncabezadoReporteDAO reporteParcialDAO = new EncabezadoReporteDAO();
+        EncabezadoReporte reporteBaseDatos;
         reporteBaseDatos = reporteParcialDAO.recuperarDatosReporte(idPracticante); 
 
         reporte.setNrc(reporteBaseDatos.getNrc());
@@ -63,6 +53,15 @@ public class GestorReporteFinal {
         reporte.setNombreResponsable(reporteBaseDatos.getNombreResponsable());
         reporte.setProyecto(reporteBaseDatos.getProyecto());
         reporte.setMatricula(matricula);
+
+    }
+
+    private void completarDatosCalculados(ReporteFinal reporte) {
+        
+        reporte.asignarFechaActual();
+        reporte.calcularPeriodoEscolar();
+        reporte.asignarCarreraPorDefecto();
+        reporte.asignarTipoReporteDefecto();
 
     }
 
@@ -87,36 +86,4 @@ public class GestorReporteFinal {
         
     }
 
-    private String procesarPlantillaHtml(Context contexto) {
-        
-        ClassLoaderTemplateResolver resolutor = new ClassLoaderTemplateResolver();
-        resolutor.setPrefix("/documentos/reportefinal/");
-        resolutor.setSuffix(".html");
-        resolutor.setTemplateMode("HTML");
-        resolutor.setCharacterEncoding("UTF-8");
-
-        TemplateEngine motorPlantillas = new TemplateEngine();
-        motorPlantillas.setTemplateResolver(resolutor);
-
-        return motorPlantillas.process("reporteFinal", contexto);
-        
-    }
-
-    private void exportarAPdf(String html, String rutaCompleta) throws ProcesamientoSistemaExcepcion {
-        
-        try (OutputStream flujoSalida = new FileOutputStream(rutaCompleta)) {
-            
-            PdfRendererBuilder constructorPdf = new PdfRendererBuilder();
-            
-            constructorPdf.withHtmlContent(html, null);
-            constructorPdf.toStream(flujoSalida);
-            constructorPdf.run();
-            
-        } catch (Exception excepcion) {
-            
-            throw new ProcesamientoSistemaExcepcion("Ocurrió un error al generar el PDF: " + excepcion.getMessage());
-            
-        }
-        
-    }
 }

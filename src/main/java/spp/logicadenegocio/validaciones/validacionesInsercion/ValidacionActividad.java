@@ -5,7 +5,6 @@
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.ActividadDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
@@ -18,8 +17,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class ValidacionActividad {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionActividad.class.getName());
     
     public void ingresarActividad(Actividad actividad)throws ReglaDeNegocioExcepcion{
         

@@ -3,13 +3,16 @@ package spp.logicadenegocio.clasesdto;
 public class ActividadReporteFinal {
 
     private String nombreActividad; 
-    private int porcentajeAvance;
+    private String porcentajeAvance;
     private String observaciones;
+    private boolean esEntregable;
 
-    public ActividadReporteFinal(String nombreActividad, int porcentajeAvance, String observaciones) {
+    public ActividadReporteFinal(String nombreActividad, String porcentajeAvance, String observaciones, 
+        boolean esEntregable) {
         this.nombreActividad = nombreActividad;
         this.porcentajeAvance = porcentajeAvance;
         this.observaciones = observaciones;
+        this.esEntregable = esEntregable;
     }
 
     public ActividadReporteFinal() {
@@ -23,11 +26,11 @@ public class ActividadReporteFinal {
         this.nombreActividad = nombreActividad;
     }
 
-    public int getPorcentajeAvance() {
+    public String getPorcentajeAvance() {
         return porcentajeAvance;
     }
 
-    public void setPorcentajeAvance(int porcentajeAvance) {
+    public void setPorcentajeAvance(String porcentajeAvance) {
         this.porcentajeAvance = porcentajeAvance;
     }
 
@@ -37,6 +40,14 @@ public class ActividadReporteFinal {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public boolean isEsEntregable() {
+        return esEntregable;
+    }
+
+    public void setEsEntregable(boolean esEntregable) {
+        this.esEntregable = esEntregable;
     }
 
 }

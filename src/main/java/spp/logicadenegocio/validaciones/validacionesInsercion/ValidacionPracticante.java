@@ -5,7 +5,6 @@
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Practicante;
@@ -22,8 +21,6 @@ import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
  * @author Luz Fernanda H J
  */
 public class ValidacionPracticante {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionPracticante.class.getName());
     
     public void ingresarPracticante(Practicante practicante)throws ReglaDeNegocioExcepcion{
         

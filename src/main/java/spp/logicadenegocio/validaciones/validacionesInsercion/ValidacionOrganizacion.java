@@ -5,7 +5,6 @@
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import spp.logicadenegocio.clasesdao.OrganizacionDAO;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.utilerias.bitacora.RegistroErrores;
@@ -17,8 +16,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class ValidacionOrganizacion {
-    
-    private static final Logger bitacora = Logger.getLogger(ValidacionOrganizacion.class.getName());
     
     private static final int LONGITUD_MAXIMA_DIRECCION = 50;
     

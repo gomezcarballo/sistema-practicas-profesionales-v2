@@ -44,6 +44,7 @@
                             
                             <TableColumn fx:id="colAvance" prefWidth="100.0" text="\% Avance" />
                             <TableColumn fx:id="colObservaciones" prefWidth="250.0" text="Observaciones" />
+                            <TableColumn fx:id="colEntregable" prefWidth="100.0" text="¿Entregable?" />
                           </columns>
                           
                            <columnResizePolicy>

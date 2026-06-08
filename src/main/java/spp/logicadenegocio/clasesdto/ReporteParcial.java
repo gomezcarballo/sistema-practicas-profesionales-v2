@@ -1,26 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.clasesdto;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- *
- * @author Luz Fernanda H J
- */
-public class ReporteParcial {
-    
-    private String nrc;
-    private String profesor;
-    private String alumno;
-    private String organizacion;
-    private String proyecto;
-    private String objetivoGeneral;
-    private String metodologia;
-    private String nombreResponsable;
+public class ReporteParcial extends EncabezadoReporte{
+
     private String periodoReporteYHorasCubiertas;
     private List<ActividadReporteParcial> actividades;
     private String resultados;
@@ -28,34 +12,34 @@ public class ReporteParcial {
     private String periodoEscolar;
     private LocalDate fechaReporte;
     private int numeroInforme;
-    private String carrera; 
-    private String matricula;
-    
+
     public ReporteParcial(String nrc, String profesor, String alumno, String organizacion, 
         String proyecto, String objetivoGeneral, String metodologia, String nombreResponsable, 
-        String periodoReporte, List<ActividadReporteParcial> actividades, String resultados, 
-        String observaciones, String periodoEscolar, LocalDate fechaReporte, int numeroInforme, 
-        String carrera, String matricula) {
-       
-        this.nrc = nrc;
-        this.profesor = profesor;
-        this.alumno = alumno;
-        this.organizacion = organizacion;
-        this.proyecto = proyecto;
-        this.objetivoGeneral = objetivoGeneral;
-        this.metodologia = metodologia;
-        this.nombreResponsable = nombreResponsable;
-        this.periodoReporteYHorasCubiertas = periodoReporte;
+        String carrera, String matricula, String periodoReporteYHorasCubiertas, 
+        List<ActividadReporteParcial> actividades, String resultados, String observaciones, 
+        String periodoEscolar,LocalDate fechaReporte, int numeroInforme){
+        super(nrc, profesor, alumno, organizacion, proyecto, objetivoGeneral, metodologia, nombreResponsable, carrera, matricula);
+        this.periodoReporteYHorasCubiertas = periodoReporteYHorasCubiertas;
         this.actividades = actividades;
         this.resultados = resultados;
         this.observaciones = observaciones;
         this.periodoEscolar = periodoEscolar;
         this.fechaReporte = fechaReporte;
         this.numeroInforme = numeroInforme;
-        this.matricula = matricula;
     }
 
-    public ReporteParcial() {
+
+    public ReporteParcial(){
+
+    }
+
+    
+    public void asignarNumeroInforme(){
+        this.numeroInforme = 12345;
+    }
+
+    public void asignarFechaActual() {
+        this.fechaReporte = LocalDate.now();
     }
 
     public void calcularPeriodoEscolar() {
@@ -72,156 +56,49 @@ public class ReporteParcial {
         }
     }
 
-    public void asignarFechaActual() {
-        this.fechaReporte = LocalDate.now();
-    }
-
-    public void asignarCarreraPorDefecto() {
-        this.carrera = "Ingenieria de Software";
-    }
-
-    public void asignarNumeroInforme(){
-        this.numeroInforme = 12345;
-    }
-
-    public String getNrc() {
-        return nrc;
-    }
-
-    public void setNrc(String nrc) {
-        this.nrc = nrc;
-    }
-
-    public String getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(String profesor) {
-        this.profesor = profesor;
-    }
-
-    public String getAlumno() {
-        return alumno;
-    }
-
-    public void setAlumno(String alumnos) {
-        this.alumno = alumnos;
-    }
-
-    public String getOrganizacion() {
-        return organizacion;
-    }
-
-    public void setOrganizacion(String organizacion) {
-        this.organizacion = organizacion;
-    }
-
-    public String getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(String proyecto) {
-        this.proyecto = proyecto;
-    }
-
-    public String getObjetivoGeneral() {
-        return objetivoGeneral;
-    }
-
-    public void setObjetivoGeneral(String objetivoGeneral) {
-        this.objetivoGeneral = objetivoGeneral;
-    }
-
-    public String getMetodologia() {
-        return metodologia;
-    }
-
-    public void setMetodologia(String metodologia) {
-        this.metodologia = metodologia;
-    }
-
-    public String getNombreResponsable() {
-        return nombreResponsable;
-    }
-
-    public void setNombreResponsable(String nombreResponsable) {
-        this.nombreResponsable = nombreResponsable;
-    }
-
     public String getPeriodoReporteYHorasCubiertas() {
         return periodoReporteYHorasCubiertas;
     }
-
     public void setPeriodoReporteYHorasCubiertas(String periodoReporteYHorasCubiertas) {
         this.periodoReporteYHorasCubiertas = periodoReporteYHorasCubiertas;
     }
-
     public List<ActividadReporteParcial> getActividades() {
         return actividades;
     }
-
     public void setActividades(List<ActividadReporteParcial> actividades) {
         this.actividades = actividades;
     }
-
     public String getResultados() {
         return resultados;
     }
-
     public void setResultados(String resultados) {
         this.resultados = resultados;
     }
-
     public String getObservaciones() {
         return observaciones;
     }
-
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
-
     public String getPeriodoEscolar() {
-        calcularPeriodoEscolar();
         return periodoEscolar;
     }
-
     public void setPeriodoEscolar(String periodoEscolar) {
         this.periodoEscolar = periodoEscolar;
     }
-
     public LocalDate getFechaReporte() {
-        asignarFechaActual();
         return fechaReporte;
     }
-
     public void setFechaReporte(LocalDate fechaReporte) {
         this.fechaReporte = fechaReporte;
     }
-
     public int getNumeroInforme() {
-        asignarNumeroInforme();
         return numeroInforme;
     }
-
     public void setNumeroInforme(int numeroInforme) {
         this.numeroInforme = numeroInforme;
     }
 
-    public String getCarrera(){
-        asignarCarreraPorDefecto();
-        return carrera;
-    }
-
-    public void setCarrera(String carrera){
-        this.carrera = carrera;
-    }
-
-    public String getMatricula(){
-        return matricula;
-    }
-
-    public void setMatricula(String matricula){
-        this.matricula = matricula;
-    }
     
 }
+

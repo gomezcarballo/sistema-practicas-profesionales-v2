@@ -57,7 +57,7 @@ public class ControladorRegistroPracticante {
         
         cbOpcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo"));
         cbOpcionesLenguaIndigena.setItems(FXCollections.observableArrayList("Sí", "No"));
-        cbOpcionesNrc.setItems(FXCollections.observableArrayList("Nrc01", "Nrc02"));
+        cbOpcionesNrc.setItems(FXCollections.observableArrayList("17141", "12345"));
         dpFechaNacimiento.setEditable(false);
         
     }

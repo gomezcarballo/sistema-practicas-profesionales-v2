@@ -20,10 +20,10 @@ import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
  */
 public class GeneradorDocumentoPdf {
     
-    public void generarArchivoPdf(String htmlProcesado, String prefijoArchivo)throws ProcesamientoSistemaExcepcion{
+    public void generarArchivoPdf(String htmlProcesado, String prefijoNombreArchivo)throws ProcesamientoSistemaExcepcion{
         
         String identificador = SesionUsuario.getInstancia().getIdentificador();
-        File archivoPdf = crearArchivoPdf(prefijoArchivo + identificador);
+        File archivoPdf = crearArchivoPdf(prefijoNombreArchivo + identificador);
         exportarAPdf(htmlProcesado, archivoPdf.getAbsolutePath());
         
     }
@@ -46,7 +46,7 @@ public class GeneradorDocumentoPdf {
         
     }
     
-    public String procesarPlantillaHtml(Context contexto, String carpetaPlantilla, String nombrePlantilla) {
+    public String procesarPlantillaHtml(Context contexto, String carpetaPlantilla, String nombrePlantillaHtml) {
         
         ClassLoaderTemplateResolver resolutor = new ClassLoaderTemplateResolver();
         resolutor.setPrefix(carpetaPlantilla);
@@ -57,7 +57,7 @@ public class GeneradorDocumentoPdf {
         TemplateEngine motorPlantillas = new TemplateEngine();
         motorPlantillas.setTemplateResolver(resolutor);
 
-        return motorPlantillas.process(nombrePlantilla, contexto);
+        return motorPlantillas.process(nombrePlantillaHtml, contexto);
         
     }
     

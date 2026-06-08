@@ -13,16 +13,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import spp.accesoadatos.ConexionBD;
-import spp.logicadenegocio.clasesdto.ReporteParcial;
-import spp.logicadenegocio.interfacesdao.IReportDAO;
+import spp.logicadenegocio.clasesdto.EncabezadoReporte;
+import spp.logicadenegocio.interfacesdao.IEncabezadoReporteDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
-public class ReporteDAO implements IReportDAO{
+public class EncabezadoReporteDAO implements IEncabezadoReporteDAO{
     
     @Override
-    public ReporteParcial recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion {
+    public EncabezadoReporte recuperarDatosReporte(int idPracticante) throws OperacionesDeDaoExcepcion {
         
-        ReporteParcial reporteParcial = new ReporteParcial();
+        EncabezadoReporte encabezado = new EncabezadoReporte();
 
         String consultaSQL = """
             SELECT * FROM VistaDatosReporte
@@ -38,14 +38,14 @@ public class ReporteDAO implements IReportDAO{
 
                 if (resultadoConsulta.next()) {
 
-                    reporteParcial.setProyecto(resultadoConsulta.getString("nombreProyecto"));
-                    reporteParcial.setNombreResponsable(resultadoConsulta.getString("nombreResponsable"));
-                    reporteParcial.setMetodologia(resultadoConsulta.getString("metodologia"));
-                    reporteParcial.setObjetivoGeneral(resultadoConsulta.getString("objetivoGeneral"));
-                    reporteParcial.setOrganizacion(resultadoConsulta.getString("nombreOrganizacion"));
-                    reporteParcial.setNrc(resultadoConsulta.getString("nrc"));
-                    reporteParcial.setProfesor(resultadoConsulta.getString("nombreProfesor"));
-                    reporteParcial.setAlumno(resultadoConsulta.getString("nombrePracticante"));
+                    encabezado.setProyecto(resultadoConsulta.getString("nombreProyecto"));
+                    encabezado.setNombreResponsable(resultadoConsulta.getString("nombreResponsable"));
+                    encabezado.setMetodologia(resultadoConsulta.getString("metodologia"));
+                    encabezado.setObjetivoGeneral(resultadoConsulta.getString("objetivoGeneral"));
+                    encabezado.setOrganizacion(resultadoConsulta.getString("nombreOrganizacion"));
+                    encabezado.setNrc(resultadoConsulta.getString("nrc"));
+                    encabezado.setProfesor(resultadoConsulta.getString("nombreProfesor"));
+                    encabezado.setAlumno(resultadoConsulta.getString("nombrePracticante"));
                     
                 }
             }
@@ -55,7 +55,7 @@ public class ReporteDAO implements IReportDAO{
              throw new OperacionesDeDaoExcepcion("No se puede acceder a la base de datos.",e);
         }
 
-        return reporteParcial;
+        return encabezado;
     }
     
 }

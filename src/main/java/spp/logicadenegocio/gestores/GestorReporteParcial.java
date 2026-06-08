@@ -2,8 +2,8 @@ package spp.logicadenegocio.gestores;
 
 import spp.utilerias.generadordocumentospdf.GeneradorDocumentoPdf;
 import org.thymeleaf.context.Context;
-
-import spp.logicadenegocio.clasesdao.ReporteDAO;
+import spp.logicadenegocio.clasesdao.EncabezadoReporteDAO;
+import spp.logicadenegocio.clasesdto.EncabezadoReporte;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -14,15 +14,22 @@ public class GestorReporteParcial {
     public void generarReporteParcial(ReporteParcial reporte) throws ProcesamientoSistemaExcepcion, 
     OperacionesDeDaoExcepcion {
         
-        GeneradorDocumentoPdf generadorDocumentoPdf = new GeneradorDocumentoPdf();
-        
         completarDatosDeBaseDeDatos(reporte);
 
         Context contextoThymeleaf = prepararContexto(reporte);
 
-        String htmlProcesado = generadorDocumentoPdf.procesarPlantillaHtml(contextoThymeleaf, "/documentos/reporteparcial/", "reporteParcial");
+        GeneradorDocumentoPdf generadorDocumentoPdf = new GeneradorDocumentoPdf();
+
+        String rutaPlantillaHtml = "/documentos/reporteparcial/";
+
+        String nombrePlantillaHtml = "reporteParcial";
+
+        String htmlProcesado = generadorDocumentoPdf.procesarPlantillaHtml(contextoThymeleaf, 
+            rutaPlantillaHtml, nombrePlantillaHtml);
+
+        String prefijoNombreArchivo = "Reporte_Parcial";
         
-        generadorDocumentoPdf.generarArchivoPdf(htmlProcesado, "Reporte_Parcial_");
+        generadorDocumentoPdf.generarArchivoPdf(htmlProcesado, prefijoNombreArchivo);
         
     }
 
@@ -32,9 +39,9 @@ public class GestorReporteParcial {
         int idPracticante = sesionUsuario.getIdUsuario();
         String matricula = sesionUsuario.getIdentificador();
 
-        ReporteDAO reporteParcialDAO = new ReporteDAO();
-        ReporteParcial reporteBaseDatos;
-        reporteBaseDatos = reporteParcialDAO.recuperarDatosReporte(idPracticante); 
+        EncabezadoReporteDAO encabezadoReporteDAO = new EncabezadoReporteDAO();
+        EncabezadoReporte reporteBaseDatos;
+        reporteBaseDatos = encabezadoReporteDAO.recuperarDatosReporte(idPracticante); 
 
         reporte.setNrc(reporteBaseDatos.getNrc());
         reporte.setProfesor(reporteBaseDatos.getProfesor());
@@ -68,6 +75,7 @@ public class GestorReporteParcial {
         contexto.setVariable("actividades", reporte.getActividades());
         contexto.setVariable("alumno", reporte.getAlumno());
         contexto.setVariable("matricula",reporte.getMatricula());
+        
         return contexto;
         
     }

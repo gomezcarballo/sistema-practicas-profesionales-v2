@@ -30,7 +30,7 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
     @FXML
     public void initialize(){
         
-        cbOpcionesNrc.setItems(FXCollections.observableArrayList("Nrc01", "Nrc02"));
+        cbOpcionesNrc.setItems(FXCollections.observableArrayList("17141", "12345"));
         
     }
     
