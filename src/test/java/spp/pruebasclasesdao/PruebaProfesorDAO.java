@@ -115,7 +115,7 @@ public class PruebaProfesorDAO {
         usuario.setNombre("Endric");
         usuario.setApellidoPaterno("Vera");
         usuario.setApellidoMaterno("Toledo");
-        usuario.setCorreoInstitucional("juan.perez@uv.mx");
+        usuario.setCorreoInstitucional("endric@uv.mx");
         usuario.setContraseña("secreta123");
         usuario.setEsActivo(true);
         return usuario;

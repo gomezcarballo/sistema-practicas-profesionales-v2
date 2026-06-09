@@ -31,7 +31,7 @@ public class ControladorDetalleProyecto {
     private TextField txtContactoResponsable;
     
     @FXML
-    private TextField taMetodologia;
+    private TextArea taMetodologia;
 
     @FXML
     private TextField txtCupoMaximo;
