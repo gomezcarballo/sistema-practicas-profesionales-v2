@@ -4,11 +4,7 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
-import java.util.logging.Level;
-import spp.logicadenegocio.clasesdao.ProyectoDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.utilerias.bitacora.RegistroErrores;
-import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.gestores;
 
 import org.thymeleaf.context.Context;
@@ -75,13 +71,13 @@ public class GestorAutoevaluacion{
         contexto.setVariable("valorPrimeraAfirmacion", autoevaluacion.getValorPrimeraAfirmacion());
         contexto.setVariable("valorSegundaAfirmacion", autoevaluacion.getValorSegundaAfirmacion());
         contexto.setVariable("valorTerceraAfirmacion", autoevaluacion.getValorTerceraAfirmacion());
-        contexto.setVariable("ValorCuartaAfirmacion", autoevaluacion.getValorCuartaAfirmacion());
+        contexto.setVariable("valorCuartaAfirmacion", autoevaluacion.getValorCuartaAfirmacion());
         contexto.setVariable("valorQuintaAfirmacion", autoevaluacion.getValorQuintaAfirmacion());
         contexto.setVariable("valorSextaAfirmacion", autoevaluacion.getValorSextaAfirmacion());
         contexto.setVariable("valorSeptimaAfirmacion", autoevaluacion.getValorSeptimaAfirmacion());
         contexto.setVariable("valorOctavaAfirmacion", autoevaluacion.getValorOctavaAfirmacion());
         contexto.setVariable("valorNovenaAfirmacion", autoevaluacion.getValorNovenaAfirmacion());
-        contexto.setVariable("ValorDecimaAfirmacion", autoevaluacion.getValorDecimaAfirmacion());
+        contexto.setVariable("valorDecimaAfirmacion", autoevaluacion.getValorDecimaAfirmacion());
         contexto.setVariable("puntuacionFinal", autoevaluacion.getPuntuacionFinal());
 
         return contexto;

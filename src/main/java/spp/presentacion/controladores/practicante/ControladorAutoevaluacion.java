@@ -131,7 +131,7 @@ public class ControladorAutoevaluacion {
             gestor.generarAutoevaluacion(autoevaluacion);
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
-        "Autoevaluacion generada correctamente."); 
+            "Autoevaluacion generada correctamente."); 
             
         }catch(OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e){
             

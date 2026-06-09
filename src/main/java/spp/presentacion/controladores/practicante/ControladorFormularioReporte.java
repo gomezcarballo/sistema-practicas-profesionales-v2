@@ -268,8 +268,8 @@ public class ControladorFormularioReporte {
             GestorReporteParcial gestor = new GestorReporteParcial();
             gestor.generarReporteParcial(reporte);
 
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Reporte generado", 
-            "Reporte generado correctamente.");
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
+            "Reporte parcial generado correctamente.");
 
         }catch(OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e){
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error generar reporte", 

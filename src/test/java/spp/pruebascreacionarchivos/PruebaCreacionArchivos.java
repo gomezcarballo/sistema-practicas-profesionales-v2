@@ -12,7 +12,6 @@ import org.junit.Test;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.gestores.GestorDocumentos;
-import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 
 /**
  *
