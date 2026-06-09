@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
-import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionOrganizacion;
+import spp.logicadenegocio.gestores.GestorOrganizaciones;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -120,8 +120,8 @@ public class ControladorFormularioOrganizacion {
         
         try{
             
-            ValidacionOrganizacion validacion = new ValidacionOrganizacion();
-            validacion.ingresarOrganizacion(organizacion);
+            GestorOrganizaciones gestor = new GestorOrganizaciones();
+            gestor.ingresarOrganizacion(organizacion);
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Organización registrada correctamente");
@@ -141,8 +141,8 @@ public class ControladorFormularioOrganizacion {
 
         try{
 
-            ValidacionOrganizacion validacion = new ValidacionOrganizacion();
-            validacion.actualizarOrganizacion(organizacion);
+            GestorOrganizaciones gestor = new GestorOrganizaciones();
+            gestor.actualizarOrganizacion(organizacion);
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa",
             "Organización actualizada correctamente");

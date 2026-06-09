@@ -46,7 +46,7 @@ public class PruebaEvaluacionDAO {
 
         Usuario usuarioProfesor = new Usuario();
         usuarioProfesor.setNombre("Lizbeth");
-        usuarioProfesor.setApellidoPaterno("Harnandez");
+        usuarioProfesor.setApellidoPaterno("Hernandez");
         usuarioProfesor.setApellidoMaterno("Gonzalez");
         usuarioProfesor.setCorreoInstitucional("liz@uv.mx");
         usuarioProfesor.setContraseña("secreta123");
@@ -79,7 +79,7 @@ public class PruebaEvaluacionDAO {
         evaluacion.setNrc("NRC01");
         evaluacion.setPeriodo("FEB-JUL 26");
         evaluacion.setCalificacionFinal(9.5);
-        evaluacion.setProfesor(profesor);
+        evaluacion.setIdProfesor(profesor.getIdUsuario());
         evaluacion.setPracticante(practicante);
         evaluacion.setObservaciones("Esta es una observacion");
 
@@ -112,7 +112,7 @@ public class PruebaEvaluacionDAO {
         
         Profesor profesor = new Profesor();
         profesor.setIdUsuario(idUsuarioProfesor);
-        nuevaEvaluacion.setProfesor(profesor);
+        nuevaEvaluacion.setIdProfesor(profesor.getIdUsuario());
         
         Practicante practicante = new Practicante();
         practicante.setIdUsuario(idUsuarioPracticante);

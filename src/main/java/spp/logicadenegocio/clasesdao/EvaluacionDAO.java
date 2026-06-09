@@ -12,7 +12,6 @@ import java.sql.Statement;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IEvaluacionDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -26,7 +25,7 @@ public class EvaluacionDAO implements IEvaluacionDAO{
     public int insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
         
         String consultaSQL = "INSERT INTO Evaluacion (nrc, periodo, calificacionFinal, Profesor_idUsuario, "
-                + "Practicante_idUsuario) VALUES (?, ?, ?, ?, ?)";
+                + "observaciones, Practicante_idUsuario) VALUES (?, ?, ?, ?, ?, ?)";
         
         boolean registroExitoso = false;
         
@@ -36,8 +35,9 @@ public class EvaluacionDAO implements IEvaluacionDAO{
             consultaPreparada.setString(1, evaluacion.getNrc());
             consultaPreparada.setString(2, evaluacion.getPeriodo());
             consultaPreparada.setDouble(3, evaluacion.getCalificacionFinal());
-            consultaPreparada.setInt(4, evaluacion.getProfesor().getIdUsuario());
-            consultaPreparada.setInt(5, evaluacion.getPracticante().getIdUsuario());
+            consultaPreparada.setInt(4, evaluacion.getIdProfesor());
+            consultaPreparada.setString(5, evaluacion.getObservaciones());
+            consultaPreparada.setInt(6, evaluacion.getPracticante().getIdUsuario());
 
             consultaPreparada.executeUpdate();
             
@@ -82,10 +82,7 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 evaluacion.setNrc(resultadosConsulta.getString("nrc"));
                 evaluacion.setPeriodo(resultadosConsulta.getString("periodo"));
                 evaluacion.setCalificacionFinal(resultadosConsulta.getDouble("calificacionFinal"));;
-
-                Profesor profesor = new Profesor();
-                profesor.setIdUsuario(resultadosConsulta.getInt("Profesor_idUsuario"));
-                evaluacion.setProfesor(profesor);
+                evaluacion.setIdProfesor(resultadosConsulta.getInt("Profesor_idUsuario"));
                 
                 Practicante practicante = new Practicante();
                 practicante.setIdUsuario(resultadosConsulta.getInt("Practicante_idUsuario"));

@@ -1,0 +1,1 @@
+[2026-06-08T23:06:22.353110500] [SEVERE] Fallo crítico de base de datos al calificar un documento. - Detalles: No se puede conectar a la base de datos

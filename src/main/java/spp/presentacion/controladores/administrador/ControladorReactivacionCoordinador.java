@@ -44,7 +44,7 @@ public class ControladorReactivacionCoordinador {
     private TableColumn<Coordinador, String> colCorreoInstitucional;
     
     @FXML
-    private void initialize(){
+    private void initialize() {
         
         tblCoordinadoresInactivos.setPlaceholder(new Label("No hay Coordinadores inactivos"));
 

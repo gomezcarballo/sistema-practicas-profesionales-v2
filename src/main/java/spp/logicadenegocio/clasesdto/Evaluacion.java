@@ -4,6 +4,8 @@
  */
 package spp.logicadenegocio.clasesdto;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author gomes
@@ -15,19 +17,19 @@ public class Evaluacion {
     private String periodo;
     private double calificacionFinal;
     private String observaciones;
-    private Profesor profesor;
+    private int idProfesor;
     private Practicante practicante;
 
     public Evaluacion() {
     }
 
     public Evaluacion(int idEvaluacion, String nrc, String periodo, double calificacionFinal, 
-           String observaciones, Profesor profesor, Practicante practicante) {
+           String observaciones, int idProfesor, Practicante practicante) {
         this.idEvaluacion = idEvaluacion;
         this.nrc = nrc;
         this.periodo = periodo;
         this.calificacionFinal = calificacionFinal;
-        this.profesor = profesor;
+        this.idProfesor = idProfesor;
         this.practicante = practicante;
         this.observaciones = observaciones;
                 
@@ -49,6 +51,20 @@ public class Evaluacion {
         this.nrc = nrc;
     }
 
+    public void calcularPeriodoEscolar() {
+        LocalDate fechaActual = LocalDate.now();
+        int mes = fechaActual.getMonthValue();
+        int año = fechaActual.getYear();
+
+        if (mes >= 2 && mes <= 7) {
+            this.periodo = "Febrero - Julio " + año;
+        } else if (mes >= 8 && mes <= 12) {
+            this.periodo = "Agosto " + año + " - Enero " + (año + 1);
+        } else {
+            this.periodo = "Agosto " + (año - 1) + " - Enero " + año;
+        }
+    }
+    
     public String getPeriodo() {
         return periodo;
     }
@@ -65,12 +81,12 @@ public class Evaluacion {
         this.calificacionFinal = calificacionFinal;
     }
 
-    public Profesor getProfesor() {
-        return profesor;
+    public int getIdProfesor() {
+        return idProfesor;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setIdProfesor(int idProfesor) {
+        this.idProfesor = idProfesor;
     }
 
     public Practicante getPracticante() {

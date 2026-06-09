@@ -87,6 +87,7 @@
                                      GridPane.rowIndex="0"/>
                               <TextField fx:id="txtCalificacionFinal"
                                          promptText="Ingrese la calificación"
+                                         onKeyReleased="#validarCalificacionFinal"
                                          styleClass="campo-entrada"
                                          GridPane.columnIndex="1"
                                          GridPane.rowIndex="0"/>

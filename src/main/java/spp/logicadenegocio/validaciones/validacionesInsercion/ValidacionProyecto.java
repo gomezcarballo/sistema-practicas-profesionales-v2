@@ -16,58 +16,14 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class ValidacionProyecto {
-        
-    private static final int LONGITUD_MAXIMA_OBJETIVO_GENERAL = 300;
-    
-    private static final int LONGITUD_MAXIMA_METODOLOGIA = 200;
-    
-    private static final int LONGITUD_MAXIMA_CONTACTO_RESPONSABLE = 50;
-        
-    private static final int CANTIDAD_MAXIMA_CUPO = 50;
-
-    public void ingresarProyecto(Proyecto proyecto)throws ReglaDeNegocioExcepcion {
-        
-        sonCamposValidosPorReglaNegocio(proyecto);
-        
-        ProyectoDAO proyectoDAO = new ProyectoDAO();
-        proyecto.setEsActivo(true);
-        
-        try{
-            
-            proyectoDAO.insertarProyecto(proyecto);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo proyecto.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar el Proyecto por un problema "
-                + "interno del sistema. Intente más tarde.");
-            
-        }
-        
-    }
-    
-    public void actualizarProyecto(Proyecto proyecto)throws ReglaDeNegocioExcepcion {
-
-        sonCamposValidosPorReglaNegocio(proyecto);
-
-        ProyectoDAO proyectoDAO = new ProyectoDAO();
-
-        try {
-
-            proyectoDAO.actualizarProyecto(proyecto);
-
-        } catch (OperacionesDeDaoExcepcion e) {
-
-            RegistroErrores.registrarError(Level.SEVERE,"Fallo crítico de base de datos al actualizar un proyecto.",e);
-            throw new ReglaDeNegocioExcepcion("No se pudo actualizar el proyecto por un problema "
-            + "interno del sistema. Intente más tarde");
-
-        }
-
-    }
     
     public void sonCamposValidosPorReglaNegocio(Proyecto proyecto) throws ReglaDeNegocioExcepcion{
         
+        int longitudMaximaObjetivoGeneral = 300;
+        int longitudMaximaMetodologia = 200;      
+        int longitudMaximaContactoResponsable = 50;
+        int cantidadMaximaCupo = 50;
+                
         String nombre = proyecto.getNombre();
         String nombreResponsable = proyecto.getNombreResponsable();
         String contactoResponsable = proyecto.getContactoResponsable();
@@ -81,31 +37,31 @@ public class ValidacionProyecto {
         
         validacionDatos.validarNombre(nombreResponsable);
         
-        if(objetivoGeneral.length() > LONGITUD_MAXIMA_OBJETIVO_GENERAL){
+        if(objetivoGeneral.length() > longitudMaximaObjetivoGeneral){
             
             throw new ReglaDeNegocioExcepcion("El objetivo general excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_OBJETIVO_GENERAL + " caracteres");
+            longitudMaximaObjetivoGeneral + " caracteres");
             
         }   
         
-        if(metodologia.length() > LONGITUD_MAXIMA_METODOLOGIA){
+        if(metodologia.length() > longitudMaximaMetodologia){
             
             throw new ReglaDeNegocioExcepcion("La metodología excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_METODOLOGIA + " caracteres");
+            longitudMaximaMetodologia + " caracteres");
             
         }
         
-        if(contactoResponsable.length() > LONGITUD_MAXIMA_CONTACTO_RESPONSABLE){
+        if(contactoResponsable.length() > longitudMaximaContactoResponsable){
             
             throw new ReglaDeNegocioExcepcion("El contacto del responsable excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_CONTACTO_RESPONSABLE + " caracteres");
+            longitudMaximaContactoResponsable + " caracteres");
             
         }
         
-        if(cupoMaximo >= CANTIDAD_MAXIMA_CUPO){
+        if(cupoMaximo >= cantidadMaximaCupo){
             
             throw new ReglaDeNegocioExcepcion("El cupo excede el numero maximo de " + 
-            CANTIDAD_MAXIMA_CUPO + " lugares permitidos");
+            cantidadMaximaCupo + " lugares permitidos");
             
         }
         

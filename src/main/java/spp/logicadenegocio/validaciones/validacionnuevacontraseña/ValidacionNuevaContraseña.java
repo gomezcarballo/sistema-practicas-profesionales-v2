@@ -4,11 +4,10 @@
  */
 package spp.logicadenegocio.validaciones.validacionnuevacontraseña;
 
-import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.CredencialContraseña;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.clasesdto.Usuario;
-import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.logicadenegocio.gestores.GestorCambioContraseña;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
 
@@ -26,8 +25,9 @@ public class ValidacionNuevaContraseña {
         validarCoincidenciaContraseñas(credenciales);
 
         validarLongitudNuevaContraseña(credenciales);
-
-        actualizarContraseña(usuario,credenciales);
+        
+        GestorCambioContraseña gestor = new GestorCambioContraseña();
+        gestor.actualizarContraseña(usuario,credenciales);
 
     }
 
@@ -69,24 +69,6 @@ public class ValidacionNuevaContraseña {
         }
 
     }
-
-    private void actualizarContraseña(Usuario usuario, CredencialContraseña credenciales)throws ReglaDeNegocioExcepcion {
-
-        try {
-            
-            String contraseñaNuevaHasheada = HasheoContrasena.hashearContraseña(credenciales.getContraseñaNueva());
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            
-            usuarioDAO.actualizarContraseña(usuario.getIdUsuario(), contraseñaNuevaHasheada);
-            
-            SesionUsuario.getInstancia().setHashContrasena(contraseñaNuevaHasheada);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
-
-            throw new ReglaDeNegocioExcepcion("No se pudo actualizar la contraseña");
-
-        }
-
-    }
+    
     
 }

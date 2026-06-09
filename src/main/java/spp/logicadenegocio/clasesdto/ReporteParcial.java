@@ -18,6 +18,7 @@ public class ReporteParcial extends EncabezadoReporte{
         String carrera, String matricula, String periodoReporteYHorasCubiertas, 
         List<ActividadReporteParcial> actividades, String resultados, String observaciones, 
         String periodoEscolar,LocalDate fechaReporte, int numeroInforme){
+        
         super(nrc, profesor, alumno, organizacion, proyecto, objetivoGeneral, metodologia, nombreResponsable, carrera, matricula);
         this.periodoReporteYHorasCubiertas = periodoReporteYHorasCubiertas;
         this.actividades = actividades;

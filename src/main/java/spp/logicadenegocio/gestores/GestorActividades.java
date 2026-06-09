@@ -5,9 +5,12 @@
 package spp.logicadenegocio.gestores;
 
 import java.util.List;
+import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.ActividadDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
+import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -15,7 +18,32 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  *
  * @author gomes
  */
-public class GestorActividades {
+public class GestorActividades {  
+    
+    public void ingresarActividad(Actividad actividad)throws ReglaDeNegocioExcepcion{
+        
+        ValidacionActividad validacion = new ValidacionActividad();
+        validacion.sonCamposValidosPorReglaDeNegocio(actividad);
+        
+        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
+        
+        ActividadDAO actividadDAO = new ActividadDAO();
+        
+        actividad.setIdProfesor(sesionUsuario.getIdUsuario());
+        
+        try{
+            
+            actividadDAO.insertarActividad(actividad);
+            
+        }catch(OperacionesDeDaoExcepcion e){
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva actividad.", e);
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar la Actividad por un problema "
+                + "interno del sistema. Intente más tarde.");
+            
+        }
+        
+    }
     
     public List<Actividad> recuperarActividadesAsignadas()throws ReglaDeNegocioExcepcion{
         

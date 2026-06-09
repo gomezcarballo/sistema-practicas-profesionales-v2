@@ -20,6 +20,10 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class PruebaValidacionDocumento {
     
+    private final long BYTES_POR_MEGABYTES = 1024L * 1024L;
+    private final long LIMITE_TAMAÑO_MB = 50L;
+    private final long LIMITE_MAXIMO_BYTES = BYTES_POR_MEGABYTES * LIMITE_TAMAÑO_MB;
+    
     @Test
     public void pruebaArchivoMenorAlLimite() {
 
@@ -50,7 +54,7 @@ public class PruebaValidacionDocumento {
 
             try (FileOutputStream salida = new FileOutputStream(archivo)) {
 
-                byte[] datos = new byte[(int) (validacion.LIMITE_MAXIMO_BYTES + 1)];
+                byte[] datos = new byte[(int) (LIMITE_MAXIMO_BYTES + 1)];
                 salida.write(datos);
 
             }
@@ -82,7 +86,7 @@ public class PruebaValidacionDocumento {
 
             try (FileOutputStream salida = new FileOutputStream(archivo)) {
 
-                byte[] datos = new byte[(int) (validacion.LIMITE_MAXIMO_BYTES + 1)];
+                byte[] datos = new byte[(int) (LIMITE_MAXIMO_BYTES + 1)];
                 salida.write(datos);
 
             }
@@ -171,7 +175,7 @@ public class PruebaValidacionDocumento {
 
             try (FileOutputStream salida = new FileOutputStream(archivo)) {
 
-                byte[] datos = new byte[(int) validacion.LIMITE_MAXIMO_BYTES];
+                byte[] datos = new byte[(int) LIMITE_MAXIMO_BYTES];
                 salida.write(datos);
 
             }

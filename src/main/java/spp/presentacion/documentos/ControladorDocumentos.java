@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import spp.logicadenegocio.enums.TipoDocumento;
+import spp.logicadenegocio.gestores.GestorDocumentos;
 import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -91,9 +92,9 @@ public class ControladorDocumentos {
             
             try {
                 
-                ValidacionesDocumentos validador = new ValidacionesDocumentos();
+                GestorDocumentos gestor = new GestorDocumentos();
                 
-                validador.guardarDocumento(tipoDocumento, archivoSeleccionado);
+                gestor.guardarDocumento(tipoDocumento, archivoSeleccionado);
         
                 VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", "Documento subido correctamente.");
 

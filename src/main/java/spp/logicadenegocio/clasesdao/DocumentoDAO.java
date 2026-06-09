@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.interfacesdao.IDocumentoDAO;
@@ -107,5 +109,39 @@ public class DocumentoDAO implements IDocumentoDAO {
 
         return eliminacionExitosa;
     } 
+    
+    public List<Documento> recuperarDocumentosPorPracticante(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion {
+        
+        List<Documento> listaDocumentos = new ArrayList<>();
+        
+        String consultaSQL = "SELECT idDocumento, nombre, tipo, ruta, Usuario_idUsuario FROM documento WHERE Usuario_idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuarioPracticante);
+
+            try (ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+                
+                while (resultadoConsulta.next()) {
+                    
+                    Documento documento = new Documento();
+                    
+                    documento.setIdDocumento(resultadoConsulta.getInt("idDocumento"));
+                    documento.setNombre(resultadoConsulta.getString("nombre"));
+                    documento.setTipo(resultadoConsulta.getString("tipo"));
+                    documento.setRuta(resultadoConsulta.getString("ruta"));
+                    documento.setIdUsuario(resultadoConsulta.getInt("Usuario_idUsuario"));
+
+                    listaDocumentos.add(documento);
+                }
+            }
+            
+        } catch (SQLException e) {
+            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.", e);
+        }
+
+        return listaDocumentos;
+    }
     
 }

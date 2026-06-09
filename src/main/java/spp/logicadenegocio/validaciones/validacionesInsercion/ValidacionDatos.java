@@ -11,29 +11,28 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class ValidacionDatos {
-    
-    private static final int LONGITUD_MAXIMA_NOMBRE = 50;
-            
-    private static final int LONGITUD_MAXIMA_APELLIDO = 30;
-    
+                    
     public void validarNombre(String nombre) throws ReglaDeNegocioExcepcion{
         
-    
+        int longitudMaximaNombre = 50;
+        
         if(!(nombre.matches("^[\\p{L} ]+$"))){
 
             throw new ReglaDeNegocioExcepcion("El nombre solo debe contener letras.");
 
         }
 
-        if(nombre.length() > LONGITUD_MAXIMA_NOMBRE){
+        if(nombre.length() > longitudMaximaNombre){
 
             throw new ReglaDeNegocioExcepcion("El nombre excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_NOMBRE + " caracteres");
+            longitudMaximaNombre + " caracteres");
 
         }
     }
     
     public void validarApellidoPaterno(String apellidoPaterno) throws ReglaDeNegocioExcepcion{
+        
+        int longitudMaximaApellidoPaterno = 30;
         
         if(!(apellidoPaterno.matches("^[\\p{L} ]+$"))){
 
@@ -41,16 +40,18 @@ public class ValidacionDatos {
 
         }
 
-        if(apellidoPaterno.length() > LONGITUD_MAXIMA_APELLIDO){
+        if(apellidoPaterno.length() > longitudMaximaApellidoPaterno){
 
             throw new ReglaDeNegocioExcepcion("El apellido paterno excede la longitud maxima de " + 
-            LONGITUD_MAXIMA_APELLIDO +" caracteres.");
+            longitudMaximaApellidoPaterno +" caracteres.");
 
         }
         
     }
 
     public void validarApellidoMaterno(String apellidoMaterno) throws ReglaDeNegocioExcepcion{
+        
+        int longitudMaximaApellidoMaterno = 30;
         
         if(apellidoMaterno == null || apellidoMaterno.isBlank()){
             return;
@@ -62,10 +63,10 @@ public class ValidacionDatos {
 
         }
 
-        if (apellidoMaterno.length() > LONGITUD_MAXIMA_APELLIDO) {
+        if (apellidoMaterno.length() > longitudMaximaApellidoMaterno) {
 
             throw new ReglaDeNegocioExcepcion("El apellido materno excede la longitud máxima de " + 
-            LONGITUD_MAXIMA_APELLIDO +" caracteres.");
+            longitudMaximaApellidoMaterno +" caracteres.");
 
         }    
         

@@ -82,6 +82,7 @@ public class GestorAutoevaluacion{
         contexto.setVariable("valorOctavaAfirmacion", autoevaluacion.getValorOctavaAfirmacion());
         contexto.setVariable("valorNovenaAfirmacion", autoevaluacion.getValorNovenaAfirmacion());
         contexto.setVariable("ValorDecimaAfirmacion", autoevaluacion.getValorDecimaAfirmacion());
+        contexto.setVariable("puntuacionFinal", autoevaluacion.getPuntuacionFinal());
 
         return contexto;
         

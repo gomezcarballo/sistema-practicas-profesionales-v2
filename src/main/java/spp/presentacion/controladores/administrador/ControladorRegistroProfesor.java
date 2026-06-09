@@ -91,12 +91,11 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
                 
         try{
             
-            ValidacionProfesor validacion = new ValidacionProfesor();
             GestorProfesores gestorProfesores = new GestorProfesores();
             
             if(gestorProfesores.hayCupoProfesores()){
                 
-                ingresarProfesor(profesor, validacion, evento);
+                ingresarProfesor(profesor, gestorProfesores, evento);
                 
                 
             }else{
@@ -112,9 +111,9 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         }
     }
     
-    private void ingresarProfesor(Profesor profesor, ValidacionProfesor validacion, ActionEvent evento) throws ReglaDeNegocioExcepcion{
+    private void ingresarProfesor(Profesor profesor, GestorProfesores gestor, ActionEvent evento) throws ReglaDeNegocioExcepcion{
         
-        validacion.ingresarProfesor(profesor);
+        gestor.ingresarProfesor(profesor);
         
         VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", "Profesor registrado exitosamente" ); 
         regresar(evento);
@@ -146,11 +145,10 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         try{
 
             GestorProfesores gestorProfesores = new GestorProfesores();
-            ValidacionProfesor validacion = new ValidacionProfesor();
 
             gestorProfesores.inactivarProfesor(profesorAnterior.getIdUsuario());
 
-            validacion.ingresarProfesor(profesorNuevo);
+            gestorProfesores.ingresarProfesor(profesorNuevo);
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro exitoso",
             "Profesor registrado exitosamente");

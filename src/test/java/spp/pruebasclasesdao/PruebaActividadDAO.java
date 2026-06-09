@@ -37,6 +37,7 @@ public class PruebaActividadDAO {
 
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
+        
         actividadDAO = new ActividadDAO();
         usuarioDAO = new UsuarioDAO();
         profesorDAO = new ProfesorDAO();
@@ -65,6 +66,7 @@ public class PruebaActividadDAO {
         actividadBase.setIdProfesor(idUsuarioFalso);
 
         actividadDAO.insertarActividad(actividadBase);
+        
     }
 
     @After

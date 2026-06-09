@@ -109,12 +109,12 @@ public class ControladorListaDocumentos {
 
         if (documentoSeleccionado != null) {
         
-            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaEvaluacionDocumentos.fxml",
+            FXMLLoader cargadorEvaluacionDocumento = CargadorVentana.cargarVentanaConControlador("/fxml/VistaEvaluacionDocumentos.fxml",
             "Evaluar Documento");
 
-            if (cargador != null) {
+            if (cargadorEvaluacionDocumento != null) {
 
-                ControladorEvaluacionDocumentos controlador = cargador.getController();
+                ControladorEvaluacionDocumentos controlador = cargadorEvaluacionDocumento.getController();
                 controlador.inicializarDatos(documentoSeleccionado, practicanteSeleccionado);
 
                 CerradorVentana.cerrarVentana(evento);

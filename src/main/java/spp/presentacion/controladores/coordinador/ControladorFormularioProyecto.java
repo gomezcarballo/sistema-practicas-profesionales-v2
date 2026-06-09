@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProyecto;
+import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -55,9 +55,7 @@ public class ControladorFormularioProyecto {
     private Organizacion organizacion;
     
     private Proyecto proyecto;
-    
-    ValidacionProyecto validacion = new ValidacionProyecto();
-    
+        
     @FXML
     public void initialize() {
         
@@ -194,7 +192,8 @@ public class ControladorFormularioProyecto {
        
         try{
             
-            validacion.ingresarProyecto(proyecto);
+            GestorProyectos gestor = new GestorProyectos();
+            gestor.ingresarProyecto(proyecto);
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
             "Proyecto registrado correctamente");
@@ -215,7 +214,8 @@ public class ControladorFormularioProyecto {
         
         try{
             
-            validacion.actualizarProyecto(proyecto);
+            GestorProyectos gestor = new GestorProyectos();
+            gestor.actualizarProyecto(proyecto);
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa", 
             "Proyecto actualizado correctamente");   
             

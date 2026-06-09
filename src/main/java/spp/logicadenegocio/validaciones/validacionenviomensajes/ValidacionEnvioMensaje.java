@@ -5,11 +5,8 @@
 package spp.logicadenegocio.validaciones.validacionenviomensajes;
 
 import java.util.logging.Level;
-import spp.logicadenegocio.clasesdao.EnvioMensajeDAO;
-import spp.logicadenegocio.clasesdao.MensajeDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Mensaje;
-import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -19,42 +16,7 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  * @author gomes
  */
 public class ValidacionEnvioMensaje {
-    
-    
-    private static final int MAXIMO_CARACTERES_ASUNTO = 50;
-    private static final int MAXIMO_CARACTERES_CUERPO = 750;
-    
-    public boolean enviarMensaje(Mensaje mensaje, String correoDestinatario)throws ReglaDeNegocioExcepcion{
-                
-        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
-        MensajeDAO mensajeDAO = new MensajeDAO();
-        EnvioMensajeDAO envioMensajeDAO = new EnvioMensajeDAO();
-
-        boolean envioExitoso;
-        
-        try{
-            
-            validarTamañoMensaje(mensaje);
-            
-            existeDestinatario(correoDestinatario);
-            
-            int idDestinatario = new UsuarioDAO().buscarIdPorCorreo(correoDestinatario);
-            
-            int idMensaje = mensajeDAO.insertarMensaje(mensaje);
-            
-            envioExitoso = envioMensajeDAO.insertarEnvioMensaje(idMensaje, sesionUsuario.getIdUsuario(), 
-            idDestinatario);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-           
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un mensaje.", e);
-             throw new ReglaDeNegocioExcepcion("No se pudo enviar el Mensaje por un problema "
-                + "interno del sistema. Intente más tarde.", e);
-            
-        }
-        return envioExitoso;
-    }
-    
+   
     public void existeDestinatario(String destinatario)throws ReglaDeNegocioExcepcion{
         
         UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -82,19 +44,23 @@ public class ValidacionEnvioMensaje {
     
     public void validarTamañoMensaje(Mensaje mensaje) throws ReglaDeNegocioExcepcion {
         
-        if (mensaje.getAsunto().length() > MAXIMO_CARACTERES_ASUNTO) {
+        int maximoCaracteresAsunto = 50;
+        
+        if (mensaje.getAsunto().length() > maximoCaracteresAsunto) {
 
             throw new ReglaDeNegocioExcepcion( "El asunto excede el tamaño máximo permitido de " 
-            + MAXIMO_CARACTERES_ASUNTO + " caracteres.");
+            + maximoCaracteresAsunto + " caracteres.");
             
         }
         
-         if (mensaje.getCuerpo().length() > MAXIMO_CARACTERES_CUERPO) {
+        int maximoCaracteresCuerpo = 750;
+        
+        if (mensaje.getCuerpo().length() > maximoCaracteresCuerpo) {
 
-            throw new ReglaDeNegocioExcepcion("El cuerpo del mensaje excede el tamaño máximo permitido de " 
-            + MAXIMO_CARACTERES_CUERPO + " caracteres.");
+           throw new ReglaDeNegocioExcepcion("El cuerpo del mensaje excede el tamaño máximo permitido de " 
+           + maximoCaracteresCuerpo + " caracteres.");
 
-         }
+        }
         
     }
     

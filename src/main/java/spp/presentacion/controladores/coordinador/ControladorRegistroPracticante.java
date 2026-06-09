@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionPracticante;
+import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -139,9 +139,9 @@ public class ControladorRegistroPracticante {
        
         try{
             
-            ValidacionPracticante validacion = new ValidacionPracticante();
+            GestorPracticantes gestor = new GestorPracticantes();
             
-            ingresarPracticante(practicante, validacion, evento);
+            ingresarPracticante(practicante, gestor, evento);
             
         }catch(ReglaDeNegocioExcepcion e){
             
@@ -151,10 +151,10 @@ public class ControladorRegistroPracticante {
         
     }
     
-    private void ingresarPracticante(Practicante practicante, ValidacionPracticante validacion, ActionEvent evento)
+    private void ingresarPracticante(Practicante practicante, GestorPracticantes gestor, ActionEvent evento)
     throws ReglaDeNegocioExcepcion{
         
-        validacion.ingresarPracticante(practicante);
+        gestor.ingresarPracticante(practicante);
         
         VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
         "Practicante registrado correctamente");

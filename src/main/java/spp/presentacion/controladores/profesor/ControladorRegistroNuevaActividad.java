@@ -16,7 +16,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Actividad;
-import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
+import spp.logicadenegocio.gestores.GestorActividades;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -121,8 +121,8 @@ public class ControladorRegistroNuevaActividad {
         
         try{
             
-            ValidacionActividad validacion = new ValidacionActividad();
-            ingresarActividad(actividad, validacion, evento);
+            GestorActividades gestor = new GestorActividades();
+            ingresarActividad(actividad, gestor, evento);
             
         }catch(ReglaDeNegocioExcepcion e){
             
@@ -132,10 +132,10 @@ public class ControladorRegistroNuevaActividad {
         
     }
     
-    private void ingresarActividad(Actividad actividad, ValidacionActividad validacion, ActionEvent evento)
+    private void ingresarActividad(Actividad actividad, GestorActividades gestor, ActionEvent evento)
     throws ReglaDeNegocioExcepcion{
         
-        validacion.ingresarActividad(actividad);
+        gestor.ingresarActividad(actividad);
         
         VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro Exitoso", 
         "Actividad registrada correctamente");

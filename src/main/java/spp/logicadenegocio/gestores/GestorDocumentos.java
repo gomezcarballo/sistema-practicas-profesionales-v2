@@ -4,10 +4,32 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import spp.logicadenegocio.clasesdao.DocumentoDAO;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
+import spp.logicadenegocio.enums.TipoDocumento;
+import static spp.logicadenegocio.enums.TipoDocumento.ACTIVIDAD;
+import static spp.logicadenegocio.enums.TipoDocumento.AUTOEVALUACION;
+import static spp.logicadenegocio.enums.TipoDocumento.BITACORA_PSP;
+import static spp.logicadenegocio.enums.TipoDocumento.FORMATO_PRESENTACION;
+import static spp.logicadenegocio.enums.TipoDocumento.HORARIO;
+import static spp.logicadenegocio.enums.TipoDocumento.PLAN_ACTIVIDADES;
+import static spp.logicadenegocio.enums.TipoDocumento.REPORTE_MENSUAL;
+import static spp.logicadenegocio.enums.TipoDocumento.REPORTE_PARCIAL;
+import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
+import spp.utilerias.bitacora.RegistroErrores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
@@ -18,9 +40,139 @@ public class GestorDocumentos {
     
     public List<Documento> recuperarDocumentosPorPracticante(Practicante practicante)throws ReglaDeNegocioExcepcion{
         
-        List<Documento> lista = new ArrayList();
-        return lista;
+        try{
+            
+            DocumentoDAO documentoDAO = new DocumentoDAO();
+            return documentoDAO.recuperarDocumentosPorPracticante(practicante.getIdUsuario());
+        
+        }catch(OperacionesDeDaoExcepcion e){
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo al consultar documentos en BD.", e);
+            throw new ReglaDeNegocioExcepcion("No fue posible cargar la lista de documentos en este momento.");
+            
+        }
                 
+    }
+    
+    public Path crearDireccionArchivo(TipoDocumento tipoDocumento, File archivoSeleccionado) throws ProcesamientoSistemaExcepcion{
+        
+        ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+        validacion.validarArchivoSeleccionado(archivoSeleccionado);
+    
+        String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
+        String rutaProyecto = System.getProperty("user.dir");
+        String carpetaTipoDocumento = obtenerNombreCarpeta(tipoDocumento);
+        String carpetaGeneralDocumentos = "Documentos_SPP";
+        Path rutaCarpetaFinal = Paths.get(rutaProyecto,carpetaGeneralDocumentos ,carpetaTipoDocumento, identificador);
+        
+        return crearRutaDestino(rutaCarpetaFinal, archivoSeleccionado);
+
+    }
+    
+    public void guardarDocumento(TipoDocumento tipoDocumento, File archivoSeleccionado) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+            
+            Path rutaArchivo;
+            rutaArchivo = guardarDocumentoEnSistema(tipoDocumento, archivoSeleccionado);
+            guardarDocumentoEnBaseDatos(tipoDocumento.toString(), archivoSeleccionado, rutaArchivo);
+        
+    }
+    
+    public Path guardarDocumentoEnSistema(TipoDocumento tipoDocumento, File archivoSeleccionado) throws ProcesamientoSistemaExcepcion {
+        
+        try {
+
+            Path direccionFinalArchivo = crearDireccionArchivo(tipoDocumento, archivoSeleccionado);
+
+            Files.copy(archivoSeleccionado.toPath(), direccionFinalArchivo, StandardCopyOption.REPLACE_EXISTING);
+            return direccionFinalArchivo;
+            
+        } catch (IOException e ) {
+            throw new ProcesamientoSistemaExcepcion ("No se pudo guardar el documento en el sistema." );
+        } 
+    }
+    
+    public void guardarDocumentoEnBaseDatos (String tipoDocumento, File archivoSeleccionado, Path rutaArchivo ) throws OperacionesDeDaoExcepcion{
+
+        Documento documento = crearDocumento(tipoDocumento, archivoSeleccionado, rutaArchivo);
+
+        DocumentoDAO documentoDao = new DocumentoDAO();
+
+        documentoDao.insertarDocumento(documento);  
+    }
+    
+    private Documento crearDocumento(String tipoDocumento, File archivoSeleccionado, Path rutaArchivo){
+        
+        Documento documento = new Documento();
+        
+        int identificador = SesionUsuario.getInstancia().getIdUsuario();
+
+        documento.setNombre(archivoSeleccionado.getName());
+        documento.setTipo(tipoDocumento);
+        String rutaArchivoFinal = rutaArchivo.toString();
+        documento.setRuta(rutaArchivoFinal);
+        documento.setIdUsuario(identificador);
+        
+        return documento;
+    }
+    
+    private String obtenerNombreCarpeta(TipoDocumento tipoDocumento)throws ProcesamientoSistemaExcepcion{
+        
+        String carpeta;
+        switch (tipoDocumento) {
+
+            case FORMATO_PRESENTACION:
+                carpeta = "FormatoPresentacion";
+                break;
+
+            case REPORTE_MENSUAL:
+                carpeta = "ReportesMensuales";
+                break;
+
+            case REPORTE_PARCIAL:
+                carpeta = "ReportesParciales";
+                break;
+
+            case ACTIVIDAD:
+                carpeta = "Actividades";
+                break;
+
+            case BITACORA_PSP:
+                carpeta = "Bitacora_PSP";
+                break;
+
+            case HORARIO:
+                carpeta = "Horario";
+                break;
+
+            case AUTOEVALUACION:
+                carpeta = "Autoevaluacion";
+                break;
+
+            case PLAN_ACTIVIDADES:
+                carpeta = "PlanActividades";
+                break;
+
+            default:
+                throw new ProcesamientoSistemaExcepcion("No se encontró una carpeta válida para el documento.");
+          
+        }
+        
+        return carpeta;
+    }
+    
+    private Path crearRutaDestino(Path rutaCarpeta, File archivoSeleccionado)throws ProcesamientoSistemaExcepcion{
+        
+         try {
+
+            Files.createDirectories(rutaCarpeta);
+
+            return rutaCarpeta.resolve(archivoSeleccionado.getName());
+
+        } catch (IOException e) {
+
+            throw new ProcesamientoSistemaExcepcion("No se pudo crear la dirección para guardar el archivo", e);
+        
+        }
     }
     
 }

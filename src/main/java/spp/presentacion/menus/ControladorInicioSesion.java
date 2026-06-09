@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import spp.logicadenegocio.validaciones.validacionesiniciosesion.ValidacionInicioDeSesion;
+import spp.logicadenegocio.gestores.GestorInicioSesion;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanademensajes.VentanaMensaje;
@@ -65,9 +65,9 @@ public class ControladorInicioSesion {
         
         try{
             
-            ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
+            GestorInicioSesion gestor = new GestorInicioSesion();
             
-            String tipoRol =  validacion.autenticarUsuario(identificador, contraseñaIngresada);
+            String tipoRol =  gestor.autenticarUsuario(identificador, contraseñaIngresada);
                         
             abrirMenuSegunRol(tipoRol);
             

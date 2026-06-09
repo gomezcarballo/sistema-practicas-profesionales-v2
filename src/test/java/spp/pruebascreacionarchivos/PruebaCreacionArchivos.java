@@ -11,6 +11,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
+import spp.logicadenegocio.gestores.GestorDocumentos;
 import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 
 /**
@@ -28,9 +29,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.FORMATO_PRESENTACION, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.FORMATO_PRESENTACION, archivo);
 
             assertTrue(ruta.toString().contains("FormatoPresentacion"));
 
@@ -51,9 +52,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.ACTIVIDAD, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.ACTIVIDAD, archivo);
 
             assertTrue(ruta.toString().contains("Actividades"));
 
@@ -74,9 +75,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.BITACORA_PSP, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.BITACORA_PSP, archivo);
 
             assertTrue(ruta.toString().contains("Bitacora_PSP"));
 
@@ -97,9 +98,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.REPORTE_PARCIAL, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.REPORTE_PARCIAL, archivo);
 
             assertTrue(ruta.toString().contains("ReportesParciales"));
 
@@ -120,9 +121,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.REPORTE_MENSUAL, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.REPORTE_MENSUAL, archivo);
 
             assertTrue(ruta.toString().contains("ReportesMensuales"));
 
@@ -143,9 +144,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.HORARIO, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.HORARIO, archivo);
 
             assertTrue(ruta.toString().contains("Horario"));
 
@@ -166,9 +167,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo( TipoDocumento.AUTOEVALUACION, archivo);
+            Path ruta = gestor.crearDireccionArchivo( TipoDocumento.AUTOEVALUACION, archivo);
 
             assertTrue(ruta.toString().contains("Autoevaluacion"));
 
@@ -189,9 +190,9 @@ public class PruebaCreacionArchivos {
 
             File archivo = File.createTempFile("prueba", ".pdf");
 
-            ValidacionesDocumentos validacion = new ValidacionesDocumentos();
+            GestorDocumentos gestor = new GestorDocumentos();
 
-            Path ruta = validacion.crearDireccionArchivo(TipoDocumento.PLAN_ACTIVIDADES, archivo);
+            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.PLAN_ACTIVIDADES, archivo);
 
             assertTrue(ruta.toString().contains("PlanActividades"));
 

@@ -37,9 +37,9 @@ public class PruebaAdministradorDAO {
         numeroPersonalPrueba = "78623";
 
         Usuario usuario = new Usuario();
-        usuario.setNombre("Test");
-        usuario.setApellidoPaterno("Admin");
-        usuario.setApellidoMaterno("DAO");
+        usuario.setNombre("Lalo");
+        usuario.setApellidoPaterno("Mendez");
+        usuario.setApellidoMaterno("Lopez");
         usuario.setCorreoInstitucional("admin@uv.mx");
         usuario.setContraseña("123");
         usuario.setEsActivo(true);
@@ -67,9 +67,9 @@ public class PruebaAdministradorDAO {
     public void pruebaInsertarAdministradorExitoso() throws OperacionesDeDaoExcepcion {
 
         Usuario usuarioNuevo = new Usuario();
-        usuarioNuevo.setNombre("Test2");
-        usuarioNuevo.setApellidoPaterno("Insert");
-        usuarioNuevo.setApellidoMaterno("DAO");
+        usuarioNuevo.setNombre("Erika");
+        usuarioNuevo.setApellidoPaterno("Meneses");
+        usuarioNuevo.setApellidoMaterno("Rico");
         usuarioNuevo.setCorreoInstitucional("admin455@uv.mx");
         usuarioNuevo.setContraseña("123");
         usuarioNuevo.setEsActivo(true);

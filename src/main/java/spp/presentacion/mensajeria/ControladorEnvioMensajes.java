@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Mensaje;
-import spp.logicadenegocio.validaciones.validacionenviomensajes.ValidacionEnvioMensaje;
+import spp.logicadenegocio.gestores.GestorMensajes;
 import spp.utilerias.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -86,8 +86,8 @@ public class ControladorEnvioMensajes {
         
         try{
             
-            ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-            validacion.enviarMensaje(mensajeNuevo, correoDestinatario);
+            GestorMensajes gestor = new GestorMensajes();
+            gestor.enviarMensaje(mensajeNuevo, correoDestinatario);
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Envio Exitoso", 
             "Mensaje enviado correctamente");
