@@ -5,8 +5,8 @@
 package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 
 /**
  *

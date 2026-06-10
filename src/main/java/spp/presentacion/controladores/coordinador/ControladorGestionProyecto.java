@@ -16,17 +16,17 @@ import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorFormularioProyecto {
+public class ControladorGestionProyecto {
 
     @FXML
     private TextField txtNombre;

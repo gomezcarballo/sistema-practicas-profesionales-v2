@@ -11,7 +11,7 @@ import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.gestores.GestorAdministradores;
 import spp.utilerias.cerradordesesion.CerradorSesion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

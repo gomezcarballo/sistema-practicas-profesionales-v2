@@ -11,9 +11,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import spp.logicadenegocio.gestores.GestorInicioSesion;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

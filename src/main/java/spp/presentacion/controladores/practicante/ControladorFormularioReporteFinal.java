@@ -24,13 +24,15 @@ import spp.logicadenegocio.clasesdto.ActividadReporteFinal;
 import spp.logicadenegocio.clasesdto.ReporteFinal;
 import spp.logicadenegocio.gestores.GestorActividades;
 import spp.logicadenegocio.gestores.GestorReporteFinal;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.numerosentablas.FabricaCeldaNumerica;
-import spp.utilerias.seleccionactividadentregable.SeleccionActividadEntregable;
+import spp.utilerias.selecciones.seleccionactividadentregable.SeleccionActividadEntregable;
+import spp.utilerias.selecciones.seleccionesreportefinal.EdicionAvanceListener;
+import spp.utilerias.selecciones.seleccionesreportefinal.EdicionObservacionListener;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 public class ControladorFormularioReporteFinal {
 
@@ -69,11 +71,11 @@ public class ControladorFormularioReporteFinal {
 
         colAvance.setCellValueFactory(new PropertyValueFactory<>("porcentajeAvance"));
         colAvance.setCellFactory(new FabricaCeldaNumerica());
-        colAvance.setOnEditCommit(new EdicionAvanceListener());
+        colAvance.setOnEditCommit(new EdicionAvanceListener(tblActividades));
 
         colObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
         colObservaciones.setCellFactory(TextFieldTableCell.forTableColumn());
-        colObservaciones.setOnEditCommit(new EdicionObservacionListener());
+        colObservaciones.setOnEditCommit(new EdicionObservacionListener(tblActividades));
 
         colEntregable.setCellValueFactory(new SeleccionActividadEntregable());
         colEntregable.setCellFactory(CheckBoxTableCell.forTableColumn(colEntregable));
@@ -189,24 +191,6 @@ public class ControladorFormularioReporteFinal {
         CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias");
         CerradorVentana.cerrarVentana(evento);
         
-    }
-
-    private class EdicionAvanceListener implements EventHandler<CellEditEvent<ActividadReporteFinal, String>> {
-        @Override
-        public void handle(CellEditEvent<ActividadReporteFinal, String> evento) {
-            ActividadReporteFinal actividadEditada = evento.getRowValue();
-            actividadEditada.setPorcentajeAvance(evento.getNewValue());
-            tblActividades.refresh();
-        }
-    }
-
-    private class EdicionObservacionListener implements EventHandler<CellEditEvent<ActividadReporteFinal, String>> {
-        @Override
-        public void handle(CellEditEvent<ActividadReporteFinal, String> evento) {
-            ActividadReporteFinal actividadEditada = evento.getRowValue();
-            actividadEditada.setObservaciones(evento.getNewValue());
-            tblActividades.refresh();
-        }
     }
 
 }

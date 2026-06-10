@@ -18,68 +18,39 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorPracticantes;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.presentacion.controladores.practicante.ControladorBaseListaPracticantes;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorSolicitudesPracticantes {
+public class ControladorSolicitudesPracticantes extends ControladorBaseListaPracticantes {
     
-    @FXML
-    private TableView<Practicante> tblPracticantes;
-
-    @FXML
-    private TableColumn<Practicante, String> colNombre;
-    
-    @FXML
-    private TableColumn<Practicante, String> colApellidoPaterno;
-    
-    @FXML
-    private TableColumn<Practicante, String> colApellidoMaterno;
-    
-    @FXML
-    private TableColumn<Practicante, String> colMatricula;
-
     private GestorPracticantes gestorSolicitudesPracticantes;
     
     @FXML
+    @Override
     public void initialize() {
 
         gestorSolicitudesPracticantes = new GestorPracticantes();
 
-        tblPracticantes.setPlaceholder(new Label("No hay practicantes con solicitudes"));
-
-        tblPracticantes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        configurarColumnas();
-                
-        cargarPracticantesConSolicitudes();
+        super.initialize();
         
     }
+  
     
-    private void configurarColumnas() {
-
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        
-        colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
-                
-        colApellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
-                
-        colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
-        
-    }
-    
-    private void cargarPracticantesConSolicitudes() {
+    @Override
+    protected void cargarDatosEspecificos() {
 
         try {
 
             List<Practicante> lista = gestorSolicitudesPracticantes.obtenerPracticantesConSolicitudes();
 
-            tblPracticantes.setItems(FXCollections.observableArrayList(lista));
+            tblListaPracticantes.setItems(FXCollections.observableArrayList(lista));
 
         } catch (ReglaDeNegocioExcepcion e) {
 
@@ -87,21 +58,6 @@ public class ControladorSolicitudesPracticantes {
         
         }
         
-    }
-    
-    private Practicante obtenerPracticanteSeleccionado() {
-
-        Practicante practicanteSeleccionado = tblPracticantes.getSelectionModel().getSelectedItem();
-
-        if (practicanteSeleccionado == null) {
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
-            "Debe seleccionar un practicante");
-
-        }
-
-        return practicanteSeleccionado;
-
     }
     
     @FXML

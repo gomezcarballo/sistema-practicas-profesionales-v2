@@ -32,13 +32,11 @@
 
                     <columns>
 
-                        <TableColumn fx:id="colNombre" prefWidth="130.0" reorderable="false" text="Nombre" />
+                        <TableColumn fx:id="colNombre" prefWidth="170.0" reorderable="false" text="Nombre" />
 
-                        <TableColumn fx:id="colObjetivoGeneral" prefWidth="150.0" reorderable="false" text="Objetivo general" />
+                        <TableColumn fx:id="colResponsable" prefWidth="170.0" reorderable="false" text="Responsable" />
 
-                        <TableColumn fx:id="colResponsable" prefWidth="118.4000244140625" reorderable="false" text="Responsable" />
-
-                        <TableColumn fx:id="colCupoMaximo" prefWidth="102.4000244140625" reorderable="false" text="Cupo máximo" />
+                        <TableColumn fx:id="colCupoMaximo" prefWidth="160.0" reorderable="false" text="Cupo máximo" />
 
                     </columns>
 

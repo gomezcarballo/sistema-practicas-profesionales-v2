@@ -16,8 +16,8 @@ import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.generadordecontrasenas.GeneradorContrasena;
-import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.contrasenas.generadordecontrasenas.GeneradorContrasena;
+import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 
 /**
  *

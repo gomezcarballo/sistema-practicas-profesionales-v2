@@ -10,7 +10,7 @@ import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 
 /**
  *

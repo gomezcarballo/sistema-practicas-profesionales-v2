@@ -11,39 +11,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.presentacion.menus.ControladorSubMenuProyectos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorListaProyectos {
-    
-    @FXML
-    private TableView<Proyecto> tblListaProyectos;
-
-    @FXML
-    private TableColumn<Proyecto, String> colNombre;
-
-    @FXML
-    private TableColumn<Proyecto, String> colObjetivoGeneral;
+public class ControladorListaProyectos extends ControladorBaseListaProyectos{
 
     @FXML
     private TableColumn<Proyecto, String> colResponsable;
-
-    @FXML
-    private TableColumn<Proyecto, Integer> colCupoMaximo;
     
     @FXML
     private Label lblTituloProyectos;
@@ -53,15 +39,12 @@ public class ControladorListaProyectos {
     private GestorProyectos gestorProyectos;
     
     @FXML
+    @Override
     public void initialize(){
 
         gestorProyectos = new GestorProyectos();
 
-        tblListaProyectos.setPlaceholder(new Label("No hay proyectos registrados"));
-
-        tblListaProyectos.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        configurarColumnas();
+        super.initialize();
 
     }
 
@@ -74,14 +57,12 @@ public class ControladorListaProyectos {
         cargarProyectos();
 
     }
-
-    private void configurarColumnas(){
-
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivoGeneral"));
+    
+    @Override
+    protected void configurarColumnasEspecificas() {
+        
         colResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
-        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
-
+       
     }
 
     private void cargarProyectos(){
@@ -100,21 +81,6 @@ public class ControladorListaProyectos {
             "Hubo un error al recuperar los proyectos");
 
         }
-
-    }
-
-    private Proyecto obtenerProyectoSeleccionado() {
-
-        Proyecto proyectoSeleccionado = tblListaProyectos.getSelectionModel().getSelectedItem();
-
-        if (proyectoSeleccionado == null) {
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
-            "Debe seleccionar un proyecto");
-
-        }
-
-        return proyectoSeleccionado;
 
     }
     
@@ -153,7 +119,7 @@ public class ControladorListaProyectos {
 
         if(cargadorFormulario != null){
 
-            ControladorFormularioProyecto controlador = cargadorFormulario.getController();
+            ControladorGestionProyecto controlador = cargadorFormulario.getController();
             controlador.inicializarDatos(proyectoSeleccionado, organizacion);
 
         }

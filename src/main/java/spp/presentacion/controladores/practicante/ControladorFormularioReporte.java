@@ -20,13 +20,14 @@ import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.ActividadReporteParcial;
 import spp.logicadenegocio.clasesdto.ReporteParcial;
 import spp.logicadenegocio.gestores.GestorReporteParcial;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import spp.utilerias.selecciones.seleccionesreporteparcial.SeleccionTablaListener;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 
 /**
@@ -78,7 +79,7 @@ public class ControladorFormularioReporte {
         tblActividades.setItems(listaActividades);
 
         colDescripcionActividad.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        tblActividades.getSelectionModel().selectedItemProperty().addListener(new SeleccionTablaListener());
+        tblActividades.getSelectionModel().selectedItemProperty().addListener(new SeleccionTablaListener(this));
         
     }
 
@@ -302,42 +303,33 @@ public class ControladorFormularioReporte {
         
     }
     
-    private class SeleccionTablaListener implements ChangeListener<ActividadReporteParcial> {
+    public void cargarActividadEnFormulario(ActividadReporteParcial actividadNueva){
         
-        @Override
-        public void changed(ObservableValue<? extends ActividadReporteParcial> observable, 
-            ActividadReporteParcial actividadAnterior, ActividadReporteParcial actividadNueva) {
-            
-            if (actividadNueva != null) {
-                
-                txtNuevaActividad.setText(actividadNueva.getDescripcion());
-                txtTiempoPlan.setText(String.valueOf(actividadNueva.getHorasPlaneadas()));
-                txtTiempoReal.setText(String.valueOf(actividadNueva.getHorasReales()));
-                
-                boolean[] plan = actividadNueva.getSemanasPlan();
-                chkPlanS1.setSelected(plan[0]); 
-                chkPlanS2.setSelected(plan[1]); 
-                chkPlanS3.setSelected(plan[2]); 
-                chkPlanS4.setSelected(plan[3]);
-                chkPlanS5.setSelected(plan[4]); 
-                chkPlanS6.setSelected(plan[5]); 
-                chkPlanS7.setSelected(plan[6]); 
-                chkPlanS8.setSelected(plan[7]);
+        txtNuevaActividad.setText(actividadNueva.getDescripcion());
+        txtTiempoPlan.setText(String.valueOf(actividadNueva.getHorasPlaneadas()));
+        txtTiempoReal.setText(String.valueOf(actividadNueva.getHorasReales()));
 
-                boolean[] real = actividadNueva.getSemanasReal();
-                chkRealS1.setSelected(real[0]); 
-                chkRealS2.setSelected(real[1]); 
-                chkRealS3.setSelected(real[2]); 
-                chkRealS4.setSelected(real[3]);
-                chkRealS5.setSelected(real[4]); 
-                chkRealS6.setSelected(real[5]); 
-                chkRealS7.setSelected(real[6]); 
-                chkRealS8.setSelected(real[7]);
+        boolean[] plan = actividadNueva.getSemanasPlan();
+        chkPlanS1.setSelected(plan[0]); 
+        chkPlanS2.setSelected(plan[1]); 
+        chkPlanS3.setSelected(plan[2]); 
+        chkPlanS4.setSelected(plan[3]);
+        chkPlanS5.setSelected(plan[4]); 
+        chkPlanS6.setSelected(plan[5]); 
+        chkPlanS7.setSelected(plan[6]); 
+        chkPlanS8.setSelected(plan[7]);
+
+        boolean[] real = actividadNueva.getSemanasReal();
+        chkRealS1.setSelected(real[0]); 
+        chkRealS2.setSelected(real[1]); 
+        chkRealS3.setSelected(real[2]); 
+        chkRealS4.setSelected(real[3]);
+        chkRealS5.setSelected(real[4]); 
+        chkRealS6.setSelected(real[5]); 
+        chkRealS7.setSelected(real[6]); 
+        chkRealS8.setSelected(real[7]);
                 
-            }
-            
-        }
         
     }
-
+   
 }

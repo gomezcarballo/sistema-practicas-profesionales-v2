@@ -9,10 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import spp.logicadenegocio.clasesdto.Organizacion;
-import spp.presentacion.controladores.coordinador.ControladorFormularioProyecto;
+import spp.presentacion.controladores.coordinador.ControladorGestionProyecto;
 import spp.presentacion.controladores.coordinador.ControladorListaProyectos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 
 /**
  *
@@ -41,7 +41,7 @@ public class ControladorSubMenuProyectos extends ControladorMenus{
 
         if(cargadorFormularioProyecto != null){
 
-            ControladorFormularioProyecto controlador = cargadorFormularioProyecto.getController();
+            ControladorGestionProyecto controlador = cargadorFormularioProyecto.getController();
 
             controlador.inicializarOrganizacion(organizacion);
             

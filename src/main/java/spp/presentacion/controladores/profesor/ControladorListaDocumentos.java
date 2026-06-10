@@ -18,10 +18,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorDocumentos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

@@ -14,11 +14,11 @@ import javafx.stage.FileChooser;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.gestores.GestorDocumentos;
 import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

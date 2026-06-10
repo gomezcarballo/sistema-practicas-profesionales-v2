@@ -14,16 +14,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.gestores.GestorOrganizaciones;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorFormularioOrganizacion {
+public class ControladorGestionOrganizacion {
     
     @FXML
     private TextField txtNombre;

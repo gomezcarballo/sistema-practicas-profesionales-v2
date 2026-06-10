@@ -10,62 +10,34 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorPracticantes;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.presentacion.controladores.practicante.ControladorBaseListaPracticantes;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorListaPracticantes {
-    
-    @FXML
-    private TableView<Practicante> tblListaPracticantes;
-    
-    @FXML
-    private TableColumn<Practicante, String> colNombre;
-    
-    @FXML
-    private TableColumn<Practicante, String> colApellidoPaterno;
-    
-    @FXML
-    private TableColumn<Practicante, String> colApellidoMaterno;
-   
+public class ControladorListaPracticantes extends ControladorBaseListaPracticantes{
+
     private GestorPracticantes gestorPracticantes;
     
     @FXML
+    @Override
     public void initialize() {
 
         gestorPracticantes = new GestorPracticantes();
 
-        tblListaPracticantes.setPlaceholder(new Label("No hay practicantes registrados"));
-
-        tblListaPracticantes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        configurarColumnas();
-
-        cargarPracticantes();
+        super.initialize();
     
     }
     
-    private void configurarColumnas() {
-
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
-        colApellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
-
-    }
-    
-    private void cargarPracticantes() {
+    @Override
+    protected void cargarDatosEspecificos() {
 
         try {
 
@@ -80,19 +52,6 @@ public class ControladorListaPracticantes {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error al recuperar practicantes",
             "Hubo un error al recuperar los practicantes");
         }
-    }
-    
-    private Practicante obtenerPracticanteSeleccionado() {
-
-        Practicante practicanteSeleccionado = tblListaPracticantes.getSelectionModel().getSelectedItem();
-
-        if (practicanteSeleccionado == null) {
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Sin selección",
-            "Debe seleccionar un practicante");
-        }
-
-        return practicanteSeleccionado;
     }
 
     @FXML
@@ -137,7 +96,7 @@ public class ControladorListaPracticantes {
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION,
                 "Practicante inactivado", "El practicante fue inactivado correctamente");
 
-                cargarPracticantes();
+                cargarDatosEspecificos();
 
             } catch (ReglaDeNegocioExcepcion e) {
 

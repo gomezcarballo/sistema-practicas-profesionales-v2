@@ -18,10 +18,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.gestores.GestorOrganizaciones;
 import spp.presentacion.menus.ControladorSubMenuProyectos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -141,7 +141,7 @@ public class ControladorListaOrganizaciones {
 
         if(cargadorFormulario != null){
 
-            ControladorFormularioOrganizacion controlador = cargadorFormulario.getController();
+            ControladorGestionOrganizacion controlador = cargadorFormulario.getController();
             controlador.inicializarDatos(organizacionSeleccionada);
 
         }

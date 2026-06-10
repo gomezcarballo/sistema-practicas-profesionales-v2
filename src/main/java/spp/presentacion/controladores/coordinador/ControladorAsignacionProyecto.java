@@ -9,40 +9,25 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorAsignacionProyecto {
-    
-    @FXML
-    private TableView<Proyecto> tblProyectosSolicitados;
-    
-    @FXML
-    private TableColumn<Proyecto, String> colNombre;
-    
-    @FXML
-    private TableColumn<Proyecto, String> colObjetivoGeneral;
+public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos{
 
     @FXML
     private TableColumn<Proyecto, String> colNombreResponsable;
-    
-    @FXML
-    private TableColumn<Proyecto, Integer> colCupoMaximo;
     
     private GestorSolicitudesProyectos gestorSolicitudes;
     
@@ -59,31 +44,23 @@ public class ControladorAsignacionProyecto {
     }
     
     @FXML
+    @Override
     public void initialize() {
         
         gestorSolicitudes = new GestorSolicitudesProyectos();
         
         gestorAsignacionProyecto = new GestorAsignacionProyectos();
+
+        super.initialize();
         
-        tblProyectosSolicitados.setPlaceholder(new Label("No hay proyectos solicitados por este practicante"));
-        
-        tblProyectosSolicitados.setEditable(true);
-        
-        tblProyectosSolicitados.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        
-        configurarColumnas();
+        tblListaProyectos.setEditable(true);
         
     }
     
-    private void  configurarColumnas(){
+    @Override
+    protected void  configurarColumnasEspecificas(){
         
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-
-        colObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivoGeneral"));
-
         colNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
-
-        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));
         
     }
     
@@ -93,7 +70,7 @@ public class ControladorAsignacionProyecto {
                         
             List<Proyecto> lista = gestorSolicitudes.recuperarProyectosSolicitados(practicante.getIdUsuario());
 
-            tblProyectosSolicitados.setItems(FXCollections.observableArrayList(lista));
+            tblListaProyectos.setItems(FXCollections.observableArrayList(lista));
             
         }catch(ReglaDeNegocioExcepcion e){
             
@@ -107,12 +84,10 @@ public class ControladorAsignacionProyecto {
     @FXML
     private void asignarProyecto(ActionEvent evento) {
 
-        Proyecto proyectoSeleccionado = tblProyectosSolicitados.getSelectionModel().getSelectedItem();
+        Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
         
         if(proyectoSeleccionado == null) {
 
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Sin selección",
-            "Debe seleccionar un proyecto para asignar");
             return;
 
         }

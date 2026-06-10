@@ -6,7 +6,7 @@ package spp.logicadenegocio.validaciones.validacionesiniciosesion;
 
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 
 
 /**

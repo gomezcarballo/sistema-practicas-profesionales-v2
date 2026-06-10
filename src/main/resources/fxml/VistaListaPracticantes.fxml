@@ -54,18 +54,23 @@
 
                     <columns>
 
+                        <TableColumn fx:id="colMatricula"
+                                     prefWidth="110.0"
+                                     text="Matrícula"
+                                     reorderable="false"/>
+
                         <TableColumn fx:id="colNombre"
-                                     prefWidth="170.0"
+                                     prefWidth="130.0"
                                      text="Nombre"
                                      reorderable="false"/>
 
                         <TableColumn fx:id="colApellidoPaterno"
-                                     prefWidth="165.0"
+                                     prefWidth="130.0"
                                      text="Apellido paterno"
                                      reorderable="false"/>
 
                         <TableColumn fx:id="colApellidoMaterno"
-                                     prefWidth="165.0"
+                                     prefWidth="130.0"
                                      text="Apellido materno"
                                      reorderable="false"/>
 

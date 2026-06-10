@@ -17,10 +17,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.gestores.GestorActividades;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -48,11 +48,14 @@ public class ControladorRegistroNuevaActividad {
         
         dpFechaLimite.setEditable(false);
         
-        for (int i = 0; i < 24; i++) {
+        int totalHorasDia = 24;
+        String[] intervalosMinutos = {"00", "15", "30", "45"};
+        
+        for (int i = 0; i < totalHorasDia; i++) {
             cbHoraLimite.getItems().add(String.format("%02d", i));
         }
 
-        cbMinutosLimite.getItems().addAll("00", "15", "30","45");
+        cbMinutosLimite.getItems().addAll(intervalosMinutos);
         
     }
     

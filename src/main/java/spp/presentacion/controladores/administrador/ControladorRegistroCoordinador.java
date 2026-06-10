@@ -10,7 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.gestores.GestorCoordinadores;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

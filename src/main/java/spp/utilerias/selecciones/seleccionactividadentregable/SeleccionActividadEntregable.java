@@ -1,7 +1,6 @@
-package spp.utilerias.seleccionactividadentregable;
+package spp.utilerias.selecciones.seleccionactividadentregable;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
@@ -15,14 +14,7 @@ public class SeleccionActividadEntregable implements Callback<TableColumn.CellDa
         ActividadReporteFinal actividad = param.getValue();
         SimpleBooleanProperty propiedadBooleana = new SimpleBooleanProperty(actividad.getEsEntregable());
 
-        propiedadBooleana.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean valorViejo, Boolean valorNuevo) {
-
-                actividad.setEsEntregable(valorNuevo);
-                
-            }
-        });
+        propiedadBooleana.addListener(new CambioEntregableListener(actividad));
         
         return propiedadBooleana;
     }

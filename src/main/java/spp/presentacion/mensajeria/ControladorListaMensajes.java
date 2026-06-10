@@ -22,11 +22,11 @@ import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoMensaje;
 import spp.logicadenegocio.gestores.GestorMensajes;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.formatofechas.ConvertidorFechaHoraLocal;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

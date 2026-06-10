@@ -12,97 +12,64 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
+import spp.presentacion.controladores.coordinador.ControladorBaseListaProyectos;
 import spp.presentacion.controladores.coordinador.ControladorDetalleProyecto;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.seleccionproyecto.SeleccionProyecto;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.selecciones.seleccionproyecto.SeleccionProyecto;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
  * @author gomes
  */
-public class ControladorSolicitudProyectos {
+public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos{
     
     @FXML
-    private TableView<Proyecto> tblListaProyectos;
-    
-    @FXML
-    private TableColumn<Proyecto, Boolean> colSeleccionar;
-    
-    @FXML
-    private TableColumn<Proyecto, String> colNombre;
-    
-    @FXML
-    private TableColumn<Proyecto, String> colObjetivoGeneral;
+    private TableColumn<Proyecto, Boolean> colSeleccionar;  
 
     @FXML
     private TableColumn<Proyecto, String> colNombreOrganizacion;
-    
-    @FXML
-    private TableColumn<Proyecto, Integer> colCupoMaximo;
     
     private GestorProyectos gestorProyectos;
     
     private GestorSolicitudesProyectos gestorSolicitudes;
         
     @FXML
+    @Override
     public void initialize() {
         
         gestorProyectos = new GestorProyectos();
         
         gestorSolicitudes = new GestorSolicitudesProyectos();
         
-        tblListaProyectos.setPlaceholder(new Label("No hay proyectos disponibles"));
+        super.initialize();
         
         tblListaProyectos.setEditable(true);
-
-        colSeleccionar.setEditable(true);
         
-        configurarColumnas();
-
         cargarProyectos();
         
     }
     
-    private void  configurarColumnas(){
+    @Override
+    protected void  configurarColumnasEspecificas(){
         
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-
-        colObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivoGeneral"));
 
         colNombreOrganizacion.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
-
-        colCupoMaximo.setCellValueFactory(new PropertyValueFactory<>("cupoMaximo"));     
         
         colSeleccionar.setCellValueFactory(new SeleccionProyecto());
 
         colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
         
-    }
-    
-    private Proyecto obtenerProyectoSeleccionado() {
-
-        Proyecto proyectoSeleccionado = tblListaProyectos.getSelectionModel().getSelectedItem();
-
-        if (proyectoSeleccionado == null) {
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Sin selección",
-            "Debe seleccionar un proyecto para poder ver sus detalles");
-
-        }
-
-        return proyectoSeleccionado;
-
+        colSeleccionar.setEditable(true);
+        
     }
     
     @FXML

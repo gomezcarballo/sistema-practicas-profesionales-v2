@@ -12,12 +12,12 @@ import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Autoevaluacion;
 import spp.logicadenegocio.gestores.GestorAutoevaluacion;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionAutoevaluacion;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

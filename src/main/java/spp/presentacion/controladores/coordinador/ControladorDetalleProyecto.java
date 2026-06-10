@@ -10,7 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 
 /**
  *

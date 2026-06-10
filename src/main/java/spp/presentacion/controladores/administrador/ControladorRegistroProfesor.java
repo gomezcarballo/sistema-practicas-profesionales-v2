@@ -13,9 +13,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.gestores.GestorProfesores;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

@@ -11,10 +11,10 @@ import javafx.scene.control.PasswordField;
 import spp.logicadenegocio.clasesdto.CredencialContraseña;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.validaciones.validacionnuevacontraseña.ValidacionNuevaContraseña;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-import spp.utilerias.ventanademensajes.VentanaMensaje;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *

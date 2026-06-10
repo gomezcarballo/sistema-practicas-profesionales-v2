@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 
 /**
  *

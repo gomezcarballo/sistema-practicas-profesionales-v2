@@ -9,8 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.presentacion.documentos.ControladorDocumentos;
-import spp.utilerias.cargadordeventanas.CargadorVentana;
-import spp.utilerias.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 
 /**
  *
