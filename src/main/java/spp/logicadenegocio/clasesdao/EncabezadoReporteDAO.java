@@ -12,9 +12,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
+import java.sql.SQLTimeoutException;
+import java.util.logging.Level;
+
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.EncabezadoReporte;
 import spp.logicadenegocio.interfacesdao.IEncabezadoReporteDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 public class EncabezadoReporteDAO implements IEncabezadoReporteDAO{
@@ -51,9 +56,28 @@ public class EncabezadoReporteDAO implements IEncabezadoReporteDAO{
                 }
             }
             
-        }catch (SQLException e){
-
-             throw new OperacionesDeDaoExcepcion("No se puede acceder a la base de datos.",e);
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "La vista 'VistaDatosReporte' no existe o tiene columnas faltantes. " +
+                "ID Practicante consultado: " + idPracticante, e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar VistaDatosReporte. " +
+                "ID Practicante: " + idPracticante, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al consultar VistaDatosReporte. " +
+                "ID Practicante: " + idPracticante + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo recuperar la información del reporte, intente de nuevo", e);
         }
 
         return encabezado;

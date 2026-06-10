@@ -6,7 +6,7 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
-import spp.logicadenegocio.clasesdao.SolicitudDAO;
+import spp.logicadenegocio.clasesdao.SolicitudProyectosDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -28,7 +28,7 @@ public class GestorSolicitudesProyectos {
         try {
             
             PracticanteDAO practicanteDAO = new PracticanteDAO();
-            SolicitudDAO solicitudDAO = new SolicitudDAO();
+            SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
             
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             int idUsuario = sesionUsuario.getIdUsuario();
@@ -56,7 +56,7 @@ public class GestorSolicitudesProyectos {
        
         try{
            
-           SolicitudDAO solicitudDAO = new SolicitudDAO();
+           SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
            return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
            
         }catch(OperacionesDeDaoExcepcion e){

@@ -7,12 +7,18 @@ package spp.logicadenegocio.clasesdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.interfacesdao.IDocumentoDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -38,21 +44,56 @@ public class DocumentoDAO implements IDocumentoDAO {
             
             int filasAfectadas = consultaPreparada.executeUpdate();
             
-            if(filasAfectadas == 0){
-                 throw new OperacionesDeDaoExcepcion("No se registro el documento en la base de datos.");
+            if(filasAfectadas > 0){
+                registroExitoso = true;
             }
             
-            registroExitoso = true;
-
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al insertar documento. " +
+                "Nombre: " + documento.getNombre() + 
+                ", Ruta: " + documento.getRuta() + 
+                ", Usuario ID: " + documento.getIdUsuario() + 
+                " - Posible duplicado o FK inválida", e);
+            
+            throw new OperacionesDeDaoExcepcion("El documento ya existe en el sistema", e);
+            
+         } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar documento. " +
+                "Nombre: " + documento.getNombre() + 
+                ", Usuario ID: " + documento.getIdUsuario(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar documento. " +
+                "Nombre: " + documento.getNombre() + 
+                ", Tipo: " + documento.getTipo() + 
+                ", Ruta: " + documento.getRuta() + 
+                ", Usuario ID: " + documento.getIdUsuario(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos del documento no son válidos, revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al insertar documento. " +
+                "Nombre: " + documento.getNombre() + 
+                ", Tipo: " + documento.getTipo() + 
+                ", Ruta: " + documento.getRuta() + 
+                ", Usuario ID: " + documento.getIdUsuario() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al guardar el documento, intente de nuevo más tarde", e);
         }
-    return registroExitoso;
+        return registroExitoso;
     
     }
 
     @Override
-    public Documento consultarDocumento(String nombre) throws OperacionesDeDaoExcepcion{
+    public Documento consultarDocumento(String nombreDocumento) throws OperacionesDeDaoExcepcion{
         
         Documento documento = null;
         
@@ -61,7 +102,7 @@ public class DocumentoDAO implements IDocumentoDAO {
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
           
-            consultaPreparada.setString(1, nombre);
+            consultaPreparada.setString(1, nombreDocumento);
 
             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
 
@@ -76,16 +117,28 @@ public class DocumentoDAO implements IDocumentoDAO {
                 
             }
 
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+         } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar el docuemnto. Nombre del documento: " + nombreDocumento , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al consultar el documento. Nombre del documento: " + 
+                nombreDocumento + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al consultar el documento, intente de nuevo más tarde", e);
         }
 
-    return documento;
+        return documento;
     
     }
     
     @Override
-    public boolean eliminarDocumento(String nombre) throws OperacionesDeDaoExcepcion {
+    public boolean eliminarDocumento(String nombreDocumento) throws OperacionesDeDaoExcepcion {
 
         boolean eliminacionExitosa = false;
 
@@ -94,14 +147,25 @@ public class DocumentoDAO implements IDocumentoDAO {
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
-            consultaPreparada.setString(1, nombre);
+            consultaPreparada.setString(1, nombreDocumento);
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
 
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar el documento. Nombre del documento: " + nombreDocumento, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al eliminar el documento. Nombre del documento" +
+                nombreDocumento + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el documento, intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;
@@ -134,8 +198,19 @@ public class DocumentoDAO implements IDocumentoDAO {
                 }
             }
             
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.", e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar los documentos." , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al consultar los documenos. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al consultar los documentos, intente de nuevo más tarde", e);
         }
 
         return listaDocumentos;

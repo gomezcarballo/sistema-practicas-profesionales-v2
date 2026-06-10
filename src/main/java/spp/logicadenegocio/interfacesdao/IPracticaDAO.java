@@ -12,7 +12,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  *
  * @author gomes
  */
-public interface IActividadDAO {
+public interface IPracticaDAO {
     public boolean insertarActividad(Actividad actividad) throws OperacionesDeDaoExcepcion;
     public Actividad consultarActividad(String titulo) throws OperacionesDeDaoExcepcion;
     public boolean eliminarActividad(String titulo)throws OperacionesDeDaoExcepcion;

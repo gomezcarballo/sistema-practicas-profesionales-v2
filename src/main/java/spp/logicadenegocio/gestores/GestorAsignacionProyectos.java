@@ -34,7 +34,9 @@ public class GestorAsignacionProyectos {
                 
             }
             
-            proyectoDAO.asignarProyecto(idProyecto, idUsuario);
+            if(!proyectoDAO.asignarProyecto(idProyecto, idUsuario)) {
+                throw new ReglaDeNegocioExcepcion("No es posible asignar el proyecto, intentelo de nuevo.");
+            }
             
         } catch (OperacionesDeDaoExcepcion e) {
 

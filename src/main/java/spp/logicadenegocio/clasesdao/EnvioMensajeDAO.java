@@ -6,9 +6,14 @@ package spp.logicadenegocio.clasesdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
+import java.util.logging.Level;
+
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.interfacesdao.IEnvioMensajeDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -35,15 +40,45 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
 
             registroExitoso = consultaPreparada.executeUpdate() > 0;
 
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar el mensaje." +
+                "IdMensaje : " + idMensaje + 
+                "IdRemitente: " + idRemitente + 
+                "IdDestinatario: " + idDestinatario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el mensaje." + 
+                "IdMensaje : " + idMensaje + 
+                "IdRemitente: " + idRemitente + 
+                "IdDestinatario: " + idDestinatario, e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al insertar el mensaje.  " + 
+                "IdMensaje : " + idMensaje + 
+                "IdRemitente: " + idRemitente + 
+                "IdDestinatario: " + idDestinatario +
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al guardar el mensaje, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return registroExitoso;      
     }
     
     @Override
-    public boolean eliminarEnvioMensaje(int idMensaje,int idRemitente,int idDestinatario)throws OperacionesDeDaoExcepcion {
+    public boolean eliminarEnvioMensaje(int idMensaje,int idRemitente,int idDestinatario)
+    throws OperacionesDeDaoExcepcion {
 
         boolean eliminacionExitosa = false;
 
@@ -62,10 +97,27 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-        } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar el mensaje. " + 
+                "IdMensaje : " + idMensaje + 
+                "IdRemitente: " + idRemitente + 
+                "IdDestinatario: " + idDestinatario, e);
             
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al eliminar el coordinador. " + 
+                "IdMensaje : " + idMensaje + 
+                "IdRemitente: " + idRemitente + 
+                "IdDestinatario: " + idDestinatario +
+                ". SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el mensaje, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;

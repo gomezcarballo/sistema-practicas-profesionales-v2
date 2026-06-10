@@ -8,13 +8,17 @@ import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.interfacesdao.ICoordinadorDAO;
 import spp.accesoadatos.ConexionBD;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLSyntaxErrorException;
+import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.logging.Level;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 /**
  *
@@ -23,8 +27,10 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class CoordinadorDAO implements ICoordinadorDAO {
     
     @Override
-    public void insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
+    public boolean insertarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion{ 
         
+        boolean registroExitoso = false;
+
         String consultaSQL = "INSERT INTO Coordinador (idUsuario, noPersonal) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -34,15 +40,46 @@ public class CoordinadorDAO implements ICoordinadorDAO {
             consultaPreparada.setString(2, coordinador.getNumeroDePersonal());
             int filasAfectadas = consultaPreparada.executeUpdate();
             
-            if (filasAfectadas == 0) {
-                throw new OperacionesDeDaoExcepcion("Fallo al guardar: No se reflejaron los cambios en la base de datos");               
+            if (filasAfectadas > 0) {
+                registroExitoso = true;          
             }
             
-        }catch( SQLIntegrityConstraintViolationException  e){
-            throw new OperacionesDeDaoExcepcion("El numero de personal ya existe",e);
-        }catch( SQLException e ){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar coordinador. El ID " + coordinador.getIdUsuario() 
+                + "El noPersonal: " + coordinador.getNumeroDePersonal(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Ya existe un coordinador con ese numero de personal", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar coordinador. IdUsuario: " + coordinador.getIdUsuario() + 
+                ", noPersonal: " + coordinador.getNumeroDePersonal() , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el coordinador. IdUsuario: " + coordinador.getIdUsuario() + 
+                ", noPersonal: " + coordinador.getNumeroDePersonal(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al insertar el coordinador. " + 
+                "IdUsuario: " + coordinador.getIdUsuario() + 
+                ", noPersonal: " + coordinador.getNumeroDePersonal() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al guardar el coordinador, " + 
+                "intente de nuevo más tarde", e);
         }
+
+        return registroExitoso;
         
     }
 
@@ -83,13 +120,24 @@ public class CoordinadorDAO implements ICoordinadorDAO {
 
             }
 
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar los coordinadores inactivos." , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
-
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al consultar los coordinadores inactivos. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al consultar los coordinadores inactivos, " + 
+                "intente de nuevo más tarde", e);
         }
         
-    return coordinadoresInactivos;
+         return coordinadoresInactivos;
     
     }
     
@@ -106,11 +154,24 @@ public class CoordinadorDAO implements ICoordinadorDAO {
                         
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al inactivar el coordinador.", e);
+
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+        
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al inactivar el coordinador. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al inactivar el coordinador, " + 
+                "intente de nuevo más tarde", e);
         }
         
-    return inactivacionExitosa;
+        return inactivacionExitosa;
     
     }
 
@@ -130,8 +191,21 @@ public class CoordinadorDAO implements ICoordinadorDAO {
             reactivacionExitosa = consultaPreparada.executeUpdate() > 0;
      
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al reactivar el coordinador. El ID : " + idUsuario, e);
+
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+        
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al reactivar el coordinador. El ID: " + idUsuario + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al reactivar el coordinador, " + 
+                "intente de nuevo más tarde", e);
         }
         
     return reactivacionExitosa;
@@ -153,8 +227,28 @@ public class CoordinadorDAO implements ICoordinadorDAO {
                 existeCoordinador = resultadoConsulta.getBoolean(1);
             }
 
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "La función almacenada 'existeCoordinadorActivo()' no existe o no es accesible. " +
+                "Verificar que la función esté creada en la base de datos", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al ejecutar función almacenada 'existeCoordinadorActivo()'", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al ejecutar función 'existeCoordinadorActivo()'. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al verificar la información, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return existeCoordinador;
@@ -174,9 +268,21 @@ public class CoordinadorDAO implements ICoordinadorDAO {
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar coordinador. IdUsuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al eliminar el coordinador. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el coordinador, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;

@@ -6,7 +6,7 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import java.util.logging.Level;
-import spp.logicadenegocio.clasesdao.ActividadDAO;
+import spp.logicadenegocio.clasesdao.PracticaDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
@@ -27,7 +27,7 @@ public class GestorActividades {
         
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
         
-        ActividadDAO actividadDAO = new ActividadDAO();
+        PracticaDAO actividadDAO = new PracticaDAO();
         
         actividad.setIdProfesor(sesionUsuario.getIdUsuario());
         
@@ -48,7 +48,7 @@ public class GestorActividades {
     public List<Actividad> recuperarActividadesAsignadas()throws ReglaDeNegocioExcepcion{
         
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
-        ActividadDAO actividadDAO = new ActividadDAO();
+        PracticaDAO actividadDAO = new PracticaDAO();
         int idUsuario = sesionUsuario.getIdUsuario();
         
         try{

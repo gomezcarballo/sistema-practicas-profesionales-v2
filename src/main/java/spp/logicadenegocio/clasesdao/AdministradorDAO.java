@@ -7,11 +7,15 @@ package spp.logicadenegocio.clasesdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLTimeoutException;
+import java.util.logging.Level;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.interfacesdao.IAdministradorDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -21,8 +25,10 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 public class AdministradorDAO implements IAdministradorDAO{
     
     @Override
-    public void insertarAdministrador(Administrador administrador) throws OperacionesDeDaoExcepcion{ 
+    public boolean insertarAdministrador(Administrador administrador) throws OperacionesDeDaoExcepcion{ 
         
+        Boolean registroExitoso = false;
+
         String consultaSQL = "INSERT INTO Administrador (idUsuario, noPersonal) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -32,16 +38,46 @@ public class AdministradorDAO implements IAdministradorDAO{
             consultaPreparada.setString(2, administrador.getNumeroDePersonal());
             int filasAfectadas = consultaPreparada.executeUpdate();
             
-            if (filasAfectadas == 0) {
-                throw new OperacionesDeDaoExcepcion("Fallo al guardar: No se reflejaron los cambios en la base de datos");               
+            if (filasAfectadas > 0) {
+                registroExitoso = true;
             }
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar administrador. el ID " + administrador.getIdUsuario() 
+                + "El noPersonal: " + administrador.getNumeroDePersonal(), e);
             
-        }catch( SQLIntegrityConstraintViolationException  e){
-            throw new OperacionesDeDaoExcepcion("El numero de personal ya existe",e);
-        }catch( SQLException e ){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            throw new OperacionesDeDaoExcepcion("Ya existe un administrador con ese numero de personal", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar administrador. IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal() , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el administrador. IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al insertar el administrador. " + 
+                "IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al guardar el administrador, " + 
+                "intente de nuevo más tarde", e);
         }
         
+        return registroExitoso;
     }
     
     @Override
@@ -56,12 +92,25 @@ public class AdministradorDAO implements IAdministradorDAO{
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
                         
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
+        
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al inactivar administrador.", e);
+
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+        
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al inactivar el administrador. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            throw new OperacionesDeDaoExcepcion("Error al inactivar el administrador, " + 
+                "intente de nuevo más tarde", e);
         }
         
-    return inactivacionExitosa;
+         return inactivacionExitosa;
     
     }
 
@@ -86,8 +135,22 @@ public class AdministradorDAO implements IAdministradorDAO{
                 }
             }
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar administrador. IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal() , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al consultar el administrador. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al consultar el administrador, " + 
+                "intente de nuevo más tarde", e);
         }
     return administrador;
     
@@ -106,10 +169,22 @@ public class AdministradorDAO implements IAdministradorDAO{
             consultaPreparada.setInt(1, idUsuario);
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
+
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar administrador. IdUsuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " +
+                "intente de nuevo por favor", e);
             
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al eliminar el administrador. " + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el administrador, " +
+                "intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;

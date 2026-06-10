@@ -14,7 +14,7 @@ import org.junit.Test;
 import spp.logicadenegocio.clasesdao.OrganizacionDAO;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.ProyectoDAO;
-import spp.logicadenegocio.clasesdao.SolicitudDAO;
+import spp.logicadenegocio.clasesdao.SolicitudProyectosDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Practicante;
@@ -28,7 +28,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class PruebaSolicitudProyectoDAO {
 
-    private SolicitudDAO solicitudDAO;
+    private SolicitudProyectosDAO solicitudDAO;
     private UsuarioDAO usuarioDAO;
     private PracticanteDAO practicanteDAO;
     private OrganizacionDAO organizacionDAO;
@@ -42,7 +42,7 @@ public class PruebaSolicitudProyectoDAO {
     @Before
     public void inicializarDatosPrueba() {
 
-        solicitudDAO = new SolicitudDAO();
+        solicitudDAO = new SolicitudProyectosDAO();
         usuarioDAO = new UsuarioDAO();
         practicanteDAO = new PracticanteDAO();
         organizacionDAO = new OrganizacionDAO();

@@ -8,11 +8,17 @@ import spp.accesoadatos.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLSyntaxErrorException;
+import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.interfacesdao.IProfesorDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -37,10 +43,44 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
             
             registroExitoso = consultaPreparada.executeUpdate() > 0;
            
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al insertar profesor. " +
+                "ID Usuario: " + profesor.getIdUsuario() + 
+                ", No. Personal: " + profesor.getNumeroDePersonal(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El profesor ya está registrado " +    
+                "o el número de personal está duplicado", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar profesor. No. Personal: " + profesor.getNumeroDePersonal(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar profesor. " +
+                "ID Usuario: " + profesor.getIdUsuario() + 
+                ", No. Personal: " + profesor.getNumeroDePersonal() + 
+                ", NRC: " + profesor.getNrcAsignado(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos del profesor no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al insertar profesor. " +
+                "ID Usuario: " + profesor.getIdUsuario() + 
+                ", No. Personal: " + profesor.getNumeroDePersonal() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al registrar el profesor, " + 
+                "intente de nuevo más tarde", e);
         }
-        return registroExitoso;
+            return registroExitoso;
     }
     
     @Override
@@ -82,10 +122,28 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
             }
 
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al consultar profesores activos. " +
+                "Verificar tablas: Profesor, Usuario y sus columnas", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar profesores activos", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
-
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al consultar profesores activos. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los profesores, " + 
+                "intente de nuevo", e);
         }
 
         return profesoresActivos;
@@ -131,10 +189,28 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
             }
 
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al consultar profesores inactivos. " +
+                "Verificar tablas: Profesor, Usuario y sus columnas", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar profesores inactivos", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
-
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al consultar profesores inactivos. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los profesores, " + 
+                "intente de nuevo", e);
         }
         
     return profesoresInactivos;
@@ -164,10 +240,28 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
             }
 
+         } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al contar profesores activos. " +
+                "Verificar tablas: Profesor, Usuario", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al contar profesores activos", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.", e);
-
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al contar profesores activos. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo obtener la cantidad de profesores, " + 
+                "intente de nuevo", e);
         }
 
     return cantidadProfesoresActivos;
@@ -188,11 +282,25 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+         } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al inactivar profesor. ID Usuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al inactivar profesor. " +
+                "ID Usuario: " + idUsuario + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al inactivar el profesor, " + 
+                "intente de nuevo más tarde", e);
         }
 
-    return inactivacionExitosa; 
+         return inactivacionExitosa; 
 
     }
 
@@ -211,11 +319,33 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
             
             reactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al reactivar profesor. " +
+                "ID Usuario: " + idUsuario + 
+                " - Verificar sintaxis UPDATE con INNER JOIN", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al reactivar profesor. ID Usuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al reactivar profesor. " +
+                "ID Usuario: " + idUsuario + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al reactivar el profesor, " + 
+                "intente de nuevo más tarde", e);
         }
         
-    return reactivacionExitosa;
+         return reactivacionExitosa;
     
     }   
     
@@ -233,9 +363,31 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al eliminar profesor. " +
+                "ID Usuario: " + idUsuario + 
+                " - Posiblemente tiene registros relacionados (prácticas, NRC, etc.)", e);
+            
+            throw new OperacionesDeDaoExcepcion("No se puede eliminar el profesor porque " + 
+                "tiene elementos asignados", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar profesor. ID Usuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al eliminar profesor. " +
+                "ID Usuario: " + idUsuario + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el profesor, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;

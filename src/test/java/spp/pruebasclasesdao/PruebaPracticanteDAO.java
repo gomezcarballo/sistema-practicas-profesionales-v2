@@ -16,7 +16,7 @@ import org.junit.Before;
 import spp.logicadenegocio.clasesdao.OrganizacionDAO;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.ProyectoDAO;
-import spp.logicadenegocio.clasesdao.SolicitudDAO;
+import spp.logicadenegocio.clasesdao.SolicitudProyectosDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Practicante;
@@ -35,7 +35,7 @@ public class PruebaPracticanteDAO {
     private UsuarioDAO usuarioDAO;
     private OrganizacionDAO organizacionDAO;
     private ProyectoDAO proyectoDAO;
-    private SolicitudDAO solicitudDAO;
+    private SolicitudProyectosDAO solicitudDAO;
 
     private final String correoPrueba = "practicante.prueba@uv.mx";
     private final String matriculaPrueba = "S24000001";
@@ -104,7 +104,7 @@ public class PruebaPracticanteDAO {
         usuarioDAO = new UsuarioDAO();
         organizacionDAO = new OrganizacionDAO();
         proyectoDAO = new ProyectoDAO();
-        solicitudDAO = new SolicitudDAO();
+        solicitudDAO = new SolicitudProyectosDAO();
     }
 
     @After

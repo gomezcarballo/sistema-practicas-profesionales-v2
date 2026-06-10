@@ -1,0 +1,5 @@
+[2026-06-09T22:07:33.158501] [SEVERE] Error al validar destinatario - Detalles: No se puede conectar a la base de datos
+[2026-06-09T22:07:56.348195500] [SEVERE] Fallo crítico de base de datos al registrar un mensaje. - Detalles: No se puede conectar a la base de datos
+[2026-06-09T22:12:45.414761600] [SEVERE] Fallo crítico de base de datos al registrar un mensaje. - Detalles: No se puede conectar a la base de datos
+[2026-06-09T22:18:14.495382500] [SEVERE] Fallo crítico de base de datos al registrar un mensaje. - Detalles: No se puede conectar a la base de datos
+[2026-06-09T22:19:08.404104700] [SEVERE] Fallo crítico de base de datos al registrar un mensaje. - Detalles: No se puede conectar a la base de datos

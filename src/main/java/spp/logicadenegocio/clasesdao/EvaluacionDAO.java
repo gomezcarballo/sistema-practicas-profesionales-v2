@@ -7,12 +7,18 @@ package spp.logicadenegocio.clasesdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLTimeoutException;
 import java.sql.Statement;
+import java.util.logging.Level;
+
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.interfacesdao.IEvaluacionDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -24,13 +30,14 @@ public class EvaluacionDAO implements IEvaluacionDAO{
     @Override
     public int insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
         
-        int idInsertado = 0;
+        int idGenerado = 0;
         
         String consultaSQL = "INSERT INTO Evaluacion (nrc, periodo, calificacionFinal, Profesor_idUsuario, "
                 + "observaciones, Practicante_idUsuario) VALUES (?, ?, ?, ?, ?, ?)";
                 
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS);){
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, 
+            Statement.RETURN_GENERATED_KEYS);){
             
             consultaPreparada.setString(1, evaluacion.getNrc());
             consultaPreparada.setString(2, evaluacion.getPeriodo());
@@ -45,16 +52,62 @@ public class EvaluacionDAO implements IEvaluacionDAO{
 
             if (resultadosConsulta.next()) {
                 
-                idInsertado = resultadosConsulta.getInt(1);
-                evaluacion.setIdEvaluacion(idInsertado);
+                idGenerado = resultadosConsulta.getInt(1);
+                evaluacion.setIdEvaluacion(idGenerado);
                 
             }
                         
-        }catch( SQLException e ){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar la evaluacion. " +
+                "El ID del profesor: " + evaluacion.getIdProfesor() +
+                ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
+                ", el NRC : " + evaluacion.getNrc() + 
+                ", el perido: " + evaluacion.getPeriodo() + 
+                ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
+            
+            throw new OperacionesDeDaoExcepcion("Ya existe un registro con la misma información", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar coordinador." +
+                "El ID del profesor: " + evaluacion.getIdProfesor() +
+                ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
+                ", el NRC : " + evaluacion.getNrc() + 
+                ", el perido: " + evaluacion.getPeriodo() + 
+                ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el coordinador." +
+                " El ID del profesor: " + evaluacion.getIdProfesor() +
+                ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
+                ", el NRC : " + evaluacion.getNrc() + 
+                ", el perido: " + evaluacion.getPeriodo() + 
+                ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al insertar el coordinador. " +
+                " El ID del profesor: " + evaluacion.getIdProfesor() +
+                ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
+                ", el NRC : " + evaluacion.getNrc() + 
+                ", el perido: " + evaluacion.getPeriodo() + 
+                ", la calificacion: " + evaluacion.getCalificacionFinal() + 
+                ".SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al guardar la evaluación, " + 
+                "intente de nuevo más tarde", e);
         }
         
-        return idInsertado;
+        return idGenerado;
         
     }
 
@@ -85,8 +138,23 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 evaluacion.setPracticante(practicante);
             }
 
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar la evaluación"+
+                "El ID de la evaluación: " + idEvaluacion, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al consultar la evaluación. " + 
+                "El ID de la evaluación: " + idEvaluacion +
+                ".SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al consultar la evaluación, " + 
+                "intente de nuevo más tarde", e);
         }
 
     return evaluacion;
@@ -107,9 +175,22 @@ public class EvaluacionDAO implements IEvaluacionDAO{
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar la evaluación. IdEvaluación: " + idEvaluacion, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al eliminar la evaluación. " + 
+                "IDEvaluación : " + idEvaluacion +
+                ".SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar la evaluación, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;

@@ -8,12 +8,18 @@ import spp.accesoadatos.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLSyntaxErrorException;
+import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.interfacesdao.IProyectoDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 
@@ -46,12 +52,44 @@ public class ProyectoDAO implements IProyectoDAO {
             
             registroExitoso = consultaPreparada.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al insertar proyecto. " +
+                "Nombre: " + proyecto.getNombre() + 
+                ", Organización ID: " + proyecto.getOrganizacion().getIdOrganizacion(), e);
             
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            throw new OperacionesDeDaoExcepcion("Ya existe un proyecto con ese nombre " + 
+                "o la organización no es válida", e);
             
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar proyecto. Nombre: " + proyecto.getNombre(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar proyecto. " +
+                "Nombre: " + proyecto.getNombre() + 
+                ", Cupo: " + proyecto.getCupoMaximo() + 
+                ", Organización ID: " + proyecto.getOrganizacion().getIdOrganizacion(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos del proyecto no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al insertar proyecto. " +
+                "Nombre: " + proyecto.getNombre() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al registrar el proyecto, " + 
+                "intente de nuevo más tarde", e);
         }
-    return registroExitoso;
+    
+         return registroExitoso;
     
     }
     
@@ -102,9 +140,30 @@ public class ProyectoDAO implements IProyectoDAO {
                 
             }          
 
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al consultar proyecto. " +
+                "Nombre: " + nombre + 
+                " - Verificar tablas: Proyecto, Organizacion", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar proyecto. Nombre: " + nombre, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al consultar proyecto. " +
+                "Nombre: " + nombre + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo consultar el proyecto, " + 
+                "intente de nuevo", e);
         }
 
         return proyecto;
@@ -125,16 +184,27 @@ public class ProyectoDAO implements IProyectoDAO {
 
             actualizado = consultaPreparada.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al disminuir cupo de proyecto. ID Proyecto: " + idProyecto, e);
             
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
-        
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al disminuir cupo de proyecto. " +
+                "ID Proyecto: " + idProyecto + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al actualizar el cupo, " + 
+                "intente de nuevo más tarde", e);
         }
 
-    return actualizado;
+        return actualizado;
         
     }
-
 
     @Override
     public boolean inactivarProyecto(int idProyecto)throws OperacionesDeDaoExcepcion {
@@ -150,11 +220,25 @@ public class ProyectoDAO implements IProyectoDAO {
 
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al inactivar proyecto. ID Proyecto: " + idProyecto, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al inactivar proyecto. " +
+                "ID Proyecto: " + idProyecto + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al inactivar el proyecto, " + 
+                "intente de nuevo más tarde", e);
         }
 
-    return inactivacionExitosa; 
+        return inactivacionExitosa; 
 
     }
     
@@ -172,11 +256,25 @@ public class ProyectoDAO implements IProyectoDAO {
 
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al inactivar proyectos de organización. ID Organización: " + idOrganizacion, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al inactivar proyectos de organización. " +
+                "ID Organización: " + idOrganizacion + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al inactivar los proyectos, " + 
+                "intente de nuevo más tarde", e);
         }
 
-    return inactivacionExitosa; 
+        return inactivacionExitosa; 
 
     }
 
@@ -203,16 +301,49 @@ public class ProyectoDAO implements IProyectoDAO {
             actualizacionExitosa = consultaPreparada.executeUpdate() > 0;
 
             
-        }catch(SQLException e){
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al actualizar proyecto. " +
+                "ID Proyecto: " + proyecto.getIdProyecto() + 
+                ", Nombre: " + proyecto.getNombre(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Ya existe un proyecto con ese nombre", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al actualizar proyecto. ID: " + proyecto.getIdProyecto(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al actualizar proyecto. " +
+                "ID Proyecto: " + proyecto.getIdProyecto() + 
+                ", Cupo: " + proyecto.getCupoMaximo(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos del proyecto no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al actualizar proyecto. " +
+                "ID Proyecto: " + proyecto.getIdProyecto() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al actualizar el proyecto, " + 
+                "intente de nuevo más tarde", e);
         }
 
-    return actualizacionExitosa;
+        return actualizacionExitosa;
         
     }
     
     @Override
-    public void asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion {
+    public boolean asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion {
+
+        boolean asignacionExitosa = false; 
 
         String consultaSQL = "UPDATE Practicante SET Proyecto_idProyecto = ? WHERE idUsuario = ?";
 
@@ -222,12 +353,37 @@ public class ProyectoDAO implements IProyectoDAO {
             consultaPreparada.setInt(1, idProyecto);
             consultaPreparada.setInt(2, idUsuario);
 
-            consultaPreparada.executeUpdate();
+            if(consultaPreparada.executeUpdate() > 0){
+                asignacionExitosa = true;
+            }
 
-        } catch (SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al asignar proyecto. " +
+                "ID Proyecto: " + idProyecto + 
+                ", ID Usuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo asignar el proyecto al practicante", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al asignar proyecto. ID Proyecto: " + idProyecto, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al asignar proyecto. " +
+                "ID Proyecto: " + idProyecto + 
+                ", ID Usuario: " + idUsuario + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al asignar el proyecto, " + 
+                "intente de nuevo más tarde", e);
         }
+        return asignacionExitosa; 
     }
 
     @Override
@@ -273,9 +429,30 @@ public class ProyectoDAO implements IProyectoDAO {
                 
             }
 
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al obtener proyectos activos. " +
+                "Verificar tablas: Proyecto, Organizacion", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al obtener proyectos activos", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al obtener proyectos activos. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron obtener los proyectos, " + 
+                "intente de nuevo", e);
         }
+        
         return proyectos;
     }
     
@@ -309,9 +486,24 @@ public class ProyectoDAO implements IProyectoDAO {
                 proyectos.add(proyecto);
             }
 
-        } catch (SQLException e) {
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al obtener proyectos por organización. ID Organización: " + idOrganizacion, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al obtener proyectos por organización. " +
+                "ID Organización: " + idOrganizacion + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron obtener los proyectos, " + 
+                "intente de nuevo por favor", e);
         }
+        
         return proyectos;
     }
     
@@ -329,9 +521,31 @@ public class ProyectoDAO implements IProyectoDAO {
 
             eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al eliminar proyecto. " +
+                "Nombre: " + nombre + 
+                " - Posiblemente tiene practicantes asignados", e);
+            
+            throw new OperacionesDeDaoExcepcion("No se puede eliminar el proyecto porque " + 
+                "tiene practicantes asignados", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar proyecto. Nombre: " + nombre, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion( "No se puede conectar a la base de datos", e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al eliminar proyecto. " +
+                "Nombre: " + nombre + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el proyecto, " + 
+                "intente de nuevo más tarde", e);
         }
 
         return eliminacionExitosa;
@@ -349,9 +563,22 @@ public class ProyectoDAO implements IProyectoDAO {
 
             return consultaPreparada.executeUpdate() > 0;
 
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al desasignar proyecto. ID Usuario: " + idUsuario, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
         } catch(SQLException e) {
-
-            throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al desasignar proyecto. " +
+                "ID Usuario: " + idUsuario + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al desasignar el proyecto, " +
+                "intente de nuevo más tarde", e);
         }
     }
     

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Before;
-import spp.logicadenegocio.clasesdao.ActividadDAO;
+import spp.logicadenegocio.clasesdao.PracticaDAO;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
@@ -28,7 +28,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  */
 public class PruebaActividadDAO {
     
-    private ActividadDAO actividadDAO;
+    private PracticaDAO actividadDAO;
     private UsuarioDAO usuarioDAO;
     private ProfesorDAO profesorDAO;
 
@@ -38,7 +38,7 @@ public class PruebaActividadDAO {
     @Before
     public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
         
-        actividadDAO = new ActividadDAO();
+        actividadDAO = new PracticaDAO();
         usuarioDAO = new UsuarioDAO();
         profesorDAO = new ProfesorDAO();
 

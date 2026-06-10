@@ -13,7 +13,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  * @author gomes
  */
 public interface ICoordinadorDAO {
-    public void insertarCoordinador(Coordinador coordinador)throws OperacionesDeDaoExcepcion;
+    public boolean insertarCoordinador(Coordinador coordinador)throws OperacionesDeDaoExcepcion;
     public List<Coordinador> consultarCoordinadoresInactivos() throws OperacionesDeDaoExcepcion;
     public boolean inactivarCoordinador()throws OperacionesDeDaoExcepcion;
     public boolean reactivarCoordinador(int idUsuario)throws OperacionesDeDaoExcepcion;
