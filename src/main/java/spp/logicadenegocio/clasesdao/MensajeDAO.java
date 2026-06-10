@@ -161,11 +161,7 @@ public class MensajeDAO implements IMensajeDAO{
 
             consultaPreparada.setInt(1, idMensaje);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

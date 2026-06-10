@@ -31,8 +31,7 @@ public class ActividadDAO implements IActividadDAO{
                 + "fechaLimite, Profesor_idUsuario) VALUES (?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada 
-            = conexion.prepareStatement(consultaSQL);){
+            PreparedStatement consultaPreparada  = conexion.prepareStatement(consultaSQL);){
             
             consultaPreparada.setString(1,actividad.getTitulo());
             consultaPreparada.setString(2,actividad.getDescripcion());
@@ -43,7 +42,9 @@ public class ActividadDAO implements IActividadDAO{
             registroExitoso = true;
             
         }catch(SQLException e){
+            
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            
         }
         
     return registroExitoso;
@@ -77,8 +78,11 @@ public class ActividadDAO implements IActividadDAO{
                 
                 }
             }
+            
         }catch(SQLException e){
+
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            
         }
         
     return actividad;

@@ -170,7 +170,7 @@ public class ControladorFormularioReporteFinal {
         List<ActividadReporteFinal> soloEntregables = new ArrayList<>();
 
         for(ActividadReporteFinal act : listaActividadesFinales) {
-            if(act.isEsEntregable()) {
+            if(act.getEsEntregable()) {
                 soloEntregables.add(act);
             } else {
                 soloActividades.add(act);

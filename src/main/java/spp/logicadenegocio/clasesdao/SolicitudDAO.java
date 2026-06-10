@@ -96,9 +96,7 @@ public class SolicitudDAO implements ISolicitudDAO{
 
         boolean eliminacionExitosa = false;
 
-        String consultaSQL =
-                "DELETE FROM SolicitudProyecto "
-                + "WHERE Practicante_idUsuario = ? "
+        String consultaSQL = "DELETE FROM SolicitudProyecto WHERE Practicante_idUsuario = ? "
                 + "AND Proyecto_idProyecto = ?";
 
         try(Connection conexion = ConexionBD.getConexion();
@@ -107,11 +105,7 @@ public class SolicitudDAO implements ISolicitudDAO{
             consultaPreparada.setInt(1, idUsuario);
             consultaPreparada.setInt(2, idProyecto);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

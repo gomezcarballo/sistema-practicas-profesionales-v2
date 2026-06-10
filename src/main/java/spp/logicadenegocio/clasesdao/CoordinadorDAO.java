@@ -104,11 +104,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
                         
-            int filasAfectadas = consultaPreparada.executeUpdate();
-            
-            if(filasAfectadas > 0){
-                inactivacionExitosa = true;
-            }
+            inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -131,11 +127,8 @@ public class CoordinadorDAO implements ICoordinadorDAO {
             
             consultaPreparada.setInt(1, idUsuario);
             
-            int filasAfectadas = consultaPreparada.executeUpdate();
-            
-            if(filasAfectadas > 0){
-                reactivacionExitosa = true;
-            }
+            reactivacionExitosa = consultaPreparada.executeUpdate() > 0;
+     
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -179,11 +172,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
 
             consultaPreparada.setInt(1, idUsuario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

@@ -13,23 +13,32 @@ import java.util.Properties;
  * @author Luz Fernanda H J
  */
 public class ConfiguracionBaseDatos {
-    private static Properties propiedades = new Properties();
+    
+    private static Properties PROPIEDADES = new Properties();
     
     static{ 
+        
         try{
+            
             InputStream entrada = ConfiguracionBaseDatos.class.getClassLoader().getResourceAsStream("baseDatos.properties");
             
             if(entrada == null){
                 throw new RuntimeException("No se encontró baseDatos.properties");
             }
             
-            propiedades.load(entrada);
+            PROPIEDADES.load(entrada);
             
         }catch (IOException e) {
+            
             throw new RuntimeException("Error cargando configuracion",e);
+            
         }
+        
     }    
     public static String get(String key){
-        return propiedades.getProperty(key);
+        
+        return PROPIEDADES.getProperty(key);
+        
     }
+    
 }

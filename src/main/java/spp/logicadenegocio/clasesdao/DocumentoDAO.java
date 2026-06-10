@@ -96,11 +96,8 @@ public class DocumentoDAO implements IDocumentoDAO {
 
             consultaPreparada.setString(1, nombre);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
 
         } catch(SQLException e) {
 

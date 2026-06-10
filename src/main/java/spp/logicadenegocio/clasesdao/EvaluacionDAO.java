@@ -24,11 +24,11 @@ public class EvaluacionDAO implements IEvaluacionDAO{
     @Override
     public int insertarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
         
+        int idInsertado = 0;
+        
         String consultaSQL = "INSERT INTO Evaluacion (nrc, periodo, calificacionFinal, Profesor_idUsuario, "
                 + "observaciones, Practicante_idUsuario) VALUES (?, ?, ?, ?, ?, ?)";
-        
-        boolean registroExitoso = false;
-        
+                
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS);){
             
@@ -44,21 +44,17 @@ public class EvaluacionDAO implements IEvaluacionDAO{
             ResultSet resultadosConsulta = consultaPreparada.getGeneratedKeys();
 
             if (resultadosConsulta.next()) {
-                int idGenerado = resultadosConsulta.getInt(1);
-                evaluacion.setIdEvaluacion(idGenerado);
+                
+                idInsertado = resultadosConsulta.getInt(1);
+                evaluacion.setIdEvaluacion(idInsertado);
+                
             }
-            
-            registroExitoso = true;
-            
+                        
         }catch( SQLException e ){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
         
-        if(registroExitoso){
-            return evaluacion.getIdEvaluacion();
-        }else{
-            return 0;
-        }
+        return idInsertado;
         
     }
 
@@ -109,11 +105,7 @@ public class EvaluacionDAO implements IEvaluacionDAO{
 
             consultaPreparada.setInt(1, idEvaluacion);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

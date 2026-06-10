@@ -128,9 +128,9 @@ public class ControladorDocumentos {
     private void actualizarVistaArchivo() {
 
         lblNombreArchivo.setText(archivoSeleccionado.getName());
-        int CONVERSION_KB = 1024;
-        String KILO_BYTES = "KB";
-        lblPesoArchivo.setText((archivoSeleccionado.length() / CONVERSION_KB) + KILO_BYTES);
+        int conversionKiloBytes = 1024;
+        String kiloBytes = "KB";
+        lblPesoArchivo.setText((archivoSeleccionado.length() / conversionKiloBytes) + kiloBytes);
 
         vbPrevisualizacion.setVisible(true);
         vbPrevisualizacion.setManaged(true);

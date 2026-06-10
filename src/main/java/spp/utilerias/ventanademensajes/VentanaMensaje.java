@@ -15,24 +15,25 @@ import javafx.scene.control.ButtonType;
  */
 public class VentanaMensaje {
     
-    public static void mostrarVentanaMensaje(AlertType tipo, String titulo, String mensaje) {
+    private static Alert construirAlerta(AlertType tipo, String titulo, String mensaje){
         
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
-        alerta.showAndWait();
+        return alerta;
+    }
+    
+    public static void mostrarVentanaMensaje(AlertType tipo, String titulo, String mensaje) {
+        
+        construirAlerta(tipo, titulo, mensaje).showAndWait();
         
     }
     
     public static boolean mostrarConfirmacion(String titulo, String mensaje) {
 
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
+        Alert alerta = construirAlerta(Alert.AlertType.CONFIRMATION, titulo, mensaje);       
         Optional<ButtonType> resultado = alerta.showAndWait();
-
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
 
     }

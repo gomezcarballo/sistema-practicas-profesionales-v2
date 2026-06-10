@@ -33,11 +33,7 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
             consultaPreparada.setInt(2, idRemitente);
             consultaPreparada.setInt(3, idDestinatario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                registroExitoso = true;
-            }
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
 
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
@@ -64,11 +60,7 @@ public class EnvioMensajeDAO implements IEnvioMensajeDAO{
             consultaPreparada.setInt(2, idRemitente);
             consultaPreparada.setInt(3, idDestinatario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

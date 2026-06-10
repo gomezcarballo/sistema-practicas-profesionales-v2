@@ -42,7 +42,7 @@ public class ActividadReporteFinal {
         this.observaciones = observaciones;
     }
 
-    public boolean isEsEntregable() {
+    public boolean getEsEntregable() {
         return esEntregable;
     }
 

@@ -42,9 +42,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             consultaPreparada.setDate(5, fechaParaBD);
             consultaPreparada.setString(6, practicante.getNrcAsignado());
             
-            consultaPreparada.executeUpdate();
-            
-            registroExitoso = true;
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
 
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -111,11 +109,8 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
 
             consultaPreparada.setInt(1, idUsuario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-            if (filasAfectadas > 0) {
-                inactivacionExitosa = true;
-            }
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
@@ -173,6 +168,8 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     @Override
     public UsuarioEncontrado buscarPracticante (String matricula) throws OperacionesDeDaoExcepcion{
         
+        UsuarioEncontrado usuarioEncontrado = null;
+        
         String consultaSQL = "{CALL obtener_datos_practicante(?)}";
         
         try(Connection conexion = ConexionBD.getConexion();
@@ -182,20 +179,19 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
            
             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
             
-            if (!resultadosConsulta.next()){
-                return null;
+            if (resultadosConsulta.next()){
+
+                int idEncontrado = resultadosConsulta.getInt("idUsuario");
+                String rolEncontrado = resultadosConsulta.getString("rol");
+                String hashEncontrado = resultadosConsulta.getString("hash");
+                
+                usuarioEncontrado = new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
             }
-            
-            int idEncontrado = resultadosConsulta.getInt("idUsuario");
-            String rolEncontrado = resultadosConsulta.getString("rol");
-            String hashEncontrado = resultadosConsulta.getString("hash");
-            
-            return new UsuarioEncontrado(idEncontrado, rolEncontrado, hashEncontrado);
-            
+
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos.",e);
         }
-    
+    return usuarioEncontrado;
     }
 
     @Override
@@ -240,11 +236,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
 
             consultaPreparada.setInt(1, idUsuario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

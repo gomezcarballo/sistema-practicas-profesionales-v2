@@ -26,7 +26,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public int insertarUsuario(Usuario usuario) throws OperacionesDeDaoExcepcion{
         
-        boolean registroExitoso = false;
+        int idInsertado = 0;
         
         String consultaSQL = "INSERT INTO Usuario (nombre, apellidoPaterno, apellidoMaterno, "
                 + "correoInstitucional, contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
@@ -47,22 +47,19 @@ public class UsuarioDAO implements IUsuarioDAO {
             ResultSet resultadosConsulta = consultaPreparada.getGeneratedKeys();
 
             if (resultadosConsulta.next()) {
-                int idGenerado = resultadosConsulta.getInt(1);
-                usuario.setIdUsuario(idGenerado);
+                
+                idInsertado = resultadosConsulta.getInt(1);
+                usuario.setIdUsuario(idInsertado);
+                
             }
 
-            registroExitoso = true;
             resultadosConsulta.close();
 
         } catch (SQLException e) {
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
         }
         
-        if(registroExitoso){
-            return usuario.getIdUsuario();
-        }else{
-            return 0;
-        }
+        return idInsertado;
     }
     
     @Override
@@ -91,11 +88,9 @@ public class UsuarioDAO implements IUsuarioDAO {
                 usuario.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
 
                 int esActivo = resultadosConsulta.getInt("estado");
-                if (esActivo == 1) {
-                    usuario.setEsActivo(true);
-                } else {
-                    usuario.setEsActivo(false);
-                }
+                usuario.setEsActivo(esActivo == 1);
+                
+                resultadosConsulta.close();
 
             } 
 
@@ -104,6 +99,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
 
     return usuario;
+    
     }
 
     @Override
@@ -118,11 +114,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
             consultaPreparada.setInt(1, idUsuario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -145,11 +137,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             consultaPreparada.setString(1, nuevaContraseña);
             consultaPreparada.setInt(2, idUsuario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                actualizacionExitosa = true;
-            }
+            actualizacionExitosa = consultaPreparada.executeUpdate() > 0;
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -215,7 +203,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 
             
         } catch (SQLException e) {
+            
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);
+            
         }
         return idUsuario;
     }

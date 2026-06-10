@@ -13,13 +13,14 @@ public class SeleccionActividadEntregable implements Callback<TableColumn.CellDa
     public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ActividadReporteFinal, Boolean> param) {
         
         ActividadReporteFinal actividad = param.getValue();
-        SimpleBooleanProperty propiedadBooleana = new SimpleBooleanProperty(actividad.isEsEntregable());
+        SimpleBooleanProperty propiedadBooleana = new SimpleBooleanProperty(actividad.getEsEntregable());
 
         propiedadBooleana.addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean valorViejo, Boolean valorNuevo) {
-                // Se actualiza el DTO automáticamente cuando el practicante da clic en el checkbox
+
                 actividad.setEsEntregable(valorNuevo);
+                
             }
         });
         

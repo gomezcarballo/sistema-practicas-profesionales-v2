@@ -131,14 +131,7 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         }
         
     }
-    
-    private void mostrarMensajeErrorRegistro(String mensaje){
-        
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-        mensaje);
-        
-    }
-    
+
     public void registrarProfesorConReemplazo(Profesor profesorNuevo, Profesor profesorAnterior, ActionEvent evento){
 
         try{
@@ -160,6 +153,13 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
 
         }
 
+    }
+    
+    private void mostrarMensajeErrorRegistro(String mensaje){
+        
+        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+        mensaje);
+        
     }
     
 }

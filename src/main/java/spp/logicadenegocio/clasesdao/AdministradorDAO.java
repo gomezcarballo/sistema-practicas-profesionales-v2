@@ -55,11 +55,7 @@ public class AdministradorDAO implements IAdministradorDAO{
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
                         
-            int filasAfectadas = consultaPreparada.executeUpdate();
-            
-            if(filasAfectadas > 0){
-                inactivacionExitosa = true;
-            }
+            inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -109,12 +105,8 @@ public class AdministradorDAO implements IAdministradorDAO{
 
             consultaPreparada.setInt(1, idUsuario);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
-
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
+            
         } catch(SQLException e) {
 
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos", e);

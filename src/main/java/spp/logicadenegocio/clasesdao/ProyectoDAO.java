@@ -44,12 +44,12 @@ public class ProyectoDAO implements IProyectoDAO {
             consultaPreparada.setString(7, proyecto.getMetodologia());
             consultaPreparada.setInt(8, proyecto.getOrganizacion().getIdOrganizacion());
             
-            consultaPreparada.executeUpdate();
-            
-            registroExitoso = true;
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
 
         } catch (SQLException e) {
+            
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
+            
         }
     return registroExitoso;
     
@@ -123,13 +123,7 @@ public class ProyectoDAO implements IProyectoDAO {
           
             consultaPreparada.setInt(1, idProyecto);
 
-            int resultadosConsulta = consultaPreparada.executeUpdate();
-
-            if(resultadosConsulta > 0){
-                
-                actualizado = true;
-                
-            }
+            actualizado = consultaPreparada.executeUpdate() > 0;
 
         } catch (SQLException e) {
             
@@ -154,11 +148,7 @@ public class ProyectoDAO implements IProyectoDAO {
 
             consultaPreparada.setInt(1, idProyecto);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                inactivacionExitosa = true;
-            }
+            inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -180,11 +170,7 @@ public class ProyectoDAO implements IProyectoDAO {
 
             consultaPreparada.setInt(1, idOrganizacion);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                inactivacionExitosa = true;
-            }
+            inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
@@ -214,11 +200,9 @@ public class ProyectoDAO implements IProyectoDAO {
             consultaPreparada.setString(6, proyecto.getMetodologia());
             consultaPreparada.setInt(7, proyecto.getIdProyecto());
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            actualizacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-            if (filasAfectadas > 0) {
-                actualizacionExitosa = true;
-            }
+            
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
@@ -343,11 +327,7 @@ public class ProyectoDAO implements IProyectoDAO {
 
             consultaPreparada.setString(1, nombre);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
-
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLException e) {
 

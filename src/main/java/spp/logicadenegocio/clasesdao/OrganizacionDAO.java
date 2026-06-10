@@ -36,10 +36,9 @@ public class OrganizacionDAO implements IOrganizacionDAO{
             consultaPreparada.setString(2, organizacion.getDireccion());
             consultaPreparada.setString(3, organizacion.getSector());
             consultaPreparada.setBoolean(4, organizacion.getEsActivo());
-           
-            consultaPreparada.executeUpdate();
+
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
             
-            registroExitoso = true;
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
@@ -71,12 +70,7 @@ public class OrganizacionDAO implements IOrganizacionDAO{
                 organizacion.setSector(resultadosConsulta.getString("sector"));
 
                 int esActivo = resultadosConsulta.getInt("estado");
-                
-                if (esActivo == 1) {
-                    organizacion.setEsActivo(true);
-                } else {
-                    organizacion.setEsActivo(false);
-                }
+                organizacion.setEsActivo(esActivo == 1);
 
             }
 
@@ -100,11 +94,8 @@ public class OrganizacionDAO implements IOrganizacionDAO{
 
             consultaPreparada.setInt(1, idOrganizacion);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-            if (filasAfectadas > 0) {
-                inactivacionExitosa = true;
-            }
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
@@ -129,11 +120,8 @@ public class OrganizacionDAO implements IOrganizacionDAO{
             consultaPreparada.setString(3, organizacion.getSector());
             consultaPreparada.setInt(4, organizacion.getIdOrganizacion());
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            actualizacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-            if (filasAfectadas > 0) {
-                actualizacionExitosa = true;
-            }
         }catch(SQLException e){
             throw new OperacionesDeDaoExcepcion("No se puede conectar a la base de datos",e);
         }
@@ -190,11 +178,8 @@ public class OrganizacionDAO implements IOrganizacionDAO{
 
             consultaPreparada.setString(1, nombre);
 
-            int filasAfectadas = consultaPreparada.executeUpdate();
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
 
-            if(filasAfectadas > 0) {
-                eliminacionExitosa = true;
-            }
 
         } catch(SQLException e) {
 

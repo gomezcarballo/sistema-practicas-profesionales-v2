@@ -13,17 +13,16 @@ import java.security.SecureRandom;
 
 public class GeneradorContrasena {
 
-    private static final String CARACTERES = 
-        "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#$%";
+    private static final String CARACTERES =  "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#$%";
 
-    private static final SecureRandom aleatorio = new SecureRandom();
+    private static final SecureRandom ALEATORIO = new SecureRandom();
 
     public static String generarContraseña(int longitud) {
         
         StringBuilder contraseña = new StringBuilder(longitud);
 
         for (int i = 0; i < longitud; i++) {
-            int indice = aleatorio.nextInt(CARACTERES.length());
+            int indice = ALEATORIO.nextInt(CARACTERES.length());
             contraseña.append(CARACTERES.charAt(indice));
         }
 
