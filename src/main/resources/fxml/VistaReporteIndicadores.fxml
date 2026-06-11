@@ -8,81 +8,43 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbRaiz"
-      alignment="CENTER"
-      prefHeight="400.0"
-      prefWidth="600.0"
-      spacing="20.0"
-      styleClass="panel-raiz"
-      stylesheets="@../css/estilos.css"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="spp.presentacion.controladores.coordinador.ControladorReporteIndicadores">
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorReporteIndicadores">
 
     <children>
 
-        <VBox fx:id="vbTarjetaReporte"
-              alignment="CENTER"
-              maxWidth="560.0"
-              spacing="20.0"
-              styleClass="tarjeta-blanca">
+        <VBox fx:id="vbTarjetaReporte" alignment="CENTER" maxWidth="560.0" spacing="20.0" styleClass="tarjeta-blanca">
 
             <children>
 
-                <VBox alignment="CENTER"
-                      spacing="5.0">
+                <VBox alignment="CENTER" spacing="5.0">
 
                     <children>
 
-                        <Label fx:id="lblTituloReporteIndicadores"
-                               text="Reporte de Indicadores de Practicantes"
-                               styleClass="etiqueta-titulo"/>
+                        <Label fx:id="lblTituloReporteIndicadores" styleClass="etiqueta-titulo" text="Reporte de Indicadores de Practicantes" />
 
-                        <Label fx:id="lblInstruccion"
-                               text="Consulte los indicadores registrados y genere el reporte en PDF"
-                               styleClass="etiqueta-instruccion"
-                               wrapText="true"/>
+                        <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" text="Consulte los indicadores registrados y genere el reporte en PDF" wrapText="true" />
 
                     </children>
 
                 </VBox>
 
-                <TableView fx:id="tblIndicadores"
-                           prefHeight="220.0"
-                           prefWidth="500.0"
-                           styleClass="tabla-estandar">
+                <TableView fx:id="tblIndicadores" prefHeight="220.0" prefWidth="500.0" styleClass="tabla-estandar">
 
                     <columns>
 
-                        <TableColumn fx:id="colIndicador"
-                                     text="Indicador"
-                                     prefWidth="300.0"
-                                     reorderable="false"/>
+                        <TableColumn fx:id="colIndicador" prefWidth="300.0" reorderable="false" text="Indicador" />
 
-                        <TableColumn fx:id="colValor"
-                                     text="Cantidad"
-                                     prefWidth="200.0"
-                                     reorderable="false"/>
+                        <TableColumn fx:id="colValor" prefWidth="200.0" reorderable="false" text="Cantidad" />
 
                     </columns>
 
                 </TableView>
 
-                <HBox alignment="CENTER"
-                      spacing="15.0">
+                <HBox alignment="CENTER" spacing="15.0">
 
                     <children>
 
-                        <Button fx:id="btnDescargarReporte"
-                                mnemonicParsing="false"
-                                text="Descargar PDF"
-                                styleClass="boton-accion"/>
-
-                        <Button fx:id="btnRegresar"
-                                mnemonicParsing="false"
-                                onAction="#regresar"
-                                text="Regresar"
-                                styleClass="boton-cancelar"/>
+                        <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" styleClass="boton-cancelar" text="Regresar" />
 
                     </children>
 
@@ -91,10 +53,7 @@
             </children>
 
             <padding>
-                <Insets top="30.0"
-                        right="30.0"
-                        bottom="30.0"
-                        left="30.0"/>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
             </padding>
 
         </VBox>

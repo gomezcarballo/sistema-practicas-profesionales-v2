@@ -5,16 +5,20 @@
 package spp.presentacion.controladores.coordinador;
 
 import java.util.List;
+import java.util.logging.Level;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
+import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -25,7 +29,10 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
  * @author gomes
  */
 public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos{
-
+    
+    @FXML
+    private Button btnAsignar;
+    
     @FXML
     private TableColumn<Proyecto, String> colNombreResponsable;
     
@@ -40,6 +47,8 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
         this.practicante = practicante;
         
         cargarProyectosSolicitados();
+        
+        verificarEstadoPracticante();
 
     }
     
@@ -81,6 +90,29 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
         
     } 
     
+    private void verificarEstadoPracticante() {
+        
+        try {
+            
+            GestorPracticantes gestor = new GestorPracticantes();
+            boolean yaTieneProyecto = gestor.verificarAsignacionProyecto(practicante.getIdUsuario());
+            
+            if (yaTieneProyecto) {
+                
+                btnAsignar.setDisable(true);
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Practicante asignado", 
+                "Este practicante ya tiene un proyecto asignado. Solo modo lectura.");
+                
+            }
+            
+        } catch (ReglaDeNegocioExcepcion e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al verificar estado previo del practicante", e);
+            
+        }
+        
+    }
+    
     @FXML
     private void asignarProyecto(ActionEvent evento) {
 
@@ -88,12 +120,39 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
         
         if(proyectoSeleccionado == null) {
 
-            return;
+            validarYRegistrarAsignacion(proyectoSeleccionado, evento);
 
         }
         
         registrarAsignacionProyecto(proyectoSeleccionado, evento);
 
+    }
+    
+    private void validarYRegistrarAsignacion(Proyecto proyectoSeleccionado, ActionEvent evento) {
+        
+        try {
+            
+            GestorPracticantes gestorPracticantes = new GestorPracticantes();
+            boolean yaTieneProyecto = gestorPracticantes.verificarAsignacionProyecto(practicante.getIdUsuario());
+            
+            if (yaTieneProyecto) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Asignación bloqueada", 
+                "El registro no procede: Este practicante ya cuenta con un proyecto activo asignado.");
+                
+            } else {
+                
+                registrarAsignacionProyecto(proyectoSeleccionado, evento);
+                
+            }
+            
+        } catch (ReglaDeNegocioExcepcion e) {
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error de validación", 
+            "No se pudo verificar el estado actual del practicante.");
+            
+        }
+        
     }
     
     private void registrarAsignacionProyecto(Proyecto proyectoSeleccionado, ActionEvent evento) {

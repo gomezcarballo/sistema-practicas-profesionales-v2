@@ -103,15 +103,21 @@ public class GestorCoordinadores {
         return usuario;
     }
     
-    public void reemplazarCoordinador(Coordinador coordinador)throws ReglaDeNegocioExcepcion{
-
-        if(verificarCoordinadorActivo()){
-
+    public void reemplazarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+        
+        validarCoordinador(coordinador);
+        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        Usuario usuarioCoordinador = prepararUsuarioParaRegistro(coordinador, contrasenaPlana);
+        
+        if (verificarCoordinadorActivo()) {
+            
             inactivarCoordinadorActivo();
-
+            
         }
-
-        ingresarCoordinador(coordinador);
+        
+        guardarCoordinadorEnBaseDeDatos(usuarioCoordinador, coordinador);
+        enviarContraseñaPorCorreo(usuarioCoordinador.getCorreoInstitucional(), contrasenaPlana);
 
     }
     
@@ -173,6 +179,24 @@ public class GestorCoordinadores {
         }catch(OperacionesDeDaoExcepcion e){
             
             throw new ReglaDeNegocioExcepcion("No se pudo reactivar al coordinador");
+            
+        }
+        
+    }
+    
+    public void reemplazarPorCoordinadorInactivo(int idUsuarioReactivar) throws ReglaDeNegocioExcepcion {
+        
+        if (verificarCoordinadorActivo()) {
+            inactivarCoordinadorActivo();
+        }
+
+        try {
+            
+            reactivarCoordinadorInactivo(idUsuarioReactivar);
+            
+        } catch (ReglaDeNegocioExcepcion e) {
+            
+            throw new ReglaDeNegocioExcepcion("Se inactivó al coordinador actual, pero falló la reactivación del nuevo. Contacte a soporte técnico.");
             
         }
         

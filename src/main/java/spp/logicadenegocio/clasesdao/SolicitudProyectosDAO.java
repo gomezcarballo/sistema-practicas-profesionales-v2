@@ -186,4 +186,36 @@ public class SolicitudProyectosDAO implements ISolicitudProyectosDAO{
         return eliminacionExitosa;
     }
     
+    public int obtenerConteoSolicitudes(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        int conteo = 0;
+        String consultaSQL = "SELECT COUNT(*) FROM solicitud_proyecto WHERE Practicante_idUsuario = ?";
+        
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+                
+                if (resultadosConsulta.next()) {
+                    
+                    conteo = resultadosConsulta.getInt(1);
+                    
+                }
+                
+            }
+
+        } catch (SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+            "Error al contar solicitudes. Practicante: " + idPracticante, e);
+                
+            throw new OperacionesDeDaoExcepcion("Error al verificar el historial de solicitudes", e);
+            
+        }
+        
+        return conteo;
+    }
+    
 }

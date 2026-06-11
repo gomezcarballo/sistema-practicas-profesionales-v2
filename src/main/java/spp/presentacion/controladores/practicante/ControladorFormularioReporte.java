@@ -27,6 +27,8 @@ import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import spp.logicadenegocio.validaciones.validacionesreportes.ValidacionReporteParcial;
+import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.selecciones.seleccionesreporteparcial.SeleccionTablaListener;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 
@@ -98,12 +100,22 @@ public class ControladorFormularioReporte {
             
             ActividadReporteParcial actividad = crearActividad();
             
-            registrarActividad(actividad);
+            try{
+                
+                ValidacionReporteParcial validacion = new ValidacionReporteParcial();
+                validacion.validarTamañoActividad(actividad);
+                
+                registrarActividad(actividad);
             
+            }catch(ReglaDeNegocioExcepcion e){
+                     
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Límite excedido", e.getMessage());   
+            }   
+                
         } else {
-            
+
             mostrarMensajeCamposFaltantes();
-            
+
         }
         
     }
@@ -212,9 +224,23 @@ public class ControladorFormularioReporte {
         
         if (sonDatosDeReporteValidos()) {
             
-            ReporteParcial reporte = crearReporte();
+            String periodo = txtPeriodo.getText().trim();
+            String resultados = taResultados.getText().trim();
+            String observaciones = taObservaciones.getText().trim();
             
-            guardarReporte(reporte, evento);
+            try {
+                
+                ValidacionReporteParcial validacion = new ValidacionReporteParcial();
+                validacion.validarTamañoReporte(periodo, resultados, observaciones);
+                
+                ReporteParcial reporte = crearReporte();
+                guardarReporte(reporte, evento);
+                
+            } catch (ReglaDeNegocioExcepcion e) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Límite excedido", e.getMessage());
+                
+            }
             
         } else {
             
@@ -271,6 +297,8 @@ public class ControladorFormularioReporte {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
             "Reporte parcial generado correctamente.");
+            
+            regresar(evento);
 
         }catch(OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e){
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error generar reporte", 

@@ -100,52 +100,47 @@ public class ControladorReactivacionCoordinador {
     }
     
     @FXML
-    private void reactivarCoordinador(ActionEvent evento){
+    private void reactivarCoordinador(ActionEvent evento) {
         
         Coordinador coordinadorSeleccionado = obtenerCoordinadorSeleccionado();
 
-        if(coordinadorSeleccionado != null){
+        if (coordinadorSeleccionado != null) {
+            
+            procesarReactivacion(coordinadorSeleccionado, evento);
+            
+        }
+        
+    }
 
-            GestorCoordinadores gestorCoordinadores =  new GestorCoordinadores();
+    private void procesarReactivacion(Coordinador coordinador, ActionEvent evento) {
+        
+        try {
+            
+            GestorCoordinadores gestor = new GestorCoordinadores();
+            boolean continuarRegistro = true;
 
-            try{
-
-                boolean continuarReactivacion = true;
-
-                if(gestorCoordinadores.verificarCoordinadorActivo()){
-
-                    continuarReactivacion = VentanaMensaje.mostrarConfirmacion("Coordinador activo",
-                    "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con la reactivación?");
-
-                    if(continuarReactivacion){
-
-                        gestorCoordinadores.inactivarCoordinadorActivo();
-
-                    }else{
-
-                        cancelar(evento);
-
-                    }
-
-                }
-
-                if(continuarReactivacion){
-
-                    gestorCoordinadores.reactivarCoordinadorInactivo(coordinadorSeleccionado.getIdUsuario());
-
-                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION,"Reactivación exitosa",
-                     "Coordinador reactivado exitosamente");
-
-                    irMenuPrincipal(evento);
-
-                }
-
-            }catch(ReglaDeNegocioExcepcion e){
-
-                VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR,"Reactivación fallida", e.getMessage());
-
+            if (gestor.verificarCoordinadorActivo()) {
+                
+                continuarRegistro = VentanaMensaje.mostrarConfirmacion("Coordinador activo",
+                "Ya existe un Coordinador activo. ¿Desea inactivarlo para continuar con la reactivación?");
+                
             }
 
+            if (continuarRegistro) {
+                
+                gestor.reemplazarPorCoordinadorInactivo(coordinador.getIdUsuario());
+
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Reactivación exitosa",
+                "Coordinador reactivado exitosamente");
+
+                irMenuPrincipal(evento);
+                
+            }
+
+        } catch (ReglaDeNegocioExcepcion e) {
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Reactivación fallida", e.getMessage());
+            
         }
         
     }

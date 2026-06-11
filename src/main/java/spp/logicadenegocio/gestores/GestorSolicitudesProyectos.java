@@ -82,5 +82,22 @@ public class GestorSolicitudesProyectos {
         
     }
 
+    public int contarSolicitudesPorPracticante(int idPracticante) throws ReglaDeNegocioExcepcion {
+        
+        int totalSolicitudes = 0;
+        
+        try {
+            
+            SolicitudProyectosDAO solicitudesDAO = new SolicitudProyectosDAO();
+            totalSolicitudes = solicitudesDAO.obtenerConteoSolicitudes(idPracticante);
+            
+        } catch (OperacionesDeDaoExcepcion e) {
+            
+            throw new ReglaDeNegocioExcepcion("Error al contabilizar las solicitudes del practicante", e);
+            
+        }
+        
+        return totalSolicitudes;
+    }
     
 }

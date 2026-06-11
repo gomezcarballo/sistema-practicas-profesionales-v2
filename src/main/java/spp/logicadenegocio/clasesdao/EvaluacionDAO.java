@@ -196,4 +196,30 @@ public class EvaluacionDAO implements IEvaluacionDAO{
         return eliminacionExitosa;
     }
     
+    public boolean existeEvaluacion(int idPracticante, String nrc) throws OperacionesDeDaoExcepcion {
+    
+        boolean existe = false;
+        String consultaSQL = "SELECT COUNT(*) FROM evaluacion WHERE Practicante_idUsuario = ? AND nrc = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, nrc);
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+                if (resultadosConsulta.next()) {
+                    existe = resultadosConsulta.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al verificar existencia de evaluacion. Practicante: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("Error al verificar evaluaciones previas", e);
+        }
+
+        return existe;
+    }
+    
 }

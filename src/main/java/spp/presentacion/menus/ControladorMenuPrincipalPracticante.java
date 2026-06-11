@@ -9,12 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 

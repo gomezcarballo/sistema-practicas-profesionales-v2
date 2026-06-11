@@ -24,6 +24,9 @@ import spp.logicadenegocio.clasesdto.ActividadReporteFinal;
 import spp.logicadenegocio.clasesdto.ReporteFinal;
 import spp.logicadenegocio.gestores.GestorActividades;
 import spp.logicadenegocio.gestores.GestorReporteFinal;
+import spp.logicadenegocio.validaciones.validacionesreportes.ValidacionReporteFinal;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -116,36 +119,60 @@ public class ControladorFormularioReporteFinal {
     }
 
     @FXML
-    public void generarReporte(ActionEvent evento) {
+    public void generarReporte(ActionEvent evento) throws OperacionesDeDaoExcepcion {
         
-        boolean estanLlenas = actividadesLlenas();
-
-        if(taObservacionesGenerales.getText().trim().isEmpty()) {
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incompletos", 
-            "Por favor, llena el campo de observaciones generales.");
-            return;
-        }
-        
-        if(estanLlenas) {
+        if (sonDatosGeneralesValidos()) {
             
             ReporteFinal reporte = crearReporteFinal();
-            GestorReporteFinal gestor = new GestorReporteFinal();
             
             try {
                 
+                ValidacionReporteFinal validacion = new ValidacionReporteFinal();
+                validacion.validarDatosReporte(reporte);
+                
+                GestorReporteFinal gestor = new GestorReporteFinal();
                 gestor.generarReporteFinal(reporte); 
+                
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
                 "Reporte Final generado correctamente.");
                 
-            } catch (Exception e) {
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, 
-                "Error en Generación", e.getMessage());
+                regresar(evento);
+                
+            } catch (ReglaDeNegocioExcepcion e) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Error de validación", 
+                e.getMessage());
+                
+            } catch (ProcesamientoSistemaExcepcion e) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error del Sistema", 
+                e.getMessage());
+                
             }
-
-        } else {
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incompletos", 
-            "Asegúrate de llenar el % de avance en todas las actividades.");
+            
         }
+        
+    }
+
+    private boolean sonDatosGeneralesValidos() {
+        
+        boolean sonValidos = true;
+        
+        if (taObservacionesGenerales.getText().trim().isEmpty()) {
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incompletos", 
+            "Por favor, llena el campo de observaciones generales.");
+            sonValidos = false;
+            
+        } else if (!actividadesLlenas()) {
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incompletos", 
+            "Asegúrate de llenar el porcentaje de avance en todas las actividades de la tabla.");
+            sonValidos = false;
+            
+        }
+        
+        return sonValidos;
         
     }
 

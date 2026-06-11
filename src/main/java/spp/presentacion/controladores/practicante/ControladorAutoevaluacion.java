@@ -48,21 +48,30 @@ public class ControladorAutoevaluacion {
     public void leerDatosDeAutoevaluacion(ActionEvent evento){
         
         if(sonCamposDeAutoevaluacionValidos()){
+            try{
+                
             
-            Autoevaluacion autoevaluacion = crearAutoevaluacion();
-            ValidacionAutoevaluacion validacionAutoevaluacion = new ValidacionAutoevaluacion();
-            
-            if(validacionAutoevaluacion.sonValoresValidos(autoevaluacion)){
+                Autoevaluacion autoevaluacion = crearAutoevaluacion();
+                ValidacionAutoevaluacion validacionAutoevaluacion = new ValidacionAutoevaluacion();
+
+                if(validacionAutoevaluacion.sonValoresValidos(autoevaluacion)){
+
+                    int puntuacionTotal = validacionAutoevaluacion.calcularPuntuacionFinal(autoevaluacion);
+                    autoevaluacion.setPuntuacionFinal(puntuacionTotal);
+
+                    guardarAutoevaluacion(autoevaluacion, evento);
+
+                }else{
+
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Valores fuera de rango", 
+                    "Asegúrese de que todas las calificaciones estén entre 1 y 5.");
+
+                }
+             
+            }catch (NumberFormatException e) {
                 
-                int puntuacionTotal = validacionAutoevaluacion.calcularPuntuacionFinal(autoevaluacion);
-                autoevaluacion.setPuntuacionFinal(puntuacionTotal);
-                
-                guardarAutoevaluacion(autoevaluacion);
-                
-            }else{
-                
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Valores fuera de rango", 
-                "Asegúrese de que todas las calificaciones estén entre 1 y 5.");
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Valor incorrecto", 
+                "El número ingresado no es válido. Recuerde usar solo calificaciones entre 1 y 5.");
                 
             }
             
@@ -123,7 +132,7 @@ public class ControladorAutoevaluacion {
         
     }
     
-    private void guardarAutoevaluacion(Autoevaluacion autoevaluacion){
+    private void guardarAutoevaluacion(Autoevaluacion autoevaluacion, ActionEvent evento){
         
         try{
             
@@ -132,6 +141,8 @@ public class ControladorAutoevaluacion {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
             "Autoevaluacion generada correctamente."); 
+            
+            regresar(evento);
             
         }catch(OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e){
             

@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -50,7 +51,7 @@ public class ControladorEvaluacionDocumentos {
         
         this.documentoSeleccionado = documento;
         this.practicanteSeleccionado = practicante;
-        
+                
     }
     
     @FXML
@@ -96,14 +97,29 @@ public class ControladorEvaluacionDocumentos {
     private void registrarEvaluacion(ActionEvent evento) {
         
         if (sonCamposValidos()) {
-            
-            Evaluacion nuevaEvaluacion = crearEvaluacion();
-            procesarEvaluacion(nuevaEvaluacion, evento);
+            try {
+                GestorEvaluacion gestor = new GestorEvaluacion();
+
+                if (gestor.evaluacionYaExiste(practicanteSeleccionado)) {
+                    
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Ya evaluado", 
+                        
+                            "Este practicante ya cuenta con una evaluación para este documento.");
+                } else {
+                    
+                    Evaluacion nuevaEvaluacion = crearEvaluacion();
+                    
+                    procesarEvaluacion(nuevaEvaluacion, evento);
+                }
+
+            } catch (ReglaDeNegocioExcepcion e) {
+                
+                mostrarMensajeErrorRegistro(e.getMessage());
+            }
             
         } else {
             
             mostrarMensajeCamposFaltantes();
-            
         }
         
     }
