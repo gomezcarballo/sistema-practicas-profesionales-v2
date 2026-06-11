@@ -1,0 +1,1 @@
+[2026-06-11T00:05:38.269599300] [SEVERE] Violación de integridad al insertar administrador. el ID 795El noPersonal: 78623 - Detalles: Duplicate entry '795-78623' for key 'administrador.PRIMARY'

@@ -109,6 +109,7 @@ public class PruebaEvaluacionDAO {
         nuevaEvaluacion.setNrc("NRC01");
         nuevaEvaluacion.setPeriodo("AGO-DIC 26");
         nuevaEvaluacion.setCalificacionFinal(10.0);
+        nuevaEvaluacion.setObservaciones("Sin observaciones para esta prueba");
         
         Profesor profesor = new Profesor();
         profesor.setIdUsuario(idUsuarioProfesor);
