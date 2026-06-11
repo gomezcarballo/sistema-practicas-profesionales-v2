@@ -6,10 +6,6 @@ package spp.presentacion.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import spp.logicadenegocio.enums.TipoMensaje;
-import spp.presentacion.mensajeria.ControladorListaMensajesEnviados;
-import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 
 /**

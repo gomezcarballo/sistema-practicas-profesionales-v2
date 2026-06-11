@@ -6,7 +6,6 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import java.util.logging.Level;
-import spp.logicadenegocio.clasesdao.AdministradorDAO;
 import spp.logicadenegocio.clasesdao.CoordinadorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Coordinador;

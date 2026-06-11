@@ -56,6 +56,7 @@ public class GestorAutoevaluacion{
         autoevaluacion.setNombreResponsableProyecto(reporteBaseDatos.getNombreResponsableProyecto());
         autoevaluacion.setProyecto(reporteBaseDatos.getProyecto());
         autoevaluacion.setMatricula(matricula);
+        autoevaluacion.asignarCarreraPorDefecto();
 
     }
 

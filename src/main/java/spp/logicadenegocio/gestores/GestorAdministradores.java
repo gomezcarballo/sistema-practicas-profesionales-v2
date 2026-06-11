@@ -26,8 +26,8 @@ public class GestorAdministradores {
     public void ingresarAdministrador(Administrador administrador) throws ReglaDeNegocioExcepcion {
         
         validarAdministrador(administrador);
-        
-        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        int longitudContrasena = 10; 
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(longitudContrasena);        
         Usuario usuarioAdministrador = prepararUsuarioParaRegistro(administrador, contrasenaPlana);
         
         guardarAdministradorEnBaseDeDatos(usuarioAdministrador, administrador);

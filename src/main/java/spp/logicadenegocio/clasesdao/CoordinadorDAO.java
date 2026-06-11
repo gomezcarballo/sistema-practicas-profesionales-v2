@@ -208,7 +208,7 @@ public class CoordinadorDAO implements ICoordinadorDAO {
                 "intente de nuevo más tarde", e);
         }
         
-    return reactivacionExitosa;
+        return reactivacionExitosa;
         
     }
     

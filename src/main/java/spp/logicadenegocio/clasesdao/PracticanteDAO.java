@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.logicadenegocio.interfacesdao.IPracticanteDAO;
 import spp.utilerias.bitacora.RegistroErrores;

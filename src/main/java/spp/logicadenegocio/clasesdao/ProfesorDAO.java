@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdto.Profesor;
-import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.interfacesdao.IProfesorDAO;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -214,7 +213,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
                 "intente de nuevo", e);
         }
         
-    return profesoresInactivos;
+         return profesoresInactivos;
     
     }
     
@@ -265,7 +264,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
                 "intente de nuevo", e);
         }
 
-    return cantidadProfesoresActivos;
+         return cantidadProfesoresActivos;
 
     }
 

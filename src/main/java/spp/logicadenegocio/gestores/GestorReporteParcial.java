@@ -52,6 +52,10 @@ public class GestorReporteParcial {
         reporte.setNombreResponsableProyecto(reporteBaseDatos.getNombreResponsableProyecto());
         reporte.setProyecto(reporteBaseDatos.getProyecto());
         reporte.setMatricula(matricula);
+        reporte.asignarCarreraPorDefecto();
+        reporte.asignarFechaActual();
+        reporte.asignarNumeroInforme();
+        reporte.calcularPeriodoEscolar();
 
     }
 

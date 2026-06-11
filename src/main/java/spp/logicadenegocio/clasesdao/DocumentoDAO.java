@@ -14,7 +14,6 @@ import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.interfacesdao.IDocumentoDAO;

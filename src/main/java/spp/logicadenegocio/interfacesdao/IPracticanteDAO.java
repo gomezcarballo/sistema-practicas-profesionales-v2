@@ -4,10 +4,8 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
-import java.sql.Connection;
 import java.util.List;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 

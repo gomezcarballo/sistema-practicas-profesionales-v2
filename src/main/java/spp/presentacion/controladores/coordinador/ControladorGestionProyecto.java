@@ -6,7 +6,6 @@ package spp.presentacion.controladores.coordinador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,7 +15,6 @@ import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
-import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
