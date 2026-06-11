@@ -24,41 +24,62 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorProfesores {
     
-    public void ingresarProfesor(Profesor profesor)throws ReglaDeNegocioExcepcion{
+    public void ingresarProfesor(Profesor profesor) throws ReglaDeNegocioExcepcion {
+        
+        validarProfesor(profesor);
+        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        Usuario usuarioProfesor = prepararUsuarioParaRegistro(profesor, contrasenaPlana);
+        
+        guardarProfesorEnBaseDeDatos(usuarioProfesor, profesor);
+        
+        enviarContraseñaPorCorreo(usuarioProfesor.getCorreoInstitucional(), contrasenaPlana);
+        
+    }
+
+    private void validarProfesor(Profesor profesor) throws ReglaDeNegocioExcepcion {
         
         ValidacionProfesor validacion = new ValidacionProfesor();
         validacion.sonCamposValidosPorReglaNegocio(profesor);
         
-        Usuario usuarioProfesor = crearUsuarioProfesor(profesor);
-        
-        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
-        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
-        usuarioProfesor.setContraseña(contraseñaHasheada);
-        
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        ProfesorDAO profesorDao = new ProfesorDAO();
-                
-        try{
+    }
 
-            int idUsuario = usuarioDao.insertarUsuario(usuarioProfesor);
+    private Usuario prepararUsuarioParaRegistro(Profesor profesor, String contrasenaPlana) {
+        
+        Usuario usuarioProfesor = crearUsuarioProfesor(profesor);
+        String contrasenaHasheada = HasheoContrasena.hashearContraseña(contrasenaPlana);
+        usuarioProfesor.setContraseña(contrasenaHasheada);
+        return usuarioProfesor;
+        
+    }
+
+    private void guardarProfesorEnBaseDeDatos(Usuario usuarioProfesor, Profesor profesor) throws ReglaDeNegocioExcepcion {
+        
+        try {
             
-            profesor.setIdUsuario(idUsuario);
-            profesorDao.insertarProfesor(profesor);
+            ProfesorDAO profesorDao = new ProfesorDAO();
+            profesorDao.registrarProfesorCompleto(usuarioProfesor, profesor);
+            
+        } catch (OperacionesDeDaoExcepcion e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo profesor.", e);  
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Profesor por un problema interno del sistema. Intente más tarde.", e);
+            
+        }
+    }
+
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+        
+        try {
             
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
-            envioCorreoContraseña.enviarContraseña(usuarioProfesor.getCorreoInstitucional(), contraseñaPlana);
+            envioCorreoContraseña.enviarContraseña(correoDestino, contrasenaPlana);
             
-        }catch(OperacionesDeDaoExcepcion e){
+        } catch(RuntimeException e) {
             
-           RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo profesor.", e);          
-           throw new ReglaDeNegocioExcepcion("No se pudo registrar al Profesor por un problema "
-                + "interno del sistema. Intente más tarde.", e);
-            
-        }catch(RuntimeException e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);             
-            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
-            
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
+            throw new ReglaDeNegocioExcepcion("El profesor se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
+        
         }
         
     }

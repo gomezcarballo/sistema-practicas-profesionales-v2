@@ -16,10 +16,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ControladorListaMensajesEnviados extends ControladorBaseListaMensajes{
     
-    @Override
-    protected String obtenerTituloMensajes() {
-        return "Mensajes Enviados";
-    }
 
     @Override
     protected void configurarColumnaEspecifica() {

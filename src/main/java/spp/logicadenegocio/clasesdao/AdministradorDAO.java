@@ -14,6 +14,7 @@ import java.sql.SQLTimeoutException;
 import java.util.logging.Level;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Administrador;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.interfacesdao.IAdministradorDAO;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -36,11 +37,7 @@ public class AdministradorDAO implements IAdministradorDAO{
             
             consultaPreparada.setInt(1, administrador.getIdUsuario());
             consultaPreparada.setString(2, administrador.getNumeroDePersonal());
-            int filasAfectadas = consultaPreparada.executeUpdate();
-            
-            if (filasAfectadas > 0) {
-                registroExitoso = true;
-            }
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
 
         } catch(SQLIntegrityConstraintViolationException e) {
             RegistroErrores.registrarError(Level.SEVERE, 
@@ -189,5 +186,105 @@ public class AdministradorDAO implements IAdministradorDAO{
 
         return eliminacionExitosa;
     } 
+    
+    @Override
+    public boolean insertarAdministradorConTransaccion(Administrador administrador, Connection conexion) throws OperacionesDeDaoExcepcion { 
+        
+        boolean registroExitoso = false;
+
+        String consultaSQL = "INSERT INTO Administrador (idUsuario, noPersonal) VALUES (?, ?)";
+        
+        try (PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            
+            consultaPreparada.setInt(1, administrador.getIdUsuario());
+            consultaPreparada.setString(2, administrador.getNumeroDePersonal());
+            
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar administrador transaccional. el ID " + administrador.getIdUsuario() 
+                + " El noPersonal: " + administrador.getNumeroDePersonal(), e);
+            throw new OperacionesDeDaoExcepcion("Ya existe un administrador con ese numero de personal", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar administrador transaccional. IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal() , e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el administrador transaccional. IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal(), e);
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de BD al insertar el administrador transaccional. " + 
+                "IdUsuario: " + administrador.getIdUsuario() + 
+                ", noPersonal: " + administrador.getNumeroDePersonal() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            throw new OperacionesDeDaoExcepcion("Error al guardar el administrador, " + 
+                "intente de nuevo más tarde", e);
+        }
+        
+        return registroExitoso;
+    }
+    
+    @Override
+    public void registrarAdministradorCompleto(Usuario usuario, Administrador administrador) throws OperacionesDeDaoExcepcion {
+        
+        Connection conexion = null;
+        
+        try {
+            conexion = ConexionBD.getConexion(); 
+            conexion.setAutoCommit(false); 
+            
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            
+            int idUsuario = usuarioDao.insertarUsuarioConTransaccion(usuario, conexion);
+            administrador.setIdUsuario(idUsuario);
+            
+            this.insertarAdministradorConTransaccion(administrador, conexion);
+            
+            conexion.commit(); 
+            
+        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+            
+            if (conexion != null) {
+                
+                try { 
+                    
+                    conexion.rollback(); 
+                } catch (SQLException ex) {
+                    
+                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro completo.", ex);
+                    
+                }
+            }
+            
+            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar administrador.", e);
+            
+        } finally {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.setAutoCommit(true); 
+                    conexion.close(); 
+                    
+                } catch (SQLException e) {
+                    
+                    RegistroErrores.registrarError(Level.SEVERE, "Error al cerrar conexión.", e);
+                    
+                }
+            }
+        }
+    }
+    
     
 }

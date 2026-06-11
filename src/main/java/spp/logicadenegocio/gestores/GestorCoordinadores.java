@@ -24,41 +24,63 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorCoordinadores {
     
-    public void ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion{
+    public void ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+        
+        validarCoordinador(coordinador);
+        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        Usuario usuarioCoordinador = prepararUsuarioParaRegistro(coordinador, contrasenaPlana);
+        
+        guardarCoordinadorEnBaseDeDatos(usuarioCoordinador, coordinador);
+        
+        enviarContraseñaPorCorreo(usuarioCoordinador.getCorreoInstitucional(), contrasenaPlana);
+        
+    }
+
+    private void validarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
         
         ValidacionCoordinador validacion = new ValidacionCoordinador();
-        validacion.sonCamposValidosPorReglaNegocio(coordinador);       
+        validacion.sonCamposValidosPorReglaNegocio(coordinador);
+        
+    }
+
+    private Usuario prepararUsuarioParaRegistro(Coordinador coordinador, String contrasenaPlana) {
         
         Usuario usuarioCoordinador = crearUsuarioCoordinador(coordinador);
+        String contrasenaHasheada = HasheoContrasena.hashearContraseña(contrasenaPlana);
+        usuarioCoordinador.setContraseña(contrasenaHasheada);
         
-        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
-        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
-        usuarioCoordinador.setContraseña(contraseñaHasheada);
+        return usuarioCoordinador;
         
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+    }
 
-        try{
+    private void guardarCoordinadorEnBaseDeDatos(Usuario usuarioCoordinador, Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+        
+        try {
             
-            int idUsuario = usuarioDao.insertarUsuario(usuarioCoordinador);
+            CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+            coordinadorDao.registrarCoordinadorCompleto(usuarioCoordinador, coordinador);
             
-            coordinador.setIdUsuario(idUsuario);
-            coordinadorDao.insertarCoordinador(coordinador);
+        } catch (OperacionesDeDaoExcepcion e) {
             
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo coordinador.", e);  
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Coordinador por un problema interno del sistema. Intente más tarde.", e);
+        
+        }
+        
+    }
+
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+        
+        try {
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
-            envioCorreoContraseña.enviarContraseña(usuarioCoordinador.getCorreoInstitucional(), contraseñaPlana);
+            envioCorreoContraseña.enviarContraseña(correoDestino, contrasenaPlana);
             
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo coordinador.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Coordinador por un problema "
-                + "interno del sistema. Intente más tarde.");
-            
-        }catch(RuntimeException e){
+        } catch(RuntimeException e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
-            
+            throw new ReglaDeNegocioExcepcion("El coordinador se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
+        
         }
     }
     

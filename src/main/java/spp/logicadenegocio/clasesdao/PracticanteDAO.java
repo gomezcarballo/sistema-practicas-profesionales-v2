@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.logicadenegocio.interfacesdao.IPracticanteDAO;
 import spp.utilerias.bitacora.RegistroErrores;
@@ -389,6 +390,97 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         }
 
         return eliminacionExitosa;
+    }
+    
+    @Override
+    public void registrarPracticanteCompleto(Usuario usuario, Practicante practicante) throws OperacionesDeDaoExcepcion {
+        
+        Connection conexion = null;
+        
+        try {
+            conexion = ConexionBD.getConexion(); 
+            conexion.setAutoCommit(false); 
+            
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            
+            int idUsuario = usuarioDao.insertarUsuarioConTransaccion(usuario, conexion);
+            practicante.setIdUsuario(idUsuario);
+            
+            this.insertarPracticanteConTransaccion(practicante, conexion);
+            
+            conexion.commit(); 
+            
+        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException exRollback) {
+                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro de practicante.", exRollback);
+                }
+                
+            }
+            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar practicante.", e);
+            
+        } finally {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.setAutoCommit(true); 
+                    conexion.close(); 
+                } catch (SQLException exClose) {
+                    RegistroErrores.registrarError(Level.SEVERE, "Error al cerrar conexión.", exClose);
+                }
+                
+            }
+        }
+    }
+    
+    @Override
+    public boolean insertarPracticanteConTransaccion(Practicante practicante, Connection conexion) throws OperacionesDeDaoExcepcion { 
+        
+        boolean registroExitoso = false;
+
+        String consultaSQL = "INSERT INTO Practicante (idUsuario, matricula, genero, "
+                + "lenguaIndigena, fechaNacimiento, nrcAsignado) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            
+            consultaPreparada.setInt(1, practicante.getIdUsuario());
+            consultaPreparada.setString(2, practicante.getMatricula());
+            consultaPreparada.setString(3, practicante.getGenero());
+            consultaPreparada.setBoolean(4, practicante.getHablaLenguaIndigena());
+            java.sql.Date fechaParaBD = java.sql.Date.valueOf(practicante.getFechaNacimiento());
+            consultaPreparada.setDate(5, fechaParaBD);
+            consultaPreparada.setString(6, practicante.getNrcAsignado());
+            
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar practicante. ID " + practicante.getIdUsuario(), e);
+            throw new OperacionesDeDaoExcepcion("Ya existe un practicante registrado con esa matrícula.", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar practicante. IdUsuario: " + practicante.getIdUsuario(), e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor.", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar practicante. IdUsuario: " + practicante.getIdUsuario(), e);
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, revise la información.", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de BD al insertar practicante. IdUsuario: " + practicante.getIdUsuario() + 
+                ", SQL State: " + e.getSQLState() + ", Error Code: " + e.getErrorCode(), e);
+            throw new OperacionesDeDaoExcepcion("Error al guardar el practicante, intente de nuevo más tarde.", e);
+        }
+        
+        return registroExitoso;
     }
     
 }

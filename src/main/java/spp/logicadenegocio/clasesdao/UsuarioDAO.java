@@ -325,5 +325,68 @@ public class UsuarioDAO implements IUsuarioDAO {
         
         return idUsuario;
     }
+    
+    public int insertarUsuarioConTransaccion(Usuario usuario, Connection conexion) throws OperacionesDeDaoExcepcion {
+        
+        int idInsertado = 0;
+        
+        String consultaSQL = "INSERT INTO Usuario (nombre, apellidoPaterno, apellidoMaterno, "
+                + "correoInstitucional, contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try(PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            consultaPreparada.setString(1, usuario.getNombre());
+            consultaPreparada.setString(2, usuario.getApellidoPaterno());
+            consultaPreparada.setString(3, usuario.getApellidoMaterno());
+            consultaPreparada.setString(4, usuario.getCorreoInstitucional());
+            consultaPreparada.setString(5, usuario.getContraseña());
+            consultaPreparada.setBoolean(6, usuario.getEsActivo());
+
+            consultaPreparada.executeUpdate();
+            
+            try (ResultSet resultadosConsulta = consultaPreparada.getGeneratedKeys()) {
+                if (resultadosConsulta.next()) {
+                    idInsertado = resultadosConsulta.getInt(1);
+                    usuario.setIdUsuario(idInsertado);
+                }
+            }
+
+         } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al insertar usuario transaccional. " +
+                "Correo: " + usuario.getCorreoInstitucional() + 
+                " - Posible correo duplicado", e);
+            
+            throw new OperacionesDeDaoExcepcion("El correo institucional ya está registrado", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar usuario transaccional. Correo: " + usuario.getCorreoInstitucional(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar usuario transaccional. " +
+                "Nombre: " + usuario.getNombre() + 
+                ", Correo: " + usuario.getCorreoInstitucional(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Los datos del usuario no son válidos, " + 
+                "revise la información", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al insertar usuario transaccional. " +
+                "Correo: " + usuario.getCorreoInstitucional() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al registrar el usuario, " + 
+                "intente de nuevo más tarde", e);
+        }
+        
+        return idInsertado;
+    }
  
 }

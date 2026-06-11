@@ -21,14 +21,14 @@ public class ControladorSubMenuMensajes extends ControladorMenus{
     @FXML
     private void abrirMensajesRecibidos(ActionEvent evento){
         
-         cambiarVentana("/fxml/VistaListaMensajesRecibidos.fxml/", "Mensajes Recibidos", evento);
+         cambiarVentana("/fxml/VistaListaMensajesRecibidos.fxml", "Mensajes Recibidos", evento);
         
     }
     
     @FXML
     private void abrirMensajesEnviados(ActionEvent evento){
         
-        cambiarVentana("/fxml/VistaListaMensajesEnviados.fxml/", "Mensajes Enviados", evento);
+        cambiarVentana("/fxml/VistaListaMensajesEnviados.fxml", "Mensajes Enviados", evento);
         
     }
     

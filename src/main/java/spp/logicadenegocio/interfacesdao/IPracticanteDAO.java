@@ -4,8 +4,10 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.sql.Connection;
 import java.util.List;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -21,4 +23,6 @@ public interface IPracticanteDAO {
     public List<Practicante> consultarPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion;
     public UsuarioEncontrado buscarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
     public boolean eliminarPracticante(int idUsuario) throws OperacionesDeDaoExcepcion;
+    public void registrarPracticanteCompleto(Usuario usuario, Practicante practicante) throws OperacionesDeDaoExcepcion;
+    public boolean insertarPracticanteConTransaccion(Practicante practicante, Connection conexion) throws OperacionesDeDaoExcepcion;
 }

@@ -10,7 +10,6 @@ import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Usuario;
-import spp.logicadenegocio.interfacesdao.IPracticanteDAO;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionPracticante;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
@@ -24,45 +23,65 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  * @author gomes
  */
 public class GestorPracticantes {
-    
-    private IPracticanteDAO practicanteDAO;
-    
-    public void ingresarPracticante(Practicante practicante)throws ReglaDeNegocioExcepcion{
+        
+    public void ingresarPracticante(Practicante practicante) throws ReglaDeNegocioExcepcion {
+        
+        validarPracticante(practicante);
+        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        Usuario usuarioPracticante = prepararUsuarioParaRegistro(practicante, contrasenaPlana);
+        
+        guardarPracticanteEnBaseDeDatos(usuarioPracticante, practicante);
+        
+        enviarContraseñaPorCorreo(usuarioPracticante.getCorreoInstitucional(), contrasenaPlana);
+        
+    }
+
+
+    private void validarPracticante(Practicante practicante) throws ReglaDeNegocioExcepcion {
         
         ValidacionPracticante validacion = new ValidacionPracticante();
         validacion.sonCamposValidosPorReglaNegocio(practicante);
         
-        Usuario usuarioPracticante = crearUsuarioPracticante(practicante);
+    }
 
-        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
-        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
-        usuarioPracticante.setContraseña(contraseñaHasheada);
+    private Usuario prepararUsuarioParaRegistro(Practicante practicante, String contrasenaPlana) {
         
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        PracticanteDAO practicanteDao = new PracticanteDAO();
+        Usuario usuarioPracticante = crearUsuarioPracticante(practicante);
+        String contrasenaHasheada = HasheoContrasena.hashearContraseña(contrasenaPlana);
+        usuarioPracticante.setContraseña(contrasenaHasheada);
+        return usuarioPracticante;
         
-        try{
+    }
+
+    private void guardarPracticanteEnBaseDeDatos(Usuario usuarioPracticante, Practicante practicante) throws ReglaDeNegocioExcepcion {
+        
+        try {
             
-            int idUsuario = usuarioDao.insertarUsuario(usuarioPracticante);
+            PracticanteDAO practicanteDao = new PracticanteDAO();
+            practicanteDao.registrarPracticanteCompleto(usuarioPracticante, practicante);
             
-            practicante.setIdUsuario(idUsuario);
-            practicanteDao.insertarPracticante(practicante);
-           
+        } catch (OperacionesDeDaoExcepcion e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo practicante.", e);  
+            
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Practicante por un problema interno del sistema. Intente más tarde.", e);
+        }
+        
+    }
+
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+        
+        try {
+            
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
-            envioCorreoContraseña.enviarContraseña(usuarioPracticante.getCorreoInstitucional(), contraseñaPlana);
+            envioCorreoContraseña.enviarContraseña(correoDestino, contrasenaPlana);
             
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo practicante.", e);  
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Practicante por un problema "
-                + "interno del sistema. Intente más tarde.", e);
-            
-        }catch(RuntimeException e){
+        } catch(RuntimeException e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
-            
+            throw new ReglaDeNegocioExcepcion("El practicante se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
+        
         }
         
     }
@@ -83,7 +102,7 @@ public class GestorPracticantes {
     public List<Practicante> recuperarPracticantesActivos() throws ReglaDeNegocioExcepcion{
         
         try{
-               practicanteDAO = new PracticanteDAO();
+               PracticanteDAO practicanteDAO = new PracticanteDAO();
                return practicanteDAO.consultarPracticantes();
 
            }catch(OperacionesDeDaoExcepcion e){
@@ -98,7 +117,7 @@ public class GestorPracticantes {
     
         try{
             
-            practicanteDAO = new PracticanteDAO();
+            PracticanteDAO practicanteDAO = new PracticanteDAO();
             return practicanteDAO.consultarPracticantesConSolicitudes();
             
         }catch(OperacionesDeDaoExcepcion e){
@@ -113,7 +132,7 @@ public class GestorPracticantes {
        
        try{
           
-            practicanteDAO = new PracticanteDAO();
+            PracticanteDAO practicanteDAO = new PracticanteDAO();
             practicanteDAO.inactivarPracticante(idPracticante);  
           
        }catch(OperacionesDeDaoExcepcion e){

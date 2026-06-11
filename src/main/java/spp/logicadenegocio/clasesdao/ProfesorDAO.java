@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.interfacesdao.IProfesorDAO;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -392,5 +393,97 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
         return eliminacionExitosa;
     }   
+    
+    @Override
+    public boolean insertarProfesorTransaccional(Profesor profesor, Connection conexion) throws OperacionesDeDaoExcepcion { 
+        
+        boolean registroExitoso = false;
 
+        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?)";
+        
+        try (PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            
+            consultaPreparada.setInt(1, profesor.getIdUsuario());
+            consultaPreparada.setString(2, profesor.getNumeroDePersonal());
+            
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
+          
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar profesor transaccional. ID " + profesor.getIdUsuario() 
+                + " El noPersonal: " + profesor.getNumeroDePersonal(), e);
+            throw new OperacionesDeDaoExcepcion("Ya existe un profesor registrado con ese número de personal.", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar profesor transaccional. IdUsuario: " + profesor.getIdUsuario() + 
+                ", noPersonal: " + profesor.getNumeroDePersonal() , e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor.", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el profesor transaccional. IdUsuario: " + profesor.getIdUsuario() + 
+                ", noPersonal: " + profesor.getNumeroDePersonal(), e);
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, revise la información.", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de BD al insertar el profesor transaccional. " + 
+                "IdUsuario: " + profesor.getIdUsuario() + 
+                ", noPersonal: " + profesor.getNumeroDePersonal() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            throw new OperacionesDeDaoExcepcion("Error al guardar el profesor, intente de nuevo más tarde.", e);
+        }
+        
+        return registroExitoso;
+    }
+    
+    @Override
+    public void registrarProfesorCompleto(Usuario usuario, Profesor profesor) throws OperacionesDeDaoExcepcion {
+        
+        Connection conexion = null;
+        
+        try {
+            conexion = ConexionBD.getConexion(); 
+            conexion.setAutoCommit(false); 
+            
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            
+            int idUsuario = usuarioDao.insertarUsuarioConTransaccion(usuario, conexion);
+            profesor.setIdUsuario(idUsuario);
+            
+            this.insertarProfesorTransaccional(profesor, conexion);
+            
+            conexion.commit(); 
+            
+        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException exRollback) {
+                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro de profesor.", exRollback);
+                }
+                
+            }
+            
+            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar profesor.", e);
+            
+        } finally {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.setAutoCommit(true); 
+                    conexion.close(); 
+                } catch (SQLException exClose) {
+                    RegistroErrores.registrarError(Level.SEVERE, "Error al cerrar conexión.", exClose);
+                }
+                
+            }
+        }
+    }
 }

@@ -29,7 +29,9 @@ public class GestorInicioSesion {
             
             UsuarioEncontrado usuario = null;
             
-            if( identificador.matches("^[sS][0-9]{8}$") ) {
+            String patronMatricula = "^[sS][0-9]{8}$";
+            
+            if( identificador.matches(patronMatricula) ) {
                 
                 PracticanteDAO practicanteDao = new PracticanteDAO();
                 usuario = practicanteDao.buscarPracticante(identificador);

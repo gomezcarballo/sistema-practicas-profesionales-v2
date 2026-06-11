@@ -33,14 +33,14 @@ public class GestorMensajes {
 
         boolean envioExitoso;
         
+        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
+            
+        validacion.validarTamañoMensaje(mensaje);
+            
+        validacion.existeDestinatario(correoDestinatario);
+        
         try{
-            
-            ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-            
-            validacion.validarTamañoMensaje(mensaje);
-            
-            validacion.existeDestinatario(correoDestinatario);
-            
+  
             int idDestinatario = new UsuarioDAO().buscarIdPorCorreo(correoDestinatario);
             
             int idMensaje = mensajeDAO.insertarMensaje(mensaje);

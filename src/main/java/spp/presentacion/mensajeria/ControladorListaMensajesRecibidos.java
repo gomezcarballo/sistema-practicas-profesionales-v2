@@ -16,11 +16,6 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class ControladorListaMensajesRecibidos extends ControladorBaseListaMensajes{
     
     @Override
-    protected String obtenerTituloMensajes() {
-        return "Mensajes Recibidos";
-    }
-
-    @Override
     protected void configurarColumnaEspecifica() {
         
         colCorreoUsuario.setText("Remitente");

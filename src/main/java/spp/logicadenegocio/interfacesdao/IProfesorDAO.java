@@ -4,8 +4,10 @@
  */
 package spp.logicadenegocio.interfacesdao;
 
+import java.sql.Connection;
 import java.util.List;
 import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -20,4 +22,6 @@ public interface IProfesorDAO {
     public boolean inactivarProfesor(int idUsuario)throws OperacionesDeDaoExcepcion;
     public boolean reactivarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion;
     public boolean eliminarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion;
+    public boolean insertarProfesorTransaccional(Profesor profesor, Connection conexion) throws OperacionesDeDaoExcepcion;
+    public void registrarProfesorCompleto(Usuario usuario, Profesor profesor) throws OperacionesDeDaoExcepcion;
 }

@@ -18,6 +18,7 @@ import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 /**
@@ -288,4 +289,98 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         return eliminacionExitosa;
     }   
     
+    @Override
+    public boolean insertarCoordinadorConTransaccion(Coordinador coordinador, Connection conexion) throws OperacionesDeDaoExcepcion { 
+        
+        boolean registroExitoso = false;
+
+        String consultaSQL = "INSERT INTO Coordinador (idUsuario, noPersonal) VALUES (?, ?)";
+        
+        try (PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            
+            consultaPreparada.setInt(1, coordinador.getIdUsuario());
+            consultaPreparada.setString(2, coordinador.getNumeroDePersonal());
+            
+            registroExitoso = consultaPreparada.executeUpdate() > 0;
+            
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Violación de integridad al insertar coordinador transaccional. ID " + coordinador.getIdUsuario() 
+                + " El noPersonal: " + coordinador.getNumeroDePersonal(), e);
+            throw new OperacionesDeDaoExcepcion("Ya existe un coordinador registrado con ese número de personal.", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al insertar coordinador transaccional. IdUsuario: " + coordinador.getIdUsuario() + 
+                ", noPersonal: " + coordinador.getNumeroDePersonal() , e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor.", e);
+            
+        } catch(SQLDataException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Datos inválidos al insertar el coordinador transaccional. IdUsuario: " + coordinador.getIdUsuario() + 
+                ", noPersonal: " + coordinador.getNumeroDePersonal(), e);
+            throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, revise la información.", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de BD al insertar el coordinador transaccional. " + 
+                "IdUsuario: " + coordinador.getIdUsuario() + 
+                ", noPersonal: " + coordinador.getNumeroDePersonal() + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            throw new OperacionesDeDaoExcepcion("Error al guardar el coordinador, intente de nuevo más tarde.", e);
+        }
+        
+        return registroExitoso;
+    }
+    
+    
+    @Override
+    public void registrarCoordinadorCompleto(Usuario usuario, Coordinador coordinador) throws OperacionesDeDaoExcepcion {
+        
+        Connection conexion = null;
+        
+        try {
+            conexion = ConexionBD.getConexion(); 
+            conexion.setAutoCommit(false); 
+            
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            
+            int idUsuario = usuarioDao.insertarUsuarioConTransaccion(usuario, conexion);
+            coordinador.setIdUsuario(idUsuario);
+            
+            this.insertarCoordinadorConTransaccion(coordinador, conexion);
+            
+            conexion.commit(); 
+            
+        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException exRollback) {
+                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro de coordinador.", exRollback);
+                }
+                
+            }
+            
+            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar coordinador.", e);
+            
+        } finally {
+            
+            if (conexion != null) {
+                
+                try { 
+                    conexion.setAutoCommit(true); 
+                    conexion.close(); 
+                } catch (SQLException exClose) {
+                    RegistroErrores.registrarError(Level.SEVERE, "Error al cerrar conexión.", exClose);
+                }
+                
+            }
+        }
+    }
+
 }

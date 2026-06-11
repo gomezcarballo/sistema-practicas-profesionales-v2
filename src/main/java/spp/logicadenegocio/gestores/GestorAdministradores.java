@@ -23,42 +23,63 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorAdministradores {
     
-    public void ingresarAdministrador(Administrador administrador)throws ReglaDeNegocioExcepcion{
+    public void ingresarAdministrador(Administrador administrador) throws ReglaDeNegocioExcepcion {
+        
+        validarAdministrador(administrador);
+        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        Usuario usuarioAdministrador = prepararUsuarioParaRegistro(administrador, contrasenaPlana);
+        
+        guardarAdministradorEnBaseDeDatos(usuarioAdministrador, administrador);
+        
+        enviarContraseñaPorCorreo(usuarioAdministrador.getCorreoInstitucional(), contrasenaPlana);
+        
+    }
+
+
+    private void validarAdministrador(Administrador administrador) throws ReglaDeNegocioExcepcion {
         
         ValidacionAdministrador validacion = new ValidacionAdministrador();
         validacion.sonCamposValidosPorReglaNegocio(administrador);
         
-        Usuario usuarioAdministrador = crearUsuarioAdministrador(administrador);
+    }
 
-        String contraseñaPlana = GeneradorContrasena.generarContraseña(10);        
-        String contraseñaHasheada = HasheoContrasena.hashearContraseña(contraseñaPlana);
-        usuarioAdministrador.setContraseña(contraseñaHasheada);
+    private Usuario prepararUsuarioParaRegistro(Administrador administrador, String contrasenaPlana) {
         
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        AdministradorDAO administradorDAO = new AdministradorDAO();
+        Usuario usuarioAdministrador = crearUsuarioAdministrador(administrador);
+        String contrasenaHasheada = HasheoContrasena.hashearContraseña(contrasenaPlana);
+        usuarioAdministrador.setContraseña(contrasenaHasheada);
         
-        try{
+        return usuarioAdministrador;
+        
+    }
+
+    private void guardarAdministradorEnBaseDeDatos(Usuario usuarioAdministrador, Administrador administrador) throws ReglaDeNegocioExcepcion {
+        
+        try {
+            AdministradorDAO administradorDAO = new AdministradorDAO();
+            administradorDAO.registrarAdministradorCompleto(usuarioAdministrador, administrador);
             
-            int idUsuario = usuarioDao.insertarUsuario(usuarioAdministrador);
+        } catch (OperacionesDeDaoExcepcion e) {
             
-            administrador.setIdUsuario(idUsuario);
-            administradorDAO.insertarAdministrador(administrador);
-           
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo administrador.", e);  
+            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Administrador por un problema interno del sistema. Intente más tarde.", e);
+        
+        }
+    }
+
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+        
+        try {
+            
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
-            envioCorreoContraseña.enviarContraseña(usuarioAdministrador.getCorreoInstitucional(), contraseñaPlana);
+            envioCorreoContraseña.enviarContraseña(correoDestino, contrasenaPlana);
             
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un nuevo administrador.", e);  
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Administrador por un problema "
-                + "interno del sistema. Intente más tarde.", e);
-            
-        }catch(RuntimeException e){
+        } catch(RuntimeException e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo enviar la contraseña por correo electronico.");
-            
+            throw new ReglaDeNegocioExcepcion("El administrador se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal");
+       
         }
         
     }

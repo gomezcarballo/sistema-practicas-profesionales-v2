@@ -44,9 +44,6 @@ public abstract class ControladorBaseListaMensajes {
     @FXML 
     protected TableColumn<Mensaje, LocalDateTime> colFecha;
     
-    @FXML 
-    protected Label lblTituloMensajes;
-    
     protected GestorMensajes gestorMensajes;
     
     @FXML
@@ -102,7 +99,6 @@ public abstract class ControladorBaseListaMensajes {
         }
     }
     
-    protected abstract String obtenerTituloMensajes();
     protected abstract void configurarColumnaEspecifica();
     protected abstract List<Mensaje> consultarMensajesBD(int idUsuario) throws ReglaDeNegocioExcepcion;
     
