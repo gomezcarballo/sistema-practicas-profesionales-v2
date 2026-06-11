@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.gestores.GestorOrganizaciones;
-import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
@@ -68,51 +67,43 @@ public class ControladorGestionOrganizacion {
     @FXML
     private void leerDatosDeOrganizacion(ActionEvent evento){
         
-        if(camposValidos()){
-            
-            if(organizacion == null){
-                
-                organizacion = new Organizacion();
-                
-            }
-            
-            String nombre = txtNombre.getText();
-            String direccion = txtDireccion.getText();
-            String sector = cbOpcionesSector.getValue();
-
-            organizacion.setNombre(nombre);
-            organizacion.setDireccion(direccion);
-            organizacion.setSector(sector);
-        
-            if(organizacion.getIdOrganizacion() > 0){
-            
-                actualizarOrganizacion(organizacion, evento);
-                
-            }else{  
-                
-                registrarOrganizacion(organizacion, evento);
-                
-            }
-            
-        }else{
+        if (!camposValidos()) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
-            "Faltan datos por agregar. Por favor ingreselos");
-
-        }
-    }
+            "Faltan datos por agregar. Por favor ingreselos.");
+            return; 
     
-    private boolean camposValidos(){
-        
-        boolean sonCamposValidos = true; 
-        
-        if(txtNombre.getText().isBlank() ||  txtDireccion.getText().isBlank() || 
-            cbOpcionesSector.getValue() == null){
-           
-            sonCamposValidos = false; 
+        }
+    
+        if (organizacion == null) {
+            
+            organizacion = new Organizacion();
             
         }
-        return sonCamposValidos; 
+
+        boolean esActualizacion = (organizacion.getIdOrganizacion() > 0);
+        boolean necesitaGuardar = true;
+
+        if (esActualizacion && !huboCambios()) {
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
+            "No se detectaron modificaciones en los datos de la organización.");
+            necesitaGuardar = false; 
+            
+        }
+
+        if (necesitaGuardar) {
+            
+            mapearDatosAOrganizacion(organizacion); 
+
+            if (esActualizacion) {
+                actualizarOrganizacion(organizacion, evento);
+            } else {
+                registrarOrganizacion(organizacion, evento);
+            }
+            
+        }
+        
     }
     
     @FXML 
@@ -147,9 +138,6 @@ public class ControladorGestionOrganizacion {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa",
             "Organización actualizada correctamente");
             
-            CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaOrganizaciones.fxml",
-            "Lista de Organizaciones");
-            
             CerradorVentana.cerrarVentana(evento);
 
 
@@ -161,6 +149,33 @@ public class ControladorGestionOrganizacion {
 
         }
 
+    }
+    
+    private void mapearDatosAOrganizacion(Organizacion organizacion) {
+        
+        organizacion.setNombre(txtNombre.getText().trim());
+        organizacion.setDireccion(txtDireccion.getText().trim());
+        organizacion.setSector(cbOpcionesSector.getValue());
+        
+    }   
+
+    private boolean huboCambios() {
+        return !this.organizacion.getNombre().equals(txtNombre.getText().trim()) ||
+               !this.organizacion.getDireccion().equals(txtDireccion.getText().trim()) ||
+               !this.organizacion.getSector().equals(cbOpcionesSector.getValue());
+    }
+    
+    private boolean camposValidos(){
+        
+        boolean sonCamposValidos = true; 
+        
+        if(txtNombre.getText().isBlank() ||  txtDireccion.getText().isBlank() || 
+            cbOpcionesSector.getValue() == null){
+           
+            sonCamposValidos = false; 
+            
+        }
+        return sonCamposValidos; 
     }
     
     

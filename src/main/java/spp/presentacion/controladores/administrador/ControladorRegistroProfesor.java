@@ -125,6 +125,7 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         ("/fxml/VistaListaProfesoresActivos.fxml", "Profesores Activos");
 
         if(cargador != null){
+            
             ControladorListaProfesoresActivos controlador = cargador.getController();
             controlador.inicializarDatos(profesor);
 

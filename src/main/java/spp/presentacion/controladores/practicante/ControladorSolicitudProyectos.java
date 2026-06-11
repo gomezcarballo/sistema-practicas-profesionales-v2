@@ -140,7 +140,9 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         try {
                      
             gestorSolicitudes.registrarSolicitudes(proyectosSeleccionados);
-
+            
+            eliminarProyectosDeLaTabla(proyectosSeleccionados);
+            
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
             "Las solicitudes se registraron correctamente");
             
@@ -152,6 +154,23 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
             
         }
     }
+    
+    private void eliminarProyectosDeLaTabla(List<Proyecto> proyectosEliminados) {
+        
+        ObservableList<Proyecto> listaMaestra = tblListaProyectos.getItems();
+        
+        for (int i = 0; i < proyectosEliminados.size(); i++) {
+            
+            Proyecto proyectoParaEliminar = proyectosEliminados.get(i);
+            
+            listaMaestra.remove(proyectoParaEliminar);
+            
+        }
+        
+        tblListaProyectos.refresh();
+        
+    }
+    
     
     private void irAlMenu(ActionEvent evento){
         

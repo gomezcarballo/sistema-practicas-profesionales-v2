@@ -23,6 +23,4 @@ public interface IPracticanteDAO {
     public List<Practicante> consultarPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion;
     public UsuarioEncontrado buscarPracticante(String matricula)throws OperacionesDeDaoExcepcion;
     public boolean eliminarPracticante(int idUsuario) throws OperacionesDeDaoExcepcion;
-    public void registrarPracticanteCompleto(Usuario usuario, Practicante practicante) throws OperacionesDeDaoExcepcion;
-    public boolean insertarPracticanteConTransaccion(Practicante practicante, Connection conexion) throws OperacionesDeDaoExcepcion;
 }

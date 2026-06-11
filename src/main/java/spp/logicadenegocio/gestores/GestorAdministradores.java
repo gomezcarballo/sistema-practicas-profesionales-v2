@@ -57,8 +57,14 @@ public class GestorAdministradores {
     private void guardarAdministradorEnBaseDeDatos(Usuario usuarioAdministrador, Administrador administrador) throws ReglaDeNegocioExcepcion {
         
         try {
+  
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
             AdministradorDAO administradorDAO = new AdministradorDAO();
-            administradorDAO.registrarAdministradorCompleto(usuarioAdministrador, administrador);
+            
+            int idUsuario = usuarioDAO.insertarUsuario(usuarioAdministrador);
+            administrador.setIdUsuario(idUsuario);
+            
+            administradorDAO.insertarAdministrador(administrador);
             
         } catch (OperacionesDeDaoExcepcion e) {
             

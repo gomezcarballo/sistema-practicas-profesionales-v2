@@ -6,6 +6,7 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import java.util.logging.Level;
+import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Profesor;
@@ -57,8 +58,13 @@ public class GestorProfesores {
         
         try {
             
-            ProfesorDAO profesorDao = new ProfesorDAO();
-            profesorDao.registrarProfesorCompleto(usuarioProfesor, profesor);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            ProfesorDAO profesorDAO = new ProfesorDAO();
+            
+            int idUsuario = usuarioDAO.insertarUsuario(usuarioProfesor);
+            profesor.setIdUsuario(idUsuario);
+            
+            profesorDAO.insertarProfesor(profesor);
             
         } catch (OperacionesDeDaoExcepcion e) {
             

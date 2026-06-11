@@ -98,42 +98,37 @@ public class ControladorGestionProyecto {
     @FXML
     private void leerDatosDeProyecto(ActionEvent evento){
         
-        boolean camposValidos = sonCamposValidos();
-        boolean cupoValido = esCupoMaximo();
-
-        if (!camposValidos || !cupoValido) {
+        if (!sonCamposValidos() || !esCupoMaximo()) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
             "Por favor verifica que todos los campos estén llenos y el cupo sea un número válido.");
+           
+            return; 
+        }
+
+        boolean esActualizacion = (proyecto != null && proyecto.getIdProyecto() > 0);
+        boolean necesitaGuardar = true;
+
+        if (esActualizacion && !huboCambios()) {
             
-        } else {
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
+            "No ha cambiado nada de los datos del proyecto.");
+            necesitaGuardar = false; 
+        
+        }
+
+        if (necesitaGuardar) {
             
             if (proyecto == null) {
-                
                 proyecto = new Proyecto();
-                
             }
             
             mapearDatosAProyecto(proyecto);
 
-            boolean esActualizacion = (proyecto.getIdProyecto() > 0);
-            boolean necesitaGuardar = true;
-
-            if (esActualizacion && !huboCambios()) {
-                
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
-                "No ha cambiado nada de los datos del proyecto.");
-                necesitaGuardar = false; 
-            }
-
-            if (necesitaGuardar) {
-                
-                if (esActualizacion) {
-                    actualizarProyecto(proyecto, evento);
-                } else {
-                    registrarProyecto(proyecto, evento);
-                }
-                
+            if (esActualizacion) {
+                actualizarProyecto(proyecto, evento);
+            } else {
+                registrarProyecto(proyecto, evento);
             }
             
         }
@@ -221,18 +216,8 @@ public class ControladorGestionProyecto {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa", 
             "Proyecto actualizado correctamente");   
             
-            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaProyectos.fxml",
-            "Lista de Proyectos");
-
-            if(cargador != null){
-
-                ControladorListaProyectos controlador = cargador.getController();
-
-                controlador.inicializarDatos(organizacion);
+            CerradorVentana.cerrarVentana(evento);
                 
-                CerradorVentana.cerrarVentana(evento);
-                
-            }
             
         }catch(ReglaDeNegocioExcepcion e){
         

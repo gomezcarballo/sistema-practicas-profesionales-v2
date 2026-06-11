@@ -65,15 +65,7 @@
                            </columnConstraints>
 
                            <rowConstraints>
-                              <RowConstraints prefHeight="30.0"/>
-                              <RowConstraints prefHeight="30.0"/>
-                              <RowConstraints prefHeight="30.0"/>
-                              <RowConstraints prefHeight="30.0"/>
-                              <RowConstraints prefHeight="30.0"/>
-                              <RowConstraints prefHeight="30.0"/>
-                              <RowConstraints prefHeight="90.0" vgrow="ALWAYS"/>
-                              <RowConstraints prefHeight="120.0" vgrow="ALWAYS"/>
-                           </rowConstraints>
+                              <RowConstraints prefHeight="30.0"/> <RowConstraints prefHeight="30.0"/> <RowConstraints prefHeight="30.0"/> <RowConstraints prefHeight="30.0"/> <RowConstraints prefHeight="90.0" vgrow="ALWAYS"/> <RowConstraints prefHeight="120.0" vgrow="ALWAYS"/> </rowConstraints>
 
                            <children>
 
@@ -86,46 +78,37 @@
                                          GridPane.columnIndex="1"
                                          GridPane.rowIndex="0"/>
 
-                              <Label text="Descripción:"
-                                     styleClass="etiqueta-campo"
-                                     GridPane.rowIndex="1"/>
-                              <TextField fx:id="txtDescripcion"
-                                         promptText="Ingrese la descripción"
-                                         styleClass="campo-entrada"
-                                         GridPane.columnIndex="1"
-                                         GridPane.rowIndex="1"/>
-
                               <Label text="Nombre del responsable:"
                                      styleClass="etiqueta-campo"
-                                     GridPane.rowIndex="2"/>
+                                     GridPane.rowIndex="1"/>
                               <TextField fx:id="txtNombreResponsable"
                                          promptText="Ingrese el responsable"
                                          styleClass="campo-entrada"
                                          GridPane.columnIndex="1"
-                                         GridPane.rowIndex="2"/>
+                                         GridPane.rowIndex="1"/>
 
                               <Label text="Contacto del responsable:"
                                      styleClass="etiqueta-campo"
-                                     GridPane.rowIndex="3"/>
+                                     GridPane.rowIndex="2"/>
                               <TextField fx:id="txtContactoResponsable"
                                          promptText="Ingrese el contacto"
                                          styleClass="campo-entrada"
                                          GridPane.columnIndex="1"
-                                         GridPane.rowIndex="3"/>
+                                         GridPane.rowIndex="2"/>
 
                               <Label text="Cupo máximo:"
                                      styleClass="etiqueta-campo"
-                                     GridPane.rowIndex="4"/>
+                                     GridPane.rowIndex="3"/>
                               <TextField fx:id="txtCupoMaximo"
                                          promptText="Ingrese el cupo máximo"
                                          onKeyReleased="#validarCupoMaximo"
                                          styleClass="campo-entrada"
                                          GridPane.columnIndex="1"
-                                         GridPane.rowIndex="4"/>
+                                         GridPane.rowIndex="3"/>
 
                               <Label text="Objetivo general:"
                                      styleClass="etiqueta-campo"
-                                     GridPane.rowIndex="5"/>
+                                     GridPane.rowIndex="4"/>
                               <TextArea fx:id="taObjetivoGeneral"
                                         promptText="Ingrese el objetivo general"
                                         styleClass="area-texto"
@@ -133,20 +116,20 @@
                                         maxHeight="1.7976931348623157E308"
                                         wrapText="true"
                                         GridPane.columnIndex="1"
-                                        GridPane.rowIndex="5"
+                                        GridPane.rowIndex="4"
                                         GridPane.vgrow="ALWAYS"/>
 
                               <Label text="Metodología:"
                                      styleClass="etiqueta-campo"
-                                     GridPane.rowIndex="6"/>
+                                     GridPane.rowIndex="5"/>
                               <TextArea fx:id="taMetodologia"
-                                         promptText="Ingrese la metodología"
+                                        promptText="Ingrese la metodología"
                                         styleClass="area-texto"
                                         maxWidth="1.7976931348623157E308"
                                         maxHeight="1.7976931348623157E308"
                                         wrapText="true"
                                         GridPane.columnIndex="1"
-                                        GridPane.rowIndex="6"
+                                        GridPane.rowIndex="5"
                                         GridPane.vgrow="ALWAYS"/>
 
                            </children>
