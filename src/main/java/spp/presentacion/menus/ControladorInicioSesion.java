@@ -35,7 +35,7 @@ public class ControladorInicioSesion {
         
         if(sonCamposValidos()){
             
-            String identificador = txtCorreoMatricula.getText();
+            String identificador = txtCorreoMatricula.getText().trim();
             String contraseñaIngresada = pfContrasena.getText();
             iniciarSesion(identificador, contraseñaIngresada);
             

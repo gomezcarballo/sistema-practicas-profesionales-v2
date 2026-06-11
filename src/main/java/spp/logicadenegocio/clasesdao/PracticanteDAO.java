@@ -410,19 +410,28 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             
             conexion.commit(); 
             
-        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+        } catch(OperacionesDeDaoExcepcion e) {
             
             if (conexion != null) {
                 
                 try { 
                     conexion.rollback(); 
-                } catch (SQLException exRollback) {
-                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro de practicante.", exRollback);
-                }
+                } catch (SQLException ex) {}
                 
             }
-            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar practicante.", e);
+            throw e; 
             
+        } catch(SQLException e) {
+            
+            if (conexion != null) {
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException ex) {}
+                
+            }
+            RegistroErrores.registrarError(Level.SEVERE, "Error SQL en transacción de practicante.", e);
+            throw new OperacionesDeDaoExcepcion("Fallo crítico en la base de datos al registrar practicante.", e);
+        
         } finally {
             
             if (conexion != null) {

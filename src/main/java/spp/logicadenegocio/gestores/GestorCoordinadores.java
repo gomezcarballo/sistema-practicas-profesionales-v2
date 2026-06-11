@@ -64,7 +64,7 @@ public class GestorCoordinadores {
         } catch (OperacionesDeDaoExcepcion e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo coordinador.", e);  
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Coordinador por un problema interno del sistema. Intente más tarde.", e);
+            throw new ReglaDeNegocioExcepcion(e.getMessage());
         
         }
         

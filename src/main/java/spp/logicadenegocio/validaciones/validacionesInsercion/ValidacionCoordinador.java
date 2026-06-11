@@ -19,6 +19,12 @@ public class ValidacionCoordinador {
         String nombre = coordinador.getNombre();
         String apellidoPaterno = coordinador.getApellidoPaterno();
         String apellidoMaterno = coordinador.getApellidoMaterno();
+   
+        ValidacionDatos validacionDatosPersonales = new ValidacionDatos();
+        
+        validacionDatosPersonales.validarNombre(nombre);
+        validacionDatosPersonales.validarApellidoPaterno(apellidoPaterno);
+        validacionDatosPersonales.validarApellidoMaterno(apellidoMaterno);
         
         int longitudMaximaNumeroPersonal = 5;
         
@@ -29,13 +35,6 @@ public class ValidacionCoordinador {
            longitudMaximaNumeroPersonal + "digitos.");
            
         }
-        
-        ValidacionDatos validacionDatosPersonales = new ValidacionDatos();
-        
-        validacionDatosPersonales.validarNombre(nombre);
-        validacionDatosPersonales.validarApellidoPaterno(apellidoPaterno);
-        validacionDatosPersonales.validarApellidoMaterno(apellidoMaterno);
-        
     }
     
 }

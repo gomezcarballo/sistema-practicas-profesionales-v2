@@ -354,20 +354,28 @@ public class CoordinadorDAO implements ICoordinadorDAO {
             
             conexion.commit(); 
             
-        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+        } catch(OperacionesDeDaoExcepcion e) {
             
             if (conexion != null) {
                 
                 try { 
                     conexion.rollback(); 
-                } catch (SQLException exRollback) {
-                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro de coordinador.", exRollback);
-                }
+                } catch (SQLException ex) {}
                 
             }
+            throw e; 
             
-            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar coordinador.", e);
+        } catch(SQLException e) {
             
+            if (conexion != null) {
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException ex) {}
+                
+            }
+            RegistroErrores.registrarError(Level.SEVERE, "Error SQL en transacción de coordinador.", e);
+            throw new OperacionesDeDaoExcepcion("Fallo crítico en la base de datos al registrar coordinador.", e);
+        
         } finally {
             
             if (conexion != null) {

@@ -63,7 +63,7 @@ public class GestorAdministradores {
         } catch (OperacionesDeDaoExcepcion e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo administrador.", e);  
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Administrador por un problema interno del sistema. Intente más tarde.", e);
+            throw new ReglaDeNegocioExcepcion(e.getMessage());
         
         }
     }

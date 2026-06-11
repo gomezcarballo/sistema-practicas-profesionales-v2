@@ -37,7 +37,7 @@ public class GestorInicioSesion {
                 usuario = practicanteDao.buscarPracticante(identificador);
                 
                 if(usuario == null){
-                    throw new ReglaDeNegocioExcepcion("Practicante no encontrado");                    
+                    throw new ReglaDeNegocioExcepcion("Practicante no encontrado o inactivado");                    
                 }
                 
                 tipoRol = "Practicante";
@@ -48,7 +48,7 @@ public class GestorInicioSesion {
                 usuario = usuarioDao.buscarUsuario(identificador);
                 
                 if(usuario == null){
-                    throw new ReglaDeNegocioExcepcion("Usuario no encontrado");                    
+                    throw new ReglaDeNegocioExcepcion("Usuario no encontrado o inactivado");                    
                 }
                 
                 tipoRol = usuario.getRolUsuarioEncontrado();

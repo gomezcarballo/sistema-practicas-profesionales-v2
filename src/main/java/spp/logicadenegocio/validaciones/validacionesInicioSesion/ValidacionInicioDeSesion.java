@@ -27,10 +27,12 @@ public class ValidacionInicioDeSesion {
     
     public void sonCamposValidosPorReglaNegocio( String identificador ) throws ReglaDeNegocioExcepcion {
         
-        String PATRON_CORREO_ELECTRONICO = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)"
+        String patronCorreoElectronico = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)"
             + "*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[_A-Za-z0-9-]+)";
         
-        if( !identificador.matches( "^[sS][0-9]{8}$" ) && !identificador.matches( PATRON_CORREO_ELECTRONICO ) ){
+        String patronMatricula = "^[sS][0-9]{8}$";
+        
+        if( !identificador.matches(patronMatricula) && !identificador.matches( patronCorreoElectronico ) ){
             throw new ReglaDeNegocioExcepcion("Identificador no valido. "
             + "Ingresa una matricula o correo institucional");
         }

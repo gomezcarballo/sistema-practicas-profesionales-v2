@@ -458,20 +458,29 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
             
             conexion.commit(); 
             
-        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+        } catch(OperacionesDeDaoExcepcion e) {
             
             if (conexion != null) {
                 
                 try { 
                     conexion.rollback(); 
-                } catch (SQLException exRollback) {
-                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro de profesor.", exRollback);
-                }
+                } catch (SQLException ex) {}
                 
             }
+            throw e; 
             
-            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar profesor.", e);
+        } catch(SQLException e) {
             
+            if (conexion != null) {
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException ex) {}
+                
+            }
+            RegistroErrores.registrarError(Level.SEVERE, "Error SQL en transacción de profesor.", e);
+            throw new OperacionesDeDaoExcepcion("Fallo crítico en la base de datos al registrar profesor.", e);
+        
+
         } finally {
             
             if (conexion != null) {

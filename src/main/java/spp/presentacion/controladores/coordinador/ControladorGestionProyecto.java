@@ -98,53 +98,44 @@ public class ControladorGestionProyecto {
     @FXML
     private void leerDatosDeProyecto(ActionEvent evento){
         
-        if(!sonCamposValidos()){
-            
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
-            "Faltan datos por agregar. Por favor ingreselos");
-            return;
-            
-        }
-        
-        if (!esCupoMaximo()){
+        boolean camposValidos = sonCamposValidos();
+        boolean cupoValido = esCupoMaximo();
+
+        if (!camposValidos || !cupoValido) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
-            "El cupo no es valido. Por favor ingresa un numero valido");
-            return;
+            "Por favor verifica que todos los campos estén llenos y el cupo sea un número válido.");
             
-        }
-        
-        if(proyecto == null){
+        } else {
+            
+            if (proyecto == null) {
                 
-            proyecto = new Proyecto();
+                proyecto = new Proyecto();
+                
+            }
+            
+            mapearDatosAProyecto(proyecto);
 
-        }
+            boolean esActualizacion = (proyecto.getIdProyecto() > 0);
+            boolean necesitaGuardar = true;
 
-        String nombre = txtNombre.getText();
-        String objetivoGeneral = taObjetivoGeneral.getText();
-        String nombreResponsable = txtNombreResponsable.getText();
-        String contactoResponsable = txtContactoResponsable.getText();
-        String metodologia = taMetodologia.getText();
-        int cupoMaximo = Integer.parseInt(txtCupoMaximo.getText());
+            if (esActualizacion && !huboCambios()) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
+                "No ha cambiado nada de los datos del proyecto.");
+                necesitaGuardar = false; 
+            }
 
-        proyecto.setNombre(nombre);
-        proyecto.setObjetivoGeneral(objetivoGeneral);
-        proyecto.setNombreResponsable(nombreResponsable);
-        proyecto.setContactoResponsable(contactoResponsable);
-        proyecto.setMetodologia(metodologia);
-        proyecto.setCupoMaximo(cupoMaximo);
-        proyecto.setOrganizacion(organizacion);
-
-        int idProyectoNoValido = 0;
-        
-        if(proyecto.getIdProyecto () > idProyectoNoValido){
-
-            actualizarProyecto(proyecto, evento);
-
-        }else {
-
-            registrarProyecto(proyecto, evento);
-
+            if (necesitaGuardar) {
+                
+                if (esActualizacion) {
+                    actualizarProyecto(proyecto, evento);
+                } else {
+                    registrarProyecto(proyecto, evento);
+                }
+                
+            }
+            
         }
 
     }  
@@ -185,7 +176,18 @@ public class ControladorGestionProyecto {
         
     }
     
-    
+    private boolean huboCambios() {
+
+        if (this.proyecto == null) return true;
+
+        return !this.proyecto.getNombre().equals(txtNombre.getText().trim()) ||
+               !this.proyecto.getObjetivoGeneral().equals(taObjetivoGeneral.getText().trim()) ||
+               !this.proyecto.getNombreResponsable().equals(txtNombreResponsable.getText().trim()) ||
+               !this.proyecto.getContactoResponsable().equals(txtContactoResponsable.getText().trim()) ||
+               !this.proyecto.getMetodologia().equals(taMetodologia.getText().trim()) ||
+               this.proyecto.getCupoMaximo() != Integer.parseInt(txtCupoMaximo.getText().trim());
+        
+    }
     
     @FXML
     private void registrarProyecto(Proyecto proyecto, ActionEvent evento){
@@ -238,6 +240,18 @@ public class ControladorGestionProyecto {
             e.getMessage());
                     
         }
+        
+    }
+    
+    private void mapearDatosAProyecto(Proyecto proyecto) {
+        
+        proyecto.setNombre(txtNombre.getText().trim());
+        proyecto.setObjetivoGeneral(taObjetivoGeneral.getText().trim());
+        proyecto.setNombreResponsable(txtNombreResponsable.getText().trim());
+        proyecto.setContactoResponsable(txtContactoResponsable.getText().trim());
+        proyecto.setMetodologia(taMetodologia.getText().trim());
+        proyecto.setCupoMaximo(Integer.parseInt(txtCupoMaximo.getText().trim()));
+        proyecto.setOrganizacion(this.organizacion);
         
     }
     

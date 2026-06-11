@@ -7,7 +7,6 @@ package spp.logicadenegocio.gestores;
 import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
-import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionPracticante;
@@ -65,7 +64,7 @@ public class GestorPracticantes {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo practicante.", e);  
             
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar al Practicante por un problema interno del sistema. Intente más tarde.", e);
+            throw new ReglaDeNegocioExcepcion(e.getMessage());
         }
         
     }
@@ -141,5 +140,21 @@ public class GestorPracticantes {
            
        }
    }
+    
+    public boolean verificarAsignacionProyecto(int idUsuario) throws ReglaDeNegocioExcepcion {
+    
+        try {
+        
+            PracticanteDAO practicanteDao = new PracticanteDAO();
+        
+            return practicanteDao.tieneProyectoAsignado(idUsuario);
+    
+        } catch (OperacionesDeDaoExcepcion e) {
+        
+            throw new ReglaDeNegocioExcepcion("Error al consultar el estado del proyecto", e);
+    
+        }
+
+    }
     
 }

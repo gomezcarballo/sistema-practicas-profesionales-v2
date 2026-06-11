@@ -253,22 +253,28 @@ public class AdministradorDAO implements IAdministradorDAO{
             
             conexion.commit(); 
             
-        } catch(SQLException | OperacionesDeDaoExcepcion e) {
+        } catch(OperacionesDeDaoExcepcion e) {
             
             if (conexion != null) {
                 
                 try { 
-                    
                     conexion.rollback(); 
-                } catch (SQLException ex) {
-                    
-                    RegistroErrores.registrarError(Level.SEVERE, "Fallo al hacer rollback en registro completo.", ex);
-                    
-                }
+                } catch (SQLException ex) {}
+                
             }
+            throw e; 
             
-            throw new OperacionesDeDaoExcepcion("Fallo en la transacción de base de datos al registrar administrador.", e);
+        } catch(SQLException e) {
             
+            if (conexion != null) {
+                try { 
+                    conexion.rollback(); 
+                } catch (SQLException ex) {}
+                
+            }
+            RegistroErrores.registrarError(Level.SEVERE, "Error SQL en transacción de administrador.", e);
+            throw new OperacionesDeDaoExcepcion("Fallo crítico en la base de datos al registrar administrador.", e);
+        
         } finally {
             
             if (conexion != null) {

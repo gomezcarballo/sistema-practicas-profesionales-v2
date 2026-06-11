@@ -11,14 +11,13 @@ import spp.logicadenegocio.enums.TipoDocumento;
 import spp.presentacion.documentos.ControladorDocumentos;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-//import spp.utilerias.cerradordeventanas.CerradorVentana;
 
 /**
  *
  * @author Luz Fernanda H J
  */
-public class ControladorMenuPrincipalProfesor extends ControladorMenus{
-
+public class ControladorMenuPrincipalProfesor extends ControladorMenus { 
+            
     @FXML
     private void agregarFormatoPresentacion() {
         

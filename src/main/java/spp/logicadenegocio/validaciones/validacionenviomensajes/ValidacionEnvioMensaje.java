@@ -44,6 +44,15 @@ public class ValidacionEnvioMensaje {
     
     public void validarTamañoMensaje(Mensaje mensaje) throws ReglaDeNegocioExcepcion {
         
+        int maximoCaracteresDestinatario = 50;
+        
+        if (mensaje.getCorreoDestinatario() != null && mensaje.getCorreoDestinatario().length() > maximoCaracteresDestinatario) {
+
+            throw new ReglaDeNegocioExcepcion( "El destinatario excede el tamaño máximo permitido de " 
+            + maximoCaracteresDestinatario + " caracteres.");
+            
+        }
+        
         int maximoCaracteresAsunto = 50;
         
         if (mensaje.getAsunto().length() > maximoCaracteresAsunto) {

@@ -55,9 +55,11 @@ public class ControladorEnvioMensajes {
         
         Mensaje mensajeNuevo = new Mensaje();   
         
+        String destinatario = txtDestinatario.getText().trim();
         String asunto = txtAsunto.getText();       
         String cuerpo = taCuerpoMensaje.getText();
 
+        mensajeNuevo.setCorreoDestinatario(destinatario);
         mensajeNuevo.setAsunto(asunto);
         mensajeNuevo.setCuerpo(cuerpo);
         
