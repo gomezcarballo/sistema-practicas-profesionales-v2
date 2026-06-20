@@ -6,7 +6,7 @@ package spp.presentacion.controladores.practicante;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import spp.presentacion.menus.ControladorMenus;
+import spp.presentacion.controladores.menus.ControladorMenus;
 
 /**
  *

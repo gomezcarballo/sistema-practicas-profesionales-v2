@@ -4,73 +4,106 @@
  */
 package spp.logicadenegocio.validaciones.validacionenviomensajes;
 
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Mensaje;
-import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
  * @author gomes
  */
 public class ValidacionEnvioMensaje {
-   
-    public void existeDestinatario(String destinatario)throws ReglaDeNegocioExcepcion{
-        
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        
-        try {
 
-            int idUsuario = usuarioDAO.buscarIdPorCorreo(destinatario);
+    private final int MAXIMO_CARACTERES_DESTINATARIO = 50;
+    private final int MAXIMO_CARACTERES_ASUNTO = 50;
+    private final int MAXIMO_CARACTERES_CUERPO = 750;
 
-            if (idUsuario == 0) {
+    public List<String> validarEnviarMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
 
-                throw new ReglaDeNegocioExcepcion("No se encontró el destinatario en el sistema. "
-                        + "Verifique el correo institucional e intente nuevamente");
-                
-            }
+        List<String> listaValidaciones = new ArrayList<>(); 
+        String destinatario = mensaje.getCorreoDestinatario();
+        String asunto = mensaje.getAsunto();
+        String cuerpo = mensaje.getCuerpo();
+        String mensajeAlerta;
 
-        } catch (OperacionesDeDaoExcepcion e) {
-
-            RegistroErrores.registrarError(Level.SEVERE,"Error al validar destinatario", e);
-
-            throw new ReglaDeNegocioExcepcion("Error al validar el usuario. Intente más tarde.",e);
-            
+        if(!validarTamañoDestinatario(destinatario)){
+            mensajeAlerta = "El destinatario excede de " + MAXIMO_CARACTERES_DESTINATARIO + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
         }
-  
+
+        if(!validarTamañoAsunto(asunto)){
+            mensajeAlerta = "El asunto excede el tamaño máximo de " + MAXIMO_CARACTERES_ASUNTO + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
+        }
+
+        if(!validarTamañoCuerpo(cuerpo)){ 
+            mensajeAlerta = "El cuerpo del mensaje excede de " + MAXIMO_CARACTERES_CUERPO + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
+        }
+        if(listaValidaciones.isEmpty()){
+            if (!existeDestinatario(destinatario)) {
+                mensajeAlerta =  "No se encontró el destinatario en el sistema."; 
+                listaValidaciones.add(mensajeAlerta);
+            }
+        }
+        return listaValidaciones;
+
     }
     
-    public void validarTamañoMensaje(Mensaje mensaje) throws ReglaDeNegocioExcepcion {
+    public boolean existeDestinatario(String destinatario)throws OperacionesDeDaoExcepcion{
         
-        int maximoCaracteresDestinatario = 50;
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        boolean esDestinatarioValido = true;
         
-        if (mensaje.getCorreoDestinatario() != null && mensaje.getCorreoDestinatario().length() > maximoCaracteresDestinatario) {
+        int idUsuario = usuarioDAO.buscarIdPorCorreo(destinatario);
 
-            throw new ReglaDeNegocioExcepcion( "El destinatario excede el tamaño máximo permitido de " 
-            + maximoCaracteresDestinatario + " caracteres.");
+        if (idUsuario == 0) {
+
+            esDestinatarioValido = false;
+        
+        }
+        
+        return esDestinatarioValido;
+    }
+    
+    public boolean validarTamañoDestinatario(String destinatario){
+        
+        boolean esTamañoValido = true;
+        
+        if (destinatario != null && destinatario.length() > MAXIMO_CARACTERES_DESTINATARIO) {
+            esTamañoValido = false; 
+        }
+
+        return esTamañoValido;
+    }
+
+    public boolean validarTamañoAsunto (String asunto){
+        
+        boolean esTamañoValido = true;
+        
+        if (asunto.length() > MAXIMO_CARACTERES_ASUNTO) {
+            
+            esTamañoValido = false;
             
         }
-        
-        int maximoCaracteresAsunto = 50;
-        
-        if (mensaje.getAsunto().length() > maximoCaracteresAsunto) {
 
-            throw new ReglaDeNegocioExcepcion( "El asunto excede el tamaño máximo permitido de " 
-            + maximoCaracteresAsunto + " caracteres.");
+        return esTamañoValido;  
+
+    }
+
+    public boolean validarTamañoCuerpo (String cuerpoMensaje){
+
+        boolean esTamañoValido =true;
+        
+        if (cuerpoMensaje.length() > MAXIMO_CARACTERES_CUERPO) {
             
-        }
-        
-        int maximoCaracteresCuerpo = 750;
-        
-        if (mensaje.getCuerpo().length() > maximoCaracteresCuerpo) {
-
-           throw new ReglaDeNegocioExcepcion("El cuerpo del mensaje excede el tamaño máximo permitido de " 
-           + maximoCaracteresCuerpo + " caracteres.");
+            esTamañoValido = false;
 
         }
         
+        return esTamañoValido;
     }
     
 }

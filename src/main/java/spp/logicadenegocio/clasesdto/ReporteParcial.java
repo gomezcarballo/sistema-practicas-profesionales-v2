@@ -3,6 +3,7 @@ package spp.logicadenegocio.clasesdto;
 import java.time.LocalDate;
 import java.util.List;
 
+
 public class ReporteParcial extends EncabezadoReporte{
 
     private String periodoReporteYHorasCubiertas;

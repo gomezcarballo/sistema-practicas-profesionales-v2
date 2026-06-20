@@ -62,7 +62,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
             resultadosConsulta.close();
 
-         } catch(SQLIntegrityConstraintViolationException e) {
+        } catch(SQLIntegrityConstraintViolationException e) {
             RegistroErrores.registrarError(Level.WARNING, 
                 "Violación de integridad al insertar usuario. " +
                 "Correo: " + usuario.getCorreoInstitucional() + 
@@ -304,7 +304,6 @@ public class UsuarioDAO implements IUsuarioDAO {
                 idUsuario = resultado.getInt("idUsuario");
             }
 
-            
         } catch(SQLTimeoutException e) {
             RegistroErrores.registrarError(Level.WARNING, 
                 "Timeout al buscar ID por correo. Correo: " + correo, e);

@@ -80,7 +80,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
             throw new OperacionesDeDaoExcepcion("Error al registrar el profesor, " + 
                 "intente de nuevo más tarde", e);
         }
-            return registroExitoso;
+        return registroExitoso;
     }
     
     @Override

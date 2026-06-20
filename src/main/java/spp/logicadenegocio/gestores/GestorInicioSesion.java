@@ -61,7 +61,7 @@ public class GestorInicioSesion {
             
         }catch(OperacionesDeDaoExcepcion e){
            
-            throw new ReglaDeNegocioExcepcion(e);
+            throw new ReglaDeNegocioExcepcion(e.getMessage());
             
         }
             

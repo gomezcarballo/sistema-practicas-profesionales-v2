@@ -11,11 +11,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="700.0" prefWidth="750.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.practicante.ControladorAutoevaluacion">
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="700.0" prefWidth="750.0" styleClass="panel-raiz" 
+stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="spp.presentacion.controladores.practicante.ControladorAutoevaluacion">
 
    <children>
 
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane" vbarPolicy="AS_NEEDED" 
+      VBox.vgrow="ALWAYS">
 
          <content>
 
@@ -27,15 +30,19 @@
 
                <children>
 
-                  <VBox fx:id="vbTarjetaAutoevaluacion" alignment="CENTER" maxWidth="680.0" spacing="25.0" styleClass="tarjeta-blanca">
+                  <VBox fx:id="vbTarjetaAutoevaluacion" alignment="CENTER" maxWidth="680.0" spacing="25.0" 
+                  styleClass="tarjeta-blanca">
 
                      <children>
 
                         <VBox alignment="CENTER" spacing="5.0">
                            <children>
-                              <Label fx:id="lblTituloFormulario" styleClass="etiqueta-titulo" text="Autoevaluación del Alumno" />
+                              <Label fx:id="lblTituloFormulario" styleClass="etiqueta-titulo" 
+                              text="Autoevaluación del Alumno" />
 
-                              <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" text="Califique cada afirmación con un número del 1 (Totalmente en desacuerdo) al 5 (Totalmente de acuerdo)" textAlignment="CENTER" wrapText="true" />
+                              <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" 
+                              text="Califique cada afirmación con un número del 1 (Totalmente en desacuerdo) al 5 (Totalmente de acuerdo)" 
+                              textAlignment="CENTER" wrapText="true" />
                            </children>
                         </VBox>
 
@@ -146,11 +153,14 @@
 
                         <BorderPane>
                            <left>
-                              <Button fx:id="btnGuardar" onAction="#leerDatosDeAutoevaluacion" styleClass="boton-accion" text="Generar Autoevaluación" BorderPane.alignment="CENTER" />
+                              <Button fx:id="btnGuardar" onAction="#leerDatosDeAutoevaluacion" 
+                                 styleClass="boton-accion" text="Generar Autoevaluación" 
+                                 BorderPane.alignment="CENTER" />
                            </left>
 
                            <right>
-                              <Button fx:id="btnCancelar" onAction="#regresar" styleClass="boton-cancelar" text="Regresar" BorderPane.alignment="CENTER" />
+                              <Button fx:id="btnCancelar" onAction="#regresar" styleClass="boton-cancelar" 
+                                 text="Regresar" BorderPane.alignment="CENTER" />
                            </right>
 
                            <VBox.margin>

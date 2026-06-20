@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package spp.presentacion.menus;
+package spp.presentacion.controladores.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import spp.logicadenegocio.enums.TipoDocumento;
-import spp.presentacion.documentos.ControladorDocumentos;
+import spp.presentacion.controladores.documentos.ControladorDocumentos;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.cerradordesesion.CerradorSesion;
 

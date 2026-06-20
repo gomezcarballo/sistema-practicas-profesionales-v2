@@ -1,0 +1,70 @@
+[2026-06-13T18:13:12.414703300] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:13:38.484890600] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:13:41.142035500] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:04.511800] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:07.147876600] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:07.302012200] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:07.530123600] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:12.332458100] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:12.500009600] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:12.734325400] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:30.992286200] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:31.174385200] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:31.383790700] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:45.701783200] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:14:47.578307300] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:20:13.215715900] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:20:15.489035500] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:20:34.950408800] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:21:56.706188700] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:23:05.349146600] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:23:56.698243100] [SEVERE] Error de base de datos al insertar el mensaje.  IdMensaje : 11IdRemitente: 0IdDestinatario: 89, SQL State: 23000, Error Code: 1452 - Detalles: Cannot add or update a child row: a foreign key constraint fails (`sistemapracticasprofesionales`.`enviomensaje`, CONSTRAINT `enviomensaje_ibfk_1` FOREIGN KEY (`Usuario_idRemitente`) REFERENCES `usuario` (`idUsuario`))
+[2026-06-13T18:23:56.705241800] [SEVERE] Fallo crítico de base de datos al registrar un mensaje. - Detalles: Error al guardar el mensaje, intente de nuevo más tarde
+[2026-06-13T18:24:10.842927700] [SEVERE] Error de base de datos al insertar el mensaje.  IdMensaje : 12IdRemitente: 0IdDestinatario: 89, SQL State: 23000, Error Code: 1452 - Detalles: Cannot add or update a child row: a foreign key constraint fails (`sistemapracticasprofesionales`.`enviomensaje`, CONSTRAINT `enviomensaje_ibfk_1` FOREIGN KEY (`Usuario_idRemitente`) REFERENCES `usuario` (`idUsuario`))
+[2026-06-13T18:24:10.849941200] [SEVERE] Fallo crítico de base de datos al registrar un mensaje. - Detalles: Error al guardar el mensaje, intente de nuevo más tarde
+[2026-06-13T18:31:48.498594400] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+
+[2026-06-13T18:31:56.270116500] [SEVERE] Error al cargar la ventana: /fxml/VistaListaProfesoresActivos.fxml - Detalles: 
+/C:/Users/luzfh/OneDrive/Escritorio/4to%20Semestre/Principios%20de%20construcci%c3%b3n/Proyecto%20final%20PC/sistema-practicas-profesionales-v2/target/classes/fxml/VistaListaProfesoresActivos.fxml
+

@@ -1,0 +1,24 @@
+[2026-06-20T16:00:43.154145900] [SEVERE] Error al buscar ID por correo. Correo: zS24013315@estudiantes.uv.mx, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:01:13.345814300] [SEVERE] Error al buscar ID por correo. Correo: zS24013315@estudiantes.uv.mx, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:03:39.592177] [SEVERE] Error al buscar ID por correo. Correo: zS24013315@estudiantes.uv.mx, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:04:59.487590200] [SEVERE] Error al consultar mensajes por destinatario. ID Destinatario: 6, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:07:35.825491800] [SEVERE] Error al buscar practicante. Matrícula: S24013256, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:08:44.132229600] [SEVERE] Error al buscar practicante. Matrícula: S24013256, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:09:01.846026600] [SEVERE] Error al buscar practicante. Matrícula: S24013256, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[2026-06-20T16:21:37.714962500] [SEVERE] Error al buscar practicante. Matrícula: S24013256, SQL State: 08S01, Error Code: 0 - Detalles: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.

@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package spp.presentacion.mensajeria;
+package spp.presentacion.controladores.mensajeria;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,7 +15,7 @@ import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.gestores.GestorMensajes;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -38,9 +40,7 @@ public class ControladorEnvioMensajes {
             
             Mensaje mensajeNuevo = crearMensaje();
             
-            String correoDestinatario = txtDestinatario.getText().trim().toLowerCase();
-            
-            registrarMensaje(mensajeNuevo, correoDestinatario, evento);
+            registrarMensaje(mensajeNuevo, evento);
             
         }else{
             
@@ -84,25 +84,55 @@ public class ControladorEnvioMensajes {
     }
     
     @FXML
-    private void registrarMensaje(Mensaje mensajeNuevo, String correoDestinatario, ActionEvent evento){
+    private void registrarMensaje(Mensaje mensajeNuevo, ActionEvent evento){
         
         try{
             
             GestorMensajes gestor = new GestorMensajes();
-            gestor.enviarMensaje(mensajeNuevo, correoDestinatario);
+            if(validarMensaje(mensajeNuevo)){
+                gestor.enviarMensaje(mensajeNuevo);
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Envio Exitoso", 
-            "Mensaje enviado correctamente");
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Envio Exitoso", 
+                "Mensaje enviado correctamente");
+                
+                regresar(evento);
+            }
             
-            regresar(evento);
-            
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Envio fallido", 
             e.getMessage());
   
         }
         
+    }
+
+    private boolean validarMensaje(Mensaje mensajeNuevo){
+
+        boolean mensajeValido = false; 
+        try{
+
+            List<String> listaValidaciones = new ArrayList<>();
+            GestorMensajes gestor = new GestorMensajes();
+            listaValidaciones = gestor.validarCamposDeMensaje(mensajeNuevo);
+
+            if(listaValidaciones.isEmpty()){
+                mensajeValido = true;
+            }else{
+                mostrarVentanaErrores(listaValidaciones);
+            }   
+
+        }catch(OperacionesDeDaoExcepcion e){
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Valores invalidos", 
+            e.getMessage());
+        }
+
+        return mensajeValido;
+    }
+
+    private void mostrarVentanaErrores(List<String> listaValidaciones) {
+        
+        VentanaMensaje.mostrarVentanaErrores(listaValidaciones);
     }
     
     @FXML

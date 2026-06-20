@@ -9,7 +9,7 @@
 
 <VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="450.0" prefWidth="600.0" styleClass="panel-raiz" 
       stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" 
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.menus.ControladorInicioSesion">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.menus.ControladorInicioSesion">
 
    <children>
       

@@ -4,8 +4,8 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.EnvioMensajeDAO;
 import spp.logicadenegocio.clasesdao.MensajeDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
@@ -13,7 +13,6 @@ import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.interfacesdao.IMensajeDAO;
 import spp.logicadenegocio.validaciones.validacionenviomensajes.ValidacionEnvioMensaje;
-import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
@@ -24,38 +23,32 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 public class GestorMensajes {
     
     private IMensajeDAO mensajeDAO;
+
+    public List<String> validarCamposDeMensaje(Mensaje mensaje) throws OperacionesDeDaoExcepcion{
+
+        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
+        List<String> listaValidaciones = new ArrayList<>();
+        listaValidaciones = validacion.validarEnviarMensaje(mensaje);
+        return listaValidaciones;
+
+    }
     
-    public boolean enviarMensaje(Mensaje mensaje, String correoDestinatario)throws ReglaDeNegocioExcepcion{
-                
+    public boolean enviarMensaje(Mensaje mensaje)throws OperacionesDeDaoExcepcion{
+        
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
         MensajeDAO mensajeDAO = new MensajeDAO();
         EnvioMensajeDAO envioMensajeDAO = new EnvioMensajeDAO();
 
         boolean envioExitoso;
+
+        String correoDestinatario = mensaje.getCorreoDestinatario();
+        int idDestinatario = new UsuarioDAO().buscarIdPorCorreo(correoDestinatario);
         
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-            
-        validacion.validarTamañoMensaje(mensaje);
-            
-        validacion.existeDestinatario(correoDestinatario);
+        int idMensaje = mensajeDAO.insertarMensaje(mensaje);
         
-        try{
-  
-            int idDestinatario = new UsuarioDAO().buscarIdPorCorreo(correoDestinatario);
-            
-            int idMensaje = mensajeDAO.insertarMensaje(mensaje);
-            
-            envioExitoso = envioMensajeDAO.insertarEnvioMensaje(idMensaje, sesionUsuario.getIdUsuario(), 
-            idDestinatario);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-           
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar un mensaje.", e);
-             throw new ReglaDeNegocioExcepcion("No se pudo enviar el Mensaje por un problema "
-                + "interno del sistema. Intente más tarde.", e);
-            
-        }
-        
+        envioExitoso = envioMensajeDAO.insertarEnvioMensaje(idMensaje, sesionUsuario.getIdUsuario(), 
+        idDestinatario);
+    
         return envioExitoso;
         
     }
