@@ -1,4 +1,0 @@
-[2026-06-05T16:58:57.628677900] [SEVERE] Error al iniciar sesion. - Detalles: La contraseña no es correcta
-[2026-06-05T17:00:24.151222600] [SEVERE] Error al iniciar sesion. - Detalles: La contraseña no es correcta
-[2026-06-05T17:01:53.368940500] [SEVERE] Error al iniciar sesion. - Detalles: La contraseña no es correcta
-[2026-06-05T17:02:02.484017900] [SEVERE] Error al iniciar sesion. - Detalles: La contraseña no es correcta

@@ -1,5 +1,0 @@
-[2026-06-10T22:17:48.545463400] [SEVERE] Violación de integridad al insertar administrador. el ID 556El noPersonal: 78623 - Detalles: Duplicate entry '556-78623' for key 'administrador.PRIMARY'
-[2026-06-10T22:17:51.467588200] [SEVERE] Violación de integridad al insertar la evaluacion. El ID del profesor: 579, el ID del practicante: 580, el NRC : NRC01, el perido: AGO-DIC 26, la calificacion: 10.0 - Detalles: Column 'observaciones' cannot be null
-[2026-06-10T22:22:26.285593100] [SEVERE] Violación de integridad al insertar administrador. el ID 616El noPersonal: 78623 - Detalles: Duplicate entry '616-78623' for key 'administrador.PRIMARY'
-[2026-06-10T23:48:23.038857400] [SEVERE] Violación de integridad al insertar administrador. el ID 677El noPersonal: 78623 - Detalles: Duplicate entry '677-78623' for key 'administrador.PRIMARY'
-[2026-06-10T23:56:53.417445300] [SEVERE] Violación de integridad al insertar administrador. el ID 736El noPersonal: 78623 - Detalles: Duplicate entry '736-78623' for key 'administrador.PRIMARY'
