@@ -3,230 +3,140 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-/* 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.validaciones.validacionenviomensajes.ValidacionEnvioMensaje;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-*/
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+
 
 /**
  *
  * @author gomes
  */
-/* 
+
 public class PruebaValidacionEnvioMensaje {
+
+    private ValidacionEnvioMensaje validacion;
+    private Mensaje mensaje;
+
+    @Before
+    public void configurar() {
+        validacion = new ValidacionEnvioMensaje();
+        mensaje = new Mensaje();
+    }
     
     @Test
-    public void pruebaValidarTamañoMensajeExitoso() {
+    public void pruebaValidarTamañoMensajeExitoso() throws OperacionesDeDaoExcepcion{
 
-        Mensaje mensaje = new Mensaje();
+        mensaje.setCorreoDestinatario("zS24013261@estudiantes.uv.mx");
         mensaje.setAsunto("Hola");
         mensaje.setCuerpo("Mensaje de prueba");
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
 
-        try {
+        List<String> listaValidaciones = validacion.validarEnviarMensaje(mensaje);
+        assertTrue("La lista debería estar vacía cuando no hay errores", 
+            listaValidaciones.isEmpty());
 
-            validacion.validarTamañoMensaje(mensaje);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
     }
 
     @Test
     public void pruebaValidarTamañoMensajeAsuntoLimite() {
 
-        Mensaje mensaje = new Mensaje();
         mensaje.setAsunto("A".repeat(50));
-        mensaje.setCuerpo("Prueba");
+        assertTrue("El asunto de 50 caracteres debería ser válido", 
+            validacion.esTamañoAsuntoValido(mensaje.getAsunto()));
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
     }
 
     @Test
     public void pruebaValidarTamañoMensajeAsuntoExcedeLimite() {
 
-        Mensaje mensaje = new Mensaje();
         mensaje.setAsunto("A".repeat(51));
-        mensaje.setCuerpo("Prueba");
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
+        assertFalse("El asunto de 51 caracteres debería ser inválido", 
+            validacion.esTamañoAsuntoValido(mensaje.getAsunto()));
     }
 
     @Test
     public void pruebaValidarTamañoMensajeCuerpoLimite() {
 
-        Mensaje mensaje = new Mensaje();
-        mensaje.setAsunto("Hola");
         mensaje.setCuerpo("A".repeat(750));
-
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
+        assertTrue("El cuerpo de 750 caracteres debería ser válido", 
+            validacion.esTamañoCuerpoValido( mensaje.getCuerpo() ));
     }
 
     @Test
     public void pruebaValidarTamañoMensajeCuerpoExcedeLimite() {
 
-        Mensaje mensaje = new Mensaje();
-        mensaje.setAsunto("Hola");
         mensaje.setCuerpo("A".repeat(751));
-
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-        }
-        
+        assertFalse("El cuerpo de 751 caracteres debería ser inválido", 
+            validacion.esTamañoCuerpoValido(mensaje.getCuerpo()));
     }
 
     @Test
-    public void pruebaValidarTamañoMensajeAsuntoYCuerpoExcedidos() {
+    public void pruebaValidarTamañoMensajeDestinatarioLimite(){
 
-        Mensaje mensaje = new Mensaje();
+        mensaje.setCorreoDestinatario("alejandro.rodriguez.gonzalez1992@estudiantes.uv.mx");
+        assertTrue("El destinatario de 50 caracteres debería ser válido", 
+            validacion.esTamañoDestinatarioValido(mensaje.getCorreoDestinatario()));
+
+    }
+
+    @Test
+    public void pruebaValidarTamañoMensajeDestinatarioExcedeLimite(){
+
+        mensaje.setCorreoDestinatario("alejandro.fernando.rodriguez.gonzalez.1992@estudiantes.uv.mx");
+        assertFalse("El destinatario de más de 50 caracteres debería ser inválido", 
+            validacion.esTamañoDestinatarioValido(mensaje.getCorreoDestinatario()));
+    
+    }
+
+    @Test
+    public void pruebaValidarTamañoMensajeCamposExcedidos() {
+
         mensaje.setAsunto("A".repeat(51));
         mensaje.setCuerpo("A".repeat(751));
+        mensaje.setCorreoDestinatario("A".repeat(51));
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        boolean esAsuntoValido = validacion.esTamañoAsuntoValido(mensaje.getAsunto());
+        boolean esCuerpoValido = validacion.esTamañoCuerpoValido(mensaje.getCuerpo());
+        boolean esDestinatarioValido = validacion.esTamañoDestinatarioValido(mensaje.getCorreoDestinatario());
         
+        assertFalse("Todos los campos deberían ser inválidos", 
+            esAsuntoValido && esCuerpoValido && esDestinatarioValido);
+
     }
 
     @Test
     public void pruebaValidarTamañoMensajeAsuntoVacio() {
 
-        Mensaje mensaje = new Mensaje();
         mensaje.setAsunto("");
-        mensaje.setCuerpo("Prueba");
+        assertFalse("El asunto vacío debería ser inválido", 
+            validacion.esTamañoAsuntoValido(mensaje.getAsunto()));
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
     }
 
     @Test
     public void pruebaValidarTamañoMensajeCuerpoVacio() {
 
-        Mensaje mensaje = new Mensaje();
-        mensaje.setAsunto("Hola");
         mensaje.setCuerpo("");
+        assertFalse("El cuerpo vacío debería ser inválido", 
+            validacion.esTamañoCuerpoValido(mensaje.getCuerpo()));
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
     }
 
     @Test
-    public void pruebaValidarMensajeExcepcionAsunto() {
+    public void pruebaValidarTamañoDestinatarioVacio(){
 
-        Mensaje mensaje = new Mensaje();
-        mensaje.setAsunto("A".repeat(51));
-        mensaje.setCuerpo("Prueba");
+        mensaje.setCorreoDestinatario("");
+        assertFalse("El destinatario vacío debería ser inválido", 
+            validacion.esTamañoDestinatarioValido(mensaje.getCorreoDestinatario()));
 
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
+    }   
 
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El asunto excede el tamaño máximo permitido de 50 caracteres.", e.getMessage());
-            
-        }
-    }
-
-    @Test
-    public void pruebValidarMensajeExcepcionCuerpo() {
-
-        Mensaje mensaje = new Mensaje();
-        mensaje.setAsunto("Hola");
-        mensaje.setCuerpo("A".repeat(751));
-
-        ValidacionEnvioMensaje validacion = new ValidacionEnvioMensaje();
-
-        try {
-
-            validacion.validarTamañoMensaje(mensaje);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El cuerpo del mensaje excede el tamaño máximo permitido de 750 caracteres.", e.getMessage());
-            
-        }
-    }
-    
 }
-*/

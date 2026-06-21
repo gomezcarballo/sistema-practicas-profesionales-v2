@@ -188,7 +188,7 @@ public class SolicitudProyectosDAO implements ISolicitudProyectosDAO{
     public int obtenerConteoSolicitudes(int idPracticante) throws OperacionesDeDaoExcepcion {
         
         int conteo = 0;
-        String consultaSQL = "SELECT COUNT(*) FROM solicitud_proyecto WHERE Practicante_idUsuario = ?";
+        String consultaSQL = "SELECT COUNT(*) FROM solicitudProyecto WHERE Practicante_idUsuario = ?";
         
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {

@@ -28,17 +28,17 @@ public class ValidacionEnvioMensaje {
         String cuerpo = mensaje.getCuerpo();
         String mensajeAlerta;
 
-        if(!validarTamañoDestinatario(destinatario)){
+        if(!esTamañoDestinatarioValido(destinatario)){
             mensajeAlerta = "El destinatario excede de " + MAXIMO_CARACTERES_DESTINATARIO + " caracteres";
             listaValidaciones.add(mensajeAlerta);
         }
 
-        if(!validarTamañoAsunto(asunto)){
+        if(!esTamañoAsuntoValido(asunto)){
             mensajeAlerta = "El asunto excede el tamaño máximo de " + MAXIMO_CARACTERES_ASUNTO + " caracteres";
             listaValidaciones.add(mensajeAlerta);
         }
 
-        if(!validarTamañoCuerpo(cuerpo)){ 
+        if(!esTamañoCuerpoValido(cuerpo)){ 
             mensajeAlerta = "El cuerpo del mensaje excede de " + MAXIMO_CARACTERES_CUERPO + " caracteres";
             listaValidaciones.add(mensajeAlerta);
         }
@@ -55,37 +55,37 @@ public class ValidacionEnvioMensaje {
     public boolean existeDestinatario(String destinatario)throws OperacionesDeDaoExcepcion{
         
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        boolean esDestinatarioValido = true;
+        boolean esDestinatarioValido = false;
         
         int idUsuario = usuarioDAO.buscarIdPorCorreo(destinatario);
 
-        if (idUsuario == 0) {
+        if (idUsuario > 0) {
 
-            esDestinatarioValido = false;
+            esDestinatarioValido = true;
         
         }
         
         return esDestinatarioValido;
     }
     
-    public boolean validarTamañoDestinatario(String destinatario){
+    public boolean esTamañoDestinatarioValido(String destinatario){
         
-        boolean esTamañoValido = true;
+        boolean esTamañoValido = false;
         
-        if (destinatario != null && destinatario.length() > MAXIMO_CARACTERES_DESTINATARIO) {
-            esTamañoValido = false; 
+        if (destinatario != null && destinatario.length() <= MAXIMO_CARACTERES_DESTINATARIO) {
+            esTamañoValido = true; 
         }
 
         return esTamañoValido;
     }
 
-    public boolean validarTamañoAsunto (String asunto){
+    public boolean esTamañoAsuntoValido (String asunto){
         
-        boolean esTamañoValido = true;
+        boolean esTamañoValido = false;
         
-        if (asunto.length() > MAXIMO_CARACTERES_ASUNTO) {
+        if (asunto != null && asunto.length() <= MAXIMO_CARACTERES_ASUNTO) {
             
-            esTamañoValido = false;
+            esTamañoValido = true;
             
         }
 
@@ -93,13 +93,13 @@ public class ValidacionEnvioMensaje {
 
     }
 
-    public boolean validarTamañoCuerpo (String cuerpoMensaje){
+    public boolean esTamañoCuerpoValido (String cuerpoMensaje){
 
-        boolean esTamañoValido =true;
+        boolean esTamañoValido = false;
         
-        if (cuerpoMensaje.length() > MAXIMO_CARACTERES_CUERPO) {
+        if (cuerpoMensaje != null && cuerpoMensaje.length() <= MAXIMO_CARACTERES_CUERPO) {
             
-            esTamañoValido = false;
+            esTamañoValido = true;
 
         }
         
