@@ -17,7 +17,6 @@ import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
-import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
@@ -47,24 +46,33 @@ public class GestorDocumentos {
     
     public Path crearDireccionArchivo(TipoDocumento tipoDocumento, File archivoSeleccionado) throws ProcesamientoSistemaExcepcion{
         
-        ValidacionesDocumentos validacion = new ValidacionesDocumentos();
-        validacion.validarArchivoSeleccionado(archivoSeleccionado);
-    
         String identificador = String.valueOf(SesionUsuario.getInstancia().getIdentificador());
         String rutaProyecto = System.getProperty("user.dir");
         String carpetaTipoDocumento = obtenerNombreCarpeta(tipoDocumento);
-        String carpetaGeneralDocumentos = "Documentos_SPP";
-        Path rutaCarpetaFinal = Paths.get(rutaProyecto,carpetaGeneralDocumentos ,carpetaTipoDocumento, identificador);
+        Path rutaCarpetaFinal = null;
         
-        return crearRutaDestino(rutaCarpetaFinal, archivoSeleccionado);
-
+        if(carpetaTipoDocumento.isEmpty()){
+            String carpetaGeneralDocumentos = "Documentos_SPP";
+            rutaCarpetaFinal = Paths.get(rutaProyecto,carpetaGeneralDocumentos ,carpetaTipoDocumento, identificador);
+            rutaCarpetaFinal = crearRutaDestino(rutaCarpetaFinal, archivoSeleccionado);
+        }
+    
+        return rutaCarpetaFinal;
+        
     }
     
-    public void guardarDocumento(TipoDocumento tipoDocumento, File archivoSeleccionado) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+    public boolean guardarDocumento(TipoDocumento tipoDocumento, File archivoSeleccionado) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
             
-            Path rutaArchivo;
-            rutaArchivo = guardarDocumentoEnSistema(tipoDocumento, archivoSeleccionado);
+        boolean documentoGuardadoExitosamente = false; 
+        Path rutaArchivo;
+        rutaArchivo = guardarDocumentoEnSistema(tipoDocumento, archivoSeleccionado);
+        
+        if(rutaArchivo != null){
             guardarDocumentoEnBaseDatos(tipoDocumento.toString(), archivoSeleccionado, rutaArchivo);
+            documentoGuardadoExitosamente = true;
+        }
+
+        return documentoGuardadoExitosamente;
         
     }
     
@@ -73,8 +81,10 @@ public class GestorDocumentos {
         try {
 
             Path direccionFinalArchivo = crearDireccionArchivo(tipoDocumento, archivoSeleccionado);
-
-            Files.copy(archivoSeleccionado.toPath(), direccionFinalArchivo, StandardCopyOption.REPLACE_EXISTING);
+            if(direccionFinalArchivo != null){
+                Files.copy(archivoSeleccionado.toPath(), direccionFinalArchivo, StandardCopyOption.REPLACE_EXISTING);
+               
+            }
             return direccionFinalArchivo;
             
         } catch (IOException e ) {
@@ -106,7 +116,7 @@ public class GestorDocumentos {
         return documento;
     }
     
-    private String obtenerNombreCarpeta(TipoDocumento tipoDocumento)throws ProcesamientoSistemaExcepcion{
+    private String obtenerNombreCarpeta(TipoDocumento tipoDocumento){
         
         String carpeta;
         switch (tipoDocumento) {
@@ -144,7 +154,7 @@ public class GestorDocumentos {
                 break;
 
             default:
-                throw new ProcesamientoSistemaExcepcion("No se encontró una carpeta válida para el documento.");
+                carpeta = "";
           
         }
         

@@ -17,7 +17,6 @@ import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocum
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -65,19 +64,19 @@ public class ControladorDocumentos {
         
         if (archivoTemporal != null) {
             
-            try {
-                
-                ValidacionesDocumentos validador = new ValidacionesDocumentos();
-                
-                validador.archivoValidoPorReglaDeNegocio(archivoTemporal);
-
+            ValidacionesDocumentos validador = new ValidacionesDocumentos();
+            boolean esArchivoValido = validador.esTamañoValidoArchivo(archivoTemporal);
+            
+            if(esArchivoValido){
+            
                 archivoSeleccionado = archivoTemporal;
 
                 actualizarVistaArchivo();
 
-            } catch (ReglaDeNegocioExcepcion e) {
+            }else{
                 
-                VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Archivo no permitido", e.getMessage());
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Archivo no permitido", 
+                    "El archivo pesa más de lo permitido, por favor selecciona otro.");
                 
             }
             
@@ -90,16 +89,22 @@ public class ControladorDocumentos {
 
         if (archivoSeleccionado != null) {
             
+            GestorDocumentos gestor = new GestorDocumentos();
+            
             try {
                 
-                GestorDocumentos gestor = new GestorDocumentos();
-                
-                gestor.guardarDocumento(tipoDocumento, archivoSeleccionado);
-        
-                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", "Documento subido correctamente.");
+                if(gestor.guardarDocumento(tipoDocumento, archivoSeleccionado)){
+                    
+                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", "Documento subido correctamente.");
+                    limpiarVista();
 
-                limpiarVista();
-                
+                }else{
+                    
+                    VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Error", "Hubo un error al subir el documento.");
+                    limpiarVista();
+                    
+                }
+        
             } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
                 
                 VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al subir el archivo.", e.getMessage());
@@ -127,10 +132,11 @@ public class ControladorDocumentos {
 
     private void actualizarVistaArchivo() {
 
+        final int CONVERSION_KILO_BYTES = 1024;
+        final String KILOBYTES = "KB";
+
         lblNombreArchivo.setText(archivoSeleccionado.getName());
-        int conversionKiloBytes = 1024;
-        String kiloBytes = "KB";
-        lblPesoArchivo.setText((archivoSeleccionado.length() / conversionKiloBytes) + kiloBytes);
+        lblPesoArchivo.setText((archivoSeleccionado.length() / CONVERSION_KILO_BYTES) + KILOBYTES);
 
         vbPrevisualizacion.setVisible(true);
         vbPrevisualizacion.setManaged(true);

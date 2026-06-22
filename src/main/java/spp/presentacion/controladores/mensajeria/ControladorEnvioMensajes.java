@@ -123,7 +123,7 @@ public class ControladorEnvioMensajes {
             }   
 
         }catch(OperacionesDeDaoExcepcion e){
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Valores invalidos", 
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error de busqueda", 
             e.getMessage());
         }
 
