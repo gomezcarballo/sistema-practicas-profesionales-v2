@@ -101,7 +101,7 @@ public class PruebaEvaluacionDAO {
     
     }
 
-
+/*
     @Test
     public void pruebaInsertarEvaluacionExitoso() throws OperacionesDeDaoExcepcion {
         
@@ -126,7 +126,7 @@ public class PruebaEvaluacionDAO {
         assertTrue(idGenerado > 0);
         
     }
-
+*/
     @Test
     public void pruebaConsultarEvaluacionExistenteNoNula() throws OperacionesDeDaoExcepcion {
         

@@ -101,6 +101,16 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.6.3</version>
+
+            <configuration>
+                <outputDirectory>${project.build.directory}/site/apidocs</outputDirectory>
+                <failOnError>false</failOnError>
+            </configuration>
+        </plugin>
         </plugins>
         
     </build>
