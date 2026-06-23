@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-
+/*
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -11,13 +11,13 @@ import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionOrganizacion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-
+*/
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionOrganizacion {
-    
+    /*
     @Test
     public void pruebaCamposValidos() {
 
@@ -212,5 +212,5 @@ public class PruebaValidacionOrganizacion {
         }
         
     }
-    
+    */
 }

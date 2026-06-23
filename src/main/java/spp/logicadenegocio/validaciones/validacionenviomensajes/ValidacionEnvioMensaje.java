@@ -72,7 +72,7 @@ public class ValidacionEnvioMensaje {
         
         boolean esTamañoValido = false;
         
-        if (destinatario != null && destinatario.length() <= MAXIMO_CARACTERES_DESTINATARIO) {
+        if ((!destinatario.isBlank()) && destinatario != null && destinatario.length() <= MAXIMO_CARACTERES_DESTINATARIO) {
             esTamañoValido = true; 
         }
 
@@ -83,7 +83,7 @@ public class ValidacionEnvioMensaje {
         
         boolean esTamañoValido = false;
         
-        if (asunto != null && asunto.length() <= MAXIMO_CARACTERES_ASUNTO) {
+        if ((!asunto.isBlank()) && asunto != null && asunto.length() <= MAXIMO_CARACTERES_ASUNTO) {
             
             esTamañoValido = true;
             
@@ -97,7 +97,7 @@ public class ValidacionEnvioMensaje {
 
         boolean esTamañoValido = false;
         
-        if (cuerpoMensaje != null && cuerpoMensaje.length() <= MAXIMO_CARACTERES_CUERPO) {
+        if ((!cuerpoMensaje.isBlank()) && cuerpoMensaje != null && cuerpoMensaje.length() <= MAXIMO_CARACTERES_CUERPO) {
             
             esTamañoValido = true;
 

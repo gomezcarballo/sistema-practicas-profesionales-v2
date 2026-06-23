@@ -21,7 +21,6 @@ import spp.presentacion.controladores.menus.ControladorSubMenuProyectos;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**

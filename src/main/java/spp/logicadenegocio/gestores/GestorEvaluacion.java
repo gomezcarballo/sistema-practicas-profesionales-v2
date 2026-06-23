@@ -5,7 +5,6 @@
 package spp.logicadenegocio.gestores;
 
 import java.util.List;
-import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.EvaluacionDAO;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;

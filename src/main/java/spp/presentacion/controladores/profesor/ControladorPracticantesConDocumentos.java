@@ -16,7 +16,6 @@ import spp.presentacion.controladores.practicante.ControladorBaseListaPracticant
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**

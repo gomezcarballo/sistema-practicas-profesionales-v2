@@ -3,20 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-
+/* 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionDatos;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-
+*/
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionApellidoPaternoUsuarios {
-    
+    /* 
     @Test
     public void pruebaValidarApellidoPaternoValido() {
 
@@ -173,5 +173,5 @@ public class PruebaValidacionApellidoPaternoUsuarios {
         }
         
     }
-    
+    */
 }

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-
+/* 
 import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,14 +11,15 @@ import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
-
+*/
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionActividad {
     
-    corregir/*rivate ValidacionActividad validacion;
+    //corregir
+    /*rivate ValidacionActividad validacion;
     private Actividad actividad;
 
     @Before

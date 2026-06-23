@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-
+/* 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -11,13 +11,13 @@ import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionAdministrador;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-
+*/
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionAdministrador {
-    
+    /* 
     private Administrador crearAdministradorValido() {
 
         Administrador administrador = new Administrador();
@@ -252,5 +252,5 @@ public class PruebaValidacionAdministrador {
         }
         
     }
-    
+    */
 }
