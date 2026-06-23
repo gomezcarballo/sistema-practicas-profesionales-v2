@@ -3,21 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-/* 
 import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+import java.util.List;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionPracticante;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-*/
+
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionPracticante {
-    /* 
+
+    private ValidacionPracticante validacion;
+    
+    @Before
+    public void configurar() {
+        validacion = new ValidacionPracticante();
+    }
+    
     private Practicante crearPracticanteValido() {
 
         Practicante practicante = new Practicante();
@@ -26,6 +35,8 @@ public class PruebaValidacionPracticante {
         practicante.setNombre("Juan");
         practicante.setApellidoPaterno("Perez");
         practicante.setApellidoMaterno("Lopez");
+        practicante.setCorreoInstitucional("zs12345678@estudiantes.uv.mx");
+        practicante.setFechaNacimiento(LocalDate.of(2000, 1, 1)); 
 
         return practicante;
         
@@ -36,17 +47,9 @@ public class PruebaValidacionPracticante {
 
         Practicante practicante = crearPracticanteValido();
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
+        assertTrue(errores.isEmpty());
         
     }
 
@@ -56,17 +59,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("S87654321");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
+        assertTrue(errores.isEmpty());
         
     }
 
@@ -76,17 +71,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("s87654321");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
+        assertTrue(errores.isEmpty());
         
     }
 
@@ -96,18 +83,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("12345678");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse(errores.isEmpty());
         
     }
 
@@ -117,18 +95,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("S1234567");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse(errores.isEmpty());
         
     }
 
@@ -138,18 +107,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("S123456789");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse(errores.isEmpty());
         
     }
 
@@ -159,18 +119,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("S1234A78");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse(errores.isEmpty());
         
     }
 
@@ -180,39 +131,9 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaMensajeMatriculaInvalida() {
-
-        Practicante practicante = crearPracticanteValido();
-        practicante.setMatricula("12345678");
-
-        ValidacionPracticante validacion = new ValidacionPracticante();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals( "Matricula no valida. Debe comenzar con S seguido de 8 números.", e.getMessage());
-            
-        }
+        assertFalse(errores.isEmpty());
         
     }
 
@@ -222,21 +143,24 @@ public class PruebaValidacionPracticante {
         Practicante practicante = crearPracticanteValido();
         practicante.setMatricula("S1234-78");
 
-        ValidacionPracticante validacion = new ValidacionPracticante();
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
 
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(practicante);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse(errores.isEmpty());
         
     }
-    */
+    
+    @Test
+    public void pruebaFechaNacimientoFutura() {
+
+        Practicante practicante = crearPracticanteValido();
+        practicante.setFechaNacimiento(LocalDate.now().plusDays(1));
+
+        List<String> errores = validacion.validarRegistroPracticante(practicante);
+
+        assertFalse(errores.isEmpty());
+        
+    }
+    
 }
     
 

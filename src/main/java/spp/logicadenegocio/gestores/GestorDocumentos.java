@@ -11,16 +11,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.DocumentoDAO;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
-import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -28,19 +25,10 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorDocumentos {
     
-    public List<Documento> recuperarDocumentosPorPracticante(Practicante practicante)throws ReglaDeNegocioExcepcion{
-        
-        try{
-            
-            DocumentoDAO documentoDAO = new DocumentoDAO();
-            return documentoDAO.recuperarDocumentosPorPracticante(practicante.getIdUsuario());
-        
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo al consultar documentos en BD.", e);
-            throw new ReglaDeNegocioExcepcion("No fue posible cargar la lista de documentos en este momento.");
-            
-        }
+    public List<Documento> recuperarDocumentosPorPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion{
+ 
+        DocumentoDAO documentoDAO = new DocumentoDAO();
+        return documentoDAO.recuperarDocumentosPorPracticante(practicante.getIdUsuario());
                 
     }
     

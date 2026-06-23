@@ -6,6 +6,7 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import spp.logicadenegocio.clasesdao.EvaluacionDAO;
+import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
@@ -35,12 +36,10 @@ public class GestorEvaluacion {
  
     }
     
-    public boolean evaluacionYaExiste(Practicante practicante) throws OperacionesDeDaoExcepcion {
-        
+    public boolean evaluacionYaExiste(Practicante practicante, Documento documento) throws OperacionesDeDaoExcepcion {
         EvaluacionDAO dao = new EvaluacionDAO(); 
         
-        return dao.existeEvaluacion(practicante.getIdUsuario(), practicante.getNrcAsignado());
-        
+        return dao.existeEvaluacion(practicante.getIdUsuario(), practicante.getNrcAsignado(), documento.getIdDocumento());
     }
     
 }

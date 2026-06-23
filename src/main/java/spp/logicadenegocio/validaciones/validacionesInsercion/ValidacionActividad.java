@@ -4,9 +4,11 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import spp.logicadenegocio.clasesdto.Actividad;
+import spp.utilerias.formatofechas.ValidadorFechas;
 
 /**
  *
@@ -22,6 +24,7 @@ public class ValidacionActividad {
         List<String> listaValidaciones = new ArrayList<>(); 
         String titulo = actividad.getTitulo();
         String descripcion = actividad.getDescripcion();
+        LocalDateTime fechaLimite = actividad.getFechaLimite();
         String mensajeAlerta;
 
         if (!esTamañoTituloValido(titulo)) {
@@ -36,6 +39,10 @@ public class ValidacionActividad {
             mensajeAlerta = "La descripción excede la longitud máxima de " + MAXIMO_CARACTERES_DESCRIPCION + " caracteres";
             listaValidaciones.add(mensajeAlerta);
         
+        }
+        
+        if (!ValidadorFechas.esFechaPasada(fechaLimite)) {
+            listaValidaciones.add("La fecha y hora límite no pueden ser fechas pasadas.");
         }
 
         return listaValidaciones;

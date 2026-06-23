@@ -21,6 +21,8 @@ public class ValidacionCoordinador {
         
         listaValidaciones.addAll(validacionDatos.validarNumeroPersonal(coordinador.getNumeroDePersonal()));
         
+        listaValidaciones.addAll(validacionDatos.validarCorreo(coordinador.getCorreoInstitucional()));
+        
         listaValidaciones.addAll(validacionDatos.validarNombreCompleto(
         coordinador.getNombre(),  coordinador.getApellidoPaterno(), 
         coordinador.getApellidoMaterno()));

@@ -7,7 +7,7 @@ package spp.presentacion.controladores.mensajeria;
 import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Mensaje;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
  *
@@ -24,7 +24,7 @@ public class ControladorListaMensajesRecibidos extends ControladorBaseListaMensa
     }
 
     @Override
-    protected List<Mensaje> consultarMensajesBD(int idUsuario) throws ReglaDeNegocioExcepcion {
+    protected List<Mensaje> consultarMensajesBD(int idUsuario) throws OperacionesDeDaoExcepcion {
         
         return gestorMensajes.consultarMensajesRecibidos(idUsuario);
     

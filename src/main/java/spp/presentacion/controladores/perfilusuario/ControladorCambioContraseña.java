@@ -4,16 +4,18 @@
  */
 package spp.presentacion.controladores.perfilusuario;
 
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import spp.logicadenegocio.clasesdto.CredencialContraseña;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.logicadenegocio.gestores.GestorCambioContraseña;
 import spp.logicadenegocio.validaciones.validacionnuevacontraseña.ValidacionNuevaContraseña;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -90,17 +92,28 @@ public class ControladorCambioContraseña {
         try {
 
             ValidacionNuevaContraseña validacionNuevaContraseña = new ValidacionNuevaContraseña();
-            validacionNuevaContraseña.cambiarContraseña(credenciales, usuario);
+            List<String> errores = validacionNuevaContraseña.validarCambioContraseña(credenciales);
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Contraseña actualizada",
-            "La contraseña se actualizó correctamente");
-            
-            regresarPerfil(evento);
+            if (errores.isEmpty()) {
+                
+                GestorCambioContraseña gestor = new GestorCambioContraseña();
+                gestor.actualizarContraseña(usuario, credenciales);
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Contraseña actualizada",
+                "La contraseña se actualizó correctamente");
+                
+                regresarPerfil(evento);
+                
+            } else {
+                
+                VentanaMensaje.mostrarVentanaErrores(errores);
+                
+            }
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error al cambiar contraseña",
-            e.getMessage());
+            "Ocurrió un error en la base de datos al intentar actualizar su contraseña.");
 
         }
 

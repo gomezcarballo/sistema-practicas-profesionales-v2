@@ -101,7 +101,7 @@ public class ControladorEvaluacionDocumentos {
                 
                 GestorEvaluacion gestor = new GestorEvaluacion();
 
-                if (gestor.evaluacionYaExiste(practicanteSeleccionado)) {
+                if (gestor.evaluacionYaExiste(practicanteSeleccionado, documentoSeleccionado)) {
                     
                     VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Ya evaluado", 
                             "Este practicante ya cuenta con una evaluación para este documento.");
@@ -146,6 +146,7 @@ public class ControladorEvaluacionDocumentos {
             evaluacion.setObservaciones(observaciones);
             evaluacion.setPracticante(practicanteSeleccionado);
             evaluacion.setNrc(practicanteSeleccionado.getNrcAsignado());
+            evaluacion.setDocumento(documentoSeleccionado);
             
         } catch (NumberFormatException e) {
             

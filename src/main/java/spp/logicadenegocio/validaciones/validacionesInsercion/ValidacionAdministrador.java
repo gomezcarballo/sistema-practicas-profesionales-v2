@@ -22,6 +22,8 @@ public class ValidacionAdministrador {
         
         listaValidaciones.addAll(validacionDatos.validarNumeroPersonal(administrador.getNumeroDePersonal()));
         
+        listaValidaciones.addAll(validacionDatos.validarCorreo(administrador.getCorreoInstitucional()));
+        
         listaValidaciones.addAll(validacionDatos.validarNombreCompleto(administrador.getNombre(), 
         administrador.getApellidoPaterno(), administrador.getApellidoMaterno()));
         

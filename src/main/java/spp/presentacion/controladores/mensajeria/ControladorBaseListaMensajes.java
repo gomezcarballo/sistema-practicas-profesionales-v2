@@ -20,7 +20,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorMensajes;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.formatofechas.ConvertidorFechaHoraLocal;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
@@ -91,7 +91,7 @@ public abstract class ControladorBaseListaMensajes {
             tblMensajes.getItems().clear();
             tblMensajes.setItems(FXCollections.observableArrayList(mensajes));
 
-        } catch(ReglaDeNegocioExcepcion e) {
+        } catch(OperacionesDeDaoExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar mensajes",
             "Hubo un error al recuperar los mensajes");
@@ -100,7 +100,7 @@ public abstract class ControladorBaseListaMensajes {
     }
     
     protected abstract void configurarColumnaEspecifica();
-    protected abstract List<Mensaje> consultarMensajesBD(int idUsuario) throws ReglaDeNegocioExcepcion;
+    protected abstract List<Mensaje> consultarMensajesBD(int idUsuario) throws OperacionesDeDaoExcepcion;
     
     @FXML
     protected void verMensaje() {

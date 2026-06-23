@@ -22,6 +22,8 @@ public class ValidacionProfesor {
         
         listaValidaciones.addAll(validacionDatos.validarNumeroPersonal(profesor.getNumeroDePersonal()));
         
+        listaValidaciones.addAll(validacionDatos.validarCorreo(profesor.getCorreoInstitucional()));
+        
         listaValidaciones.addAll(validacionDatos.validarNombreCompleto(profesor.getNombre(), 
         profesor.getApellidoPaterno(), profesor.getApellidoMaterno()));
         

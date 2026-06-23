@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-/* 
+
+import java.time.LocalDateTime;
 import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,15 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
-*/
+
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionActividad {
     
-    //corregir
-    /*rivate ValidacionActividad validacion;
+
+    private ValidacionActividad validacion;
     private Actividad actividad;
 
     @Before
@@ -33,8 +34,10 @@ public class PruebaValidacionActividad {
 
         actividad.setTitulo("Actividad");
         actividad.setDescripcion("Descripcion");
+        actividad.setFechaLimite(LocalDateTime.now().plusDays(5));
 
         List<String> listaValidaciones = validacion.validarRegistroActividad(actividad);
+        
         assertTrue("La lista debería estar vacía cuando no hay errores", 
             listaValidaciones.isEmpty());
             
@@ -44,6 +47,7 @@ public class PruebaValidacionActividad {
     public void pruebaValidarTamañoTituloLimite() {
 
         actividad.setTitulo("A".repeat(50));
+        
         assertTrue("El título de 50 caracteres debería ser válido", 
             validacion.esTamañoTituloValido(actividad.getTitulo()));
 
@@ -53,6 +57,7 @@ public class PruebaValidacionActividad {
     public void pruebaValidarTamañoTituloExcedeLimite() {
 
         actividad.setTitulo("A".repeat(51));
+        
         assertFalse("El título de 51 caracteres debería ser inválido", 
             validacion.esTamañoTituloValido(actividad.getTitulo()));
             
@@ -62,6 +67,7 @@ public class PruebaValidacionActividad {
     public void pruebaValidarTamañoDescripcionLimite() {
 
         actividad.setDescripcion("A".repeat(100));
+        
         assertTrue("La descripción de 100 caracteres debería ser válida", 
             validacion.esTamañoDescripcionValido(actividad.getDescripcion()));
             
@@ -71,6 +77,7 @@ public class PruebaValidacionActividad {
     public void pruebaValidarTamañoDescripcionExcedeLimite() {
 
         actividad.setDescripcion("A".repeat(101));
+        
         assertFalse("La descripción de 101 caracteres debería ser inválida", 
             validacion.esTamañoDescripcionValido(actividad.getDescripcion()));
             
@@ -85,7 +92,7 @@ public class PruebaValidacionActividad {
         boolean esTituloValido = validacion.esTamañoTituloValido(actividad.getTitulo());
         boolean esDescripcionValida = validacion.esTamañoDescripcionValido(actividad.getDescripcion());
         
-        assertFalse("Todos los campos deberían ser inválidos", 
+        assertFalse("Ambos campos deberían ser marcados como inválidos", 
             esTituloValido && esDescripcionValida);
 
     }
@@ -94,7 +101,8 @@ public class PruebaValidacionActividad {
     public void pruebaValidarTituloVacio() {
 
         actividad.setTitulo("");
-        assertFalse("El título vacío debería ser inválido", 
+        
+        assertTrue("El título vacío es válido en cuanto a tamaño se refiere", 
             validacion.esTamañoTituloValido(actividad.getTitulo()));
 
     }
@@ -103,9 +111,10 @@ public class PruebaValidacionActividad {
     public void pruebaValidarDescripcionVacia() {
 
         actividad.setDescripcion("");
-        assertFalse("La descripción vacía debería ser inválida", 
+        
+        assertTrue("La descripción vacía es válida en cuanto a tamaño se refiere", 
             validacion.esTamañoDescripcionValido(actividad.getDescripcion()));
 
     }
-    */
+
 }

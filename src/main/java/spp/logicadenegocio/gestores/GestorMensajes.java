@@ -14,7 +14,6 @@ import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.interfacesdao.IMensajeDAO;
 import spp.logicadenegocio.validaciones.validacionenviomensajes.ValidacionEnvioMensaje;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -53,33 +52,19 @@ public class GestorMensajes {
         
     }
 
-    public List<Mensaje> consultarMensajesEnviados(int idUsuario)throws ReglaDeNegocioExcepcion{
-        
-        try{
-           
-           mensajeDAO = new MensajeDAO();
-           return mensajeDAO.consultarMensajesEnviados(idUsuario);
-           
-        }catch(OperacionesDeDaoExcepcion e){
-            
-           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los mensajes");
-           
-        }
+    public List<Mensaje> consultarMensajesEnviados(int idUsuario)throws OperacionesDeDaoExcepcion{
+
+        mensajeDAO = new MensajeDAO();
+        return mensajeDAO.consultarMensajesEnviados(idUsuario);
+
         
     }
     
-    public List<Mensaje> consultarMensajesRecibidos(int idUsuario)throws ReglaDeNegocioExcepcion{
+    public List<Mensaje> consultarMensajesRecibidos(int idUsuario)throws OperacionesDeDaoExcepcion{
         
-        try{
-           
-           mensajeDAO = new MensajeDAO();
-           return mensajeDAO.consultarMensajesPorDestinatario(idUsuario);
-           
-       }catch(OperacionesDeDaoExcepcion e){
-           
-           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los mensajes");
-           
-       }
+        mensajeDAO = new MensajeDAO();
+        return mensajeDAO.consultarMensajesPorDestinatario(idUsuario);
+
         
     }
     

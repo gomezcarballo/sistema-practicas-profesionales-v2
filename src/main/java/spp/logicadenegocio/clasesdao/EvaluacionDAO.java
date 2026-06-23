@@ -31,19 +31,20 @@ public class EvaluacionDAO implements IEvaluacionDAO{
         
         int idGenerado = 0;
         
-        String consultaSQL = "INSERT INTO Evaluacion (nrc, periodo, calificacionFinal, Profesor_idUsuario, "
-                + "observaciones, Practicante_idUsuario) VALUES (?, ?, ?, ?, ?, ?)";
-                
+        String consultaSQL = "INSERT INTO evaluacion (nrc, calificacionFinal, Profesor_idUsuario, "
+                + "Practicante_idUsuario, observaciones, Documento_idDocumento) VALUES (?, ?, ?, ?, ?, ?)";   
+        
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, 
             Statement.RETURN_GENERATED_KEYS);){
             
             consultaPreparada.setString(1, evaluacion.getNrc());
-            consultaPreparada.setString(2, evaluacion.getPeriodo());
-            consultaPreparada.setDouble(3, evaluacion.getCalificacionFinal());
-            consultaPreparada.setInt(4, evaluacion.getIdProfesor());
+            consultaPreparada.setDouble(2, evaluacion.getCalificacionFinal());
+            consultaPreparada.setInt(3, evaluacion.getIdProfesor());
+            consultaPreparada.setInt(4, evaluacion.getPracticante().getIdUsuario());
             consultaPreparada.setString(5, evaluacion.getObservaciones());
-            consultaPreparada.setInt(6, evaluacion.getPracticante().getIdUsuario());
+        
+            consultaPreparada.setInt(6, evaluacion.getDocumento().getIdDocumento());
 
             consultaPreparada.executeUpdate();
             
@@ -195,16 +196,17 @@ public class EvaluacionDAO implements IEvaluacionDAO{
         return eliminacionExitosa;
     }
     
-    public boolean existeEvaluacion(int idPracticante, String nrc) throws OperacionesDeDaoExcepcion {
+    public boolean existeEvaluacion(int idPracticante, String nrc, int idDocumento) throws OperacionesDeDaoExcepcion {
     
         boolean existe = false;
-        String consultaSQL = "SELECT COUNT(*) FROM evaluacion WHERE Practicante_idUsuario = ? AND nrc = ?";
+        String consultaSQL = "SELECT COUNT(*) FROM evaluacion WHERE Practicante_idUsuario = ? AND nrc = ? AND Documento_idDocumento = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
             consultaPreparada.setInt(1, idPracticante);
             consultaPreparada.setString(2, nrc);
+            consultaPreparada.setInt(3, idDocumento);
 
             try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
                 if (resultadosConsulta.next()) {

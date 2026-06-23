@@ -9,7 +9,6 @@ import spp.logicadenegocio.clasesdto.CredencialContraseña;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 
 /**
@@ -18,22 +17,14 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorCambioContraseña {
     
-    public void actualizarContraseña(Usuario usuario, CredencialContraseña credenciales)throws ReglaDeNegocioExcepcion {
+    public void actualizarContraseña(Usuario usuario, CredencialContraseña credenciales)throws OperacionesDeDaoExcepcion {
+         
+        String contraseñaNuevaHasheada = HasheoContrasena.hashearContraseña(credenciales.getContraseñaNueva());
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-        try {
-            
-            String contraseñaNuevaHasheada = HasheoContrasena.hashearContraseña(credenciales.getContraseñaNueva());
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            
-            usuarioDAO.actualizarContraseña(usuario.getIdUsuario(), contraseñaNuevaHasheada);
-            
-            SesionUsuario.getInstancia().setHashContrasena(contraseñaNuevaHasheada);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
+        usuarioDAO.actualizarContraseña(usuario.getIdUsuario(), contraseñaNuevaHasheada);
 
-            throw new ReglaDeNegocioExcepcion("No se pudo actualizar la contraseña");
-
-        }
+        SesionUsuario.getInstancia().setHashContrasena(contraseñaNuevaHasheada);
 
     }
     

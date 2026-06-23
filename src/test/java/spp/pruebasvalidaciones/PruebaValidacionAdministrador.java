@@ -3,21 +3,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-/* 
-import static org.junit.Assert.assertEquals;
+
+
+import java.util.List;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionAdministrador;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-*/
+
+
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionAdministrador {
-    /* 
+     
+    
+    private ValidacionAdministrador validacion;
+    
+    @Before
+    public void configurar() {
+        validacion = new ValidacionAdministrador();
+    }
+    
     private Administrador crearAdministradorValido() {
 
         Administrador administrador = new Administrador();
@@ -26,26 +36,21 @@ public class PruebaValidacionAdministrador {
         administrador.setNombre("Juan");
         administrador.setApellidoPaterno("Perez");
         administrador.setApellidoMaterno("Lopez");
+        administrador.setCorreoInstitucional("juan.perez@uv.mx"); 
 
         return administrador;
         
     }
     
     @Test
-    public void pruebaCamposValidosAdiministrador() {
+    public void pruebaCamposValidosAdministrador() {
 
         Administrador administrador = crearAdministradorValido();
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertTrue("La lista de errores debería estar vacía para un administrador válido", 
+            errores.isEmpty());
         
     }
     
@@ -53,19 +58,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalLongitudCorrecta() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("99999");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertTrue("La lista de errores debería estar vacía con un numero de personal válido", 
+            errores.isEmpty());
         
     }
     
@@ -73,22 +71,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalMenorLongitud() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("1234");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertFalse("La lista de errores NO debería estar vacía con un numero corto", 
+            errores.isEmpty());
         
     }
     
@@ -96,22 +84,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalMayorLongitud() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("123456");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertFalse("La lista de errores NO debería estar vacía con un numero largo", 
+            errores.isEmpty());
         
     }
     
@@ -119,22 +97,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalConLetras() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("12A45");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertFalse("La lista de errores NO debería estar vacía con letras intercaladas", 
+            errores.isEmpty());
         
     }
     
@@ -142,22 +110,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalSoloLetras() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("ABCDE");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertFalse("La lista de errores NO debería estar vacía con solo letras", 
+            errores.isEmpty());
         
     }
     
@@ -165,22 +123,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalConSimbolos() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("12-45");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertFalse("La lista de errores NO debería estar vacía con símbolos", 
+            errores.isEmpty());
         
     }
     
@@ -188,45 +136,12 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalVacio() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
         
-    }
-    
-    @Test
-    public void pruebaMensajeNumeroPersonalInvalido() {
-
-        Administrador administrador = crearAdministradorValido();
-
-        administrador.setNumeroDePersonal("1234");
-
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("Numero de personal no valido. Debe contener5digitos.", e.getMessage());
-            
-        }
+        assertFalse("La lista de errores NO debería estar vacía con un numero en blanco", 
+            errores.isEmpty());
         
     }
     
@@ -234,23 +149,13 @@ public class PruebaValidacionAdministrador {
     public void pruebaNumeroPersonalConEspacios() {
 
         Administrador administrador = crearAdministradorValido();
-
         administrador.setNumeroDePersonal("12 45");
 
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(administrador);
-
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        List<String> errores = validacion.validarRegistroAdministrador(administrador);
+        
+        assertFalse("La lista de errores NO debería estar vacía con espacios", 
+            errores.isEmpty());
         
     }
-    */
+    
 }

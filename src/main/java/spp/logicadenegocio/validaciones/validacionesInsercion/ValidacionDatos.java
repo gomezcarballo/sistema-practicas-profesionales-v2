@@ -17,6 +17,7 @@ public class ValidacionDatos {
     public final int LONGITUD_MAXIMA_APELLIDO_PATERNO = 30;
     public final int LONGITUD_MAXIMA_APELLIDO_MATERNO = 30;
     public final int LONGITUD_MAXIMA_NUMERO_PERSONAL = 5;
+    public final int LONGITUD_MAXIMA_CORREO = 40;
     private final String PATRON_SOLO_LETRAS = "^[\\p{L} ]+$";
     
     public List<String> validarNombreCompleto(String nombre, String apellidoPaterno, String apellidoMaterno) {
@@ -45,6 +46,29 @@ public class ValidacionDatos {
         }
 
         return listaValidaciones;
+    }
+    
+    public List<String> validarCorreo(String correo) {
+        
+        List<String> listaValidaciones = new ArrayList<>();
+        
+        if (!esLongitudCorreoValida(correo)) {
+            listaValidaciones.add("El correo excede la longitud maxima de " + LONGITUD_MAXIMA_CORREO + " caracteres.");
+        }
+                
+        return listaValidaciones;
+    }
+
+    public boolean esLongitudCorreoValida(String correo) {
+        
+        boolean esValido = false;
+        
+        if (correo != null && !correo.isBlank() && correo.length() <= LONGITUD_MAXIMA_CORREO) {
+            esValido = true;
+        }
+        
+        return esValido;
+        
     }
 
     public List<String> validarNumeroPersonal(String numeroPersonal) {

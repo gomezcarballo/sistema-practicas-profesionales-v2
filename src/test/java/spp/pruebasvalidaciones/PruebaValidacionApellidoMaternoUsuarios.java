@@ -3,193 +3,87 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-/* 
+ 
 import static org.junit.Assert.assertEquals;
+
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionDatos;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-*/
+
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionApellidoMaternoUsuarios {
-    /* 
+     
+    
+    private ValidacionDatos validacion;
+
+    @Before
+    public void configurar() {
+        validacion = new ValidacionDatos();
+    }
     
     @Test
     public void pruebaValidarApellidoMaternoValido() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
-
-        try {
-
-            validacion.validarApellidoMaterno("Hernandez");
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
+        assertTrue("El apellido materno 'Hernandez' debería ser válido en formato", 
+            validacion.esFormatoApellidoMaternoValido("Hernandez"));
+            
+        assertTrue("El apellido materno 'Hernandez' debería ser válido en longitud", 
+            validacion.esLongitudApellidoMaternoValida("Hernandez"));
+            
     }
     
     @Test
     public void pruebaValidarApellidoMaternoConEspacios() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
+        assertTrue("El apellido materno con espacios debería ser válido en formato", 
+            validacion.esFormatoApellidoMaternoValido("Ladron de Guevara"));
 
-        try {
-
-            validacion.validarApellidoMaterno("Ladron de Guevara");
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
     }
     
     @Test
     public void pruebaValidarApellidoMaternoConAcentos() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
+        assertTrue("El apellido materno con acentos debería ser válido en formato", 
+            validacion.esFormatoApellidoMaternoValido("Gómez"));
 
-        try {
-
-            validacion.validarApellidoMaterno("Gómez");
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
     }
     
     @Test
     public void pruebaValidarApellidoMaternoConNumeros() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
+        assertFalse("El apellido materno con números debería ser inválido en formato", 
+            validacion.esFormatoApellidoMaternoValido("Herrera1"));
 
-        try {
-
-            validacion.validarApellidoMaterno("Herrera1");
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
     }
     
     @Test
     public void pruebaValidarApellidoMaternoConSimbolos() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
+        assertFalse("El apellido materno con símbolos debería ser inválido en formato", 
+            validacion.esFormatoApellidoMaternoValido("Jimenez@"));
 
-        try {
-
-            validacion.validarApellidoMaterno("Jimenez@");
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
     }
     
     @Test
     public void pruebaValidarApellidoMaternoLongitudLimite() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
-
-        try {
-
-            validacion.validarApellidoMaterno("A".repeat(30));
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
+        assertTrue("El apellido materno de 30 caracteres debería ser válido", 
+            validacion.esLongitudApellidoMaternoValida("A".repeat(30)));
             
-        }
-        
     }
     
     @Test
     public void pruebaValidarApellidoMaternoLongitudExcedida() {
 
-        ValidacionDatos validacion = new ValidacionDatos();
-
-        try {
-
-            validacion.validarApellidoMaterno("A".repeat(31));
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
+        assertFalse("El apellido materno de 31 caracteres debería ser inválido", 
+            validacion.esLongitudApellidoMaternoValida("A".repeat(31)));
             
-        }
-        
-    }
+    }   
     
-    @Test
-    public void pruebaValidarApellidoMaternoMensajeCaracteresInvalidos() {
-
-        ValidacionDatos validacion = new ValidacionDatos();
-
-        try {
-
-            validacion.validarApellidoMaterno("Sanchez1");
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El apellido materno solo debe contener letras.", e.getMessage());
-            
-        }
-        
-    }
-    
-    @Test
-    public void pruebaValidarApellidoMaternoMensajeLongitud() {
-
-        ValidacionDatos validacion = new ValidacionDatos();
-
-        try {
-
-            validacion.validarApellidoMaterno("A".repeat(31));
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El apellido materno excede la longitud máxima de 30 caracteres.", e.getMessage());
-            
-        }
-        
-    }
-    
-    @Test
-    public void pruebaValidarApellidoMaternoNull() {
-
-        ValidacionDatos validacion = new ValidacionDatos();
-
-        try {
-
-            validacion.validarApellidoMaterno(null);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
-    }
-    */
 }

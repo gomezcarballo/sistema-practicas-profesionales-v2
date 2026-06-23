@@ -3,300 +3,173 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package spp.pruebasvalidaciones;
-/* 
+ 
 import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProyecto;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-*/
+
 /**
  *
  * @author gomes
  */
 public class PruebaValidacionProyecto {
-    /* 
+
+    private ValidacionProyecto validacion;
+    private Proyecto proyecto;
+
+    @Before
+    public void configurar() {
+        validacion = new ValidacionProyecto();
+        proyecto = new Proyecto();
+    }
+    
     private Proyecto crearProyectoValido() {
+        
+        Proyecto nuevoProyecto = new Proyecto();
+        nuevoProyecto.setNombre("Sistema");
+        nuevoProyecto.setNombreResponsable("Endric");
+        nuevoProyecto.setContactoResponsable("Contacto");
+        nuevoProyecto.setObjetivoGeneral("Objetivo");
+        nuevoProyecto.setMetodologia("Metodologia");
+        nuevoProyecto.setCupoMaximo(10);
 
-        Proyecto proyecto = new Proyecto();
-
-        proyecto.setNombre("Sistema");
-        proyecto.setNombreResponsable("Endric");
-        proyecto.setContactoResponsable("Contacto");
-        proyecto.setObjetivoGeneral("Objetivo");
-        proyecto.setMetodologia("Metodologia");
-        proyecto.setCupoMaximo(10);
-
-        return proyecto;
+        return nuevoProyecto;
         
     }
 
     @Test
     public void pruebaCamposValidos() {
-
-        Proyecto proyecto = crearProyectoValido();
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
+        
+        Proyecto proyectoValido = crearProyectoValido();
+        List<String> errores = validacion.validarRegistroProyecto(proyectoValido);
+        
+        assertTrue("La lista de errores debería estar vacía para un proyecto válido", errores.isEmpty());
         
     }
 
     @Test
     public void pruebaObjetivoGeneralLongitudLimite() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setObjetivoGeneral("A".repeat(300));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
         
+        proyecto.setObjetivoGeneral("A".repeat(300));
+        
+        assertTrue("El objetivo general de 300 caracteres debería ser válido", 
+            validacion.esObjetivoGeneralValido(proyecto.getObjetivoGeneral()));
+            
     }
 
     @Test
     public void pruebaObjetivoGeneralLongitudExcedida() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setObjetivoGeneral("A".repeat(301));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
         
+        proyecto.setObjetivoGeneral("A".repeat(301));
+        
+        assertFalse("El objetivo general de 301 caracteres debería ser inválido", 
+            validacion.esObjetivoGeneralValido(proyecto.getObjetivoGeneral()));
+            
     }
 
     @Test
     public void pruebaMetodologiaLongitudLimite() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setMetodologia("A".repeat(200));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
         
+        proyecto.setMetodologia("A".repeat(200));
+        
+        assertTrue("La metodología de 200 caracteres debería ser válida", 
+            validacion.esMetodologiaValida(proyecto.getMetodologia()));
+            
     }
 
     @Test
     public void pruebaMetodologiaLongitudExcedida() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setMetodologia("A".repeat(201));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
         
+        proyecto.setMetodologia("A".repeat(201));
+        
+        assertFalse("La metodología de 201 caracteres debería ser inválida", 
+            validacion.esMetodologiaValida(proyecto.getMetodologia()));
+            
     }
 
     @Test
     public void pruebaContactoResponsableLongitudLimite() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setContactoResponsable("A".repeat(50));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
         
+        proyecto.setContactoResponsable("A".repeat(50));
+        
+        assertTrue("El contacto de 50 caracteres debería ser válido", 
+            validacion.esContactoResponsableValido(proyecto.getContactoResponsable()));
+            
     }
 
     @Test
     public void pruebaContactoResponsableLongitudExcedida() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setContactoResponsable("A".repeat(51));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
         
+        proyecto.setContactoResponsable("A".repeat(51));
+        
+        assertFalse("El contacto de 51 caracteres debería ser inválido", 
+            validacion.esContactoResponsableValido(proyecto.getContactoResponsable()));
+            
     }
 
     @Test
     public void pruebaCupoMaximoValido() {
-
-        Proyecto proyecto = crearProyectoValido();
+        
         proyecto.setCupoMaximo(49);
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
         
+        assertTrue("Un cupo menor a 50 debería ser válido", 
+            validacion.esCupoMaximoValido(proyecto.getCupoMaximo()));
+            
     }
 
-    @Test
-    public void pruebaCupoMaximoLimite() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setCupoMaximo(50);
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
+    
     @Test
     public void pruebaMensajeObjetivoGeneral() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setObjetivoGeneral("A".repeat(301));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El objetivo general excede la longitud maxima de 300 caracteres", e.getMessage());
-            
-        }
+        
+        Proyecto proyectoInvalido = crearProyectoValido();
+        proyectoInvalido.setObjetivoGeneral("A".repeat(301));
+        
+        List<String> errores = validacion.validarRegistroProyecto(proyectoInvalido);
+        
+        assertFalse("La lista de errores debería contener el error del objetivo general", errores.isEmpty());
         
     }
 
     @Test
     public void pruebaMensajeMetodologia() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setMetodologia("A".repeat(201));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("La metodología excede la longitud maxima de 200 caracteres", e.getMessage());
-            
-        }
+        
+        Proyecto proyectoInvalido = crearProyectoValido();
+        proyectoInvalido.setMetodologia("A".repeat(201));
+        
+        List<String> errores = validacion.validarRegistroProyecto(proyectoInvalido);
+        
+        assertFalse("La lista de errores debería contener el error de metodología", errores.isEmpty());
         
     }
 
     @Test
     public void pruebaMensajeContactoResponsable() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setContactoResponsable("A".repeat(51));
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El contacto del responsable excede la longitud maxima de 50 caracteres", e.getMessage());
-            
-        }
+        
+        Proyecto proyectoInvalido = crearProyectoValido();
+        proyectoInvalido.setContactoResponsable("A".repeat(51));
+        
+        List<String> errores = validacion.validarRegistroProyecto(proyectoInvalido);
+        
+        assertFalse("La lista de errores debería contener el error de contacto", errores.isEmpty());
         
     }
 
     @Test
     public void pruebaMensajeCupoMaximo() {
-
-        Proyecto proyecto = crearProyectoValido();
-        proyecto.setCupoMaximo(50);
-
-        ValidacionProyecto validacion = new ValidacionProyecto();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaNegocio(proyecto);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El cupo excede el numero maximo de 50 lugares permitidos", e.getMessage());
-            
-        }
+        
+        Proyecto proyectoInvalido = crearProyectoValido();
+        proyectoInvalido.setCupoMaximo(50);
+        
+        List<String> errores = validacion.validarRegistroProyecto(proyectoInvalido);
+        
+        assertFalse("La lista de errores debería contener el error de cupo", errores.isEmpty());
+        
     }
-    */
+    
 }

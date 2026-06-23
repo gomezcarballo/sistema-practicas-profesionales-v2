@@ -18,9 +18,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorDocumentos;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -78,7 +78,7 @@ public class ControladorListaDocumentos {
 
             tblDocumentos.setItems(FXCollections.observableArrayList(documentos));
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar documentos",
             "Hubo un error al recuperar los documentos");

@@ -7,6 +7,7 @@ package spp.logicadenegocio.validaciones.validacionesinsercion;
 import java.util.ArrayList;
 import java.util.List;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.utilerias.formatofechas.ValidadorFechas;
 
 /**
  *
@@ -26,6 +27,12 @@ public class ValidacionPracticante {
         if (!esMatriculaValida(matricula)) {
             listaValidaciones.add("Matricula no valida. Debe comenzar con S seguido de 8 números.");
         }
+
+        if (!ValidadorFechas.esFechaFutura(practicante.getFechaNacimiento())) {
+            listaValidaciones.add("La fecha de nacimiento no puede ser una fecha futura.");
+        }
+        
+        listaValidaciones.addAll(validacionDatos.validarCorreo(practicante.getCorreoInstitucional()));
         
         listaValidaciones.addAll(validacionDatos.validarNombreCompleto(practicante.getNombre(), 
         practicante.getApellidoPaterno(), practicante.getApellidoMaterno()));

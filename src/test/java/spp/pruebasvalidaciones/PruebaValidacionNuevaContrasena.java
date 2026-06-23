@@ -4,17 +4,15 @@
  */
 package spp.pruebasvalidaciones;
 
+import java.util.List;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.CredencialContraseña;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
-import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.validaciones.validacionnuevacontraseña.ValidacionNuevaContraseña;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 
 /**
@@ -27,7 +25,6 @@ public class PruebaValidacionNuevaContrasena {
     public void prepararSesion() {
 
         String hash = HasheoContrasena.hashearContraseña("Password123");
-
         SesionUsuario.getInstancia().iniciarSesion(1, "Practicante", "S12345678", hash);
         
     }
@@ -42,7 +39,6 @@ public class PruebaValidacionNuevaContrasena {
     private CredencialContraseña crearCredencialesValidas() {
 
         CredencialContraseña credenciales = new CredencialContraseña();
-
         credenciales.setContraseñaActual("Password123");
         credenciales.setContraseñaNueva("NuevaClave123");
         credenciales.setContraseñaConfirmada("NuevaClave123");
@@ -50,52 +46,29 @@ public class PruebaValidacionNuevaContrasena {
         return credenciales;
         
     }
+    
+    @Test
+    public void pruebaCredencialesValidas() {
+
+        CredencialContraseña credenciales = crearCredencialesValidas();
+        ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
+        
+        List<String> errores = validacion.validarCambioContraseña(credenciales);
+
+        assertTrue("La lista de errores debería estar vacía para credenciales válidas", errores.isEmpty());
+
+    }
 
     @Test
     public void pruebaContraseñaActualIncorrecta() {
 
         CredencialContraseña credenciales = crearCredencialesValidas();
-
         credenciales.setContraseñaActual("Incorrecta");
 
-        Usuario usuario = new Usuario();
-
         ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
+        List<String> errores = validacion.validarCambioContraseña(credenciales);
 
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaMensajeContraseñaActualIncorrecta() {
-
-        CredencialContraseña credenciales = crearCredencialesValidas();
-
-        credenciales.setContraseñaActual("Incorrecta");
-
-        Usuario usuario = new Usuario();
-
-        ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
-
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("La contraseña actual no es correcta", e.getMessage());
-            
-        }
+        assertFalse("La lista NO debería estar vacía si la contraseña actual es incorrecta", errores.isEmpty());
         
     }
 
@@ -103,47 +76,12 @@ public class PruebaValidacionNuevaContrasena {
     public void pruebaContraseñasNoCoinciden() {
 
         CredencialContraseña credenciales = crearCredencialesValidas();
-
         credenciales.setContraseñaConfirmada("OtraClave123");
 
-        Usuario usuario = new Usuario();
-
         ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
+        List<String> errores = validacion.validarCambioContraseña(credenciales);
 
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaMensajeContraseñasNoCoinciden() {
-
-        CredencialContraseña credenciales = crearCredencialesValidas();
-
-        credenciales.setContraseñaConfirmada("OtraClave123");
-
-        Usuario usuario = new Usuario();
-
-        ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
-
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals( "Las contraseñas no coinciden", e.getMessage());
-            
-        }
+        assertFalse("La lista NO debería estar vacía si las contraseñas nuevas no coinciden", errores.isEmpty());
         
     }
 
@@ -151,49 +89,13 @@ public class PruebaValidacionNuevaContrasena {
     public void pruebaLongitudMenorAlMinimo() {
 
         CredencialContraseña credenciales = crearCredencialesValidas();
-
         credenciales.setContraseñaNueva("12345");
         credenciales.setContraseñaConfirmada("12345");
 
-        Usuario usuario = new Usuario();
-
         ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
+        List<String> errores = validacion.validarCambioContraseña(credenciales);
 
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaMensajeLongitudMenorAlMinimo() {
-
-        CredencialContraseña credenciales = crearCredencialesValidas();
-
-        credenciales.setContraseñaNueva("12345");
-        credenciales.setContraseñaConfirmada("12345");
-
-        Usuario usuario = new Usuario();
-
-        ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
-
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("La nueva contraseña debe tener al menos10caracteres", e.getMessage());
-            
-        }
+        assertFalse("La lista NO debería estar vacía si la contraseña es muy corta", errores.isEmpty());
         
     }
 
@@ -201,24 +103,13 @@ public class PruebaValidacionNuevaContrasena {
     public void pruebaLongitudNueveCaracteres() {
 
         CredencialContraseña credenciales = crearCredencialesValidas();
-
         credenciales.setContraseñaNueva("123456789");
         credenciales.setContraseñaConfirmada("123456789");
 
-        Usuario usuario = new Usuario();
-
         ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
+        List<String> errores = validacion.validarCambioContraseña(credenciales);
 
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse("La lista NO debería estar vacía si la contraseña tiene 9 caracteres", errores.isEmpty());
         
     }
 
@@ -226,24 +117,13 @@ public class PruebaValidacionNuevaContrasena {
     public void pruebaContraseñasTotalmenteDiferentes() {
 
         CredencialContraseña credenciales = crearCredencialesValidas();
-
         credenciales.setContraseñaNueva("NuevaClave123");
         credenciales.setContraseñaConfirmada("ClaveDiferente456");
 
-        Usuario usuario = new Usuario();
-
         ValidacionNuevaContraseña validacion = new ValidacionNuevaContraseña();
+        List<String> errores = validacion.validarCambioContraseña(credenciales);
 
-        try {
-
-            validacion.cambiarContraseña(credenciales, usuario);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
+        assertFalse("La lista NO debería estar vacía si las contraseñas son totalmente distintas", errores.isEmpty());
         
     }
     

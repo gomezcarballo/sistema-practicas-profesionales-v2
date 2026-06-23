@@ -4,11 +4,10 @@
  */
 package spp.logicadenegocio.validaciones.validacionnuevacontraseña;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.CredencialContraseña;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
-import spp.logicadenegocio.clasesdto.Usuario;
-import spp.logicadenegocio.gestores.GestorCambioContraseña;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 
 /**
@@ -18,57 +17,46 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
 public class ValidacionNuevaContraseña {
     
 
-    public void cambiarContraseña(CredencialContraseña credenciales, Usuario usuario)throws ReglaDeNegocioExcepcion {
+    private final int LONGITUD_MINIMA_CONTRASENA = 10;
 
-        validarContraseñaActual(credenciales);
+    public List<String> validarCambioContraseña(CredencialContraseña credenciales) {
+ 
+        List<String> listaErrores = new ArrayList<>();
 
-        validarCoincidenciaContraseñas(credenciales);
-
-        validarLongitudNuevaContraseña(credenciales);
-        
-        GestorCambioContraseña gestor = new GestorCambioContraseña();
-        gestor.actualizarContraseña(usuario,credenciales);
-
-    }
-
-    private void validarContraseñaActual(CredencialContraseña credenciales)throws ReglaDeNegocioExcepcion {
-
-        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
-        boolean esContraseñaCorrecta = HasheoContrasena.esContraseñaValida(credenciales.getContraseñaActual(),
-                sesionUsuario.getHashContrasena());
-            
-            if (!esContraseñaCorrecta) {
-                throw new ReglaDeNegocioExcepcion("La contraseña actual no es correcta");
-            }
-
-    }
-
-    private void validarCoincidenciaContraseñas(CredencialContraseña credenciales) throws ReglaDeNegocioExcepcion {
-
-        boolean coincidenContrasenas = credenciales.getContraseñaNueva()
-                .equals(credenciales.getContraseñaConfirmada());
-
-        if (!coincidenContrasenas) {
-
-            throw new ReglaDeNegocioExcepcion("Las contraseñas no coinciden");
-
+        if (!esContraseñaActualValida(credenciales)) {
+            listaErrores.add("La contraseña actual no es correcta.");
         }
 
-    }
-
-    private void validarLongitudNuevaContraseña(CredencialContraseña credenciales)throws ReglaDeNegocioExcepcion {
-
-        int longitudMinima = 10;
-
-        boolean longitudInvalida = credenciales.getContraseñaNueva().length() < longitudMinima;
-
-        if (longitudInvalida) {
-
-            throw new ReglaDeNegocioExcepcion("La nueva contraseña debe tener al menos"+ longitudMinima +"caracteres");
-
+        if (!coincidenContraseñasNuevas(credenciales)) {
+            listaErrores.add("Las contraseñas nuevas no coinciden.");
         }
-
-    }
     
+        if (!esLongitudNuevaContraseñaValida(credenciales)) {
+            listaErrores.add("La nueva contraseña debe tener al menos " + LONGITUD_MINIMA_CONTRASENA + " caracteres.");
+        }
+        
+        return listaErrores;
+
+    }
+
+    private boolean esContraseñaActualValida(CredencialContraseña credenciales) {
+        
+        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
+        
+        return HasheoContrasena.esContraseñaValida(credenciales.getContraseñaActual(),sesionUsuario.getHashContrasena());
+
+    }
+
+    private boolean coincidenContraseñasNuevas(CredencialContraseña credenciales) {
+
+        return credenciales.getContraseñaNueva().equals(credenciales.getContraseñaConfirmada());
+
+    }
+
+    private boolean esLongitudNuevaContraseñaValida(CredencialContraseña credenciales) {
+
+        return credenciales.getContraseñaNueva().length() >= LONGITUD_MINIMA_CONTRASENA;
+
+    }
     
 }

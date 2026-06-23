@@ -26,24 +26,23 @@ public class GestorSolicitudesProyectos {
         
         if (listaErrores.isEmpty()) {
             
-            PracticanteDAO practicanteDAO = new PracticanteDAO();
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             int idUsuario = sesionUsuario.getIdUsuario();
             
-            if (practicanteDAO.tieneProyectoAsignado(idUsuario)) {
-                
-                listaErrores.add("No puedes solicitar proyectos porque ya tienes uno asignado.");
-                
+            SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
+
+            int solicitudesActuales = solicitudDAO.obtenerConteoSolicitudes(idUsuario);
+
+            if (solicitudesActuales >= NUMERO_SOLICITUDES) {
+
+                listaErrores.add("Ya has alcanzado el límite de solicitudes.");
+
             } else {
-                
-                SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
-                
+
                 for (Proyecto proyecto : proyectosSeleccionados) {
-                    
                     solicitudDAO.guardarSolicitud(idUsuario, proyecto.getIdProyecto());
-                    
                 }
-                
+
             }
             
         }

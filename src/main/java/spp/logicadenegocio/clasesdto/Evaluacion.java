@@ -19,7 +19,8 @@ public class Evaluacion {
     private String observaciones;
     private int idProfesor;
     private Practicante practicante;
-
+    private Documento documento;
+    
     public Evaluacion() {
     }
 
@@ -104,5 +105,15 @@ public class Evaluacion {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
+
+    public Documento getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
+    }
+    
+    
     
 }
