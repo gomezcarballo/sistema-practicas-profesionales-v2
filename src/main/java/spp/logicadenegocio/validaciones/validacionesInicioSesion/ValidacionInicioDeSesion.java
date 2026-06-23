@@ -5,9 +5,7 @@
 package spp.logicadenegocio.validaciones.validacionesiniciosesion;
 
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
-
 
 /**
  *
@@ -15,27 +13,28 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class ValidacionInicioDeSesion {
     
-    public void validarContraseña(String contraseñaIngresada, UsuarioEncontrado usuario)throws ReglaDeNegocioExcepcion{
+    public boolean validarContraseña(String contraseñaIngresada, UsuarioEncontrado usuario){
         
-        boolean esContraseñaCorrecta = HasheoContrasena.verificarContraseña(contraseñaIngresada,
-        usuario.getHashUsuarioEncontrado());
-            
-        if (!esContraseñaCorrecta) {
-            throw new ReglaDeNegocioExcepcion("La contraseña no es correcta");
-        }
+        String contraseñaRegistrada = usuario.getHashUsuarioEncontrado();
+        boolean esContraseñaCorrecta = HasheoContrasena.esContraseñaValida(contraseñaIngresada,
+        contraseñaRegistrada);
+        
+        return esContraseñaCorrecta;
     }
     
-    public void sonCamposValidosPorReglaNegocio( String identificador ) throws ReglaDeNegocioExcepcion {
+    public boolean sonFormatosValidos( String identificador ) {
         
+        boolean sonCamposValidos = false;
         String patronCorreoElectronico = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)"
             + "*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[_A-Za-z0-9-]+)";
         
         String patronMatricula = "^[sS][0-9]{8}$";
         
-        if( !identificador.matches(patronMatricula) && !identificador.matches( patronCorreoElectronico ) ){
-            throw new ReglaDeNegocioExcepcion("Identificador no valido. "
-            + "Ingresa una matricula o correo institucional");
+        if( identificador.matches(patronMatricula) || identificador.matches( patronCorreoElectronico ) ){
+            sonCamposValidos = true;
         }
+
+        return sonCamposValidos;
         
     }
     

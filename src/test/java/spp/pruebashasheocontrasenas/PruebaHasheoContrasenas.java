@@ -40,7 +40,7 @@ public class PruebaHasheoContrasenas {
 
         String hash = HasheoContrasena.hashearContraseña("Password123");
 
-        boolean resultado = HasheoContrasena.verificarContraseña("Password123", hash);
+        boolean resultado = HasheoContrasena.esContraseñaValida("Password123", hash);
 
         assertTrue(resultado);
 
@@ -51,7 +51,7 @@ public class PruebaHasheoContrasenas {
 
         String hash = HasheoContrasena.hashearContraseña("Password123");
 
-        boolean resultado = HasheoContrasena.verificarContraseña("OtraPassword", hash);
+        boolean resultado = HasheoContrasena.esContraseñaValida("OtraPassword", hash);
 
         assertFalse(resultado);
 
@@ -75,8 +75,8 @@ public class PruebaHasheoContrasenas {
 
         String hash2 = HasheoContrasena.hashearContraseña("Password123");
 
-        boolean resultado = HasheoContrasena.verificarContraseña("Password123", hash1)
-        && HasheoContrasena.verificarContraseña("Password123", hash2);
+        boolean resultado = HasheoContrasena.esContraseñaValida("Password123", hash1)
+        && HasheoContrasena.esContraseñaValida("Password123", hash2);
 
         assertTrue(resultado);
 
@@ -87,7 +87,7 @@ public class PruebaHasheoContrasenas {
 
         String hash = HasheoContrasena.hashearContraseña("");
 
-        boolean resultado =  HasheoContrasena.verificarContraseña("", hash);
+        boolean resultado =  HasheoContrasena.esContraseñaValida("", hash);
 
         assertTrue(resultado);
 
@@ -98,7 +98,7 @@ public class PruebaHasheoContrasenas {
 
         String hash = HasheoContrasena.hashearContraseña("Password123");
 
-        boolean resultado = HasheoContrasena.verificarContraseña("password123", hash);
+        boolean resultado = HasheoContrasena.esContraseñaValida("password123", hash);
 
         assertFalse(resultado);
 

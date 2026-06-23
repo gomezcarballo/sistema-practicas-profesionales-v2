@@ -15,7 +15,7 @@ public class HasheoContrasena {
         return BCrypt.hashpw(contraseñaPlana, BCrypt.gensalt());
     }
 
-    public static boolean verificarContraseña(String contraseñaPlana, String hashGuardado) {
+    public static boolean esContraseñaValida(String contraseñaPlana, String hashGuardado) {
         return BCrypt.checkpw(contraseñaPlana, hashGuardado);
     }
     

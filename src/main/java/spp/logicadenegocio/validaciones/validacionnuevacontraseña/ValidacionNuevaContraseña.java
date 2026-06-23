@@ -34,7 +34,7 @@ public class ValidacionNuevaContraseña {
     private void validarContraseñaActual(CredencialContraseña credenciales)throws ReglaDeNegocioExcepcion {
 
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
-        boolean esContraseñaCorrecta = HasheoContrasena.verificarContraseña(credenciales.getContraseñaActual(),
+        boolean esContraseñaCorrecta = HasheoContrasena.esContraseñaValida(credenciales.getContraseñaActual(),
                 sesionUsuario.getHashContrasena());
             
             if (!esContraseñaCorrecta) {

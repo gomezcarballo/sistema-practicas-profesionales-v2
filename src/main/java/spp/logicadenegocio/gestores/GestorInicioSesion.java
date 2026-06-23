@@ -10,70 +10,66 @@ import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.logicadenegocio.validaciones.validacionesiniciosesion.ValidacionInicioDeSesion;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-
+ 
 /**
  *
  * @author gomes
  */
 public class GestorInicioSesion {
     
-    public String autenticarUsuario (String identificador , String contraseñaIngresada) throws ReglaDeNegocioExcepcion {
-        
-        ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
-        validacion.sonCamposValidosPorReglaNegocio(identificador);
-        
-        String tipoRol = null;
-        
-        try{
-            
-            UsuarioEncontrado usuario = null;
-            
-            String patronMatricula = "^[sS][0-9]{8}$";
-            
-            if( identificador.matches(patronMatricula) ) {
-                
-                PracticanteDAO practicanteDao = new PracticanteDAO();
-                usuario = practicanteDao.buscarPracticante(identificador);
-                
-                if(usuario == null){
-                    throw new ReglaDeNegocioExcepcion("Practicante no encontrado o inactivado");                    
-                }
-                
-                tipoRol = "Practicante";
-                
-            }else{
-                
-                UsuarioDAO usuarioDao = new UsuarioDAO();
-                usuario = usuarioDao.buscarUsuario(identificador);
-                
-                if(usuario == null){
-                    throw new ReglaDeNegocioExcepcion("Usuario no encontrado o inactivado");                    
-                }
-                
-                tipoRol = usuario.getRolUsuarioEncontrado();
-                
-            }
+    public boolean esFormatoValido(String identificador){
 
-            validacion.validarContraseña(contraseñaIngresada, usuario);
+        ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
+        boolean esValido = false;
+        esValido = validacion.sonFormatosValidos(identificador);
+        return esValido;
+
+    }
+
+    public UsuarioEncontrado autenticarUsuario (String identificador) throws OperacionesDeDaoExcepcion{
+         
+        UsuarioEncontrado usuarioEncontrado = null;
+        
+        String patronMatricula = "^[sS][0-9]{8}$";
+        
+        if( identificador.matches(patronMatricula) ) {
             
-            iniciarSesion(usuario, identificador);
+            PracticanteDAO practicanteDao = new PracticanteDAO();
+            usuarioEncontrado = practicanteDao.buscarPracticante(identificador);
             
-        }catch(OperacionesDeDaoExcepcion e){
-           
-            throw new ReglaDeNegocioExcepcion(e.getMessage());
+            if(usuarioEncontrado != null){
+                usuarioEncontrado.setRolUsuarioEncontrado("Practicante");
+            }
+            
+        }else{
+            
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            usuarioEncontrado = usuarioDao.buscarUsuario(identificador);
             
         }
-            
-        return tipoRol;
+        
+        return usuarioEncontrado;
         
     }
     
-    private void iniciarSesion(UsuarioEncontrado usuario, String identificador){
+    public boolean esContraseñaCorrecta (UsuarioEncontrado usuario, String contraseñaIngresada){
+
+        ValidacionInicioDeSesion validacion = new ValidacionInicioDeSesion();
+        boolean esContraseñaValida = false;
+        esContraseñaValida = validacion.validarContraseña(contraseñaIngresada, usuario);
         
-        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();            
-        sesionUsuario.iniciarSesion(usuario.getIdUsuarioEncontrado(),usuario.getRolUsuarioEncontrado(),
-        identificador, usuario.getHashUsuarioEncontrado());
+        return esContraseñaValida;
+
+    }
+    public void iniciarSesion(UsuarioEncontrado usuario, String identificador){
+        
+        SesionUsuario sesionUsuario = SesionUsuario.getInstancia();   
+        int idUsuarioEncontrado = usuario.getIdUsuarioEncontrado();
+        String rolUsuarioEcontrado = usuario.getRolUsuarioEncontrado();
+        String hashUsuarioEncontrado = usuario.getHashUsuarioEncontrado();
+
+        sesionUsuario.iniciarSesion(idUsuarioEncontrado,rolUsuarioEcontrado,
+        identificador, hashUsuarioEncontrado);
         
     }
     

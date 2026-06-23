@@ -10,7 +10,7 @@ import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Mensaje;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
-/**
+/** 
  *
  * @author gomes
  */
