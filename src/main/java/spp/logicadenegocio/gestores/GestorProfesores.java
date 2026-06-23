@@ -15,9 +15,9 @@ import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.generadordecontrasenas.GeneradorContrasena;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
 /**
  *
@@ -25,10 +25,15 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorProfesores {
     
-    public void ingresarProfesor(Profesor profesor) throws ReglaDeNegocioExcepcion {
+    public List<String> validarCamposProfesor(Profesor profesor) {
         
-        validarProfesor(profesor);
-        
+        ValidacionProfesor validacion = new ValidacionProfesor();
+        return validacion.validarRegistroProfesor(profesor);
+    
+    }
+    
+    public void ingresarProfesor(Profesor profesor) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+                
         String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
         Usuario usuarioProfesor = prepararUsuarioParaRegistro(profesor, contrasenaPlana);
         
@@ -37,14 +42,7 @@ public class GestorProfesores {
         enviarContraseñaPorCorreo(usuarioProfesor.getCorreoInstitucional(), contrasenaPlana);
         
     }
-
-    private void validarProfesor(Profesor profesor) throws ReglaDeNegocioExcepcion {
-        
-        ValidacionProfesor validacion = new ValidacionProfesor();
-        validacion.sonCamposValidosPorReglaNegocio(profesor);
-        
-    }
-
+    
     private Usuario prepararUsuarioParaRegistro(Profesor profesor, String contrasenaPlana) {
         
         Usuario usuarioProfesor = crearUsuarioProfesor(profesor);
@@ -54,27 +52,19 @@ public class GestorProfesores {
         
     }
 
-    private void guardarProfesorEnBaseDeDatos(Usuario usuarioProfesor, Profesor profesor) throws ReglaDeNegocioExcepcion {
+    private void guardarProfesorEnBaseDeDatos(Usuario usuarioProfesor, Profesor profesor) throws OperacionesDeDaoExcepcion {
         
-        try {
-            
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            ProfesorDAO profesorDAO = new ProfesorDAO();
-            
-            int idUsuario = usuarioDAO.insertarUsuario(usuarioProfesor);
-            profesor.setIdUsuario(idUsuario);
-            
-            profesorDAO.insertarProfesor(profesor);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo profesor.", e);  
-            throw new ReglaDeNegocioExcepcion(e.getMessage());
-            
-        }
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        ProfesorDAO profesorDAO = new ProfesorDAO();
+        
+        int idUsuario = usuarioDAO.insertarUsuario(usuarioProfesor);
+        profesor.setIdUsuario(idUsuario);
+        
+        profesorDAO.insertarProfesor(profesor);
+   
     }
 
-    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ProcesamientoSistemaExcepcion {
         
         try {
             
@@ -84,7 +74,7 @@ public class GestorProfesores {
         } catch(RuntimeException e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("El profesor se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
+            throw new ProcesamientoSistemaExcepcion("El profesor se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
         
         }
         
@@ -103,84 +93,40 @@ public class GestorProfesores {
         return usuario;
     }
     
-    public boolean hayCupoProfesores()throws ReglaDeNegocioExcepcion {
+    public boolean hayCupoProfesores() throws OperacionesDeDaoExcepcion {
         
-        ProfesorDAO profesorDao = new ProfesorDAO();
         int cantidadMaximaProfesores = 2;
-
-        try{
-
-            return profesorDao.obtenerCantidadProfesoresActivos() < cantidadMaximaProfesores;
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudo verificar la disponibilidad de profesores.");
-
-        }
-
+        ProfesorDAO profesorDao = new ProfesorDAO();
+        return profesorDao.obtenerCantidadProfesoresActivos() < cantidadMaximaProfesores;
+    
     }
     
-    public List<Profesor> obtenerProfesoresActivos()throws ReglaDeNegocioExcepcion {
-
+    public List<Profesor> obtenerProfesoresActivos() throws OperacionesDeDaoExcepcion {
+        
         ProfesorDAO profesorDao = new ProfesorDAO();
-
-        try{
-
-            return profesorDao.consultarProfesoresActivos();
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudo obtener la lista de profesores activos.");
-
-        }
-
+        return profesorDao.consultarProfesoresActivos();
+   
     }
     
-    public List<Profesor> obtenerProfesoresInactivos()throws ReglaDeNegocioExcepcion{
+    public List<Profesor> obtenerProfesoresInactivos() throws OperacionesDeDaoExcepcion {
         
         ProfesorDAO profesorDao = new ProfesorDAO();
-        try{
-            
-            return profesorDao.consultarProfesoresInactivos();
-            
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudieron recuperar los Profesores inactivos.");
-
-        }
-        
+        return profesorDao.consultarProfesoresInactivos();
+    
     }
     
-    public void inactivarProfesor(int idUsuario)throws ReglaDeNegocioExcepcion {
-
+    public void inactivarProfesor(int idUsuario) throws OperacionesDeDaoExcepcion {
+        
         ProfesorDAO profesorDao = new ProfesorDAO();
-
-        try{
-
-            profesorDao.inactivarProfesor(idUsuario);
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("Error al inactivar al profesor.");
-
-        }
-
+        profesorDao.inactivarProfesor(idUsuario);
+    
     }
     
-    public void reactivarProfesorInactivo(int idUsuario)throws ReglaDeNegocioExcepcion{
+    public void reactivarProfesorInactivo(int idUsuario) throws OperacionesDeDaoExcepcion {
         
         ProfesorDAO profesorDao = new ProfesorDAO();
-        
-        try{
-            
-            profesorDao.reactivarProfesor(idUsuario);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            throw new ReglaDeNegocioExcepcion("No se pudo reactivar al profesor");
-            
-        }
-        
+        profesorDao.reactivarProfesor(idUsuario);
+    
     }
     
 }

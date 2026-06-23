@@ -37,12 +37,23 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 public class ControladorFormularioReporteFinal {
 
-    @FXML private TableView<ActividadReporteFinal> tblActividades;
-    @FXML private TableColumn<ActividadReporteFinal, String> colActividad;
-    @FXML private TableColumn<ActividadReporteFinal, String> colAvance;
-    @FXML private TableColumn<ActividadReporteFinal, String> colObservaciones;
-    @FXML private TableColumn<ActividadReporteFinal, Boolean> colEntregable;
-    @FXML private TextArea taObservacionesGenerales;
+    @FXML 
+    private TableView<ActividadReporteFinal> tblActividades;
+    
+    @FXML 
+    private TableColumn<ActividadReporteFinal, String> colActividad;
+    
+    @FXML 
+    private TableColumn<ActividadReporteFinal, String> colAvance;
+   
+    @FXML 
+    private TableColumn<ActividadReporteFinal, String> colObservaciones;
+    
+    @FXML 
+    private TableColumn<ActividadReporteFinal, Boolean> colEntregable;
+    
+    @FXML 
+    private TextArea taObservacionesGenerales;
 
     private ObservableList<ActividadReporteFinal> listaActividadesFinales;
 
@@ -87,7 +98,7 @@ public class ControladorFormularioReporteFinal {
         try {
             
             GestorActividades gestorActividades = new GestorActividades();
-            List<Actividad> actividadesBD = gestorActividades.recuperarActividadesAsignadas();
+            List<Actividad> actividadesBD = gestorActividades.consultarActividadesAsignadas();
 
             List<ActividadReporteFinal> listaActividades = new ArrayList<>();
 
@@ -107,7 +118,7 @@ public class ControladorFormularioReporteFinal {
             listaActividadesFinales = FXCollections.observableArrayList(listaActividades);
             tblActividades.setItems(listaActividadesFinales);
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar actividades",
             "Hubo un error al recuperar las actividades de la base de datos.");

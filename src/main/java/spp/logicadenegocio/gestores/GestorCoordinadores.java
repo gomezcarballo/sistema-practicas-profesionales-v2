@@ -14,9 +14,9 @@ import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionCoordina
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.generadordecontrasenas.GeneradorContrasena;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
 /**
  *
@@ -24,24 +24,21 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorCoordinadores {
     
-    public void ingresarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+    private final int LONGITUD_CONTRASENA = 10;
+    
+    public List<String> validarCamposCoordinador(Coordinador coordinador) {
+        ValidacionCoordinador validacion = new ValidacionCoordinador();
+        return validacion.validarRegistroCoordinador(coordinador);
+    }
+
+    public void ingresarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
         
-        validarCoordinador(coordinador);
-        
-        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(LONGITUD_CONTRASENA);        
         Usuario usuarioCoordinador = prepararUsuarioParaRegistro(coordinador, contrasenaPlana);
         
         guardarCoordinadorEnBaseDeDatos(usuarioCoordinador, coordinador);
-        
         enviarContraseñaPorCorreo(usuarioCoordinador.getCorreoInstitucional(), contrasenaPlana);
-        
-    }
-
-    private void validarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
-        
-        ValidacionCoordinador validacion = new ValidacionCoordinador();
-        validacion.sonCamposValidosPorReglaNegocio(coordinador);
-        
+    
     }
 
     private Usuario prepararUsuarioParaRegistro(Coordinador coordinador, String contrasenaPlana) {
@@ -51,45 +48,38 @@ public class GestorCoordinadores {
         usuarioCoordinador.setContraseña(contrasenaHasheada);
         
         return usuarioCoordinador;
-        
+    
     }
 
-    private void guardarCoordinadorEnBaseDeDatos(Usuario usuarioCoordinador, Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+    private void guardarCoordinadorEnBaseDeDatos(Usuario usuarioCoordinador, Coordinador coordinador) throws OperacionesDeDaoExcepcion {
+        
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        CoordinadorDAO coordinadorDAO = new CoordinadorDAO();
+        
+        int idUsuario = usuarioDAO.insertarUsuario(usuarioCoordinador);
+        coordinador.setIdUsuario(idUsuario);
+        
+        coordinadorDAO.insertarCoordinador(coordinador);
+    
+    }
+
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ProcesamientoSistemaExcepcion {
         
         try {
             
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            CoordinadorDAO coordinadorDAO = new CoordinadorDAO();
-            
-            int idUsuario = usuarioDAO.insertarUsuario(usuarioCoordinador);
-            coordinador.setIdUsuario(idUsuario);
-            
-            coordinadorDAO.insertarCoordinador(coordinador);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo coordinador.", e);  
-            throw new ReglaDeNegocioExcepcion(e.getMessage());
-        
-        }
-        
-    }
-
-    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
-        
-        try {
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
             envioCorreoContraseña.enviarContraseña(correoDestino, contrasenaPlana);
             
         } catch(RuntimeException e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("El coordinador se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
+            throw new ProcesamientoSistemaExcepcion("El coordinador se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
         
         }
+    
     }
     
-    private Usuario crearUsuarioCoordinador(Coordinador coordinador){
+    private Usuario crearUsuarioCoordinador(Coordinador coordinador) {
         
         Usuario usuario = new Usuario();
         
@@ -98,92 +88,55 @@ public class GestorCoordinadores {
         usuario.setApellidoMaterno(coordinador.getApellidoMaterno());
         usuario.setCorreoInstitucional(coordinador.getCorreoInstitucional());
         usuario.setEsActivo(true);
-      
+       
         return usuario;
+    
     }
     
-    public void reemplazarCoordinador(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+    public void reemplazarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
         
-        validarCoordinador(coordinador);
-        
-        String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(LONGITUD_CONTRASENA);        
         Usuario usuarioCoordinador = prepararUsuarioParaRegistro(coordinador, contrasenaPlana);
         
         if (verificarCoordinadorActivo()) {
-            
             inactivarCoordinadorActivo();
-            
         }
         
         guardarCoordinadorEnBaseDeDatos(usuarioCoordinador, coordinador);
         enviarContraseñaPorCorreo(usuarioCoordinador.getCorreoInstitucional(), contrasenaPlana);
-
+    
     }
     
-    public boolean verificarCoordinadorActivo()throws ReglaDeNegocioExcepcion {
-
-        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-
-        try{
-
-            return coordinadorDao.existeCoordinadorActivo();
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion( "No se pudo verificar si existe un coordinador activo.");
-
-        }
-
-    }
-    
-    public List<Coordinador> obtenerCoordinadoresInactivos()throws ReglaDeNegocioExcepcion{
+    public boolean verificarCoordinadorActivo() throws OperacionesDeDaoExcepcion {
         
         CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-        try{
-            
-            return coordinadorDao.consultarCoordinadoresInactivos();
-            
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudieron recuperar los coordinadores inactivos.");
-
-        }
-        
+        return coordinadorDao.existeCoordinadorActivo();
+    
     }
     
-    public void inactivarCoordinadorActivo()throws ReglaDeNegocioExcepcion {
-
+    public List<Coordinador> obtenerCoordinadoresInactivos() throws OperacionesDeDaoExcepcion {
+        
         CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-
-        try{
-
-            coordinadorDao.inactivarCoordinador();
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudo inactivar el coordinador actual.");
-
-        }
-
+        return coordinadorDao.consultarCoordinadoresInactivos();
+    
+    }
+    
+    public void inactivarCoordinadorActivo() throws OperacionesDeDaoExcepcion {
+        
+        CoordinadorDAO coordinadorDao = new CoordinadorDAO();
+        coordinadorDao.inactivarCoordinador();
+    
     }
      
-    public void reactivarCoordinadorInactivo(int idUsuario)throws ReglaDeNegocioExcepcion{
+    public void reactivarCoordinadorInactivo(int idUsuario) throws OperacionesDeDaoExcepcion {
         
         CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-        
-        try{
-            
-            coordinadorDao.reactivarCoordinador(idUsuario);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            throw new ReglaDeNegocioExcepcion("No se pudo reactivar al coordinador");
-            
-        }
-        
+        coordinadorDao.reactivarCoordinador(idUsuario);
+    
     }
     
-    public void reemplazarPorCoordinadorInactivo(int idUsuarioReactivar) throws ReglaDeNegocioExcepcion {
+    public void reemplazarPorCoordinadorInactivo(int idUsuarioReactivar) throws OperacionesDeDaoExcepcion, 
+    ProcesamientoSistemaExcepcion {
         
         if (verificarCoordinadorActivo()) {
             inactivarCoordinadorActivo();
@@ -192,13 +145,14 @@ public class GestorCoordinadores {
         try {
             
             reactivarCoordinadorInactivo(idUsuarioReactivar);
-            
-        } catch (ReglaDeNegocioExcepcion e) {
-            
-            throw new ReglaDeNegocioExcepcion("Se inactivó al coordinador actual, pero falló la reactivación del nuevo. Contacte a soporte técnico.");
-            
-        }
         
+        } catch (OperacionesDeDaoExcepcion e) {
+            
+            throw new ProcesamientoSistemaExcepcion("Se inactivó al coordinador actual, "
+            + "pero falló la reactivación del nuevo. Contacte a soporte técnico.");
+        
+        }
+    
     }
     
 }

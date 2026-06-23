@@ -17,9 +17,9 @@ import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
 import spp.presentacion.controladores.menus.ControladorSubMenuProyectos;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -75,7 +75,7 @@ public class ControladorListaProyectos extends ControladorBaseListaProyectos{
 
             tblListaProyectos.setItems(FXCollections.observableArrayList(proyectos));
 
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
 
             VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.ERROR, "Error al recuperar proyectos",
             "Hubo un error al recuperar los proyectos");
@@ -149,7 +149,7 @@ public class ControladorListaProyectos extends ControladorBaseListaProyectos{
 
             cargarProyectos();
 
-            }catch (ReglaDeNegocioExcepcion e) {
+            }catch (OperacionesDeDaoExcepcion e) {
 
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,
                 "Error al inactivar Proyecto", e.getMessage());

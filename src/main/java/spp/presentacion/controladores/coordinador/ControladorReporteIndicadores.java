@@ -14,9 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.IndicadorReporte;
 import spp.logicadenegocio.gestores.GestorReporteIndicadores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -60,7 +60,7 @@ public class ControladorReporteIndicadores {
             
             tblIndicadores.setItems(FXCollections.observableArrayList(indicadores));
             
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
         
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error al recuperar practicantes",
             "Hubo un error al recuperar los indicadores");

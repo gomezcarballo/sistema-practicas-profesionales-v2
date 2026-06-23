@@ -4,13 +4,13 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.util.ArrayList;
 import java.util.List;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.SolicitudProyectosDAO;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -18,86 +18,72 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorSolicitudesProyectos {
     
-    private static final int NUMERO_SOLICITUDES = 3;
+    private final int NUMERO_SOLICITUDES = 3;
     
-    public void registrarSolicitudes(List<Proyecto> proyectosSeleccionados)
-    throws ReglaDeNegocioExcepcion {   
+    public List<String> registrarSolicitudes(List<Proyecto> proyectosSeleccionados) throws OperacionesDeDaoExcepcion {   
         
-        validarSolicitudes(proyectosSeleccionados);
-
-        try {
+        List<String> listaErrores = validarSolicitudes(proyectosSeleccionados);
+        
+        if (listaErrores.isEmpty()) {
             
             PracticanteDAO practicanteDAO = new PracticanteDAO();
-            SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
-            
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             int idUsuario = sesionUsuario.getIdUsuario();
             
             if (practicanteDAO.tieneProyectoAsignado(idUsuario)) {
-
-                throw new ReglaDeNegocioExcepcion("No puedes solicitar proyectos porque ya tienes uno asignado");
-            
-            }
-            
-            for(Proyecto proyecto : proyectosSeleccionados) {
-
-                solicitudDAO.guardarSolicitud(idUsuario, proyecto.getIdProyecto());
+                
+                listaErrores.add("No puedes solicitar proyectos porque ya tienes uno asignado.");
+                
+            } else {
+                
+                SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
+                
+                for (Proyecto proyecto : proyectosSeleccionados) {
+                    
+                    solicitudDAO.guardarSolicitud(idUsuario, proyecto.getIdProyecto());
+                    
+                }
                 
             }
-
-        } catch(OperacionesDeDaoExcepcion e) {
-
-            throw new ReglaDeNegocioExcepcion("No se pudieron registrar las solicitudes");
-            
-        }
-    }
-    
-    public List<Proyecto> recuperarProyectosSolicitados(int idUsuario) throws ReglaDeNegocioExcepcion{
-       
-        try{
-           
-           SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
-           return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
-           
-        }catch(OperacionesDeDaoExcepcion e){
-           
-           throw new ReglaDeNegocioExcepcion("No se pudieron obtener los proyectos solicitados");
-           
-        }
-   }
-    
-    private void validarSolicitudes(List<Proyecto> proyectosSeleccionados) throws ReglaDeNegocioExcepcion {
-
-        if (proyectosSeleccionados == null) {
-            
-            throw new ReglaDeNegocioExcepcion("No hay proyectos seleccionados");
             
         }
         
-        if(proyectosSeleccionados.size() != NUMERO_SOLICITUDES) {
+        return listaErrores; 
+        
+    }
+    
+    public List<Proyecto> recuperarProyectosSolicitados(int idUsuario) throws OperacionesDeDaoExcepcion {
+        
+        SolicitudProyectosDAO solicitudDAO = new SolicitudProyectosDAO();
+        
+        return solicitudDAO.obtenerProyectosSolicitados(idUsuario);
+        
+    }
+    
+    private List<String> validarSolicitudes(List<Proyecto> proyectosSeleccionados) {
+        
+        List<String> listaErrores = new ArrayList<>();
+
+        if (proyectosSeleccionados == null || proyectosSeleccionados.isEmpty()) {
             
-            throw new ReglaDeNegocioExcepcion("Debe seleccionar exactamente " + NUMERO_SOLICITUDES + "proyectos");
+            listaErrores.add("No hay proyectos seleccionados.");
+            
+        } else if (proyectosSeleccionados.size() != NUMERO_SOLICITUDES) {
+            
+            listaErrores.add("Debe seleccionar exactamente " + NUMERO_SOLICITUDES + " proyectos.");
             
         }
+        
+        return listaErrores;
         
     }
 
-    public int contarSolicitudesPorPracticante(int idPracticante) throws ReglaDeNegocioExcepcion {
+    public int contarSolicitudesPorPracticante(int idPracticante) throws OperacionesDeDaoExcepcion {
         
-        int totalSolicitudes = 0;
+        SolicitudProyectosDAO solicitudesDAO = new SolicitudProyectosDAO();
         
-        try {
-            
-            SolicitudProyectosDAO solicitudesDAO = new SolicitudProyectosDAO();
-            totalSolicitudes = solicitudesDAO.obtenerConteoSolicitudes(idPracticante);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
-            
-            throw new ReglaDeNegocioExcepcion("Error al contabilizar las solicitudes del practicante", e);
-            
-        }
+        return solicitudesDAO.obtenerConteoSolicitudes(idPracticante);
         
-        return totalSolicitudes;
     }
     
 }

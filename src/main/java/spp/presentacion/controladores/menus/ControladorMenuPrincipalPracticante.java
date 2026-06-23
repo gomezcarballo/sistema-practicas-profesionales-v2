@@ -13,7 +13,7 @@ import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -37,7 +37,7 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
             
             aplicarRestricciones();
             
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo al cargar restricciones", e);
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error de Sistema", 
@@ -47,7 +47,7 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
         
     }
     
-    private void aplicarRestricciones() throws ReglaDeNegocioExcepcion {
+    private void aplicarRestricciones() throws OperacionesDeDaoExcepcion {
         
         GestorPracticantes gestor = new GestorPracticantes();
     

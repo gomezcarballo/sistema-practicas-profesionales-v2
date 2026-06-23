@@ -7,6 +7,7 @@ package spp.presentacion.controladores.profesor;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +19,9 @@ import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorEvaluacion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
@@ -29,12 +30,11 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
  * @author gomes
  */
 public class ControladorEvaluacionDocumentos {
-    
 
-    @FXML
+    @FXML 
     private TextField txtCalificacionFinal;
-
-    @FXML
+    
+    @FXML 
     private TextArea taObservaciones;
 
     private Documento documentoSeleccionado;
@@ -96,43 +96,62 @@ public class ControladorEvaluacionDocumentos {
     private void registrarEvaluacion(ActionEvent evento) {
         
         if (sonCamposValidos()) {
+            
             try {
+                
                 GestorEvaluacion gestor = new GestorEvaluacion();
 
                 if (gestor.evaluacionYaExiste(practicanteSeleccionado)) {
                     
                     VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Ya evaluado", 
-                        
                             "Este practicante ya cuenta con una evaluación para este documento.");
+                            
                 } else {
                     
                     Evaluacion nuevaEvaluacion = crearEvaluacion();
                     
-                    procesarEvaluacion(nuevaEvaluacion, evento);
+                    if (nuevaEvaluacion != null) {
+                        procesarEvaluacion(nuevaEvaluacion, gestor, evento);
+                    } else {
+                        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Formato incorrecto", 
+                        "La calificación ingresada no es un número válido.");
+                    }
+                    
                 }
 
-            } catch (ReglaDeNegocioExcepcion e) {
+            } catch (OperacionesDeDaoExcepcion e) {
                 
-                mostrarMensajeErrorRegistro(e.getMessage());
+                mostrarMensajeErrorRegistro("Error de base de datos al verificar o registrar la evaluación.");
+                
             }
             
         } else {
             
             mostrarMensajeCamposFaltantes();
+            
         }
         
     }
 
     private Evaluacion crearEvaluacion() {
         
-        Double calificacionFinal = Double.valueOf(txtCalificacionFinal.getText());
-        String observaciones = taObservaciones.getText();
-        
         Evaluacion evaluacion = new Evaluacion();
-        evaluacion.setCalificacionFinal(calificacionFinal);
-        evaluacion.setObservaciones(observaciones);
-        evaluacion.setPracticante(practicanteSeleccionado);
-        evaluacion.setNrc(practicanteSeleccionado.getNrcAsignado());
+        
+        try {
+            
+            Double calificacionFinal = Double.valueOf(txtCalificacionFinal.getText().trim());
+            String observaciones = taObservaciones.getText().trim();
+            
+            evaluacion.setCalificacionFinal(calificacionFinal);
+            evaluacion.setObservaciones(observaciones);
+            evaluacion.setPracticante(practicanteSeleccionado);
+            evaluacion.setNrc(practicanteSeleccionado.getNrcAsignado());
+            
+        } catch (NumberFormatException e) {
+            
+            evaluacion = null;
+            
+        }
 
         return evaluacion;
     }
@@ -149,16 +168,26 @@ public class ControladorEvaluacionDocumentos {
         }
         
         return sonCamposValidos;
+        
     }
 
-    private void procesarEvaluacion(Evaluacion evaluacion, ActionEvent evento) {
+    private void procesarEvaluacion(Evaluacion evaluacion, GestorEvaluacion gestor, ActionEvent evento) {
         
         try {
             
-            GestorEvaluacion gestor = new GestorEvaluacion();
-            ingresarEvaluacion(evaluacion, gestor, evento);
+            List<String> errores = gestor.validarCamposEvaluacion(evaluacion);
             
-        } catch (ReglaDeNegocioExcepcion e) {
+            if (errores.isEmpty()) {
+                
+                ingresarEvaluacion(evaluacion, gestor, evento);
+                
+            } else {
+                
+                VentanaMensaje.mostrarVentanaErrores(errores);
+                
+            }
+            
+        } catch (OperacionesDeDaoExcepcion e) {
             
             mostrarMensajeErrorRegistro(e.getMessage());
             
@@ -167,7 +196,7 @@ public class ControladorEvaluacionDocumentos {
     }
 
     private void ingresarEvaluacion(Evaluacion evaluacion, GestorEvaluacion gestor, ActionEvent evento) 
-    throws ReglaDeNegocioExcepcion {
+    throws OperacionesDeDaoExcepcion {
         
         gestor.ingresarEvaluacion(evaluacion);
         
@@ -194,7 +223,8 @@ public class ControladorEvaluacionDocumentos {
     @FXML
     public void cancelar(ActionEvent evento) {
         
-        FXMLLoader cargadorListaDocumentos = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaDocumentos.fxml", "Documentos del Practicante");
+        FXMLLoader cargadorListaDocumentos = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaDocumentos.fxml", 
+        "Documentos del Practicante");
         
         if (cargadorListaDocumentos != null) {
 
@@ -207,5 +237,4 @@ public class ControladorEvaluacionDocumentos {
         }
         
     }
-    
 }

@@ -4,15 +4,13 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.PracticaDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
-import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -20,47 +18,44 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorActividades {  
     
-    public void ingresarActividad(Actividad actividad)throws ReglaDeNegocioExcepcion{
+    public List<String> validarCamposDeActividad(Actividad actividad) throws OperacionesDeDaoExcepcion {
         
         ValidacionActividad validacion = new ValidacionActividad();
-        validacion.sonCamposValidosPorReglaDeNegocio(actividad);
+        
+        List<String> listaValidaciones = new ArrayList<>();    
+
+        listaValidaciones = validacion.validarRegistroActividad(actividad);
+        
+        return listaValidaciones;
+    }
+
+    public boolean ingresarActividad(Actividad actividad) throws OperacionesDeDaoExcepcion {
         
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
         
         PracticaDAO actividadDAO = new PracticaDAO();
+        
+        boolean registroExitoso = false;
         
         actividad.setIdProfesor(sesionUsuario.getIdUsuario());
         
-        try{
-            
-            actividadDAO.insertarActividad(actividad);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al registrar una nueva actividad.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar la Actividad por un problema "
-                + "interno del sistema. Intente más tarde.");
-            
-        }
+        actividadDAO.insertarActividad(actividad);
         
+        registroExitoso = true;
+ 
+        return registroExitoso;
+    
     }
     
-    public List<Actividad> recuperarActividadesAsignadas()throws ReglaDeNegocioExcepcion{
+    public List<Actividad> consultarActividadesAsignadas() throws OperacionesDeDaoExcepcion {
         
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
+        
         PracticaDAO actividadDAO = new PracticaDAO();
+        
         int idUsuario = sesionUsuario.getIdUsuario();
         
-        try{
-            
-            return actividadDAO.consultarActividadesAsignadas(idUsuario);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            throw new ReglaDeNegocioExcepcion("No se pudo consultar las actividades asignadas. ", e);
-            
-        }
-        
+        return actividadDAO.consultarActividadesAsignadas(idUsuario);
         
     }
     

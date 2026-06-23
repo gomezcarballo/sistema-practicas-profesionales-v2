@@ -4,8 +4,9 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Actividad;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -13,28 +14,53 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionActividad {
     
-    public void sonCamposValidosPorReglaDeNegocio(Actividad actividad) throws ReglaDeNegocioExcepcion{
-        
+    private final int MAXIMO_CARACTERES_TITULO = 50;
+    private final int MAXIMO_CARACTERES_DESCRIPCION = 100;
+
+    public List<String> validarRegistroActividad(Actividad actividad) {
+
+        List<String> listaValidaciones = new ArrayList<>(); 
         String titulo = actividad.getTitulo();
         String descripcion = actividad.getDescripcion();
-        
-        int longitudMaximaTitulo = 50;
-        int longitudMaximaDescripcion = 100;
-        
-        if(titulo.length() > longitudMaximaTitulo){
+        String mensajeAlerta;
+
+        if (!esTamañoTituloValido(titulo)) {
             
-            throw new ReglaDeNegocioExcepcion("El título excede la longitud maxima de " + 
-            longitudMaximaTitulo + " caracteres");
-            
-        }   
+            mensajeAlerta = "El título excede la longitud máxima de " + MAXIMO_CARACTERES_TITULO + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
         
-        if(descripcion.length() > longitudMaximaDescripcion){
+        }
+
+        if (!esTamañoDescripcionValido(descripcion)) {
             
-            throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de " + 
-            longitudMaximaDescripcion + " caracteres");
-            
-        } 
+            mensajeAlerta = "La descripción excede la longitud máxima de " + MAXIMO_CARACTERES_DESCRIPCION + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
         
+        }
+
+        return listaValidaciones;
     }
+    
+    public boolean esTamañoTituloValido(String titulo) {
+        
+        boolean esTamañoValido = false;
+        
+        if (titulo != null && titulo.length() <= MAXIMO_CARACTERES_TITULO) {
+            esTamañoValido = true; 
+        }
+
+        return esTamañoValido;
+    }
+
+    public boolean esTamañoDescripcionValido(String descripcion) {
+        
+        boolean esTamañoValido = false;
+        
+        if (descripcion != null && descripcion.length() <= MAXIMO_CARACTERES_DESCRIPCION) {
+            esTamañoValido = true;
+        }
+
+        return esTamañoValido;
+    }             
     
 }

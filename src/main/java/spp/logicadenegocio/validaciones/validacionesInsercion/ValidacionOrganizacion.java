@@ -4,8 +4,9 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Organizacion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -13,23 +14,39 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionOrganizacion {
         
-    public void sonCamposValidosPorReglaNegocio(Organizacion organizacion) throws ReglaDeNegocioExcepcion {
+    private final int LONGITUD_MAXIMA_DIRECCION = 50;
+        
+    public List<String> validarRegistroOrganizacion(Organizacion organizacion) {
+        
+        List<String> listaValidaciones = new ArrayList<>();
         
         String nombre = organizacion.getNombre();
         String direccion = organizacion.getDireccion();
         
         ValidacionDatos validacionDatos = new ValidacionDatos();
         
-        validacionDatos.validarNombre(nombre);
-        
-        int longitudMaximaDireccion = 50;
-        
-        if( direccion.length() > longitudMaximaDireccion){
-            
-            throw new ReglaDeNegocioExcepcion("La dirección excede la longitud maxima de " + 
-            longitudMaximaDireccion + " caracteres");
-            
+        if (!validacionDatos.esFormatoSoloLetrasValido(nombre)) {
+            listaValidaciones.add("El nombre de la organización solo debe contener letras.");
+        } else if (!validacionDatos.esLongitudNombreValida(nombre)) {
+            listaValidaciones.add("El nombre de la organización excede la longitud maxima de " + validacionDatos.LONGITUD_MAXIMA_NOMBRE + " caracteres.");
         }
         
+        if (!esDireccionValida(direccion)) {
+            listaValidaciones.add("La dirección excede la longitud maxima de " + LONGITUD_MAXIMA_DIRECCION + " caracteres");
+        }
+        
+        return listaValidaciones;
     }
+    
+    public boolean esDireccionValida(String direccion) {
+        
+        boolean esValido = false;
+        
+        if (direccion != null && direccion.length() <= LONGITUD_MAXIMA_DIRECCION) {
+            esValido = true;
+        }
+        
+        return esValido;
+    }
+    
 }

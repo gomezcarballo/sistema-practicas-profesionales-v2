@@ -5,8 +5,9 @@
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Administrador;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -14,29 +15,17 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionAdministrador {
 
-    public void sonCamposValidosPorReglaNegocio(Administrador administrador) throws ReglaDeNegocioExcepcion {
+    public List<String> validarRegistroAdministrador(Administrador administrador) {
         
-        String numeroPersonal = administrador.getNumeroDePersonal();
-        String nombre = administrador.getNombre();
-        String apellidoPaterno = administrador.getApellidoPaterno();
-        String apellidoMaterno = administrador.getApellidoMaterno();
+        ValidacionDatos validacionDatos = new ValidacionDatos();
+        List<String> listaValidaciones = new ArrayList<>();
         
-        int longitudMaximaNumeroPersonal = 5;
+        listaValidaciones.addAll(validacionDatos.validarNumeroPersonal(administrador.getNumeroDePersonal()));
         
-        if( numeroPersonal.length() != longitudMaximaNumeroPersonal || !numeroPersonal.chars()
-           .allMatch(Character::isDigit) ){
-            
-           throw new ReglaDeNegocioExcepcion("Numero de personal no valido. Debe contener" + 
-           longitudMaximaNumeroPersonal + "digitos.");
-           
-        }
+        listaValidaciones.addAll(validacionDatos.validarNombreCompleto(administrador.getNombre(), 
+        administrador.getApellidoPaterno(), administrador.getApellidoMaterno()));
         
-        ValidacionDatos validacionDatosPersonales = new ValidacionDatos();
-        
-        validacionDatosPersonales.validarNombre(nombre);
-        validacionDatosPersonales.validarApellidoPaterno(apellidoPaterno);
-        validacionDatosPersonales.validarApellidoMaterno(apellidoMaterno);
-        
+        return listaValidaciones;
     }
     
 }

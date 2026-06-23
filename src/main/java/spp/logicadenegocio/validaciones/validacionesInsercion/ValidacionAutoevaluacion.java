@@ -4,6 +4,8 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Autoevaluacion;
 
 /**
@@ -11,22 +13,26 @@ import spp.logicadenegocio.clasesdto.Autoevaluacion;
  * @author gomes
  */
 public class ValidacionAutoevaluacion {
-    
-    public boolean sonValoresValidos(Autoevaluacion autoevaluacion) {
+
+    public List<String> validarValoresAutoevaluacion(Autoevaluacion autoevaluacion) {
         
+        int valorMinimoPuntuacion = 1;
+        int valorMaximoPuntuacion = 5;
+        
+        List<String> listaErrores = new ArrayList<>();
         int[] valores = obtenerArregloValores(autoevaluacion);
         
         for (int valor : valores) {
             
-            if (valor < 1 || valor > 5) {
-                
-                return false; 
-                
+            if (valor < valorMinimoPuntuacion || valor > valorMaximoPuntuacion) {
+                listaErrores.add("Asegúrese de que todas las calificaciones estén entre " + valorMinimoPuntuacion + " y " + valorMaximoPuntuacion + ".");
+                break; 
             }
             
         }
         
-        return true;
+        return listaErrores;
+        
     }
     
     public int calcularPuntuacionFinal(Autoevaluacion autoevaluacion) {

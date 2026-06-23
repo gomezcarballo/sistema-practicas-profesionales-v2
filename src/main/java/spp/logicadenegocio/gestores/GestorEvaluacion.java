@@ -4,15 +4,14 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.EvaluacionDAO;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionEvaluacion;
-import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -20,39 +19,29 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorEvaluacion {
     
-    public void ingresarEvaluacion(Evaluacion evaluacion)throws ReglaDeNegocioExcepcion{
+    public List<String> validarCamposEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
         
         ValidacionEvaluacion validacion = new ValidacionEvaluacion();
-        validacion.sonCamposValidosPorReglasDeNegocio(evaluacion);
+        return validacion.validarRegistroEvaluacion(evaluacion);
+        
+    }
+    
+    public void ingresarEvaluacion(Evaluacion evaluacion) throws OperacionesDeDaoExcepcion {
         
         EvaluacionDAO evaluacionDAO = new EvaluacionDAO();
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
         evaluacion.setIdProfesor(sesionUsuario.getIdUsuario());
-        
-        try{
-            
-            evaluacionDAO.insertarEvaluacion(evaluacion);
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico de base de datos al calificar un documento.", e);
-            throw new ReglaDeNegocioExcepcion("No se pudo registrar la calificacion por un problema "
-                + "interno del sistema. Intente más tarde.");
-            
-        }
-        
+
+        evaluacionDAO.insertarEvaluacion(evaluacion);
+ 
     }
     
-    public boolean evaluacionYaExiste(Practicante practicante) throws ReglaDeNegocioExcepcion {
+    public boolean evaluacionYaExiste(Practicante practicante) throws OperacionesDeDaoExcepcion {
         
-        boolean resultado = false;
-        try {
-            EvaluacionDAO dao = new EvaluacionDAO(); 
-            resultado = dao.existeEvaluacion(practicante.getIdUsuario(), practicante.getNrcAsignado());
-        } catch (OperacionesDeDaoExcepcion e) {
-            throw new ReglaDeNegocioExcepcion(e.getMessage());
-        }
-        return resultado;
+        EvaluacionDAO dao = new EvaluacionDAO(); 
+        
+        return dao.existeEvaluacion(practicante.getIdUsuario(), practicante.getNrcAsignado());
+        
     }
     
 }

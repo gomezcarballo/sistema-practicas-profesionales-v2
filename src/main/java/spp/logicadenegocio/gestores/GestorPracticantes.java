@@ -17,6 +17,7 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.generadordecontrasenas.GeneradorContrasena;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
 /**
  *
@@ -24,24 +25,21 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorPracticantes {
         
-    public void ingresarPracticante(Practicante practicante) throws ReglaDeNegocioExcepcion {
+    public List<String> validarCamposPracticante(Practicante practicante) {
         
-        validarPracticante(practicante);
-        
+        ValidacionPracticante validacion = new ValidacionPracticante();
+        return validacion.validarRegistroPracticante(practicante);
+    
+    }
+    
+    public void ingresarPracticante(Practicante practicante) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+                
         String contrasenaPlana = GeneradorContrasena.generarContraseña(10);        
         Usuario usuarioPracticante = prepararUsuarioParaRegistro(practicante, contrasenaPlana);
         
         guardarPracticanteEnBaseDeDatos(usuarioPracticante, practicante);
         
         enviarContraseñaPorCorreo(usuarioPracticante.getCorreoInstitucional(), contrasenaPlana);
-        
-    }
-
-
-    private void validarPracticante(Practicante practicante) throws ReglaDeNegocioExcepcion {
-        
-        ValidacionPracticante validacion = new ValidacionPracticante();
-        validacion.sonCamposValidosPorReglaNegocio(practicante);
         
     }
 
@@ -54,28 +52,19 @@ public class GestorPracticantes {
         
     }
 
-    private void guardarPracticanteEnBaseDeDatos(Usuario usuarioPracticante, Practicante practicante) throws ReglaDeNegocioExcepcion {
+    private void guardarPracticanteEnBaseDeDatos(Usuario usuarioPracticante, Practicante practicante) throws OperacionesDeDaoExcepcion {
         
-        try {
-            
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            PracticanteDAO practicanteDAO = new PracticanteDAO();
-            
-            int idUsuario = usuarioDAO.insertarUsuario(usuarioPracticante);
-            practicante.setIdUsuario(idUsuario);
-            
-            practicanteDAO.insertarPracticante(practicante);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo practicante.", e);  
-            
-            throw new ReglaDeNegocioExcepcion(e.getMessage());
-        }
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
         
+        int idUsuario = usuarioDAO.insertarUsuario(usuarioPracticante);
+        practicante.setIdUsuario(idUsuario);
+        
+        practicanteDAO.insertarPracticante(practicante);
+    
     }
 
-    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ProcesamientoSistemaExcepcion {
         
         try {
             
@@ -85,7 +74,7 @@ public class GestorPracticantes {
         } catch(RuntimeException e) {
             
             RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("El practicante se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
+            throw new ProcesamientoSistemaExcepcion("El practicante se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal.");
         
         }
         
@@ -104,63 +93,32 @@ public class GestorPracticantes {
         return usuario;
     }
     
-    public List<Practicante> recuperarPracticantesActivos() throws ReglaDeNegocioExcepcion{
+    public List<Practicante> recuperarPracticantesActivos() throws OperacionesDeDaoExcepcion {
         
-        try{
-               PracticanteDAO practicanteDAO = new PracticanteDAO();
-               return practicanteDAO.consultarPracticantes();
-
-           }catch(OperacionesDeDaoExcepcion e){
-
-               throw new ReglaDeNegocioExcepcion("No se pudieron obtener los practicantes activos");
-
-        }
-        
-    }
-    
-    public List<Practicante> obtenerPracticantesConSolicitudes() throws ReglaDeNegocioExcepcion {
-    
-        try{
-            
-            PracticanteDAO practicanteDAO = new PracticanteDAO();
-            return practicanteDAO.consultarPracticantesConSolicitudes();
-            
-        }catch(OperacionesDeDaoExcepcion e){
-            
-            throw new ReglaDeNegocioExcepcion("No se pudieron obtener los practicantes con solicitudes");
-            
-        }
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        return practicanteDAO.consultarPracticantes();
     
     }
     
-    public void inactivarPracticante(int idPracticante)throws ReglaDeNegocioExcepcion {
-       
-       try{
-          
-            PracticanteDAO practicanteDAO = new PracticanteDAO();
-            practicanteDAO.inactivarPracticante(idPracticante);  
-          
-       }catch(OperacionesDeDaoExcepcion e){
-           
-           throw new ReglaDeNegocioExcepcion("No se pudo inactivar el practicante");
-           
-       }
-   }
-    
-    public boolean verificarAsignacionProyecto(int idUsuario) throws ReglaDeNegocioExcepcion {
-    
-        try {
+    public List<Practicante> obtenerPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion {
         
-            PracticanteDAO practicanteDao = new PracticanteDAO();
-        
-            return practicanteDao.tieneProyectoAsignado(idUsuario);
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        return practicanteDAO.consultarPracticantesConSolicitudes();
     
-        } catch (OperacionesDeDaoExcepcion e) {
-        
-            throw new ReglaDeNegocioExcepcion("Error al consultar el estado del proyecto", e);
+    }
     
-        }
-
+    public void inactivarPracticante(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        practicanteDAO.inactivarPracticante(idPracticante);  
+    
+    }
+    
+    public boolean verificarAsignacionProyecto(int idUsuario) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDao = new PracticanteDAO();
+        return practicanteDao.tieneProyectoAsignado(idUsuario);
+    
     }
     
 }

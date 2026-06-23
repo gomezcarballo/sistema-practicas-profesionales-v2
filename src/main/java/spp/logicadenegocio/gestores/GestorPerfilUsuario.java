@@ -6,9 +6,7 @@ package spp.logicadenegocio.gestores;
 
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Usuario;
-import spp.logicadenegocio.interfacesdao.IUsuarioDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -16,21 +14,13 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorPerfilUsuario {
     
-    private IUsuarioDAO usuarioDAO;
-    
-    public Usuario recuperarUsuario(int idUsuario) throws ReglaDeNegocioExcepcion {
+    public Usuario recuperarUsuario(int idUsuario) throws OperacionesDeDaoExcepcion {
 
-        try {
-            
-            usuarioDAO = new UsuarioDAO();
-            return usuarioDAO.consultarUsuario(idUsuario);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = usuarioDAO.consultarUsuario(idUsuario);
 
-        } catch (OperacionesDeDaoExcepcion e) {
+        return usuario;
 
-            throw new ReglaDeNegocioExcepcion("No se pudo recuperar la información del usuario");
-
-        }
-
-    }   
+    }  
     
 }

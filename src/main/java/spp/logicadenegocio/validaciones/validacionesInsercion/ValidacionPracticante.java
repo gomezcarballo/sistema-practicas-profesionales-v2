@@ -4,8 +4,9 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Practicante;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -13,25 +14,34 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionPracticante {
     
-    public void sonCamposValidosPorReglaNegocio(Practicante practicante) throws ReglaDeNegocioExcepcion {
+    private final String PATRON_MATRICULA = "^[sS][0-9]{8}$";
+    
+    public List<String> validarRegistroPracticante(Practicante practicante) {
+        
+        List<String> listaValidaciones = new ArrayList<>();
+        ValidacionDatos validacionDatos = new ValidacionDatos();
         
         String matricula = practicante.getMatricula();
-        String nombre = practicante.getNombre();
-        String apellidoPaterno = practicante.getApellidoPaterno();
-        String apellidoMaterno = practicante.getApellidoMaterno();
         
-        if(!matricula.matches("^[sS][0-9]{8}$")){
-            
-           throw new ReglaDeNegocioExcepcion("Matricula no valida. Debe comenzar con S seguido de 8 números.");
-           
+        if (!esMatriculaValida(matricula)) {
+            listaValidaciones.add("Matricula no valida. Debe comenzar con S seguido de 8 números.");
         }
         
-        ValidacionDatos validacionDatosPersonales = new ValidacionDatos();
+        listaValidaciones.addAll(validacionDatos.validarNombreCompleto(practicante.getNombre(), 
+        practicante.getApellidoPaterno(), practicante.getApellidoMaterno()));
         
-        validacionDatosPersonales.validarNombre(nombre);
-        validacionDatosPersonales.validarApellidoPaterno(apellidoPaterno);
-        validacionDatosPersonales.validarApellidoMaterno(apellidoMaterno);
+        return listaValidaciones;
+    }
+    
+    public boolean esMatriculaValida(String matricula) {
         
+        boolean esValido = false;
+        
+        if (matricula != null && matricula.matches(PATRON_MATRICULA)) {
+            esValido = true;
+        }
+        
+        return esValido;
     }
     
 }

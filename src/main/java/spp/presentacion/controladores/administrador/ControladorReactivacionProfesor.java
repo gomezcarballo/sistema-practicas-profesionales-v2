@@ -17,9 +17,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.gestores.GestorProfesores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -76,7 +76,7 @@ public class ControladorReactivacionProfesor {
 
             tblProfesoresInactivos.setItems(FXCollections.observableArrayList(profesores));
 
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR,"Error",e.getMessage());
 
@@ -131,7 +131,7 @@ public class ControladorReactivacionProfesor {
 
                 }
 
-            }catch(ReglaDeNegocioExcepcion e){
+            }catch(OperacionesDeDaoExcepcion e){
 
                 VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Reactivación fallida", 
                 e.getMessage());
@@ -155,7 +155,7 @@ public class ControladorReactivacionProfesor {
 
             irMenuPrincipal(evento);
 
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Reactivación fallida", e.getMessage());
 

@@ -4,8 +4,10 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Evaluacion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 
 /**
@@ -14,26 +16,33 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionEvaluacion {
     
-    public void sonCamposValidosPorReglasDeNegocio(Evaluacion evaluacion)throws ReglaDeNegocioExcepcion{
+    private final int LONGITUD_MAXIMA_DESCRIPCION = 100;
+    private final double CALIFICACION_MINIMA = 1.0;
+    private final double CALIFICACION_MAXIMA = 10.0;
+    
+    public List<String> validarRegistroEvaluacion(Evaluacion evaluacion)throws OperacionesDeDaoExcepcion{
+        
+        
+        List<String> listaErrores = new ArrayList<>();
         
         String descripcion = evaluacion.getObservaciones();
         double calificacionFinal = evaluacion.getCalificacionFinal();
         
-        int longitudMaximaDescripcion = 100;
-        
-        if(descripcion.length() > longitudMaximaDescripcion){
-
-            throw new ReglaDeNegocioExcepcion("La descripción excede la longitud maxima de " + 
-            longitudMaximaDescripcion + " caracteres");
-
+        if (descripcion != null && descripcion.length() > LONGITUD_MAXIMA_DESCRIPCION) {
+            
+            listaErrores.add("La descripción excede la longitud maxima de " + LONGITUD_MAXIMA_DESCRIPCION + " caracteres.");
+            
         }
         
-        if (calificacionFinal < 1 || calificacionFinal > 10) {
+        if (calificacionFinal < CALIFICACION_MINIMA || calificacionFinal > CALIFICACION_MAXIMA) {
                 
-            throw new ReglaDeNegocioExcepcion("La calificacion debe estar en el rango del 1 al 10");   
+            listaErrores.add("La calificación debe estar en el rango de " + CALIFICACION_MINIMA + " a " + CALIFICACION_MAXIMA + ".");   
                 
         }
+        
+        return listaErrores;
         
     }
+
     
 }
