@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.gestores.GestorOrganizaciones;
 import spp.presentacion.controladores.menus.ControladorSubMenuProyectos;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -81,7 +82,7 @@ public class ControladorListaOrganizaciones {
 
             tblListaOrganizaciones.setItems(FXCollections.observableArrayList(organizaciones));
 
-        } catch(ReglaDeNegocioExcepcion e) {
+        } catch(OperacionesDeDaoExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar organizaciones",
             "Hubo un error al recuperar las organizaciones");
@@ -194,7 +195,7 @@ public class ControladorListaOrganizaciones {
 
                 cargarOrganizaciones();
 
-            }catch (ReglaDeNegocioExcepcion e) {
+            }catch (OperacionesDeDaoExcepcion e) {
 
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,
                 "Error al inactivar Organización", e.getMessage());

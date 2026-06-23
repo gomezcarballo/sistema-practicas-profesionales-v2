@@ -4,6 +4,7 @@
  */
 package spp.presentacion.controladores.administrador;
 
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.gestores.GestorProfesores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 
@@ -87,38 +89,49 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
     }
     
     @FXML 
-    private void registrarProfesor(Profesor profesor, ActionEvent evento){
-                
-        try{
-            
+    private void registrarProfesor(Profesor profesor, ActionEvent evento) {
+        
+        try {
             GestorProfesores gestorProfesores = new GestorProfesores();
             
-            if(gestorProfesores.hayCupoProfesores()){
+            if (validarProfesor(profesor, gestorProfesores)) {
                 
-                ingresarProfesor(profesor, gestorProfesores, evento);
+                if (gestorProfesores.hayCupoProfesores()) {
+                    
+                    gestorProfesores.ingresarProfesor(profesor);
+        
+                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+                    "Profesor registrado exitosamente" ); 
+                    
+                    regresar(evento);
                 
-                
-            }else{
-                
-                abrirSeleccionProfesorReemplazo(profesor);
-      
+                } else {
+                    abrirSeleccionProfesorReemplazo(profesor);
+                }
+            
             }
+        
+        } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
             
-        }catch(ReglaDeNegocioExcepcion e){
-            
-            mostrarMensajeErrorRegistro(e.getMessage());
-                       
+            mostrarMensajeErrorRegistro(e.getMessage());           
+        
         }
     }
     
-    private void ingresarProfesor(Profesor profesor, GestorProfesores gestor, ActionEvent evento) throws ReglaDeNegocioExcepcion{
+    private boolean validarProfesor(Profesor profesor, GestorProfesores gestor) {
         
-        gestor.ingresarProfesor(profesor);
+        boolean esValido = false;
+        List<String> listaErrores = gestor.validarCamposProfesor(profesor);
         
-        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", "Profesor registrado exitosamente" ); 
-        regresar(evento);
+        if (listaErrores.isEmpty()) {
+            esValido = true;
+        } else {
+            VentanaMensaje.mostrarVentanaErrores(listaErrores);
+        }
         
+        return esValido;
     }
+    
     
     private void abrirSeleccionProfesorReemplazo(Profesor profesor){
         
@@ -134,14 +147,13 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         
     }
 
-    public void registrarProfesorConReemplazo(Profesor profesorNuevo, Profesor profesorAnterior, ActionEvent evento){
-
-        try{
-
+    public void registrarProfesorConReemplazo(Profesor profesorNuevo, Profesor profesorAnterior, ActionEvent evento) {
+        
+        try {
+            
             GestorProfesores gestorProfesores = new GestorProfesores();
 
             gestorProfesores.inactivarProfesor(profesorAnterior.getIdUsuario());
-
             gestorProfesores.ingresarProfesor(profesorNuevo);
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro exitoso",
@@ -149,12 +161,10 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
 
             regresar(evento);
 
-        }catch(ReglaDeNegocioExcepcion e){
-
+        } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
             mostrarMensajeErrorRegistro(e.getMessage());
-
         }
-
+    
     }
     
     private void mostrarMensajeErrorRegistro(String mensaje){

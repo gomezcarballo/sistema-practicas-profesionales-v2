@@ -6,6 +6,7 @@ package spp.presentacion.controladores.coordinador;
 
 import javafx.event.ActionEvent;
 import java.time.LocalDate;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,9 +15,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorPracticantes;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -135,31 +137,32 @@ public class ControladorRegistroPracticante {
     }
    
     @FXML 
-    private void registrarPracticante(Practicante practicante, ActionEvent evento){
-       
-        try{
+    private void registrarPracticante(Practicante practicante, ActionEvent evento) {
+        
+        try {
             
             GestorPracticantes gestor = new GestorPracticantes();
+            List<String> listaErrores = gestor.validarCamposPracticante(practicante);
             
-            ingresarPracticante(practicante, gestor, evento);
+            if (listaErrores.isEmpty()) {
+                gestor.ingresarPracticante(practicante);
+        
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
+                "Practicante registrado correctamente");
+
+                regresar(evento);
             
-        }catch(ReglaDeNegocioExcepcion e){
+            } else {
+                
+                VentanaMensaje.mostrarVentanaErrores(listaErrores);
+            
+            }
+            
+        } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
             
             mostrarMensajeErrorRegistro(e.getMessage());
-
+        
         }
-        
-    }
-    
-    private void ingresarPracticante(Practicante practicante, GestorPracticantes gestor, ActionEvent evento)
-    throws ReglaDeNegocioExcepcion{
-        
-        gestor.ingresarPracticante(practicante);
-        
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro Exitoso", 
-        "Practicante registrado correctamente");
-            
-        regresar(evento);
         
     }
     

@@ -4,6 +4,7 @@
  */
 package spp.presentacion.controladores.coordinador;
 
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,8 +16,8 @@ import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.gestores.GestorProyectos;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
@@ -94,14 +95,14 @@ public class ControladorGestionProyecto {
     }
 
     @FXML
-    private void leerDatosDeProyecto(ActionEvent evento){
+    private void leerDatosDeProyecto(ActionEvent evento) {
         
         if (!sonCamposValidos() || !esCupoMaximo()) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
             "Por favor verifica que todos los campos estén llenos y el cupo sea un número válido.");
-           
             return; 
+        
         }
 
         boolean esActualizacion = (proyecto != null && proyecto.getIdProyecto() > 0);
@@ -112,7 +113,7 @@ public class ControladorGestionProyecto {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
             "No ha cambiado nada de los datos del proyecto.");
             necesitaGuardar = false; 
-        
+       
         }
 
         if (necesitaGuardar) {
@@ -123,15 +124,22 @@ public class ControladorGestionProyecto {
             
             mapearDatosAProyecto(proyecto);
 
-            if (esActualizacion) {
-                actualizarProyecto(proyecto, evento);
-            } else {
-                registrarProyecto(proyecto, evento);
-            }
-            
-        }
+            GestorProyectos gestor = new GestorProyectos();
+            List<String> listaErrores = gestor.validarCamposProyecto(proyecto);
 
-    }  
+            if (listaErrores.isEmpty()) {
+                
+                if (esActualizacion) {
+                    actualizarProyecto(proyecto, evento);
+                } else {
+                    registrarProyecto(proyecto, evento);
+                
+                }
+            } else {
+                VentanaMensaje.mostrarVentanaErrores(listaErrores);
+            }
+        }
+    }
     
     @FXML
     private boolean sonCamposValidos(){
@@ -183,9 +191,9 @@ public class ControladorGestionProyecto {
     }
     
     @FXML
-    private void registrarProyecto(Proyecto proyecto, ActionEvent evento){
-       
-        try{
+    private void registrarProyecto(Proyecto proyecto, ActionEvent evento) {
+        
+        try {
             
             GestorProyectos gestor = new GestorProyectos();
             gestor.ingresarProyecto(proyecto);
@@ -195,35 +203,31 @@ public class ControladorGestionProyecto {
             
             CerradorVentana.cerrarVentana(evento);
             
-        }catch(ReglaDeNegocioExcepcion e){
+        } catch (OperacionesDeDaoExcepcion e) {
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-            e.getMessage());
-                        
-        }
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", "Ocurrió un error al registrar el proyecto. Intente más tarde.");                      
         
+        }
     }
     
     @FXML
-    private void actualizarProyecto(Proyecto proyecto, ActionEvent evento){
+    private void actualizarProyecto(Proyecto proyecto, ActionEvent evento) {
         
-        try{
+        try {
             
             GestorProyectos gestor = new GestorProyectos();
             gestor.actualizarProyecto(proyecto);
+            
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Actualización Exitosa", 
             "Proyecto actualizado correctamente");   
             
             CerradorVentana.cerrarVentana(evento);
                 
+        } catch (OperacionesDeDaoExcepcion e) {
             
-        }catch(ReglaDeNegocioExcepcion e){
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Actualizacion fallida", "Ocurrió un error al actualizar el proyecto. Intente más tarde.");                    
         
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Actualizacion fallida", 
-            e.getMessage());
-                    
         }
-        
     }
     
     private void mapearDatosAProyecto(Proyecto proyecto) {

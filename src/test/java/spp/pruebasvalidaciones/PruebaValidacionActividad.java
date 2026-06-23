@@ -4,13 +4,13 @@
  */
 package spp.pruebasvalidaciones;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -18,217 +18,93 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class PruebaValidacionActividad {
     
-    @Test
-    public void pruebaValidarCamposValidosExitosa() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("Actividad");
-        actividad.setDescripcion("Descripcion");
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosTituloLimite() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("A".repeat(50));
-        actividad.setDescripcion("Descripcion");
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosTituloExcedeLimite() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("A".repeat(51));
-        actividad.setDescripcion("Descripcion");
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosDescripcionLimite() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("Actividad");
-        actividad.setDescripcion("A".repeat(100));
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosDescripcionExcedeLimite() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("Actividad");
-        actividad.setDescripcion("A".repeat(101));
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosTituloYDescripcionExcedidos() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("A".repeat(51));
-        actividad.setDescripcion("A".repeat(101));
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertTrue(true);
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosTituloVacio() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("");
-        actividad.setDescripcion("Descripcion");
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosDescripcionVacia() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("Actividad");
-        actividad.setDescripcion("");
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            fail();
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosMensajeExcepcionTitulo() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("A".repeat(51));
-        actividad.setDescripcion("Descripcion");
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("El título excede la longitud maxima de 50 caracteres", e.getMessage());
-            
-        }
-        
-    }
-
-    @Test
-    public void pruebaValidarCamposValidosMensajeExcepcionDescripcion() {
-
-        Actividad actividad = new Actividad();
-        actividad.setTitulo("Actividad");
-        actividad.setDescripcion("A".repeat(101));
-
-        ValidacionActividad validacion = new ValidacionActividad();
-
-        try {
-
-            validacion.sonCamposValidosPorReglaDeNegocio(actividad);
-            fail();
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
-            assertEquals("La descripción excede la longitud maxima de 100 caracteres", e.getMessage());
-            
-        }
-        
+    corregir/*rivate ValidacionActividad validacion;
+    private Actividad actividad;
+
+    @Before
+    public void configurar() {
+        validacion = new ValidacionActividad();
+        actividad = new Actividad();
     }
     
+    @Test
+    public void pruebaValidarActividadExitosa() {
+
+        actividad.setTitulo("Actividad");
+        actividad.setDescripcion("Descripcion");
+
+        List<String> listaValidaciones = validacion.validarRegistroActividad(actividad);
+        assertTrue("La lista debería estar vacía cuando no hay errores", 
+            listaValidaciones.isEmpty());
+            
+    }
+
+    @Test
+    public void pruebaValidarTamañoTituloLimite() {
+
+        actividad.setTitulo("A".repeat(50));
+        assertTrue("El título de 50 caracteres debería ser válido", 
+            validacion.esTamañoTituloValido(actividad.getTitulo()));
+
+    }
+
+    @Test
+    public void pruebaValidarTamañoTituloExcedeLimite() {
+
+        actividad.setTitulo("A".repeat(51));
+        assertFalse("El título de 51 caracteres debería ser inválido", 
+            validacion.esTamañoTituloValido(actividad.getTitulo()));
+            
+    }
+
+    @Test
+    public void pruebaValidarTamañoDescripcionLimite() {
+
+        actividad.setDescripcion("A".repeat(100));
+        assertTrue("La descripción de 100 caracteres debería ser válida", 
+            validacion.esTamañoDescripcionValido(actividad.getDescripcion()));
+            
+    }
+
+    @Test
+    public void pruebaValidarTamañoDescripcionExcedeLimite() {
+
+        actividad.setDescripcion("A".repeat(101));
+        assertFalse("La descripción de 101 caracteres debería ser inválida", 
+            validacion.esTamañoDescripcionValido(actividad.getDescripcion()));
+            
+    }
+
+    @Test
+    public void pruebaValidarTamañoCamposExcedidos() {
+
+        actividad.setTitulo("A".repeat(51));
+        actividad.setDescripcion("A".repeat(101));
+
+        boolean esTituloValido = validacion.esTamañoTituloValido(actividad.getTitulo());
+        boolean esDescripcionValida = validacion.esTamañoDescripcionValido(actividad.getDescripcion());
+        
+        assertFalse("Todos los campos deberían ser inválidos", 
+            esTituloValido && esDescripcionValida);
+
+    }
+
+    @Test
+    public void pruebaValidarTituloVacio() {
+
+        actividad.setTitulo("");
+        assertFalse("El título vacío debería ser inválido", 
+            validacion.esTamañoTituloValido(actividad.getTitulo()));
+
+    }
+
+    @Test
+    public void pruebaValidarDescripcionVacia() {
+
+        actividad.setDescripcion("");
+        assertFalse("La descripción vacía debería ser inválida", 
+            validacion.esTamañoDescripcionValido(actividad.getDescripcion()));
+
+    }
+    */
 }

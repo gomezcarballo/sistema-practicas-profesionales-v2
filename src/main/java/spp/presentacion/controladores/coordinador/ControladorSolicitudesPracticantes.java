@@ -13,9 +13,9 @@ import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.presentacion.controladores.practicante.ControladorBaseListaPracticantes;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -46,7 +46,7 @@ public class ControladorSolicitudesPracticantes extends ControladorBaseListaPrac
 
             tblListaPracticantes.setItems(FXCollections.observableArrayList(lista));
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error", e.getMessage());
         

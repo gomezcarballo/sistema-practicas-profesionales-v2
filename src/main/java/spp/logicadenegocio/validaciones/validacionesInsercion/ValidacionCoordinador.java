@@ -4,8 +4,9 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Coordinador;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -13,28 +14,18 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionCoordinador {
         
-    public void sonCamposValidosPorReglaNegocio(Coordinador coordinador) throws ReglaDeNegocioExcepcion {
+    public List<String> validarRegistroCoordinador(Coordinador coordinador) {
         
-        String numeroPersonal = coordinador.getNumeroDePersonal();
-        String nombre = coordinador.getNombre();
-        String apellidoPaterno = coordinador.getApellidoPaterno();
-        String apellidoMaterno = coordinador.getApellidoMaterno();
-   
-        ValidacionDatos validacionDatosPersonales = new ValidacionDatos();
+        ValidacionDatos validacionDatos = new ValidacionDatos();
+        List<String> listaValidaciones = new ArrayList<>();
         
-        validacionDatosPersonales.validarNombre(nombre);
-        validacionDatosPersonales.validarApellidoPaterno(apellidoPaterno);
-        validacionDatosPersonales.validarApellidoMaterno(apellidoMaterno);
+        listaValidaciones.addAll(validacionDatos.validarNumeroPersonal(coordinador.getNumeroDePersonal()));
         
-        int longitudMaximaNumeroPersonal = 5;
+        listaValidaciones.addAll(validacionDatos.validarNombreCompleto(
+        coordinador.getNombre(),  coordinador.getApellidoPaterno(), 
+        coordinador.getApellidoMaterno()));
         
-        if( numeroPersonal.length() != longitudMaximaNumeroPersonal || !numeroPersonal.chars()
-           .allMatch(Character::isDigit) ){
-            
-           throw new ReglaDeNegocioExcepcion("Numero de personal no valido. Debe contener" + 
-           longitudMaximaNumeroPersonal + "digitos.");
-           
-        }
+        return listaValidaciones;
     }
     
 }

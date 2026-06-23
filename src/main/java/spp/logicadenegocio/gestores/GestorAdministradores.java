@@ -4,6 +4,7 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.AdministradorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
@@ -13,9 +14,9 @@ import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionAdminist
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.contrasenas.generadordecontrasenas.GeneradorContrasena;
 import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
 /**
  *
@@ -23,25 +24,23 @@ import spp.utilerias.contrasenas.hasheodecontrasenas.HasheoContrasena;
  */
 public class GestorAdministradores {
     
-    public void ingresarAdministrador(Administrador administrador) throws ReglaDeNegocioExcepcion {
+    
+    public List<String> validarCamposAdministrador(Administrador administrador) {
         
-        validarAdministrador(administrador);
-        int longitudContrasena = 10; 
-        String contrasenaPlana = GeneradorContrasena.generarContraseña(longitudContrasena);        
+        ValidacionAdministrador validacion = new ValidacionAdministrador();
+        return validacion.validarRegistroAdministrador(administrador);
+    
+    }
+
+    public void ingresarAdministrador(Administrador administrador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+        
+        int longitudContraseña = 10;
+        String contrasenaPlana = GeneradorContrasena.generarContraseña(longitudContraseña);        
         Usuario usuarioAdministrador = prepararUsuarioParaRegistro(administrador, contrasenaPlana);
         
         guardarAdministradorEnBaseDeDatos(usuarioAdministrador, administrador);
-        
         enviarContraseñaPorCorreo(usuarioAdministrador.getCorreoInstitucional(), contrasenaPlana);
-        
-    }
-
-
-    private void validarAdministrador(Administrador administrador) throws ReglaDeNegocioExcepcion {
-        
-        ValidacionAdministrador validacion = new ValidacionAdministrador();
-        validacion.sonCamposValidosPorReglaNegocio(administrador);
-        
+    
     }
 
     private Usuario prepararUsuarioParaRegistro(Administrador administrador, String contrasenaPlana) {
@@ -51,70 +50,52 @@ public class GestorAdministradores {
         usuarioAdministrador.setContraseña(contrasenaHasheada);
         
         return usuarioAdministrador;
-        
+    
     }
 
-    private void guardarAdministradorEnBaseDeDatos(Usuario usuarioAdministrador, Administrador administrador) throws ReglaDeNegocioExcepcion {
+    private void guardarAdministradorEnBaseDeDatos(Usuario usuarioAdministrador, Administrador administrador) throws OperacionesDeDaoExcepcion {
         
-        try {
-  
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            AdministradorDAO administradorDAO = new AdministradorDAO();
-            
-            int idUsuario = usuarioDAO.insertarUsuario(usuarioAdministrador);
-            administrador.setIdUsuario(idUsuario);
-            
-            administradorDAO.insertarAdministrador(administrador);
-            
-        } catch (OperacionesDeDaoExcepcion e) {
-            
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo crítico al registrar un nuevo administrador.", e);  
-            throw new ReglaDeNegocioExcepcion(e.getMessage());
-        
-        }
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        AdministradorDAO administradorDAO = new AdministradorDAO();
+
+        int idUsuario = usuarioDAO.insertarUsuario(usuarioAdministrador);
+        administrador.setIdUsuario(idUsuario);
+
+        administradorDAO.insertarAdministrador(administrador);
+
     }
 
-    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ReglaDeNegocioExcepcion {
+    private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ProcesamientoSistemaExcepcion {
         
         try {
             
             EnvioCorreo envioCorreoContraseña = new EnvioCorreo();
             envioCorreoContraseña.enviarContraseña(correoDestino, contrasenaPlana);
             
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             
-            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envio de la contraseña por correo electronico.", e);
-            throw new ReglaDeNegocioExcepcion("El administrador se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte al personal");
-       
-        }
+            RegistroErrores.registrarError(Level.SEVERE, "Fallo con el envío de la contraseña por correo electrónico.", e);
+            throw new ProcesamientoSistemaExcepcion("El administrador se registró, pero no se pudo enviar la contraseña por correo. Por favor contacte a soporte técnico.");
         
+        }
+   
     }
     
-    public void reemplazarAdministrador(Administrador administrador)throws ReglaDeNegocioExcepcion{
+    public void reemplazarAdministrador(Administrador administrador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
         
-        ingresarAdministrador(administrador);
-
+        ingresarAdministrador(administrador);    
         inactivarAdministradorActivo();
-
+    
     }
     
-    public void inactivarAdministradorActivo()throws ReglaDeNegocioExcepcion {
-
+    public void inactivarAdministradorActivo() throws OperacionesDeDaoExcepcion {
+        
         AdministradorDAO administradorDao = new AdministradorDAO();
-
-        try{
-
-            administradorDao.inactivarAdministrador();
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            throw new ReglaDeNegocioExcepcion("No se pudo inactivar el administrador actual.");
-
-        }
+        administradorDao.inactivarAdministrador();
 
     }
     
-    private Usuario crearUsuarioAdministrador(Administrador administrador){
+    private Usuario crearUsuarioAdministrador(Administrador administrador) {
         
         Usuario usuario = new Usuario();
         
@@ -123,8 +104,9 @@ public class GestorAdministradores {
         usuario.setApellidoMaterno(administrador.getApellidoMaterno());
         usuario.setCorreoInstitucional(administrador.getCorreoInstitucional());
         usuario.setEsActivo(true);
-        
+
         return usuario;
+    
     }
     
 }

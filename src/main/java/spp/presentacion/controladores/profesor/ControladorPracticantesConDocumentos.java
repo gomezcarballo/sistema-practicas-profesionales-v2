@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.presentacion.controladores.practicante.ControladorBaseListaPracticantes;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
@@ -47,7 +48,7 @@ public class ControladorPracticantesConDocumentos extends ControladorBaseListaPr
 
             tblListaPracticantes.setItems(FXCollections.observableArrayList(practicantes));
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar practicantes",
             "Hubo un error al recuperar los practicantes");

@@ -8,7 +8,6 @@ import java.util.List;
 import spp.logicadenegocio.clasesdao.ReporteIndicadoresDAO;
 import spp.logicadenegocio.clasesdto.IndicadorReporte;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -16,18 +15,12 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorReporteIndicadores {
     
-    public List<IndicadorReporte> obtenerIndicadores()throws ReglaDeNegocioExcepcion {
+    public List<IndicadorReporte> obtenerIndicadores() throws OperacionesDeDaoExcepcion {
 
-    try {
-        
         ReporteIndicadoresDAO reporteIndicadoresDAO = new ReporteIndicadoresDAO();
+        
         return reporteIndicadoresDAO.obtenerIndicadores();
 
-    } catch (OperacionesDeDaoExcepcion e) {
-
-        throw new ReglaDeNegocioExcepcion("No pudo obtener los indicadores", e);
-        
     }
-}
     
 }

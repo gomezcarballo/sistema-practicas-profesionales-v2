@@ -4,10 +4,11 @@
  */
 package spp.logicadenegocio.gestores;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.ProyectoDAO;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -15,33 +16,28 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class GestorAsignacionProyectos {
     
-    public void asignarProyecto( int idProyecto, int idUsuario) throws ReglaDeNegocioExcepcion {
-
-        try {
+    public List<String> asignarProyecto(int idProyecto, int idUsuario) throws OperacionesDeDaoExcepcion {
+        
+        List<String> listaErrores = new ArrayList<>();
+        
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        ProyectoDAO proyectoDAO = new ProyectoDAO();
+        
+        if (practicanteDAO.tieneProyectoAsignado(idUsuario)) {
             
-            PracticanteDAO practicanteDAO = new PracticanteDAO();
-            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            listaErrores.add("El practicante ya tiene un proyecto asignado.");
             
-            if(practicanteDAO.tieneProyectoAsignado(idUsuario)){
-                
-                throw new ReglaDeNegocioExcepcion("El practicante ya tiene un proyecto asignado");
-                
-            }
+        } else if (!proyectoDAO.disminuirCupoProyecto(idProyecto)) {
             
-            if(!proyectoDAO.disminuirCupoProyecto(idProyecto)){
+            listaErrores.add("El proyecto ya no tiene cupo disponible.");
             
-                throw new ReglaDeNegocioExcepcion("El proyecto ya no tiene cupo disponible");
-                
-            }
+        } else if (!proyectoDAO.asignarProyecto(idProyecto, idUsuario)) {
             
-            if(!proyectoDAO.asignarProyecto(idProyecto, idUsuario)) {
-                throw new ReglaDeNegocioExcepcion("No es posible asignar el proyecto, intentelo de nuevo.");
-            }
+            listaErrores.add("No es posible asignar el proyecto, intentelo de nuevo.");
             
-        } catch (OperacionesDeDaoExcepcion e) {
-
-            throw new ReglaDeNegocioExcepcion("No se pudo asignar el proyecto");
         }
+        
+        return listaErrores;
         
     }
     

@@ -19,9 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.gestores.GestorActividades;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.formatofechas.ConvertidorFechaHoraLocal;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
@@ -74,13 +74,13 @@ public class ControladorListaActividades {
         try{
             
             GestorActividades gestorActividades = new GestorActividades();
-            List<Actividad> actividades = gestorActividades.recuperarActividadesAsignadas();
+            List<Actividad> actividades = gestorActividades.consultarActividadesAsignadas();
 
             tblListaActividades.getItems().clear();
 
             tblListaActividades.setItems(FXCollections.observableArrayList(actividades));
 
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
 
             VentanaMensaje.mostrarVentanaMensaje( Alert.AlertType.ERROR, "Error al recuperar actividades",
             "Hubo un error al recuperar las actividades");

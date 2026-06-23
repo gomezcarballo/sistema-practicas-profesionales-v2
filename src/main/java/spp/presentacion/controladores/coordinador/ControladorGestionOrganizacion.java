@@ -4,6 +4,7 @@
  */
 package spp.presentacion.controladores.coordinador;
 
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,8 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.Organizacion;
 import spp.logicadenegocio.gestores.GestorOrganizaciones;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -65,51 +66,47 @@ public class ControladorGestionOrganizacion {
     }
     
     @FXML
-    private void leerDatosDeOrganizacion(ActionEvent evento){
-        
+    private void leerDatosDeOrganizacion(ActionEvent evento) {
         if (!camposValidos()) {
-            
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos.");
             return; 
-    
         }
     
         if (organizacion == null) {
-            
             organizacion = new Organizacion();
-            
         }
 
         boolean esActualizacion = (organizacion.getIdOrganizacion() > 0);
         boolean necesitaGuardar = true;
 
         if (esActualizacion && !huboCambios()) {
-            
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
             "No se detectaron modificaciones en los datos de la organización.");
             necesitaGuardar = false; 
-            
         }
 
         if (necesitaGuardar) {
-            
             mapearDatosAOrganizacion(organizacion); 
 
-            if (esActualizacion) {
-                actualizarOrganizacion(organizacion, evento);
-            } else {
-                registrarOrganizacion(organizacion, evento);
-            }
+            GestorOrganizaciones gestor = new GestorOrganizaciones();
+            List<String> listaErrores = gestor.validarCamposOrganizacion(organizacion);
             
+            if (listaErrores.isEmpty()) {
+                if (esActualizacion) {
+                    actualizarOrganizacion(organizacion, evento);
+                } else {
+                    registrarOrganizacion(organizacion, evento);
+                }
+            } else {
+                VentanaMensaje.mostrarVentanaErrores(listaErrores);
+            }
         }
-        
     }
     
-    @FXML 
-    private void registrarOrganizacion(Organizacion organizacion, ActionEvent evento){
-        
-        try{
+    private void registrarOrganizacion(Organizacion organizacion, ActionEvent evento) {
+       
+        try {
             
             GestorOrganizaciones gestor = new GestorOrganizaciones();
             gestor.ingresarOrganizacion(organizacion);
@@ -119,19 +116,17 @@ public class ControladorGestionOrganizacion {
             
             CerradorVentana.cerrarVentana(evento);
             
-        }catch(ReglaDeNegocioExcepcion e){
+        } catch (OperacionesDeDaoExcepcion e) {
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
-            e.getMessage());
-                        
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", "Ocurrió un error al registrar la organización. Intente más tarde.");                      
+        
         }
     }
     
-    @FXML
-    private void actualizarOrganizacion(Organizacion organizacion, ActionEvent evento){
-
-        try{
-
+    private void actualizarOrganizacion(Organizacion organizacion, ActionEvent evento) {
+        
+        try {
+           
             GestorOrganizaciones gestor = new GestorOrganizaciones();
             gestor.actualizarOrganizacion(organizacion);
 
@@ -140,15 +135,12 @@ public class ControladorGestionOrganizacion {
             
             CerradorVentana.cerrarVentana(evento);
 
-
-        }catch(ReglaDeNegocioExcepcion e){
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Actualización fallida",
-            e.getMessage());
+        } catch (OperacionesDeDaoExcepcion e) {
             
-
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Actualización fallida", "Ocurrió un error al actualizar la organización. Intente más tarde.");
+        
         }
-
+        
     }
     
     private void mapearDatosAOrganizacion(Organizacion organizacion) {

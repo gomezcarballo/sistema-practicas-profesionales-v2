@@ -4,13 +4,15 @@
  */
 package spp.presentacion.controladores.administrador;
 
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.gestores.GestorAdministradores;
 import spp.utilerias.cerradordesesion.CerradorSesion;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -54,37 +56,50 @@ public class ControladorRegistroNuevoAdministrador extends ControladorRegistroPe
         return administrador;
         
     }
-     
-    private void registrarAdministrador(Administrador administrador, ActionEvent evento){
+    
+    private boolean validarAdministrador(Administrador administrador) {
         
-        try{
-            
-            boolean continuarRegistro = confirmarReemplazoAdministrador();
-            
-            if(continuarRegistro){
-            
-                ingresarAdministrador(administrador, evento);
-            
-            }
-            
-        }catch(ReglaDeNegocioExcepcion e){
-            
-            mostrarMensajeErrorRegistro(e.getMessage());
-                        
+        boolean esValido = false;
+        
+        GestorAdministradores gestor = new GestorAdministradores();
+        
+        List<String> listaErrores = gestor.validarCamposAdministrador(administrador);
+        
+        if (listaErrores.isEmpty()) {
+            esValido = true;
+        } else {
+            VentanaMensaje.mostrarVentanaErrores(listaErrores);
         }
         
+        return esValido;
     }
     
-    private void ingresarAdministrador(Administrador administrador, ActionEvent evento) throws ReglaDeNegocioExcepcion{
+    private void registrarAdministrador(Administrador administrador, ActionEvent evento) {
         
-        GestorAdministradores gestorAdministradores = new GestorAdministradores();
-        gestorAdministradores.reemplazarAdministrador(administrador);
+        try {
+            
+            if (validarAdministrador(administrador)) {
+                
+                boolean continuarRegistro = confirmarReemplazoAdministrador();
+                
+                if (continuarRegistro) {
+                    
+                    GestorAdministradores gestorAdministradores = new GestorAdministradores();
+                    gestorAdministradores.reemplazarAdministrador(administrador);
+
+                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+                    "Administrador registrado exitosamente");
+
+                    CerradorSesion.cerrarSesion(evento);
+                
+                }
+            
+            }
+        } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
+           
+            mostrarMensajeErrorRegistro(e.getMessage());                        
         
-        VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
-        "Administrador registrado exitosamente");
-        
-        CerradorSesion.cerrarSesion(evento);
-        
+        }
     }
     
     private boolean confirmarReemplazoAdministrador(){

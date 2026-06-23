@@ -12,9 +12,9 @@ import javafx.scene.control.TextField;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.gestores.GestorPerfilUsuario;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -73,7 +73,7 @@ public class ControladorPerfilUsuario {
 
             mostrarDatosUsuario();
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al cargar perfil",
             e.getMessage());

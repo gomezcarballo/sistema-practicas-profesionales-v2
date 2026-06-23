@@ -24,9 +24,9 @@ import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
 import spp.presentacion.controladores.coordinador.ControladorBaseListaProyectos;
 import spp.presentacion.controladores.coordinador.ControladorDetalleProyecto;
 import spp.utilerias.bitacora.RegistroErrores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.selecciones.seleccionproyecto.SeleccionProyecto;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
@@ -36,25 +36,26 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
  */
 public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos{
     
+    private final int CANTIDAD_MAXIMA_SOLICITUDES = 3;
+
     @FXML
     private Button btnSolicitarProyectos;
-    
+
     @FXML
     private TableColumn<Proyecto, Boolean> colSeleccionar;  
 
     @FXML
     private TableColumn<Proyecto, String> colNombreOrganizacion;
-    
+
     private GestorProyectos gestorProyectos;
-    
+
     private GestorSolicitudesProyectos gestorSolicitudes;
-        
+
     @FXML
     @Override
     public void initialize() {
         
         gestorProyectos = new GestorProyectos();
-        
         gestorSolicitudes = new GestorSolicitudesProyectos();
         
         super.initialize();
@@ -62,28 +63,27 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         tblListaProyectos.setEditable(true);
         
         cargarProyectos();
-        
         aplicarRestriccionDeSolicitudes();
         
     }
-    
+
     private void aplicarRestriccionDeSolicitudes() {
         
         try {
             
             int idUsuarioActual = SesionUsuario.getInstancia().getIdUsuario();
             int cantidadSolicitudes = gestorSolicitudes.contarSolicitudesPorPracticante(idUsuarioActual);
-            int cantidadMaxima = 3;
-            if (cantidadSolicitudes >= cantidadMaxima) {
+            
+            if (cantidadSolicitudes >= CANTIDAD_MAXIMA_SOLICITUDES) {
                 
                 btnSolicitarProyectos.setDisable(true);
                 
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Límite de solicitudes", 
-                "Has alcanzado el límite máximo de 3 solicitudes activas. El botón ha sido deshabilitado.");
+                "Has alcanzado el límite máximo de " + CANTIDAD_MAXIMA_SOLICITUDES + " solicitudes activas. El botón ha sido deshabilitado.");
                 
             }
             
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
             
             btnSolicitarProyectos.setDisable(true);
             
@@ -94,28 +94,24 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         }
         
     }
-    
-    
-    @Override
-    protected void  configurarColumnasEspecificas(){
-        
 
+    @Override
+    protected void  configurarColumnasEspecificas() {
+        
         colNombreOrganizacion.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
         
         colSeleccionar.setCellValueFactory(new SeleccionProyecto());
-
         colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
-        
         colSeleccionar.setEditable(true);
         
     }
-    
+
     @FXML
-    private void abrirDetalleProyecto(ActionEvent evento){
+    private void abrirDetalleProyecto(ActionEvent evento) {
 
         Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
 
-         if (proyectoSeleccionado != null) {
+        if (proyectoSeleccionado != null) {
         
             FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaDetalleProyecto.fxml",
             "Detalle Proyecto");
@@ -123,7 +119,6 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
             if (cargador != null) {
 
                 ControladorDetalleProyecto controlador = cargador.getController();
-
                 controlador.cargarProyecto(proyectoSeleccionado);
 
             }
@@ -131,24 +126,23 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         }
 
     }
-    
-    private void cargarProyectos(){
+
+    private void cargarProyectos() {
         
-        try{           
+        try {            
             
-            ObservableList<Proyecto> proyectos = FXCollections.observableArrayList
-            (gestorProyectos.recuperarProyectosActivos());
-            
+            ObservableList<Proyecto> proyectos = FXCollections.observableArrayList(gestorProyectos.recuperarProyectosActivos());
             tblListaProyectos.setItems(proyectos);
                         
-        }catch(ReglaDeNegocioExcepcion e){
+        } catch (OperacionesDeDaoExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar Proyectos", 
             "Hubo un error al recuperar los Proyectos. Intente más tarde");
 
         }
+        
     }
-    
+
     @FXML
     private void solicitarProyectos(ActionEvent evento) {
 
@@ -156,43 +150,54 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         registrarSolicitudesSeleccionadas(proyectosSeleccionados, evento);
 
     }
-    
+
     private List<Proyecto> obtenerProyectosSeleccionados() {
 
         List<Proyecto> proyectosSeleccionados = new ArrayList<>();
 
-        for(Proyecto proyecto : tblListaProyectos.getItems()) {
+        for (Proyecto proyecto : tblListaProyectos.getItems()) {
 
-            if(proyecto.getEsSeleccionado()) {
+            if (proyecto.getEsSeleccionado()) {
 
                 proyectosSeleccionados.add(proyecto);
+                
             }
+            
         }
 
         return proyectosSeleccionados;
+        
     }
-    
-    
+
     private void registrarSolicitudesSeleccionadas(List<Proyecto> proyectosSeleccionados, ActionEvent evento) {
 
         try {
                      
-            gestorSolicitudes.registrarSolicitudes(proyectosSeleccionados);
+            List<String> errores = gestorSolicitudes.registrarSolicitudes(proyectosSeleccionados);
             
-            eliminarProyectosDeLaTabla(proyectosSeleccionados);
-            
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
-            "Las solicitudes se registraron correctamente");
-            
-            irAlMenu(evento);
+            if (errores.isEmpty()) {
+                
+                eliminarProyectosDeLaTabla(proyectosSeleccionados);
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Solicitudes registradas",
+                "Las solicitudes se registraron correctamente");
+                
+                irAlMenu(evento);
+                
+            } else {
+                
+                VentanaMensaje.mostrarVentanaErrores(errores);
+                
+            }
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
 
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", "Ocurrió un error en la base de datos al registrar las solicitudes.");
             
         }
+        
     }
-    
+
     private void eliminarProyectosDeLaTabla(List<Proyecto> proyectosEliminados) {
         
         ObservableList<Proyecto> listaMaestra = tblListaProyectos.getItems();
@@ -200,7 +205,6 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         for (int i = 0; i < proyectosEliminados.size(); i++) {
             
             Proyecto proyectoParaEliminar = proyectosEliminados.get(i);
-            
             listaMaestra.remove(proyectoParaEliminar);
             
         }
@@ -208,9 +212,8 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         tblListaProyectos.refresh();
         
     }
-    
-    
-    private void irAlMenu(ActionEvent evento){
+
+    private void irAlMenu(ActionEvent evento) {
         
         CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalPracticante.fxml",
         "Menú Principal para Practicante");
@@ -218,7 +221,7 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         CerradorVentana.cerrarVentana(evento);
         
     }
-    
+
     @FXML
     public void cancelar(ActionEvent evento) {
         

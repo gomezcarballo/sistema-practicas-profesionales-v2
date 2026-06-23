@@ -17,9 +17,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.gestores.GestorCoordinadores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -76,7 +77,7 @@ public class ControladorReactivacionCoordinador {
 
             tblCoordinadoresInactivos.setItems(FXCollections.observableArrayList(coordinadores));
 
-        }catch(ReglaDeNegocioExcepcion e){
+        }catch(OperacionesDeDaoExcepcion e){
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR,"Error",e.getMessage());
 
@@ -137,7 +138,7 @@ public class ControladorReactivacionCoordinador {
                 
             }
 
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Reactivación fallida", e.getMessage());
             

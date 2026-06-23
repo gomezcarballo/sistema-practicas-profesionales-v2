@@ -4,8 +4,9 @@
  */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
+import java.util.ArrayList;
+import java.util.List;
 import spp.logicadenegocio.clasesdto.Proyecto;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
@@ -13,12 +14,15 @@ import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
  */
 public class ValidacionProyecto {
     
-    public void sonCamposValidosPorReglaNegocio(Proyecto proyecto) throws ReglaDeNegocioExcepcion{
+    private final int LONGITUD_MAXIMA_OBJETIVO_GENERAL = 300;
+    private final int LONGITUD_MAXIMA_METODOLOGIA = 200;      
+    private final int LONGITUD_MAXIMA_CONTACTO_RESPONSABLE = 50;
+    private final int CANTIDAD_MAXIMA_CUPO = 50;
+    
+    public List<String> validarRegistroProyecto(Proyecto proyecto) {
         
-        int longitudMaximaObjetivoGeneral = 300;
-        int longitudMaximaMetodologia = 200;      
-        int longitudMaximaContactoResponsable = 50;
-        int cantidadMaximaCupo = 50;
+        List<String> listaValidaciones = new ArrayList<>();
+        ValidacionDatos validacionDatos = new ValidacionDatos();
                 
         String nombre = proyecto.getNombre();
         String nombreResponsable = proyecto.getNombreResponsable();
@@ -27,39 +31,85 @@ public class ValidacionProyecto {
         String metodologia = proyecto.getMetodologia();
         int cupoMaximo = proyecto.getCupoMaximo();
         
-        ValidacionDatos validacionDatos = new ValidacionDatos();
-        
-        validacionDatos.validarNombre(nombre);
-        
-        validacionDatos.validarNombre(nombreResponsable);
-        
-        if(objetivoGeneral.length() > longitudMaximaObjetivoGeneral){
-            
-            throw new ReglaDeNegocioExcepcion("El objetivo general excede la longitud maxima de " + 
-            longitudMaximaObjetivoGeneral + " caracteres");
-            
-        }   
-        
-        if(metodologia.length() > longitudMaximaMetodologia){
-            
-            throw new ReglaDeNegocioExcepcion("La metodología excede la longitud maxima de " + 
-            longitudMaximaMetodologia + " caracteres");
-            
+        if (!validacionDatos.esFormatoSoloLetrasValido(nombre)) {
+            listaValidaciones.add("El nombre del proyecto solo debe contener letras.");
+        } else if (!validacionDatos.esLongitudNombreValida(nombre)) {
+            listaValidaciones.add("El nombre del proyecto excede la longitud maxima de " + 
+            validacionDatos.LONGITUD_MAXIMA_NOMBRE + " caracteres");
         }
         
-        if(contactoResponsable.length() > longitudMaximaContactoResponsable){
-            
-            throw new ReglaDeNegocioExcepcion("El contacto del responsable excede la longitud maxima de " + 
-            longitudMaximaContactoResponsable + " caracteres");
-            
+        if (!validacionDatos.esFormatoSoloLetrasValido(nombreResponsable)) {
+            listaValidaciones.add("El nombre del responsable solo debe contener letras.");
+        } else if (!validacionDatos.esLongitudNombreValida(nombreResponsable)) {
+            listaValidaciones.add("El nombre del responsable excede la longitud maxima de " + 
+            validacionDatos.LONGITUD_MAXIMA_NOMBRE + " caracteres");
         }
         
-        if(cupoMaximo >= cantidadMaximaCupo){
-            
-            throw new ReglaDeNegocioExcepcion("El cupo excede el numero maximo de " + 
-            cantidadMaximaCupo + " lugares permitidos");
-            
+        if (!esObjetivoGeneralValido(objetivoGeneral)) {
+            listaValidaciones.add("El objetivo general excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_OBJETIVO_GENERAL + " caracteres");
         }
         
+        if (!esMetodologiaValida(metodologia)) {
+            listaValidaciones.add("La metodología excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_METODOLOGIA + " caracteres");
+        }
+        
+        if (!esContactoResponsableValido(contactoResponsable)) {
+            listaValidaciones.add("El contacto del responsable excede la longitud maxima de " + 
+            LONGITUD_MAXIMA_CONTACTO_RESPONSABLE + " caracteres");
+        }
+        
+        if (!esCupoMaximoValido(cupoMaximo)) {
+            listaValidaciones.add("El cupo excede el numero maximo de " + 
+            CANTIDAD_MAXIMA_CUPO + " lugares permitidos");
+        }
+        
+        return listaValidaciones;
     }
+    
+    public boolean esObjetivoGeneralValido(String objetivoGeneral) {
+        
+        boolean esValido = false;
+        
+        if (objetivoGeneral != null && objetivoGeneral.length() <= LONGITUD_MAXIMA_OBJETIVO_GENERAL) {
+            esValido = true;
+        }
+        
+        return esValido;
+    }
+    
+    public boolean esMetodologiaValida(String metodologia) {
+        
+        boolean esValido = false;
+        
+        if (metodologia != null && metodologia.length() <= LONGITUD_MAXIMA_METODOLOGIA) {
+            esValido = true;
+        }
+        
+        return esValido;
+    }
+    
+    public boolean esContactoResponsableValido(String contactoResponsable) {
+        
+        boolean esValido = false;
+        
+        if (contactoResponsable != null && contactoResponsable.length() <= LONGITUD_MAXIMA_CONTACTO_RESPONSABLE) {
+            esValido = true;
+        }
+        
+        return esValido;
+    }
+    
+    public boolean esCupoMaximoValido(int cupoMaximo) {
+        
+        boolean esValido = false;
+        
+        if (cupoMaximo < CANTIDAD_MAXIMA_CUPO) {
+            esValido = true;
+        }
+        
+        return esValido;
+    }
+        
 }

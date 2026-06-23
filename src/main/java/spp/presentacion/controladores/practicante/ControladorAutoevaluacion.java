@@ -4,6 +4,7 @@
  */
 package spp.presentacion.controladores.practicante;
 
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -38,103 +39,110 @@ public class ControladorAutoevaluacion {
     
     @FXML
     public void validarNumeros(KeyEvent evento) {
-        
         TextField campoTexto = (TextField) evento.getSource();
         ValidadorEnteros.validarSoloNumeros(campoTexto);
-        
     }
     
     @FXML
-    public void leerDatosDeAutoevaluacion(ActionEvent evento){
+    public void leerDatosDeAutoevaluacion(ActionEvent evento) {
         
-        if(sonCamposDeAutoevaluacionValidos()){
-            try{
-                
+        if (sonCamposDeAutoevaluacionValidos()) {
             
-                Autoevaluacion autoevaluacion = crearAutoevaluacion();
+            Autoevaluacion autoevaluacion = crearAutoevaluacion();
+            
+            if (autoevaluacion != null) {
+                
                 ValidacionAutoevaluacion validacionAutoevaluacion = new ValidacionAutoevaluacion();
+                List<String> errores = validacionAutoevaluacion.validarValoresAutoevaluacion(autoevaluacion);
 
-                if(validacionAutoevaluacion.sonValoresValidos(autoevaluacion)){
-
+                if (errores.isEmpty()) {
+                    
                     int puntuacionTotal = validacionAutoevaluacion.calcularPuntuacionFinal(autoevaluacion);
                     autoevaluacion.setPuntuacionFinal(puntuacionTotal);
 
                     guardarAutoevaluacion(autoevaluacion, evento);
-
-                }else{
-
-                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Valores fuera de rango", 
-                    "Asegúrese de que todas las calificaciones estén entre 1 y 5.");
-
+                    
+                } else {
+                    
+                    VentanaMensaje.mostrarVentanaErrores(errores);
+                    
                 }
-             
-            }catch (NumberFormatException e) {
+                
+            } else {
                 
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Valor incorrecto", 
-                "El número ingresado no es válido. Recuerde usar solo calificaciones entre 1 y 5.");
+                "Asegúrese de ingresar números enteros válidos en todos los campos.");
                 
             }
             
-        }else{
+        } else {
             
             mostrarMensajeCamposFaltantes();
             
         }
         
-        
     }
     
     @FXML
-    public boolean sonCamposDeAutoevaluacionValidos(){
+    public boolean sonCamposDeAutoevaluacionValidos() {
         
         boolean sonCamposValidos = true;
         
-        if(txtValorPrimeraAfirmacion.getText().isBlank() || txtValorSegundaAfirmacion.getText().isBlank() ||
-           txtValorTerceraAfirmacion.getText().isBlank() || txtValorCuartaAfirmacion.getText().isBlank() ||
-           txtValorQuintaAfirmacion.getText().isBlank() || txtValorSextaAfirmacion.getText().isBlank() ||
-           txtValorSeptimaAfirmacion.getText().isBlank() || txtValorOctavaAfirmacion.getText().isBlank() ||
-           txtValorNovenaAfirmacion.getText().isBlank() || txtValorDecimaAfirmacion.getText().isBlank()){
+        if (txtValorPrimeraAfirmacion.getText().isBlank() || txtValorSegundaAfirmacion.getText().isBlank() ||
+            txtValorTerceraAfirmacion.getText().isBlank() || txtValorCuartaAfirmacion.getText().isBlank() ||
+            txtValorQuintaAfirmacion.getText().isBlank() || txtValorSextaAfirmacion.getText().isBlank() ||
+            txtValorSeptimaAfirmacion.getText().isBlank() || txtValorOctavaAfirmacion.getText().isBlank() ||
+            txtValorNovenaAfirmacion.getText().isBlank() || txtValorDecimaAfirmacion.getText().isBlank()) {
         
             sonCamposValidos = false;
             
         }
+        
         return sonCamposValidos;
         
     }
     
-    private Autoevaluacion crearAutoevaluacion(){
+    private Autoevaluacion crearAutoevaluacion() {
         
         Autoevaluacion autoevaluacion = new Autoevaluacion();
         
-        int primeraAfirmacion = Integer.parseInt(txtValorPrimeraAfirmacion.getText());
-        int segundaAfirmacion = Integer.parseInt(txtValorSegundaAfirmacion.getText());
-        int terceraAfirmacion = Integer.parseInt(txtValorTerceraAfirmacion.getText());
-        int cuartaAfirmacion = Integer.parseInt(txtValorCuartaAfirmacion.getText());
-        int quintaAfirmacion = Integer.parseInt(txtValorQuintaAfirmacion.getText());
-        int sextaAfirmacion = Integer.parseInt(txtValorSextaAfirmacion.getText());
-        int septimaAfirmacion = Integer.parseInt(txtValorSeptimaAfirmacion.getText());
-        int octavaAfirmacion = Integer.parseInt(txtValorOctavaAfirmacion.getText());
-        int novenaAfirmacion = Integer.parseInt(txtValorNovenaAfirmacion.getText());
-        int decimaAfirmacion = Integer.parseInt(txtValorDecimaAfirmacion.getText());
-        
-        autoevaluacion.setValorPrimeraAfirmacion(primeraAfirmacion);
-        autoevaluacion.setValorSegundaAfirmacion(segundaAfirmacion);
-        autoevaluacion.setValorTerceraAfirmacion(terceraAfirmacion);
-        autoevaluacion.setValorCuartaAfirmacion(cuartaAfirmacion);
-        autoevaluacion.setValorQuintaAfirmacion(quintaAfirmacion);
-        autoevaluacion.setValorSextaAfirmacion(sextaAfirmacion);
-        autoevaluacion.setValorSeptimaAfirmacion(septimaAfirmacion);
-        autoevaluacion.setValorOctavaAfirmacion(octavaAfirmacion);
-        autoevaluacion.setValorNovenaAfirmacion(novenaAfirmacion);
-        autoevaluacion.setValorDecimaAfirmacion(decimaAfirmacion);
+        try {
+            
+            int primeraAfirmacion = Integer.parseInt(txtValorPrimeraAfirmacion.getText().trim());
+            int segundaAfirmacion = Integer.parseInt(txtValorSegundaAfirmacion.getText().trim());
+            int terceraAfirmacion = Integer.parseInt(txtValorTerceraAfirmacion.getText().trim());
+            int cuartaAfirmacion = Integer.parseInt(txtValorCuartaAfirmacion.getText().trim());
+            int quintaAfirmacion = Integer.parseInt(txtValorQuintaAfirmacion.getText().trim());
+            int sextaAfirmacion = Integer.parseInt(txtValorSextaAfirmacion.getText().trim());
+            int septimaAfirmacion = Integer.parseInt(txtValorSeptimaAfirmacion.getText().trim());
+            int octavaAfirmacion = Integer.parseInt(txtValorOctavaAfirmacion.getText().trim());
+            int novenaAfirmacion = Integer.parseInt(txtValorNovenaAfirmacion.getText().trim());
+            int decimaAfirmacion = Integer.parseInt(txtValorDecimaAfirmacion.getText().trim());
+            
+            autoevaluacion.setValorPrimeraAfirmacion(primeraAfirmacion);
+            autoevaluacion.setValorSegundaAfirmacion(segundaAfirmacion);
+            autoevaluacion.setValorTerceraAfirmacion(terceraAfirmacion);
+            autoevaluacion.setValorCuartaAfirmacion(cuartaAfirmacion);
+            autoevaluacion.setValorQuintaAfirmacion(quintaAfirmacion);
+            autoevaluacion.setValorSextaAfirmacion(sextaAfirmacion);
+            autoevaluacion.setValorSeptimaAfirmacion(septimaAfirmacion);
+            autoevaluacion.setValorOctavaAfirmacion(octavaAfirmacion);
+            autoevaluacion.setValorNovenaAfirmacion(novenaAfirmacion);
+            autoevaluacion.setValorDecimaAfirmacion(decimaAfirmacion);
+            
+        } catch (NumberFormatException e) {
+            
+            autoevaluacion = null;
+            
+        }
         
         return autoevaluacion;
         
     }
     
-    private void guardarAutoevaluacion(Autoevaluacion autoevaluacion, ActionEvent evento){
+    private void guardarAutoevaluacion(Autoevaluacion autoevaluacion, ActionEvent evento) {
         
-        try{
+        try {
             
             GestorAutoevaluacion gestor = new GestorAutoevaluacion();
             gestor.generarAutoevaluacion(autoevaluacion);
@@ -144,7 +152,7 @@ public class ControladorAutoevaluacion {
             
             regresar(evento);
             
-        }catch(OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e){
+        } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al generar autoevaluación", 
             e.getMessage());
@@ -158,14 +166,15 @@ public class ControladorAutoevaluacion {
         
         CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", 
         "Generar Evidencias de Practicas");
+        
         CerradorVentana.cerrarVentana(evento);
         
     }
     
-    private void mostrarMensajeCamposFaltantes(){
+    private void mostrarMensajeCamposFaltantes() {
         
         VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
-        "Faltan datos por agregar. Por favor ingrese todos los campos requeridos.");           
+        "Faltan datos por agregar. Por favor ingrese todos los campos requeridos.");            
         
     }
     

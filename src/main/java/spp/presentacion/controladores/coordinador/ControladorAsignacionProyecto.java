@@ -19,9 +19,9 @@ import spp.logicadenegocio.gestores.GestorAsignacionProyectos;
 import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.logicadenegocio.gestores.GestorSolicitudesProyectos;
 import spp.utilerias.bitacora.RegistroErrores;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
@@ -30,10 +30,9 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
  */
 public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos{
     
-    @FXML
+    @FXML 
     private Button btnAsignar;
-    
-    @FXML
+    @FXML 
     private TableColumn<Proyecto, String> colNombreResponsable;
     
     private GestorSolicitudesProyectos gestorSolicitudes;
@@ -42,14 +41,12 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
     
     private Practicante practicante;
     
-    public void inicializarDatos(Practicante practicante){
-
+    public void inicializarDatos(Practicante practicante) {
+        
         this.practicante = practicante;
-        
         cargarProyectosSolicitados();
-        
         verificarEstadoPracticante();
-
+    
     }
     
     @FXML
@@ -57,37 +54,35 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
     public void initialize() {
         
         gestorSolicitudes = new GestorSolicitudesProyectos();
-        
         gestorAsignacionProyecto = new GestorAsignacionProyectos();
 
         super.initialize();
         
         tblListaProyectos.setEditable(true);
-        
+    
     }
     
     @Override
-    protected void  configurarColumnasEspecificas(){
-        
+    protected void configurarColumnasEspecificas() {
+       
         colNombreResponsable.setCellValueFactory(new PropertyValueFactory<>("nombreResponsable"));
-        
+   
     }
     
-    private void cargarProyectosSolicitados(){
+    private void cargarProyectosSolicitados() {
         
-        try{
-                        
+        try {
+           
             List<Proyecto> lista = gestorSolicitudes.recuperarProyectosSolicitados(practicante.getIdUsuario());
-
             tblListaProyectos.setItems(FXCollections.observableArrayList(lista));
             
-        }catch(ReglaDeNegocioExcepcion e){
+        } catch (OperacionesDeDaoExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar Proyectos", 
             "Hubo un error al recuperar los Proyectos solicitados. Intente más tarde");
-
-        }
         
+        }
+   
     } 
     
     private void verificarEstadoPracticante() {
@@ -102,83 +97,76 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
                 btnAsignar.setDisable(true);
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Practicante asignado", 
                 "Este practicante ya tiene un proyecto asignado. Solo modo lectura.");
-                
+            
             }
             
-        } catch (ReglaDeNegocioExcepcion e) {
-            
+        } catch (OperacionesDeDaoExcepcion e) {
             RegistroErrores.registrarError(Level.WARNING, "Fallo al verificar estado previo del practicante", e);
-            
         }
         
     }
     
     @FXML
     private void asignarProyecto(ActionEvent evento) {
-
+        
         Proyecto proyectoSeleccionado = obtenerProyectoSeleccionado();
         
-        if(proyectoSeleccionado == null) {
-
+        if (proyectoSeleccionado != null) {
             validarYRegistrarAsignacion(proyectoSeleccionado, evento);
-
         }
         
-        registrarAsignacionProyecto(proyectoSeleccionado, evento);
-
     }
     
     private void validarYRegistrarAsignacion(Proyecto proyectoSeleccionado, ActionEvent evento) {
-        
+       
         try {
-            
+           
             GestorPracticantes gestorPracticantes = new GestorPracticantes();
             boolean yaTieneProyecto = gestorPracticantes.verificarAsignacionProyecto(practicante.getIdUsuario());
             
             if (yaTieneProyecto) {
-                
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Asignación bloqueada", 
                 "El registro no procede: Este practicante ya cuenta con un proyecto activo asignado.");
-                
             } else {
-                
                 registrarAsignacionProyecto(proyectoSeleccionado, evento);
-                
             }
             
-        } catch (ReglaDeNegocioExcepcion e) {
+        } catch (OperacionesDeDaoExcepcion e) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error de validación", 
             "No se pudo verificar el estado actual del practicante.");
-            
-        }
         
+        }
     }
     
     private void registrarAsignacionProyecto(Proyecto proyectoSeleccionado, ActionEvent evento) {
-
+       
         try {
+           
+            List<String> errores = gestorAsignacionProyecto.asignarProyecto(proyectoSeleccionado.getIdProyecto()
+            , practicante.getIdUsuario());
+
+            if (errores.isEmpty()) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
+                "El proyecto fue asignado correctamente");
+                
+                regresar(evento);
             
-            gestorAsignacionProyecto.asignarProyecto(proyectoSeleccionado.getIdProyecto(), practicante.getIdUsuario());
+            } else {
+                VentanaMensaje.mostrarVentanaErrores(errores);
+            }
 
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
-            "El proyecto fue asignado correctamente");
-            
-            regresar(evento);
-
-        } catch (ReglaDeNegocioExcepcion e) {
-
+        } catch (OperacionesDeDaoExcepcion e) {
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
-
         }
+        
     }
     
     @FXML
     public void regresar(ActionEvent evento) {
-        
         CargadorVentana.cargarVentana("/fxml/VistaSolicitudesPracticantes.fxml", "Solicitudes de Proyectos");
         CerradorVentana.cerrarVentana(evento);
-        
     }
     
 }
