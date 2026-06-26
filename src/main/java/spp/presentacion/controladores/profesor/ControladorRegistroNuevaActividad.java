@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.presentacion.controladores.profesor;
 
 import java.time.LocalDate;
@@ -124,6 +120,7 @@ public class ControladorRegistroNuevaActividad {
     private void registrarActividad(Actividad actividad, ActionEvent evento) {
         
         try {
+            
             GestorActividades gestor = new GestorActividades();
            
             if (validarActividad(actividad)) {
@@ -135,6 +132,7 @@ public class ControladorRegistroNuevaActividad {
                 regresar(evento);
             }
         } catch (OperacionesDeDaoExcepcion e) {
+
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", e.getMessage());
         }
         

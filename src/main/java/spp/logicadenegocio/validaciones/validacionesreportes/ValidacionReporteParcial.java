@@ -1,75 +1,134 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.validaciones.validacionesreportes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import spp.logicadenegocio.clasesdto.ActividadReporteParcial;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 
 /**
  *
  * @author gomes
  */
 public class ValidacionReporteParcial {
+
+    private final int MAX_CARACTERES_DESCRIPCION = 250;
+    private final int TAMAÑO_REQUERIDO_SEMANAS = 8; 
+    private final int MAX_CARACTERES_RESULTADO  = 1000; 
+    private final int MAX_CARACTESRES_OBSERVACIONES = 1000;
+    private final int MAX_CARACTERES_PERIODO = 20;
     
-    public void validarTamañoActividad(ActividadReporteParcial actividad) throws ReglaDeNegocioExcepcion {
+    public List<String> validarTamañoActividad(ActividadReporteParcial actividad){
         
-        int maximoCaracteresDescripcion = 250;
-        
-        if (actividad.getDescripcion() != null && actividad.getDescripcion().length() > maximoCaracteresDescripcion) {
+        List<String> listaValidaciones = new ArrayList<>();
+        String mensajeAlerta;
+        String descripcion = actividad.getDescripcion();
+        int tiempoPlaneado = actividad.getHorasPlaneadas();
+        int tiempoReal = actividad.getHorasReales();
+
+        if (!esDescripcionValida(descripcion)) {
             
-            throw new ReglaDeNegocioExcepcion("La descripción de la actividad excede el tamaño máximo permitido de " 
-            + maximoCaracteresDescripcion + " caracteres.");
-            
+            mensajeAlerta = "La descripción excede de " + MAX_CARACTERES_DESCRIPCION + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
+
         }
 
-        int tamanoRequeridoSemanas = 8;
+        if(!esTiempoValido(tiempoPlaneado)){
+
+            mensajeAlerta = "El tiempo planeado es de " + MAX_CARACTERES_DESCRIPCION + " horas maximas";
+            listaValidaciones.add(mensajeAlerta);
+
+        }
         
-        if (actividad.getSemanasPlan() == null || actividad.getSemanasPlan().length < tamanoRequeridoSemanas) {
+        if(!esTiempoValido(tiempoReal)){
             
-            throw new ReglaDeNegocioExcepcion("El sistema detectó un error en la estructura de semanas planeadas. " 
-            + "Contacte a profesor.");
-            
+            mensajeAlerta = "El tiempo real es de " + MAX_CARACTERES_DESCRIPCION + " horas maximas";
+            listaValidaciones.add(mensajeAlerta);
+        
+        }
+        
+        return listaValidaciones;
+    }
+    
+    private boolean esDescripcionValida(String descripcion){
+
+        boolean esDescripcionValida = false;
+
+        if (descripcion != null && !descripcion.isBlank() && descripcion.length() <= MAX_CARACTERES_DESCRIPCION) {
+            esDescripcionValida = true;
         }
 
-        if (actividad.getSemanasReal() == null || actividad.getSemanasReal().length < tamanoRequeridoSemanas) {
-            
-            throw new ReglaDeNegocioExcepcion("El sistema detectó un error en la estructura de semanas reales. " 
-            + "Contacte a su profesor.");
-            
-        }
-        
+        return esDescripcionValida;
     }
 
-    public void validarTamañoReporte(String periodo, String resultados, String observaciones) throws ReglaDeNegocioExcepcion {
+    private boolean esTiempoValido (int tiempo){
+
+        boolean esTiempoValido = false;
+
+        if(tiempo != 0 && tiempo <= TAMAÑO_REQUERIDO_SEMANAS){
+            esTiempoValido = true;
+        }
         
-        int maximoCaracteresPeriodo = 100;
-        
-        if (periodo != null && periodo.length() > maximoCaracteresPeriodo) {
-            
-            throw new ReglaDeNegocioExcepcion("El periodo excede el tamaño máximo permitido de " 
-            + maximoCaracteresPeriodo + " caracteres.");
-            
+        return esTiempoValido;
+
+    }
+    
+    private boolean esResultadoValido(String resultado){
+
+        boolean esResultadoValido = false;
+
+        if (resultado != null && !resultado.isBlank() && resultado.length() <= MAX_CARACTERES_RESULTADO) {
+            esResultadoValido = true;
         }
 
-        int maximoCaracteresResultados = 1000;
+        return esResultadoValido;
+    }
+
+    private boolean esPeriodoValido(String periodo){
         
-        if (resultados != null && resultados.length() > maximoCaracteresResultados) {
-            
-            throw new ReglaDeNegocioExcepcion("Los resultados exceden el tamaño máximo permitido de " 
-            + maximoCaracteresResultados + " caracteres.");
-            
+        boolean esResultadoValido = false; 
+        if(periodo != null && periodo.length() <= MAX_CARACTERES_PERIODO){
+            esResultadoValido = true; 
+        }
+        return esResultadoValido; 
+    }
+
+    private boolean esObservacionesValida(String observaciones){
+        
+        boolean esResultadoValido = false; 
+        if(observaciones != null && !observaciones.isBlank() && observaciones.length() <= MAX_CARACTESRES_OBSERVACIONES ){
+            esResultadoValido = true;
         }
 
-        int maximoCaracteresObservaciones = 1000;
+        return esResultadoValido;
+    }
+
+    public List<String> validarTamañoReporte(String periodo, String resultado, String observaciones) {
         
-        if (observaciones != null && observaciones.length() > maximoCaracteresObservaciones) {
-            
-            throw new ReglaDeNegocioExcepcion("Las observaciones exceden el tamaño máximo permitido de " 
-            + maximoCaracteresObservaciones + " caracteres.");
-            
+        List<String> listaValidaciones = new ArrayList<>();
+        String mensajeAlerta; 
+
+        if(!esPeriodoValido(periodo)){
+
+            mensajeAlerta = "El periodo  " + MAX_CARACTERES_PERIODO + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
+
         }
+
+        if (!esResultadoValido(resultado)) {
+            
+            mensajeAlerta = "El resultado excede de " + MAX_CARACTERES_RESULTADO + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
+
+        }
+
+        if(!esObservacionesValida(observaciones)){
+
+            mensajeAlerta = "Las observaciones excede de " + MAX_CARACTESRES_OBSERVACIONES + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
+
+        }
+
+        return listaValidaciones; 
         
     }
     

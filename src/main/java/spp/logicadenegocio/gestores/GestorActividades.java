@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.gestores;
 
 import java.util.ArrayList;
@@ -11,7 +7,7 @@ import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionActividad;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
-
+ 
 /**
  *
  * @author gomes
@@ -51,12 +47,15 @@ public class GestorActividades {
         
         SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
         
-        PracticaDAO actividadDAO = new PracticaDAO();
-        
         int idUsuario = sesionUsuario.getIdUsuario();
+
+        PracticaDAO actividadDAO = new PracticaDAO();
+
+        List<Actividad> listaActividadesAsignadas;
         
-        return actividadDAO.consultarActividadesAsignadas(idUsuario);
+        listaActividadesAsignadas = actividadDAO.consultarActividadesAsignadas(idUsuario);
         
+        return listaActividadesAsignadas;
     }
     
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.utilerias.ventanas.ventanademensajes;
 
 import java.util.List;
@@ -27,6 +23,7 @@ public class VentanaMensaje {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         return alerta;
+
     }
     
     public static void mostrarVentanaMensaje(AlertType tipo, String titulo, String mensaje) {

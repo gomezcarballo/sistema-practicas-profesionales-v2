@@ -1,71 +1,122 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.validaciones.validacionesreportes;
 
 import java.util.List;
 import spp.logicadenegocio.clasesdto.ActividadReporteFinal;
 import spp.logicadenegocio.clasesdto.ReporteFinal;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
-
+import java.util.ArrayList;
 /**
  *
  * @author gomes
  */
 public class ValidacionReporteFinal {
     
-    public void validarDatosReporte(ReporteFinal reporte) throws ReglaDeNegocioExcepcion {
-        
-        int maximoCaracteresObservacionesGenerales = 1000;
-        
-        if (reporte.getObservaciones() != null && reporte.getObservaciones().length() > maximoCaracteresObservacionesGenerales) {
-            
-            throw new ReglaDeNegocioExcepcion("Las observaciones generales exceden el tamaño máximo permitido de " 
-            + maximoCaracteresObservacionesGenerales + " caracteres.");
-            
+    private final int MAX_OBSERVACIONES_GENERALES = 1000;
+    private final int MAX_OBSERVACION_FILA = 500;
+    private final int MIN_PORCENTAJE_ACTIVIDAD = 0;
+    private final int MAX_PORCENTAJE_ACTIVIDAD = 100;
+
+    public List<String> validarReporteFinal(ReporteFinal reporte){
+
+        List<String> listaValidaciones = new ArrayList<>();
+        String mensajeAlerta;
+        String observaciones = reporte.getObservaciones();
+
+        if(!esTamañoObservacionesValido(observaciones)){
+            mensajeAlerta = "Las observaciones generales exceden de" + MAX_OBSERVACIONES_GENERALES + " caracteres";
+            listaValidaciones.add(mensajeAlerta);
         }
 
-        validarListaActividades(reporte.getActividades());
-        validarListaActividades(reporte.getEntregables());
-        
-    }
+        List<ActividadReporteFinal> entregables = reporte.getEntregables();
+        List<ActividadReporteFinal> actividades = reporte.getActividades();
 
-    private void validarListaActividades(List<ActividadReporteFinal> lista) throws ReglaDeNegocioExcepcion {
-        
-        int maximoCaracteresObservacionFila = 500;
+        if(!entregables.isEmpty()){
 
-        for (ActividadReporteFinal actividad : lista) {
-            
-            if (actividad.getObservaciones() != null && actividad.getObservaciones().length() > maximoCaracteresObservacionFila) {
+            for (ActividadReporteFinal entregable : entregables) {
                 
-                throw new ReglaDeNegocioExcepcion("La observación en la actividad '" 
-                + actividad.getNombreActividad() + "' excede el límite de " 
-                + maximoCaracteresObservacionFila + " caracteres.");
-                
-            }
-
-            try {
-                
-                int avance = Integer.parseInt(actividad.getPorcentajeAvance().trim());
-                
-                if (avance < 0 || avance > 100) {
-                    
-                    throw new ReglaDeNegocioExcepcion("El porcentaje de avance en la actividad '" 
-                    + actividad.getNombreActividad() + "' debe ser un valor entre 0 y 100.");
-                    
+                if(!esTamañoValidoObservacionesActividadValido(entregable)){
+                    mensajeAlerta = "Las observaciones de la actividad " + entregable.getNombreActividad() + " exceden de" + MAX_OBSERVACION_FILA + " caracteres";
+                    listaValidaciones.add(mensajeAlerta);
                 }
-                
-            } catch (NumberFormatException e) {
-                
-                throw new ReglaDeNegocioExcepcion("El porcentaje de avance en la actividad '" 
-                + actividad.getNombreActividad() + "' contiene texto o caracteres no válidos. "
-                + "Por favor, ingrese únicamente números.");
-                
+
+                if(!esPorcentajeValido(entregable)){
+                    mensajeAlerta = "El porcentaje de la " + entregable.getNombreActividad() + 
+                    "debe estar en el rango de" + MIN_PORCENTAJE_ACTIVIDAD + " y " + MAX_PORCENTAJE_ACTIVIDAD;
+                    listaValidaciones.add(mensajeAlerta);
+                }
+
             }
-            
+
+            for (ActividadReporteFinal actividad : actividades) {
+
+                if(!esTamañoValidoObservacionesActividadValido(actividad)){
+                    mensajeAlerta = "Las observaciones de la actividad " + actividad.getNombreActividad() +
+                    " exceden de" + MAX_OBSERVACION_FILA + " caracteres";
+                    listaValidaciones.add(mensajeAlerta);
+                }
+
+                if(!esPorcentajeValido(actividad)){
+                    mensajeAlerta = "El porcentaje de la " + actividad.getNombreActividad() + 
+                    "debe estar en el rango de" + MIN_PORCENTAJE_ACTIVIDAD + " y " + MAX_PORCENTAJE_ACTIVIDAD;
+                    listaValidaciones.add(mensajeAlerta);
+                }
+
+            }
+
         }
-        
+
+        return listaValidaciones;
+
     }
-    
+
+    public boolean esTamañoObservacionesValido(String observaciones) {
+        
+        boolean esTamañoValido = false; 
+        if (observaciones != null && !observaciones.isBlank() && observaciones.length() > MAX_OBSERVACIONES_GENERALES) {
+            esTamañoValido = true; 
+        }
+
+        return esTamañoValido; 
+    }
+
+    public boolean esTamañoValidoObservacionesActividadValido(ActividadReporteFinal actividad){
+        
+        boolean esTamañoValido = false; 
+        String observacionesActividad = actividad.getObservaciones();
+        if(observacionesActividad != null && !observacionesActividad.isBlank() && observacionesActividad.length() <= MAX_OBSERVACION_FILA){
+            esTamañoValido = true;
+        }
+        return esTamañoValido;
+    }
+
+    public boolean esPorcentajeValido(ActividadReporteFinal actividad){
+        
+        boolean esPorcentajeValido = false; 
+        String porcentajeTexto = actividad.getPorcentajeAvance();
+        String procentajeDigitos = porcentajeTexto.trim().replaceAll("[^0-9]","");
+        
+        if(!procentajeDigitos.isEmpty()){
+            
+            int porcentajeActividad;
+
+            try{
+
+                porcentajeActividad = Integer.parseInt(procentajeDigitos);
+                
+                if (porcentajeActividad > MIN_PORCENTAJE_ACTIVIDAD && porcentajeActividad < MAX_PORCENTAJE_ACTIVIDAD) {
+                    
+                    esPorcentajeValido = true;
+                
+                }
+
+            }catch(NumberFormatException e){
+
+                esPorcentajeValido = false;
+
+            }
+        }
+
+        return esPorcentajeValido; 
+
+    }
+
 }

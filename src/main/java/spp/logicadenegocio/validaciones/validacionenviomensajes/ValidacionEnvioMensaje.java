@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.validaciones.validacionenviomensajes;
 
 import java.util.ArrayList;
@@ -29,25 +25,36 @@ public class ValidacionEnvioMensaje {
         String mensajeAlerta;
 
         if(!esTamañoDestinatarioValido(destinatario)){
+
             mensajeAlerta = "El destinatario excede de " + MAXIMO_CARACTERES_DESTINATARIO + " caracteres";
             listaValidaciones.add(mensajeAlerta);
+
         }
 
         if(!esTamañoAsuntoValido(asunto)){
+
             mensajeAlerta = "El asunto excede el tamaño máximo de " + MAXIMO_CARACTERES_ASUNTO + " caracteres";
             listaValidaciones.add(mensajeAlerta);
+
         }
 
         if(!esTamañoCuerpoValido(cuerpo)){ 
+
             mensajeAlerta = "El cuerpo del mensaje excede de " + MAXIMO_CARACTERES_CUERPO + " caracteres";
             listaValidaciones.add(mensajeAlerta);
+
         }
         if(listaValidaciones.isEmpty()){
+
             if (!existeDestinatario(destinatario)) {
+                
                 mensajeAlerta =  "No se encontró el destinatario en el sistema."; 
                 listaValidaciones.add(mensajeAlerta);
+
             }
+
         }
+        
         return listaValidaciones;
 
     }
@@ -72,8 +79,8 @@ public class ValidacionEnvioMensaje {
         
         boolean esTamañoValido = false;
         
-        if ((!destinatario.isBlank()) && destinatario != null && destinatario.length() <= MAXIMO_CARACTERES_DESTINATARIO) {
-            esTamañoValido = true; 
+        if (destinatario != null && !destinatario.isBlank() && destinatario.length() <= MAXIMO_CARACTERES_DESTINATARIO) {
+            esTamañoValido = true;
         }
 
         return esTamañoValido;
@@ -83,7 +90,7 @@ public class ValidacionEnvioMensaje {
         
         boolean esTamañoValido = false;
         
-        if ((!asunto.isBlank()) && asunto != null && asunto.length() <= MAXIMO_CARACTERES_ASUNTO) {
+        if (asunto != null && !asunto.isBlank() && asunto.length() <= MAXIMO_CARACTERES_ASUNTO) {
             
             esTamañoValido = true;
             
@@ -97,7 +104,7 @@ public class ValidacionEnvioMensaje {
 
         boolean esTamañoValido = false;
         
-        if ((!cuerpoMensaje.isBlank()) && cuerpoMensaje != null && cuerpoMensaje.length() <= MAXIMO_CARACTERES_CUERPO) {
+        if (cuerpoMensaje != null && !cuerpoMensaje.isBlank() && cuerpoMensaje.length() <= MAXIMO_CARACTERES_CUERPO) {
             
             esTamañoValido = true;
 

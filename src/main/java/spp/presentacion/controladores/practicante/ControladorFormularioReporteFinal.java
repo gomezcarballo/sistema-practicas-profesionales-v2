@@ -1,7 +1,5 @@
 package spp.presentacion.controladores.practicante;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -27,7 +25,6 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.numerosentablas.FabricaCeldaNumerica;
 import spp.utilerias.selecciones.seleccionactividadentregable.SeleccionActividadEntregable;
 import spp.utilerias.selecciones.seleccionesreportefinal.EdicionAvanceListener;
@@ -95,17 +92,18 @@ public class ControladorFormularioReporteFinal {
 
     private void cargarActividades() {
         
-        try {
+        List<Actividad> actividadesAsignadas = new ArrayList<>();
+        actividadesAsignadas = recuperarActividades();
+
+        if(actividadesAsignadas != null){
             
-            GestorActividades gestorActividades = new GestorActividades();
-            List<Actividad> actividadesBD = gestorActividades.consultarActividadesAsignadas();
-
             List<ActividadReporteFinal> listaActividades = new ArrayList<>();
-
             String valorPredeterminadoAvance = "0";
             String valorPredeterminadoObservaciones = "Ninguna";
             boolean valorPredeterminadoEsEntregable = false;
-            for (Actividad actividad : actividadesBD) {
+
+            for (Actividad actividad : actividadesAsignadas) {
+
                 ActividadReporteFinal actFinal = new ActividadReporteFinal();
                 actFinal.setNombreActividad(actividad.getTitulo()); 
                 actFinal.setPorcentajeAvance(valorPredeterminadoAvance); 
@@ -117,50 +115,78 @@ public class ControladorFormularioReporteFinal {
 
             listaActividadesFinales = FXCollections.observableArrayList(listaActividades);
             tblActividades.setItems(listaActividadesFinales);
+        }
+        
+    }
+    
+    private List<Actividad> recuperarActividades(){
 
-        } catch (OperacionesDeDaoExcepcion e) {
+        GestorActividades gestorActividades = new GestorActividades();
+        
+        List<Actividad> actividadesAsignadas = null;
+
+        try{
+
+            actividadesAsignadas = gestorActividades.consultarActividadesAsignadas();
+            
+            if(actividadesAsignadas == null){
+
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "No existen actividades.",
+                "No hay Prácticas asignadas, por favor intenté de nuevo más tarde.");
+        
+            }
+            
+        }catch(OperacionesDeDaoExcepcion e){
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar actividades",
             "Hubo un error al recuperar las actividades de la base de datos.");
             
         }
+
+        return actividadesAsignadas;
+
+    }
+
+    private boolean validarCamposListaActividades(ReporteFinal reporte) {
         
+        boolean camposValidos = false;
+        List<String> listaValidaciones = new ArrayList<>();
+        ValidacionReporteFinal validacion = new ValidacionReporteFinal();
+        listaValidaciones = validacion.validarReporteFinal(reporte);
+
+        if(listaValidaciones.isEmpty()){
+            camposValidos = true;
+        }else{
+            mostrarVentanaErrores(listaValidaciones);
+        }
+        
+        return camposValidos;
     }
 
     @FXML
     public void generarReporte(ActionEvent evento) throws OperacionesDeDaoExcepcion {
         
         if (sonDatosGeneralesValidos()) {
-            
+         
             ReporteFinal reporte = crearReporteFinal();
-            
-            try {
-                
-                ValidacionReporteFinal validacion = new ValidacionReporteFinal();
-                validacion.validarDatosReporte(reporte);
-                
-                GestorReporteFinal gestor = new GestorReporteFinal();
-                gestor.generarReporteFinal(reporte); 
-                
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa", 
-                "Reporte Final generado correctamente.");
-                
-                regresar(evento);
-                
-            } catch (ReglaDeNegocioExcepcion e) {
-                
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Error de validación", 
-                e.getMessage());
-                
-            } catch (ProcesamientoSistemaExcepcion e) {
-                
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error del Sistema", 
-                e.getMessage());
-                
+
+            if( validarCamposListaActividades(reporte)){
+
+                try {
+
+                    GestorReporteFinal gestor = new GestorReporteFinal();
+                    gestor.generarReporteFinal(reporte);
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Descarga Exitosa",
+                            "Reporte Final generado correctamente.");
+                    regresar(evento);
+
+                } catch (ProcesamientoSistemaExcepcion e) {
+
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error del Sistema", e.getMessage());
+
+                }
             }
-            
         }
-        
     }
 
     private boolean sonDatosGeneralesValidos() {
@@ -227,6 +253,11 @@ public class ControladorFormularioReporteFinal {
         CargadorVentana.cargarVentana("/fxml/VistaGenerarEvidenciaPracticas.fxml", "Generar Evidencias");
         CerradorVentana.cerrarVentana(evento);
         
+    }
+
+    private void mostrarVentanaErrores(List<String> listaValidaciones) {
+        
+        VentanaMensaje.mostrarVentanaErrores(listaValidaciones);
     }
 
 }

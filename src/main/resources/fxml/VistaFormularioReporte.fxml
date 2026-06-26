@@ -147,7 +147,7 @@
                                           <CheckBox fx:id="chkRealS8" GridPane.columnIndex="8" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
-
+ 
                                     <Button fx:id="btnAgregarActividad" mnemonicParsing="false" onAction="#leerDatosDeActividad" prefWidth="150.0" text="Agregar a la tabla" styleClass="boton-accion"/>
                                  </children>
                               </VBox>

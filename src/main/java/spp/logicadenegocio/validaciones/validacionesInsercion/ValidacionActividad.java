@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.validaciones.validacionesinsercion;
 
 import java.time.LocalDateTime;
@@ -42,7 +38,9 @@ public class ValidacionActividad {
         }
         
         if (!ValidadorFechas.esFechaPasada(fechaLimite)) {
+
             listaValidaciones.add("La fecha y hora límite no pueden ser fechas pasadas.");
+        
         }
 
         return listaValidaciones;

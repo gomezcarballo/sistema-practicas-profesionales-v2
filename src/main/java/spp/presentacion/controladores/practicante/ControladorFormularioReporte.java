@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.presentacion.controladores.practicante;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +25,6 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import spp.logicadenegocio.validaciones.validacionesreportes.ValidacionReporteParcial;
-import spp.utilerias.excepciones.ReglaDeNegocioExcepcion;
 import spp.utilerias.selecciones.seleccionesreporteparcial.SeleccionTablaListener;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 
@@ -97,18 +95,20 @@ public class ControladorFormularioReporte {
         if (sonCamposDeActividadValidos()) {
             
             ActividadReporteParcial actividad = crearActividad();
+             
+            ValidacionReporteParcial validacion = new ValidacionReporteParcial();
+            List<String> listaValidaciones;
+            listaValidaciones = validacion.validarTamañoActividad(actividad);
             
-            try{
-                
-                ValidacionReporteParcial validacion = new ValidacionReporteParcial();
-                validacion.validarTamañoActividad(actividad);
+            if(!listaValidaciones.isEmpty()){
                 
                 registrarActividad(actividad);
             
-            }catch(ReglaDeNegocioExcepcion e){
-                     
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Límite excedido", e.getMessage());   
-            }   
+            }else{
+
+                mostrarVentanaErrores(listaValidaciones);
+            }
+
                 
         } else {
 
@@ -221,25 +221,25 @@ public class ControladorFormularioReporte {
     public void generarReporte(ActionEvent evento) {
         
         if (sonDatosDeReporteValidos()) {
-            
+             
             String periodo = txtPeriodo.getText().trim();
             String resultados = taResultados.getText().trim();
             String observaciones = taObservaciones.getText().trim();
             
-            try {
-                
-                ValidacionReporteParcial validacion = new ValidacionReporteParcial();
-                validacion.validarTamañoReporte(periodo, resultados, observaciones);
+            ValidacionReporteParcial validacion = new ValidacionReporteParcial();
+            List<String> listaValidaciones = new ArrayList<>();
+            listaValidaciones = validacion.validarTamañoReporte(periodo, resultados, observaciones);
+            
+            if(listaValidaciones.isEmpty()){
                 
                 ReporteParcial reporte = crearReporte();
-                guardarReporte(reporte, evento);
-                
-            } catch (ReglaDeNegocioExcepcion e) {
-                
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Límite excedido", e.getMessage());
-                
+                guardarReporte (reporte, evento);
+
+            }else{
+
+                mostrarVentanaErrores(listaValidaciones);
             }
-            
+
         } else {
             
             mostrarMensajeCamposFaltantesReporte();
@@ -327,6 +327,11 @@ public class ControladorFormularioReporte {
         VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
         "Faltan datos por agregar. Por favor ingrese todos los campos requeridos.");           
         
+    }
+
+    private void mostrarVentanaErrores(List<String> listaValidaciones) {
+        
+        VentanaMensaje.mostrarVentanaErrores(listaValidaciones);
     }
     
     public void cargarActividadEnFormulario(ActividadReporteParcial actividadNueva){
