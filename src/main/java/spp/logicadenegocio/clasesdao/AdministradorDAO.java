@@ -73,28 +73,31 @@ public class AdministradorDAO implements IAdministradorDAO{
     }
     
     @Override
-    public boolean inactivarAdministrador() throws OperacionesDeDaoExcepcion{
+    public boolean inactivarAdministrador(int idUsuarioActual) throws OperacionesDeDaoExcepcion {
         
         boolean inactivacionExitosa = false;
         
-        String consultaSQL = "UPDATE Usuario u INNER JOIN Administrador a ON u.idUsuario = a.idUsuario "
-                + "SET u.estado = 0 WHERE u.estado = 1";
+        String consultaSQL = "UPDATE Usuario SET estado = 0 WHERE idUsuario = ? AND estado = 1";
         
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
                         
+            consultaPreparada.setInt(1, idUsuarioActual);
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
         
-        } catch(SQLTimeoutException e) {
+        } catch (SQLTimeoutException e) {
+            
             RegistroErrores.registrarError(Level.WARNING, 
-                "Timeout al inactivar administrador.", e);
+                "Timeout al inactivar administrador con id: " + idUsuarioActual, e);
 
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
                 "intente de nuevo por favor", e);
         
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            
             RegistroErrores.registrarError(Level.SEVERE, 
                 "Error de base de datos al inactivar el administrador. " + 
+                "idUsuario: " + idUsuarioActual +
                 ", SQL State: " + e.getSQLState() + 
                 ", Error Code: " + e.getErrorCode(), e);
             
@@ -129,8 +132,7 @@ public class AdministradorDAO implements IAdministradorDAO{
             
         } catch(SQLTimeoutException e) {
             RegistroErrores.registrarError(Level.WARNING, 
-                "Timeout al consultar administrador. IdUsuario: " + administrador.getIdUsuario() + 
-                ", noPersonal: " + administrador.getNumeroDePersonal() , e);
+                "Timeout al consultar administrador con noPersonal: " + numeroDePersonal, e);
             
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
                 "intente de nuevo por favor", e);

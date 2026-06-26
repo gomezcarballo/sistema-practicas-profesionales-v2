@@ -44,7 +44,7 @@ public interface ICoordinadorDAO {
      * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la operación
      * de acceso a datos.
      */
-    public boolean inactivarCoordinador()throws OperacionesDeDaoExcepcion;
+    public boolean inactivarCoordinador(int idUsuarioCoordinador)throws OperacionesDeDaoExcepcion;
     /**
      * Reactiva un coordinador previamente inactivo.
      *
@@ -74,5 +74,5 @@ public interface ICoordinadorDAO {
      * de acceso a datos.
      */
     public boolean eliminarCoordinador(int idUsuario) throws OperacionesDeDaoExcepcion;
-    
+    public Coordinador consultarCoordinadorActivo() throws OperacionesDeDaoExcepcion;
 }

@@ -81,17 +81,17 @@ public class GestorAdministradores {
    
     }
     
-    public void reemplazarAdministrador(Administrador administrador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+    public void reemplazarAdministrador(Administrador administrador, int idAdministradorActual) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
         
         ingresarAdministrador(administrador);    
-        inactivarAdministradorActivo();
+        inactivarAdministradorActivo(idAdministradorActual);
     
     }
     
-    public void inactivarAdministradorActivo() throws OperacionesDeDaoExcepcion {
+    public void inactivarAdministradorActivo(int idAdministradorActual) throws OperacionesDeDaoExcepcion {
         
         AdministradorDAO administradorDao = new AdministradorDAO();
-        administradorDao.inactivarAdministrador();
+        administradorDao.inactivarAdministrador(idAdministradorActual);
 
     }
     

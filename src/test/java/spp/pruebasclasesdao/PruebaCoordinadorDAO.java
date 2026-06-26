@@ -5,6 +5,7 @@
 package spp.pruebasclasesdao;
 
 import java.util.List;
+import java.util.logging.Level;
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Coordinador;
 import spp.logicadenegocio.clasesdao.CoordinadorDAO;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -34,17 +36,26 @@ public class PruebaCoordinadorDAO {
         usuarioDAO = new UsuarioDAO();
         coordinadorDAO = new CoordinadorDAO();
 
+        correoUnico = "coord_test_" + System.currentTimeMillis() + "@uv.mx";
         idUsuario = crearUsuarioBase();
         crearCoordinadorBase();
         
     }
 
     @After
-    public void eliminarDatosPrueba() throws OperacionesDeDaoExcepcion {
+    public void eliminarDatosPrueba() {
         
-        coordinadorDAO.eliminarCoordinador(idUsuario);
-
-        usuarioDAO.eliminarUsuario(idUsuario);
+        try {
+            coordinadorDAO.eliminarCoordinador(idUsuario);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar coordinador en limpieza de prueba", e);
+        }
+        
+        try {
+            usuarioDAO.eliminarUsuario(idUsuario);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar usuario en limpieza de prueba", e);
+        }
 
     }
 
@@ -83,7 +94,7 @@ public class PruebaCoordinadorDAO {
     @Test
     public void pruebaConsultarCoordinadoresInactivosNoVacio() throws OperacionesDeDaoExcepcion {
         
-        coordinadorDAO.inactivarCoordinador();
+        coordinadorDAO.inactivarCoordinador(idUsuario);
         List<Coordinador> resultado = coordinadorDAO.consultarCoordinadoresInactivos();
         
         assertFalse(resultado.isEmpty());
@@ -93,7 +104,7 @@ public class PruebaCoordinadorDAO {
     @Test
     public void pruebaInactivarCoordinadorExitoso() throws OperacionesDeDaoExcepcion {
         
-        boolean resultado = coordinadorDAO.inactivarCoordinador();
+        boolean resultado = coordinadorDAO.inactivarCoordinador(idUsuario);
         assertTrue(resultado);
         
     }
@@ -101,7 +112,7 @@ public class PruebaCoordinadorDAO {
     @Test
     public void pruebaReactivarCoordinadorExitoso() throws OperacionesDeDaoExcepcion {
         
-        coordinadorDAO.inactivarCoordinador();
+        coordinadorDAO.inactivarCoordinador(idUsuario);
         boolean resultado = coordinadorDAO.reactivarCoordinador(idUsuario);
         
         assertTrue(resultado);

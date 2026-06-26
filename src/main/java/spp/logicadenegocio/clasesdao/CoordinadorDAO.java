@@ -82,6 +82,36 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         return registroExitoso;
         
     }
+    
+    @Override
+    public Coordinador consultarCoordinadorActivo() throws OperacionesDeDaoExcepcion {
+        
+        Coordinador coordinador = null;
+        String consultaSQL = "SELECT c.idUsuario, c.noPersonal, u.nombre, u.apellidoPaterno, u.apellidoMaterno, u.correoInstitucional " +
+                             "FROM Coordinador c INNER JOIN Usuario u ON c.idUsuario = u.idUsuario " +
+                             "WHERE u.estado = 1 LIMIT 1"; 
+        
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultados = consultaPreparada.executeQuery()) {
+            
+            if (resultados.next()) {
+                coordinador = new Coordinador();
+                coordinador.setIdUsuario(resultados.getInt("idUsuario"));
+                coordinador.setNumeroDePersonal(resultados.getString("noPersonal"));
+                coordinador.setNombre(resultados.getString("nombre"));
+                coordinador.setApellidoPaterno(resultados.getString("apellidoPaterno"));
+                coordinador.setApellidoMaterno(resultados.getString("apellidoMaterno"));
+                coordinador.setCorreoInstitucional(resultados.getString("correoInstitucional"));
+            }
+            
+        } catch (SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, "Error al consultar el coordinador activo.", e);
+            throw new OperacionesDeDaoExcepcion("Error al recuperar el coordinador activo.", e);
+        }
+        
+        return coordinador;
+    }
 
     @Override
     public List<Coordinador> consultarCoordinadoresInactivos() throws OperacionesDeDaoExcepcion{
@@ -142,28 +172,29 @@ public class CoordinadorDAO implements ICoordinadorDAO {
     }
     
     @Override
-    public boolean inactivarCoordinador() throws OperacionesDeDaoExcepcion{
+    public boolean inactivarCoordinador(int idUsuarioCoordinador) throws OperacionesDeDaoExcepcion {
         
         boolean inactivacionExitosa = false;
         
-        String consultaSQL = "UPDATE Usuario u INNER JOIN Coordinador c ON u.idUsuario = c.idUsuario "
-                + "SET u.estado = 0 WHERE u.estado = 1";
+        String consultaSQL = "UPDATE Usuario SET estado = 0 WHERE idUsuario = ? AND estado = 1";
         
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);){
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
                         
+            consultaPreparada.setInt(1, idUsuarioCoordinador);
             inactivacionExitosa = consultaPreparada.executeUpdate() > 0;
             
-        } catch(SQLTimeoutException e) {
+        } catch (SQLTimeoutException e) {
             RegistroErrores.registrarError(Level.WARNING, 
-                "Timeout al inactivar el coordinador.", e);
+                "Timeout al inactivar el coordinador con id: " + idUsuarioCoordinador, e);
 
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
                 "intente de nuevo por favor", e);
         
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             RegistroErrores.registrarError(Level.SEVERE, 
                 "Error de base de datos al inactivar el coordinador. " + 
+                "idUsuario: " + idUsuarioCoordinador +
                 ", SQL State: " + e.getSQLState() + 
                 ", Error Code: " + e.getErrorCode(), e);
             
@@ -172,7 +203,6 @@ public class CoordinadorDAO implements ICoordinadorDAO {
         }
         
         return inactivacionExitosa;
-    
     }
 
     @Override

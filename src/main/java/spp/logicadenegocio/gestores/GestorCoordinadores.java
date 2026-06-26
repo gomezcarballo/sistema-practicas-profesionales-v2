@@ -93,16 +93,16 @@ public class GestorCoordinadores {
     
     }
     
-    public void reemplazarCoordinador(Coordinador coordinador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
+    public void reemplazarCoordinador(Coordinador nuevoCoordinador) throws OperacionesDeDaoExcepcion, ProcesamientoSistemaExcepcion {
         
         String contrasenaPlana = GeneradorContrasena.generarContraseña(LONGITUD_CONTRASENA);        
-        Usuario usuarioCoordinador = prepararUsuarioParaRegistro(coordinador, contrasenaPlana);
+        Usuario usuarioCoordinador = prepararUsuarioParaRegistro(nuevoCoordinador, contrasenaPlana);
         
         if (verificarCoordinadorActivo()) {
             inactivarCoordinadorActivo();
         }
         
-        guardarCoordinadorEnBaseDeDatos(usuarioCoordinador, coordinador);
+        guardarCoordinadorEnBaseDeDatos(usuarioCoordinador, nuevoCoordinador);
         enviarContraseñaPorCorreo(usuarioCoordinador.getCorreoInstitucional(), contrasenaPlana);
     
     }
@@ -124,7 +124,11 @@ public class GestorCoordinadores {
     public void inactivarCoordinadorActivo() throws OperacionesDeDaoExcepcion {
         
         CoordinadorDAO coordinadorDao = new CoordinadorDAO();
-        coordinadorDao.inactivarCoordinador();
+        Coordinador coordinadorActivo = coordinadorDao.consultarCoordinadorActivo();
+        
+        if (coordinadorActivo != null) {
+            coordinadorDao.inactivarCoordinador(coordinadorActivo.getIdUsuario());
+        }
     
     }
      
@@ -143,14 +147,10 @@ public class GestorCoordinadores {
         }
 
         try {
-            
             reactivarCoordinadorInactivo(idUsuarioReactivar);
-        
         } catch (OperacionesDeDaoExcepcion e) {
-            
             throw new ProcesamientoSistemaExcepcion("Se inactivó al coordinador actual, "
             + "pero falló la reactivación del nuevo. Contacte a soporte técnico.");
-        
         }
     
     }

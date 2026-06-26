@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -19,6 +20,7 @@ import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Actividad;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 
@@ -70,16 +72,27 @@ public class PruebaActividadDAO {
     }
 
     @After
-    public void eliminarDatosPrueba() throws OperacionesDeDaoExcepcion {
+    public void eliminarDatosPrueba() {
+        
+        try {
+            actividadDAO.eliminarActividad(tituloActividad);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar actividad en limpieza", e);
+        }
 
-        actividadDAO.eliminarActividad(tituloActividad);
+        try {
+            profesorDAO.eliminarProfesor(idUsuarioFalso);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar profesor en limpieza", e);
+        }
 
-        profesorDAO.eliminarProfesor(idUsuarioFalso);
-
-        usuarioDAO.eliminarUsuario(idUsuarioFalso);
-
+        try {
+            usuarioDAO.eliminarUsuario(idUsuarioFalso);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar usuario en limpieza", e);
+        }
+            
     }
-
 
     @Test
     public void pruebaInsertarActividadExitoso() throws OperacionesDeDaoExcepcion {
@@ -93,7 +106,11 @@ public class PruebaActividadDAO {
 
         boolean resultado = actividadDAO.insertarActividad(nuevaActividad);
 
-        actividadDAO.eliminarActividad(tituloNuevo);
+        try {
+            actividadDAO.eliminarActividad(tituloNuevo);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al limpiar actividad insertada en prueba", e);
+        }
 
         assertTrue(resultado);
         

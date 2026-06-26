@@ -44,19 +44,17 @@ public class ControladorReactivacionProfesor {
     private TableColumn<Profesor, String> colCorreoInstitucional;
     
     @FXML
-    private void initialize(){
+    private void initialize() {
         
         tblProfesoresInactivos.setPlaceholder(new Label("No hay Profesores inactivos"));
-
         tblProfesoresInactivos.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         configurarColumnas();
-
         cargarProfesoresInactivos();
         
     }
     
-    private void configurarColumnas(){
+    private void configurarColumnas() {
         
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
@@ -65,18 +63,17 @@ public class ControladorReactivacionProfesor {
 
     }
     
-    private void cargarProfesoresInactivos(){
+    private void cargarProfesoresInactivos() {
 
-        try{
+        try {
             
             GestorProfesores gestorProfesores = new GestorProfesores();
             List<Profesor> profesores = gestorProfesores.obtenerProfesoresInactivos();
 
             tblProfesoresInactivos.getItems().clear();
-
             tblProfesoresInactivos.setItems(FXCollections.observableArrayList(profesores));
 
-        }catch(OperacionesDeDaoExcepcion e){
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR,"Error",e.getMessage());
 
@@ -84,11 +81,11 @@ public class ControladorReactivacionProfesor {
 
     }
     
-    private Profesor obtenerProfesorSeleccionado(){
+    private Profesor obtenerProfesorSeleccionado() {
 
         Profesor profesorSeleccionado = tblProfesoresInactivos.getSelectionModel().getSelectedItem();
 
-        if(profesorSeleccionado == null){
+        if (profesorSeleccionado == null) {
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING,"Profesor no seleccionado",
             "Debe seleccionar un profesor.");
@@ -100,38 +97,38 @@ public class ControladorReactivacionProfesor {
     }
     
     @FXML 
-    private void reactivarProfesor(ActionEvent evento){
+    private void reactivarProfesor(ActionEvent evento) {
         
         Profesor profesorSeleccionado = obtenerProfesorSeleccionado();
         
-        if(profesorSeleccionado != null){
+        if (profesorSeleccionado != null) {
             
             GestorProfesores gestorProfesores = new GestorProfesores();
             
-            try{
+            try {
 
-                if(gestorProfesores.hayCupoProfesores()){
+                if (gestorProfesores.hayCupoProfesores()) {
 
                     gestorProfesores.reactivarProfesorInactivo(profesorSeleccionado.getIdUsuario());
-
                     mostrarMensajeReactivacionExitosa();
-
                     irMenuPrincipal(evento);
 
-                }else{
+                } else {
 
                     FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador
                     ("/fxml/VistaListaProfesoresActivos.fxml", "Profesores Activos");
 
-                    if(cargador != null){
+                    if (cargador != null) {
+                        
                         ControladorListaProfesoresActivos controlador = cargador.getController();
                         controlador.inicializarDatos(profesorSeleccionado);
+                        CerradorVentana.cerrarVentana(evento);
 
                     }
 
                 }
 
-            }catch(OperacionesDeDaoExcepcion e){
+            } catch (OperacionesDeDaoExcepcion e) {
 
                 VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Reactivación fallida", 
                 e.getMessage());
@@ -141,21 +138,19 @@ public class ControladorReactivacionProfesor {
         }
     }
     
-    public void registrarProfesorConReemplazo(Profesor profesorNuevo, Profesor profesorAnterior, ActionEvent evento){
+    public void registrarProfesorConReemplazo(Profesor profesorNuevo, Profesor profesorAnterior, ActionEvent evento) {
 
-        try{
+        try {
 
             GestorProfesores gestorProfesores = new GestorProfesores();
 
             gestorProfesores.inactivarProfesor(profesorAnterior.getIdUsuario());
-
             gestorProfesores.reactivarProfesorInactivo(profesorNuevo.getIdUsuario());
 
             mostrarMensajeReactivacionExitosa();
-
             irMenuPrincipal(evento);
 
-        }catch(OperacionesDeDaoExcepcion e){
+        } catch (OperacionesDeDaoExcepcion e) {
 
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Reactivación fallida", e.getMessage());
 
@@ -163,7 +158,7 @@ public class ControladorReactivacionProfesor {
 
     }
     
-    private void mostrarMensajeReactivacionExitosa(){
+    private void mostrarMensajeReactivacionExitosa() {
         
         VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Reactivación exitosa",
         "Profesor reactivado exitosamente");
@@ -173,7 +168,6 @@ public class ControladorReactivacionProfesor {
     private void irMenuPrincipal(ActionEvent evento) {
 
         CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalAdministrador.fxml", "Menu Principal para Administrador");
-
         CerradorVentana.cerrarVentana(evento);
     
     }

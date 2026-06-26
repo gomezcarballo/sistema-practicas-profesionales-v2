@@ -4,6 +4,7 @@
  */
 package spp.pruebasclasesdao;
 
+import java.util.logging.Level;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -14,6 +15,7 @@ import spp.logicadenegocio.clasesdao.AdministradorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.Administrador;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -51,17 +53,25 @@ public class PruebaAdministradorDAO {
         administrador.setNumeroDePersonal(numeroPersonalPrueba);
 
         administradorDAO.insertarAdministrador(administrador);
+        
     }
 
     @After
-    public void eliminarDatosPrueba() throws OperacionesDeDaoExcepcion {
-
-        administradorDAO.eliminarAdministrador(idUsuarioPrueba);
-
-        usuarioDAO.eliminarUsuario(idUsuarioPrueba);
+    public void eliminarDatosPrueba() {
+        
+        try {
+            administradorDAO.eliminarAdministrador(idUsuarioPrueba);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar administrador en limpieza de prueba", e);
+        }
+        
+        try {
+            usuarioDAO.eliminarUsuario(idUsuarioPrueba);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar usuario en limpieza de prueba", e);
+        }
             
     }
-
 
     @Test
     public void pruebaInsertarAdministradorExitoso() throws OperacionesDeDaoExcepcion {
@@ -79,17 +89,24 @@ public class PruebaAdministradorDAO {
         adminNuevo.setIdUsuario(idNuevo);
         adminNuevo.setNumeroDePersonal("75698");
 
-
         administradorDAO.insertarAdministrador(adminNuevo);
         
-
         Administrador resultado = administradorDAO.consultarAdministrador(adminNuevo.getNumeroDePersonal());
         
-
-        administradorDAO.eliminarAdministrador(idNuevo);
-        usuarioDAO.eliminarUsuario(idNuevo);
+        try {
+            administradorDAO.eliminarAdministrador(idNuevo);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar administrador insertado en prueba", e);
+        }
+        
+        try {
+            usuarioDAO.eliminarUsuario(idNuevo);
+        } catch (OperacionesDeDaoExcepcion e) {
+            RegistroErrores.registrarError(Level.WARNING, "Fallo al eliminar usuario insertado en prueba", e);
+        }
 
         assertNotNull(resultado);
+        
     }
 
     @Test
@@ -103,11 +120,10 @@ public class PruebaAdministradorDAO {
     @Test
     public void pruebaInactivarAdministradorExitoso() throws OperacionesDeDaoExcepcion {
         
-        boolean resultado = administradorDAO.inactivarAdministrador();
+        boolean resultado = administradorDAO.inactivarAdministrador(idUsuarioPrueba);
         assertTrue(resultado);
         
     }
-
 
     @Test
     public void pruebaConsultarAdministradorNoExistente() throws OperacionesDeDaoExcepcion {

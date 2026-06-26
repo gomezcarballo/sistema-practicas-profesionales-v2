@@ -4,6 +4,7 @@ import java.util.List;
 import spp.logicadenegocio.clasesdto.ActividadReporteFinal;
 import spp.logicadenegocio.clasesdto.ReporteFinal;
 import java.util.ArrayList;
+
 /**
  *
  * @author gomes
@@ -24,6 +25,7 @@ public class ValidacionReporteFinal {
         if(!esTamañoObservacionesValido(observaciones)){
             mensajeAlerta = "Las observaciones generales exceden de" + MAX_OBSERVACIONES_GENERALES + " caracteres";
             listaValidaciones.add(mensajeAlerta);
+            
         }
 
         List<ActividadReporteFinal> entregables = reporte.getEntregables();
@@ -120,3 +122,5 @@ public class ValidacionReporteFinal {
     }
 
 }
+   
+

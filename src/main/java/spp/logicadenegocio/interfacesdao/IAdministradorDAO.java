@@ -34,7 +34,7 @@ public interface IAdministradorDAO {
      * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la operación
      * de acceso a datos.
      */
-    public boolean inactivarAdministrador() throws OperacionesDeDaoExcepcion;
+    public boolean inactivarAdministrador(int idUsuarioActual) throws OperacionesDeDaoExcepcion;
     /**
      * Consulta la información de un administrador a partir de su número de
      * personal.

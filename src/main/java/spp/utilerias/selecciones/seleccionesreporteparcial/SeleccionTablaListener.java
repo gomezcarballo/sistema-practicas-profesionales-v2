@@ -23,12 +23,12 @@ public class SeleccionTablaListener implements ChangeListener<ActividadReportePa
 
     @Override
     public void changed(ObservableValue<? extends ActividadReporteParcial> observable, 
-                        ActividadReporteParcial actividadAnterior, 
+                      ActividadReporteParcial actividadAnterior, 
                         ActividadReporteParcial actividadNueva) {
-        
+        /*
         if (actividadNueva != null) {
             controlador.cargarActividadEnFormulario(actividadNueva);
-        }
+        }*/
     }
     
 }

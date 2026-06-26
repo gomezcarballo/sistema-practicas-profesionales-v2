@@ -7,8 +7,10 @@ package spp.presentacion.controladores.administrador;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import spp.logicadenegocio.clasesdto.Administrador;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorAdministradores;
 import spp.utilerias.cerradordesesion.CerradorSesion;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -85,9 +87,12 @@ public class ControladorRegistroNuevoAdministrador extends ControladorRegistroPe
                 if (continuarRegistro) {
                     
                     GestorAdministradores gestorAdministradores = new GestorAdministradores();
-                    gestorAdministradores.reemplazarAdministrador(administrador);
+                    
+                    int idAdministradorActual = SesionUsuario.getInstancia().getIdUsuario();
+                    
+                    gestorAdministradores.reemplazarAdministrador(administrador, idAdministradorActual);
 
-                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Registro exitoso", 
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Registro exitoso", 
                     "Administrador registrado exitosamente");
 
                     CerradorSesion.cerrarSesion(evento);
@@ -96,7 +101,7 @@ public class ControladorRegistroNuevoAdministrador extends ControladorRegistroPe
             
             }
         } catch (OperacionesDeDaoExcepcion | ProcesamientoSistemaExcepcion e) {
-           
+            
             mostrarMensajeErrorRegistro(e.getMessage());                        
         
         }
