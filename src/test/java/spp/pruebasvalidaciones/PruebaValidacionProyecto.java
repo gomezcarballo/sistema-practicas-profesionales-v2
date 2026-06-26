@@ -1,8 +1,5 @@
 package spp.pruebasvalidaciones;
-<<<<<<< Updated upstream
-=======
- 
->>>>>>> Stashed changes
+
 
 import java.util.List;
 import static org.junit.Assert.assertFalse;
