@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.clasesdao;
 
 import java.sql.CallableStatement;
@@ -27,11 +23,12 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  *
  * @author Luz Fernanda H J
  */
+
 public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     
     @Override
     public boolean insertarPracticante(Practicante practicante)throws OperacionesDeDaoExcepcion{
-        
+         
         boolean registroExitoso = false;
         
         String consultaSQL = "INSERT INTO Practicante (idUsuario, matricula, genero, "
