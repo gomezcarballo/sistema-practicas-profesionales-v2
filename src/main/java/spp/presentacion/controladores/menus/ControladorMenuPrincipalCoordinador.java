@@ -36,6 +36,13 @@ public class ControladorMenuPrincipalCoordinador extends ControladorMenus{
     }
     
     @FXML
+    private void abrirListaReferenciaCurso(ActionEvent evento){
+        
+        cambiarVentana("/fxml/VistaListaReferenciaCurso.fxml", "Lista de NRCs", evento);
+        
+    }
+    
+    @FXML
     private void abrirReporteIndicadores(ActionEvent evento) {
         
         cambiarVentana("/fxml/VistaReporteIndicadores.fxml", "Reporte de Indicadores", evento);

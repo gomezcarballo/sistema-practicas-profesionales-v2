@@ -97,7 +97,7 @@ public class ControladorGestionProyecto {
     @FXML
     private void leerDatosDeProyecto(ActionEvent evento) {
         
-        if (!sonCamposValidos() || !esCupoMaximo()) {
+        if (!sonCamposValidos() || !esCupoMenorADigitosMaximos()) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
             "Por favor verifica que todos los campos estén llenos y el cupo sea un número válido.");
@@ -159,22 +159,12 @@ public class ControladorGestionProyecto {
     }   
     
     @FXML    
-    private boolean esCupoMaximo(){
-        
-        boolean esCupoMaximo = true;
-        
-        int digitosMaximos = 10;
+    private boolean esCupoMenorADigitosMaximos(){
         
         String cupoMaximo = txtCupoMaximo.getText();
         
-        if(cupoMaximo.length() > digitosMaximos ){
-            
-            esCupoMaximo = false;
-            
-        }
-        
-        return esCupoMaximo;
-        
+        return ValidadorEnteros.verificarMaximoDigitos(cupoMaximo);
+
     }
     
     private boolean huboCambios() {

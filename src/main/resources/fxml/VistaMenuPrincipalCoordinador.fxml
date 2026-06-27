@@ -47,6 +47,14 @@
                         text="Organizaciones y Proyectos"
                         styleClass="boton-accion"/>
 
+                <Button fx:id="btnGestionNRC"
+                        mnemonicParsing="false"
+                        onAction="#abrirListaReferenciaCurso"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Gestión de NRCs"
+                        styleClass="boton-accion"/>
+
                 <Button fx:id="btnAsignacionesProyecto"
                         mnemonicParsing="false"
                         onAction="#abrirAsignarProyecto"

@@ -17,21 +17,20 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 public class ExperienciaEducativaDAO {
 
-    public int insertarExperienciaEducativa (ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion {
+    public int insertarExperienciaEducativa(ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion {
 
         int idInsertado = 0; 
 
-        String consultaSQL = "INSERT INTO ExperienciaEducativa (nombre, nrc, periodo, cupo) " +
-                            "VALUES (?, ?, ?, ?)";
+        String consultaSQL = "INSERT INTO ExperienciaEducativa (nombre, periodo, cupo, idReferenciaCurso) " +
+                             "VALUES (?, ?, ?, ?)";
         
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement
-            (consultaSQL, Statement.RETURN_GENERATED_KEYS);) {
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS)) {
 
             consultaPreparada.setString(1, experiencia.getNombreExperienciaEducativa());
-            consultaPreparada.setString(2, experiencia.getNrc());
-            consultaPreparada.setString(3, experiencia.getPeriodo());
-            consultaPreparada.setInt(4, experiencia.getCupo());
+            consultaPreparada.setString(2, experiencia.getPeriodo());
+            consultaPreparada.setInt(3, experiencia.getCupo());
+            consultaPreparada.setInt(4, experiencia.getIdReferenciaCurso());
 
             consultaPreparada.executeUpdate();
             
@@ -46,34 +45,38 @@ public class ExperienciaEducativaDAO {
 
             resultadosConsulta.close();
 
-        } catch(SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
+            
             RegistroErrores.registrarError(Level.WARNING, 
                 "\nViolación de integridad al insertar una experiencia educativa. " +
-                "NRC: " + experiencia.getNrc() + " Periodo: " + experiencia.getPeriodo() + 
-                " - Posible correo duplicado", e);
+                "Nombre: " + experiencia.getNombreExperienciaEducativa() + " Periodo: " + experiencia.getPeriodo() + 
+                " - Posible periodo duplicado", e);
             
-            throw new OperacionesDeDaoExcepcion("La experiencia educativa ya esta registrada.", e);
+            throw new OperacionesDeDaoExcepcion("La experiencia educativa ya está registrada en este periodo.", e);
             
-        } catch(SQLTimeoutException e) {
+        } catch (SQLTimeoutException e) {
+            
             RegistroErrores.registrarError(Level.WARNING, 
-                "\nTimeout al insertar experiencia educativa. NRC : " + experiencia.getNrc(), e);
+                "\nTimeout al insertar experiencia educativa. Nombre : " + experiencia.getNombreExperienciaEducativa(), e);
             
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
                 "intente de nuevo por favor", e);
             
-        } catch(SQLDataException e) {
+        } catch (SQLDataException e) {
+            
             RegistroErrores.registrarError(Level.SEVERE, 
                 "\nDatos inválidos al insertar experiencia educativa. " +
-                "NRC: " + experiencia.getNrc() + 
+                "Nombre: " + experiencia.getNombreExperienciaEducativa() + 
                 ", Periodo: " + experiencia.getPeriodo(), e);
             
-            throw new OperacionesDeDaoExcepcion("Los datos del la experiencia educativa no son válidos. " + 
+            throw new OperacionesDeDaoExcepcion("Los datos de la experiencia educativa no son válidos. " + 
                 "Revise la información", e);
             
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            
             RegistroErrores.registrarError(Level.SEVERE, 
                 "\nError al insertar experiencia educativa. " +
-                "Correo: " + experiencia.getNrc() + 
+                "Nombre: " + experiencia.getNombreExperienciaEducativa() + 
                 ", SQL State: " + e.getSQLState() + 
                 ", Error Code: " + e.getErrorCode(), e);
             
@@ -81,18 +84,18 @@ public class ExperienciaEducativaDAO {
                 "intente de nuevo más tarde", e);
         }
 
-
         return idInsertado;
         
     }
 
-    public ExperienciaEducativa consultarExperienciaEducativa(int idExperienciaEducativa) throws OperacionesDeDaoExcepcion{
+    public ExperienciaEducativa consultarExperienciaEducativa(int idExperienciaEducativa) throws OperacionesDeDaoExcepcion {
 
         ExperienciaEducativa experienciaEncontrada = null;
-        String consultaSQL = "SELECT nombre, nrc, periodo, cupo FROM ExperienciaEducativa WHERE idExperienciaEducativa = ?";
+        
+        String consultaSQL = "SELECT nombre, periodo, cupo, idReferenciaCurso FROM ExperienciaEducativa WHERE idExperienciaEducativa = ?";
 
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
             
             consultaPreparada.setInt(1, idExperienciaEducativa);
 
@@ -101,25 +104,28 @@ public class ExperienciaEducativaDAO {
             if (resultadosConsulta.next()) {
 
                 experienciaEncontrada = new ExperienciaEducativa();
-
-                experienciaEncontrada.setNombreExperienciaEducativa(resultadosConsulta.getString("nombre"));
-                experienciaEncontrada.setNrc(resultadosConsulta.getString("nrc"));
+                experienciaEncontrada.setIdExperienciaEducativa(idExperienciaEducativa);
+                
+                experienciaEncontrada.setNombreExperienciaEducativa(resultadosConsulta.getString("nombreExperienciaEducativa"));
                 experienciaEncontrada.setPeriodo(resultadosConsulta.getString("periodo"));
                 experienciaEncontrada.setCupo(resultadosConsulta.getInt("cupo"));
+                experienciaEncontrada.setIdReferenciaCurso(resultadosConsulta.getInt("idReferenciaCurso"));
                 
-                resultadosConsulta.close();
-
             } 
+            
+            resultadosConsulta.close();
 
-        } catch(SQLTimeoutException e) {
+        } catch (SQLTimeoutException e) {
+            
             RegistroErrores.registrarError(Level.WARNING, 
-                "\nTimeout al consultar la experiencias educativas. idExperienciaEducativa: " 
+                "\nTimeout al consultar la experiencia educativa. idExperienciaEducativa: " 
                 + idExperienciaEducativa, e);
             
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
                 "intente de nuevo por favor", e);
             
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            
             RegistroErrores.registrarError(Level.SEVERE, 
                 "\nError al consultar la experiencia educativa. " +
                 "idExperienciaEducativa: " + idExperienciaEducativa + 
@@ -134,7 +140,7 @@ public class ExperienciaEducativaDAO {
 
     }
 
-    public boolean actualizarEstadoExperienciaEducativa(){
+    public boolean actualizarEstadoExperienciaEducativa() {
 
         boolean esRegistroExitoso = false;
 
@@ -142,35 +148,38 @@ public class ExperienciaEducativaDAO {
     
     }
 
-    public int consultarAsignacionesActivas()throws OperacionesDeDaoExcepcion{
+    public int consultarAsignacionesActivas() throws OperacionesDeDaoExcepcion {
 
         int asignacionesActivas = 0 ;
 
         String consultaSQL = "SELECT ()";
 
-        try(Connection conexion = ConexionBD.getConexion();
-            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
-            ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultadoConsulta = consultaPreparada.executeQuery()) {
 
-            if(resultadoConsulta.next()) {
+            if (resultadoConsulta.next()) {
                 asignacionesActivas = resultadoConsulta.getInt(1);
             }
 
-        } catch(SQLSyntaxErrorException e) {
+        } catch (SQLSyntaxErrorException e) {
+            
             RegistroErrores.registrarError(Level.SEVERE, 
                 "\nLa función almacenada '()' no existe o no es accesible. " +
                 "Verificar que la función esté creada en la base de datos", e);
             
             throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
             
-        } catch(SQLTimeoutException e) {
+        } catch (SQLTimeoutException e) {
+            
             RegistroErrores.registrarError(Level.WARNING, 
                 "Timeout al ejecutar función almacenada '()'", e);
             
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
                 "intente de nuevo por favor", e);
             
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            
             RegistroErrores.registrarError(Level.SEVERE, 
                 "Error al ejecutar función '()'. " +
                 "SQL State: " + e.getSQLState() + 
@@ -179,9 +188,9 @@ public class ExperienciaEducativaDAO {
             throw new OperacionesDeDaoExcepcion("Error al verificar la información, " + 
                 "intente de nuevo más tarde", e);
         }
+        
         return asignacionesActivas;
 
     }
-
 
 }

@@ -3,19 +3,19 @@ package spp.logicadenegocio.clasesdto;
 public class ExperienciaEducativa {
   
     private int idExperienciaEducativa;
-    private String nrc; 
     private String periodo;
     private String nombreExperienciaEducativa;
     private int cupo;
+    private int idReferenciaCurso;
 
     public ExperienciaEducativa() {
 
     }
 
-    public ExperienciaEducativa(int idExperienciaEducativa, String nrc, String periodo,
+    public ExperienciaEducativa(int idExperienciaEducativa, int idReferenciaCurso, String periodo,
             String nombreExperienciaEducativa, int cupo) {
         this.idExperienciaEducativa = idExperienciaEducativa;
-        this.nrc = nrc;
+        this.idReferenciaCurso = idReferenciaCurso;
         this.periodo = periodo;
         this.nombreExperienciaEducativa = nombreExperienciaEducativa;
         this.cupo = cupo;
@@ -29,13 +29,13 @@ public class ExperienciaEducativa {
         this.idExperienciaEducativa = idExperienciaEducativa;
     }
 
-    public String getNrc() {
-        return nrc;
+    public int getIdReferenciaCurso() {
+        return idReferenciaCurso;
     }
 
-    public void setNrc(String nrc) {
-        this.nrc = nrc;
-    }
+    public void setIdReferenciaCurso(int idReferenciaCurso) {
+        this.idReferenciaCurso = idReferenciaCurso;
+    }  
     
     public String getPeriodo() {
         return periodo;

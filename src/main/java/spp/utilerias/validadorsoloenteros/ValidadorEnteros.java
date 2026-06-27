@@ -24,4 +24,20 @@ public class ValidadorEnteros {
         
     }
     
+    public static boolean verificarMaximoDigitos(String cupoMaximo){
+        
+        boolean esMenorDeDigitosMaximos = true;
+        
+        int digitosMaximos = 10;      
+        
+        if(cupoMaximo.length() > digitosMaximos ){
+            
+            esMenorDeDigitosMaximos = false;
+            
+        }
+        
+        return esMenorDeDigitosMaximos;
+        
+    }
+    
 }
