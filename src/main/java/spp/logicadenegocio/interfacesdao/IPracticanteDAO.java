@@ -86,4 +86,14 @@ public interface IPracticanteDAO {
      * de acceso a datos.
      */
     public boolean eliminarPracticante(int idUsuario) throws OperacionesDeDaoExcepcion;
+
+    /**
+     * Consulta todos los practicantes que pueden ser asginados a una experiencia educativa
+     * 
+     * @return Lista de practicantes activos y con docuementos iniciales entregados. Si no existe 
+     * ningun registro, retorna una lista vacía.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la operación
+     * de acceso a datos.
+     */
+    public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion;
 }

@@ -388,4 +388,59 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         return eliminacionExitosa;
     }
     
+    @Override
+    public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion{
+        
+        List<Practicante> listaPracticantes = new ArrayList<>();
+
+        String consultaSQL = "CALL ListarPracticantesParaAsignarEE()";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+            while (resultadosConsulta.next()) {
+
+                Practicante practicante = new Practicante();
+
+                practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                practicante.setMatricula(resultadosConsulta.getString("matricula"));
+                practicante.setNombre(resultadosConsulta.getString("nombre"));
+                practicante.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                practicante.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                practicante.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
+
+                listaPracticantes.add(practicante);
+                
+            }
+
+        } catch(SQLSyntaxErrorException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError de sintaxis al consultar practicantes para asignación de una experiencia educativa. " +
+                "Verificar tablas: Practicante, Usuario, solicitudProyecto", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "\nTimeout al consultar practicantes para asignación de una experiencia educativa. ", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError al consultar practicantes para asignación de una experiencia educativa. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los practicantes, " + 
+                "intente de nuevo", e);
+        }
+
+        return listaPracticantes;
+
+    }
+
+
 }

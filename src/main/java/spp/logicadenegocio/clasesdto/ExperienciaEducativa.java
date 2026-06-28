@@ -7,18 +7,20 @@ public class ExperienciaEducativa {
     private String nombreExperienciaEducativa;
     private int cupo;
     private int idReferenciaCurso;
+    private int idProfesorAsignado;
 
     public ExperienciaEducativa() {
 
     }
 
     public ExperienciaEducativa(int idExperienciaEducativa, int idReferenciaCurso, String periodo,
-            String nombreExperienciaEducativa, int cupo) {
+            String nombreExperienciaEducativa, int cupo, int idProfesorAsignado) {
         this.idExperienciaEducativa = idExperienciaEducativa;
         this.idReferenciaCurso = idReferenciaCurso;
         this.periodo = periodo;
         this.nombreExperienciaEducativa = nombreExperienciaEducativa;
         this.cupo = cupo;
+        this.idProfesorAsignado = idProfesorAsignado;
     }
 
     public int getIdExperienciaEducativa() {
@@ -61,4 +63,11 @@ public class ExperienciaEducativa {
         this.cupo = cupo;
     }
     
+    public int getIdProfesorAsignado(){
+        return idProfesorAsignado;
+    }
+
+    public void setIdProfesorAsignado(int idProfesorAsignado){
+        this.idProfesorAsignado = idProfesorAsignado; 
+    }
 }

@@ -1,6 +1,7 @@
-package spp.presentacion.controladores.profesor;
+package spp.presentacion.controladores.coordinador;
 
 import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,15 +15,10 @@ import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
-/**
- *
- * @author gomes
- */
+public class ControladorPracticantesAsignacionExperiencia extends ControladorBaseListaPracticantes {
 
-public class ControladorPracticantesConDocumentos extends ControladorBaseListaPracticantes{
-    
     private GestorPracticantes gestorPracticantes;
-    
+
     @FXML
     @Override
     public void initialize() {
@@ -38,7 +34,7 @@ public class ControladorPracticantesConDocumentos extends ControladorBaseListaPr
 
         try {
 
-            List<Practicante> practicantes = gestorPracticantes.recuperarPracticantesActivos();
+            List<Practicante> practicantes = gestorPracticantes.recuperarPracticantesParaAsignacionEE();
 
             tblListaPracticantes.getItems().clear();
 
@@ -54,34 +50,25 @@ public class ControladorPracticantesConDocumentos extends ControladorBaseListaPr
     }
 
     @FXML
-    private void verDocumentos(ActionEvent evento) {
+    private void asignarExperienciaEducativa(ActionEvent evento){
 
         Practicante practicanteSeleccionado = obtenerPracticanteSeleccionado();
 
-        if (practicanteSeleccionado != null) {
+        if(practicanteSeleccionado != null){
 
-            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaDocumentos.fxml", 
-            "Documentos del Practicante");
+            FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador( 
+                "/fxml/VistaAsignacionExperienciaEducativa.fxml", "Asignacion Experiencia Educativa");
+                
+            if(cargador != null){
 
-            if (cargador != null) {
-
-                ControladorListaDocumentos controlador = cargador.getController();
+                ControladorAsignacionExperienciaEducativa controlador = cargador.getController();
                 controlador.inicializarDatos(practicanteSeleccionado);
 
                 CerradorVentana.cerrarVentana(evento);
 
             }
-
         }
 
     }
 
-    @FXML
-    public void regresar(ActionEvent evento) {
-
-        CargadorVentana.cargarVentana("/fxml/VistaMenuPrincipalProfesor.fxml", "Menú para Profesores");
-        CerradorVentana.cerrarVentana(evento);
-
-    }
-    
 }

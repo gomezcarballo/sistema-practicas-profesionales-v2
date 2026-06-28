@@ -88,6 +88,20 @@ public class GestorPracticantes {
         return usuario;
     }
     
+    public void inactivarPracticante(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        practicanteDAO.inactivarPracticante(idPracticante);  
+    
+    }
+    
+    public boolean verificarAsignacionProyecto(int idUsuario) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDao = new PracticanteDAO();
+        return practicanteDao.tieneProyectoAsignado(idUsuario);
+    
+    }
+
     public List<Practicante> recuperarPracticantesActivos() throws OperacionesDeDaoExcepcion {
         
         PracticanteDAO practicanteDAO = new PracticanteDAO();
@@ -101,19 +115,12 @@ public class GestorPracticantes {
         return practicanteDAO.consultarPracticantesConSolicitudes();
     
     }
-    
-    public void inactivarPracticante(int idPracticante) throws OperacionesDeDaoExcepcion {
-        
+
+    public List<Practicante> recuperarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion {
+
         PracticanteDAO practicanteDAO = new PracticanteDAO();
-        practicanteDAO.inactivarPracticante(idPracticante);  
-    
-    }
-    
-    public boolean verificarAsignacionProyecto(int idUsuario) throws OperacionesDeDaoExcepcion {
-        
-        PracticanteDAO practicanteDao = new PracticanteDAO();
-        return practicanteDao.tieneProyectoAsignado(idUsuario);
-    
+        return practicanteDAO.consultarPracticantesParaAsignacionEE();
+
     }
     
 }
