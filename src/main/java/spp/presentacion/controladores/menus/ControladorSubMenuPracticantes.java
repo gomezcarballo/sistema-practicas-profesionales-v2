@@ -26,6 +26,13 @@ public class ControladorSubMenuPracticantes extends ControladorMenus{
         cambiarVentana("/fxml/VistaListaPracticantes.fxml", "Lista de Practicantes", evento);
         
     }
+
+    @FXML
+    private void abrirListaPracticantesAsignacionEE(ActionEvent evento){
+
+        cambiarVentana("/fxml/VistaListaPracticantesParaAsignacionEE.fxml", "Lista Practicantes", evento);
+
+    }
     
     @FXML
     public void regresar(ActionEvent evento) {

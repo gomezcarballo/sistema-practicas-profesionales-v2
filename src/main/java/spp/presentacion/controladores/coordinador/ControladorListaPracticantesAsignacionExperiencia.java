@@ -15,7 +15,7 @@ import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
-public class ControladorPracticantesAsignacionExperiencia extends ControladorBaseListaPracticantes {
+public class ControladorListaPracticantesAsignacionExperiencia extends ControladorBaseListaPracticantes {
 
     private GestorPracticantes gestorPracticantes;
 
@@ -69,6 +69,15 @@ public class ControladorPracticantesAsignacionExperiencia extends ControladorBas
             }
         }
 
+    }
+
+   @FXML
+    public void regresar(ActionEvent evento) {
+        
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuPracticantes.fxml", 
+        "Menu de Practicantes");
+        CerradorVentana.cerrarVentana(evento);
+        
     }
 
 }

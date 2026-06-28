@@ -15,6 +15,8 @@ import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.gestores.GestorExperienciaEducativa;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
+import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 
@@ -117,6 +119,7 @@ public class ControladorAsignacionExperienciaEducativa {
         if(experiencia != null){
 
             gestor = new GestorExperienciaEducativa();
+
             try{
 
                 asignacionExitosa = gestor.asignarExperienciaAlPracticante(practicanteSeleccionado, experiencia);
@@ -144,6 +147,10 @@ public class ControladorAsignacionExperienciaEducativa {
 
     @FXML
     public void regresar(ActionEvent evento) {
+        
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuPracticantes.fxml", 
+        "Menu de Practicantes");
+        CerradorVentana.cerrarVentana(evento);
         
     }
 }

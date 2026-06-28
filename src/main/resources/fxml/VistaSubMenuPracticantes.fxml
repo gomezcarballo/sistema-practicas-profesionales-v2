@@ -48,6 +48,14 @@
                         prefHeight="40.0"
                         text="Consultar Practicantes"
                         styleClass="boton-accion"/>
+                
+                <Button fx:id="btnAsignarExperienciaEducativa"
+                        mnemonicParsing="false"
+                        onAction="#abrirListaPracticantesAsignacionEE"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Asignar Practicante a EE"
+                        styleClass="boton-accion"/>
 
                 <Button fx:id="btnRegresar"
                         mnemonicParsing="false"

@@ -21,6 +21,12 @@ public class RegistroErrores {
 
     private static final String DIRECTORIO_LOGS = "logs/";
 
+    public static void registrarMensaje(Level nivel, String mensaje) {
+
+        registrarError(nivel, mensaje, null);
+        
+    }
+
     public static void registrarError(Level nivel, String mensaje, Exception excepcion) {
         
         String fechaActual = LocalDate.now().toString();
@@ -51,7 +57,7 @@ public class RegistroErrores {
 
         if (excepcion != null) {
             
-            entradaLog += " - Detalles: " + excepcion.getMessage();
+            entradaLog += "\n - Detalles: " + excepcion.getMessage();
             
         }
 

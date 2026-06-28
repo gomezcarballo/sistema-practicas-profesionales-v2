@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.presentacion.controladores.practicante;
 
 import java.util.logging.Level;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
@@ -17,6 +14,7 @@ import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
+import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 /**
  *
@@ -52,6 +50,12 @@ public class ControladorSubirEvidenciaPracticas {
         aplicarReglasDeNegocio();
         
     }
+
+    public void refrescarPermisos() {
+
+        aplicarReglasDeNegocio();
+
+    }
     
     private void aplicarReglasDeNegocio() {
         
@@ -69,7 +73,8 @@ public class ControladorSubirEvidenciaPracticas {
             
             bloquearTodaLaInterfaz();
             RegistroErrores.registrarError(Level.SEVERE, "Fallo al validar permisos de evidencias", e);
-            
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Error verificar documentación", e.getMessage());
+                    
         }
         
     }
@@ -163,7 +168,7 @@ public class ControladorSubirEvidenciaPracticas {
             
             ControladorDocumentos controlador = cargador.getController();
             controlador.configurarTipoDocumento(tipoDocumento);
-            
+            controlador.setControladorEvidencia(this);
         } 
         
     }

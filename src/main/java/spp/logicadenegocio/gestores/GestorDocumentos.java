@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.gestores;
 
 import java.io.File;
@@ -11,11 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.logging.Level;
+
 import spp.logicadenegocio.clasesdao.DocumentoDAO;
 import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
+import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 
@@ -39,10 +38,17 @@ public class GestorDocumentos {
         String carpetaTipoDocumento = obtenerNombreCarpeta(tipoDocumento);
         Path rutaCarpetaFinal = null;
         
-        if(carpetaTipoDocumento.isEmpty()){
+        if(!carpetaTipoDocumento.isEmpty()){
+
             String carpetaGeneralDocumentos = "Documentos_SPP";
             rutaCarpetaFinal = Paths.get(rutaProyecto,carpetaGeneralDocumentos ,carpetaTipoDocumento, identificador);
             rutaCarpetaFinal = crearRutaDestino(rutaCarpetaFinal, archivoSeleccionado);
+
+        }else{
+
+            RegistroErrores.registrarMensaje(Level.WARNING, 
+                "\nEl nombre de la carpeta según su tipo es nulo. CarpetaTipoDocumento: " + carpetaTipoDocumento);
+
         }
     
         return rutaCarpetaFinal;
@@ -76,7 +82,10 @@ public class GestorDocumentos {
             return direccionFinalArchivo;
             
         } catch (IOException e ) {
+
+            RegistroErrores.registrarError(Level.SEVERE, "No se pudo copiar el archivo en la ruta dentro del sistema.", e);
             throw new ProcesamientoSistemaExcepcion ("No se pudo guardar el documento en el sistema." );
+        
         } 
     }
     
@@ -166,6 +175,9 @@ public class GestorDocumentos {
             return rutaCarpeta.resolve(archivoSeleccionado.getName());
 
         } catch (IOException e) {
+
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError al crear la ruta destino para guardar el documennto. RutaCarpeta: " + rutaCarpeta , e);
 
             throw new ProcesamientoSistemaExcepcion("No se pudo crear la dirección para guardar el archivo", e);
         

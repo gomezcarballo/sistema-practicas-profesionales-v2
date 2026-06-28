@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.presentacion.controladores.documentos;
 
 import java.io.File;
@@ -14,11 +10,12 @@ import javafx.stage.FileChooser;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.gestores.GestorDocumentos;
 import spp.logicadenegocio.validaciones.validacionesdocumentos.ValidacionesDocumentos;
+import spp.presentacion.controladores.practicante.ControladorSubirEvidenciaPracticas;
 import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
-
+ 
 /**
  *
  * @author Luz Fernanda H J
@@ -40,6 +37,8 @@ public class ControladorDocumentos {
     private File archivoSeleccionado = null;
     
     private TipoDocumento tipoDocumento;
+
+    private ControladorSubirEvidenciaPracticas controladorEvidencia;
 
     @FXML
     private void elegirDocumento() {
@@ -85,7 +84,7 @@ public class ControladorDocumentos {
     }
     
     @FXML
-    private void subirDocumento() {
+    private void subirDocumento(ActionEvent evento) {
 
         if (archivoSeleccionado != null) {
             
@@ -97,6 +96,7 @@ public class ControladorDocumentos {
                     
                     VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", "Documento subido correctamente.");
                     limpiarVista();
+                    cancelar(evento);
 
                 }else{
                     
@@ -142,12 +142,24 @@ public class ControladorDocumentos {
         vbPrevisualizacion.setManaged(true);
         
     }
+
+    public void setControladorEvidencia(ControladorSubirEvidenciaPracticas controladorEvidencia) {
+
+        this.controladorEvidencia = controladorEvidencia;
+
+    }
     
     @FXML
     private void cancelar(ActionEvent evento){
 
+       if (controladorEvidencia != null) {
+
+            controladorEvidencia.refrescarPermisos();
+
+        }
+
         CerradorVentana.cerrarVentana(evento);
-     
+        
     }
     
 }
