@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.Documento;
+import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.interfacesdao.IDocumentoDAO;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -213,6 +214,92 @@ public class DocumentoDAO implements IDocumentoDAO {
         }
 
         return listaDocumentos;
+    }
+    
+    @Override
+    public int contarDocumentosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+        
+        int cantidadDocumentos = 0;
+
+        String consultaSQL = "SELECT COUNT(*) FROM documento WHERE Usuario_idUsuario = ? AND tipo = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, tipoDocumento.getDescripcion());
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                if (resultadosConsulta.next()) {
+                    cantidadDocumentos = resultadosConsulta.getInt(1);
+                }
+            }
+
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al contar documentos. ID Practicante: " + idPracticante + 
+                ", Tipo: " + tipoDocumento.name(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al contar documentos. " +
+                "ID Practicante: " + idPracticante + 
+                ", Tipo: " + tipoDocumento.name() +
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron contar los documentos, " + 
+                "intente de nuevo", e);
+        }
+
+        return cantidadDocumentos;
+    }
+    
+    @Override
+    public boolean verificarExistenciaDocumento(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+        
+        boolean existeDocumento = false;
+
+        String consultaSQL = "SELECT idDocumento FROM documento WHERE Usuario_idUsuario = ? AND tipo = ? LIMIT 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, tipoDocumento.getDescripcion());
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                if (resultadosConsulta.next()) {
+                    existeDocumento = true;
+                }
+            }
+
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al verificar existencia de documento. ID Practicante: " + idPracticante + 
+                ", Tipo: " + tipoDocumento.name(), e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al verificar existencia de documento. " +
+                "ID Practicante: " + idPracticante + 
+                ", Tipo: " + tipoDocumento.name() +
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo verificar el documento, " + 
+                "intente de nuevo", e);
+        }
+
+        return existeDocumento;
     }
     
 }

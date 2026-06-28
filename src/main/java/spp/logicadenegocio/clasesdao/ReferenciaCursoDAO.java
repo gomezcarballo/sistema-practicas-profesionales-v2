@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.ReferenciaCurso;
+import spp.logicadenegocio.interfacesdao.IReferenciaCursoDAO;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -24,8 +25,9 @@ import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
  *
  * @author gomes
  */
-public class ReferenciaCursoDAO {
+public class ReferenciaCursoDAO implements IReferenciaCursoDAO{
     
+    @Override
     public int insertarReferenciaCurso(ReferenciaCurso referenciaCurso) throws OperacionesDeDaoExcepcion {
 
         int idInsertado = 0; 
@@ -92,6 +94,7 @@ public class ReferenciaCursoDAO {
         
     }
 
+    @Override
     public List<ReferenciaCurso> consultarTodasLasReferenciasCursos() throws OperacionesDeDaoExcepcion {
         
         List<ReferenciaCurso> listaReferencias = new ArrayList<>();
@@ -136,6 +139,7 @@ public class ReferenciaCursoDAO {
 
     }
 
+    @Override
     public ReferenciaCurso consultarReferenciaCursoPorId(int idReferenciaCurso) throws OperacionesDeDaoExcepcion {
 
         ReferenciaCurso referenciaEncontrada = null;

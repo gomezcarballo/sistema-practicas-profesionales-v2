@@ -5,6 +5,7 @@
 package spp.logicadenegocio.interfacesdao;
 
 import spp.logicadenegocio.clasesdto.Documento;
+import spp.logicadenegocio.enums.TipoDocumento;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 /**
@@ -46,4 +47,6 @@ public interface IDocumentoDAO {
      * de acceso a datos.
      */
     public boolean eliminarDocumento(String nombre) throws OperacionesDeDaoExcepcion;
+    public int contarDocumentosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
+    public boolean verificarExistenciaDocumento(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
 }

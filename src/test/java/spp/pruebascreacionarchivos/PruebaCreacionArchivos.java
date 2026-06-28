@@ -41,29 +41,6 @@ public class PruebaCreacionArchivos {
         }
 
     }
-    
-    @Test
-    public void pruebaCrearDireccionActividad() {
-
-        try {
-
-            SesionUsuario.getInstancia().iniciarSesion(1,"Practicante","S12345678","hash");
-
-            File archivo = File.createTempFile("prueba", ".pdf");
-
-            GestorDocumentos gestor = new GestorDocumentos();
-
-            Path ruta = gestor.crearDireccionArchivo(TipoDocumento.ACTIVIDAD, archivo);
-
-            assertTrue(ruta.toString().contains("Actividades"));
-
-        } catch (Exception e) {
-
-            fail();
-
-        }
-
-    }
 
     @Test
     public void pruebaCrearDireccionBitacoraPSP() {

@@ -389,7 +389,7 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
     }
     
     @Override
-    public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion{
+    public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion {
         
         List<Practicante> listaPracticantes = new ArrayList<>();
 
@@ -439,8 +439,49 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         }
 
         return listaPracticantes;
-
     }
 
+    @Override
+    public boolean tieneProyectoYGrupoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        boolean tieneAsignaciones = false;
 
+        String consultaSQL = "SELECT Proyecto_idProyecto, idExperienciaEducativa FROM practicante WHERE idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                if (resultadosConsulta.next() && 
+                    resultadosConsulta.getObject("Proyecto_idProyecto") != null && 
+                    resultadosConsulta.getObject("idExperienciaEducativa") != null) {
+
+                    tieneAsignaciones = true;
+                    
+                }
+            }
+
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al verificar proyecto y grupo asignado. ID Practicante: " + idPracticante, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al verificar proyecto y grupo asignado. " +
+                "ID Practicante: " + idPracticante + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo verificar la asignación, " + 
+                "intente de nuevo", e);
+        }
+
+        return tieneAsignaciones;
+    }
 }

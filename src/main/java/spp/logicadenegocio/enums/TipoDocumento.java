@@ -11,12 +11,14 @@ package spp.logicadenegocio.enums;
 public enum TipoDocumento {
     
     FORMATO_PRESENTACION("Formato de Presentación"),
-    ACTIVIDAD("Actividad"),
     BITACORA_PSP("Bitácora de PSP"),
     REPORTE_PARCIAL("Reporte Parcial"),
     REPORTE_MENSUAL("Reporte Mensual"),
+    REPORTE_FINAL("Reporte Final"),
     HORARIO("Horario"),
     AUTOEVALUACION("Autoevaluación"),
+    CALENDARIZACION("Calendarización"),
+    OFICIO_ACEPTACION("Oficio de aceptación"),
     PLAN_ACTIVIDADES("Plan de Actividades");
     
     private final String descripcion;

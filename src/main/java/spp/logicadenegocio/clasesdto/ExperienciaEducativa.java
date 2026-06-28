@@ -6,21 +6,24 @@ public class ExperienciaEducativa {
     private String periodo;
     private String nombreExperienciaEducativa;
     private int cupo;
+    private boolean estado;
     private int idReferenciaCurso;
     private int idProfesorAsignado;
+    
 
     public ExperienciaEducativa() {
 
     }
 
     public ExperienciaEducativa(int idExperienciaEducativa, int idReferenciaCurso, String periodo,
-            String nombreExperienciaEducativa, int cupo, int idProfesorAsignado) {
+            String nombreExperienciaEducativa, int cupo, int idProfesorAsignado, boolean estado) {
         this.idExperienciaEducativa = idExperienciaEducativa;
         this.idReferenciaCurso = idReferenciaCurso;
         this.periodo = periodo;
         this.nombreExperienciaEducativa = nombreExperienciaEducativa;
         this.cupo = cupo;
         this.idProfesorAsignado = idProfesorAsignado;
+        this.estado = estado;
     }
 
     public int getIdExperienciaEducativa() {
@@ -62,6 +65,14 @@ public class ExperienciaEducativa {
     public void setCupo(int cupo) {
         this.cupo = cupo;
     }
+
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }   
     
     public int getIdProfesorAsignado(){
         return idProfesorAsignado;

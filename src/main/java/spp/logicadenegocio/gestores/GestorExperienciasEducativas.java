@@ -34,6 +34,8 @@ public class GestorExperienciasEducativas {
         ExperienciaEducativaDAO experienciaEducativaDAO = new ExperienciaEducativaDAO();
         
         boolean registroExitoso = false;
+        
+        experienciaEducativa.setEstado(true);
                 
         experienciaEducativaDAO.insertarExperienciaEducativa(experienciaEducativa);
         

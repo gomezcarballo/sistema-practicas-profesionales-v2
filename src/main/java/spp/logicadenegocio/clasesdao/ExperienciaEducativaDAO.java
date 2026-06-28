@@ -14,17 +14,19 @@ import java.util.List;
 import java.util.logging.Level;
 import spp.accesoadatos.ConexionBD;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
+import spp.logicadenegocio.interfacesdao.IExperienciaEducativaDAO;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
-public class ExperienciaEducativaDAO {
+public class ExperienciaEducativaDAO implements IExperienciaEducativaDAO{
 
-    public int insertarExperienciaEducativa (ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion {
+    @Override
+    public int insertarExperienciaEducativa(ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion {
 
         int idInsertado = 0; 
 
-        String consultaSQL = "INSERT INTO ExperienciaEducativa (nombre, periodo, cupo, idReferenciaCurso) " +
-                            "VALUES (?, ?, ?, ?)";
+        String consultaSQL = "INSERT INTO ExperienciaEducativa (nombre, periodo, cupo, estado, idReferenciaCurso) " +
+                             "VALUES (?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement
@@ -33,7 +35,8 @@ public class ExperienciaEducativaDAO {
             consultaPreparada.setString(1, experiencia.getNombreExperienciaEducativa());
             consultaPreparada.setString(2, experiencia.getPeriodo());
             consultaPreparada.setInt(3, experiencia.getCupo());
-            consultaPreparada.setInt(4, experiencia.getIdReferenciaCurso());
+            consultaPreparada.setBoolean(4, experiencia.getEstado());
+            consultaPreparada.setInt(5, experiencia.getIdReferenciaCurso());
 
             consultaPreparada.executeUpdate();
             
@@ -90,7 +93,8 @@ public class ExperienciaEducativaDAO {
         
     }
 
-    public ExperienciaEducativa consultarExperienciaEducativa(int idExperienciaEducativa) throws OperacionesDeDaoExcepcion{
+    @Override
+    public ExperienciaEducativa consultarExperienciaEducativa(int idExperienciaEducativa) throws OperacionesDeDaoExcepcion {
 
         ExperienciaEducativa experienciaEncontrada = null;
 
@@ -191,7 +195,8 @@ public class ExperienciaEducativaDAO {
     
     }
 
-    public int consultarAsignacionesActivas()throws OperacionesDeDaoExcepcion{
+    @Override
+    public int consultarAsignacionesActivas() throws OperacionesDeDaoExcepcion {
 
         int asignacionesActivas = 0 ;
 

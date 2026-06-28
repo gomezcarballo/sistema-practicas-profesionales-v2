@@ -121,8 +121,16 @@ public class GestorDocumentos {
                 carpeta = "ReportesParciales";
                 break;
 
-            case ACTIVIDAD:
-                carpeta = "Actividades";
+            case REPORTE_FINAL:
+                carpeta = "ReporteFinal";
+                break;
+            
+            case CALENDARIZACION:
+                carpeta = "Calendarizacion";
+                break;
+                
+            case OFICIO_ACEPTACION:
+                carpeta = "OficioAceptacion";
                 break;
 
             case BITACORA_PSP:

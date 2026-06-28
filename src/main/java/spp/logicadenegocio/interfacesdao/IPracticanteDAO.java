@@ -96,4 +96,5 @@ public interface IPracticanteDAO {
      * de acceso a datos.
      */
     public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion;
+    public boolean tieneProyectoYGrupoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion;
 }
