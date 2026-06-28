@@ -25,6 +25,15 @@ import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 public class ControladorSubirEvidenciaPracticas {
     
     @FXML 
+    private Button btnHorario;
+    
+    @FXML 
+    private Button btnPlanActividades;
+    
+    @FXML 
+    private Button btnOficioAceptacion;
+
+    @FXML 
     private Button btnReporteParcial;
     
     @FXML 
@@ -36,8 +45,7 @@ public class ControladorSubirEvidenciaPracticas {
     @FXML 
     private Button btnBitacoraPSP;
     
-    @FXML 
-    private Button btnAutoevaluacion;
+    @FXML private Button btnAutoevaluacion;
     
     public void initialize() {
         
@@ -51,29 +59,89 @@ public class ControladorSubirEvidenciaPracticas {
             
             SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
             int idPracticante = sesionUsuario.getIdUsuario();
-
             GestorEvidenciasPracticas gestorEvidencias = new GestorEvidenciasPracticas();
 
-            if (!gestorEvidencias.puedeSubirDocumentosSeguimiento(idPracticante)) {
-                
-                bloquearBotonesSeguimiento();
-                
-            }
-
-            if (!gestorEvidencias.puedeSubirAutoevaluacion(idPracticante)) {
-                
-                btnAutoevaluacion.setDisable(true);
-                
-            }
+            validarDocumentosIniciales(idPracticante, gestorEvidencias);
+            validarDocumentosSeguimiento(idPracticante, gestorEvidencias);
+            validarEvaluacion(idPracticante, gestorEvidencias);
 
         } catch (OperacionesDeDaoExcepcion e) {
             
-            bloquearBotonesSeguimiento();
-            btnAutoevaluacion.setDisable(true);
-            
+            bloquearTodaLaInterfaz();
             RegistroErrores.registrarError(Level.SEVERE, "Fallo al validar permisos de evidencias", e);
             
         }
+        
+    }
+
+    private void validarDocumentosIniciales(int idPracticante, GestorEvidenciasPracticas gestorEvidencias) 
+    throws OperacionesDeDaoExcepcion {
+        
+        if (gestorEvidencias.yaSubioHorario(idPracticante)) {
+            btnHorario.setDisable(true);
+        }
+        
+        if (gestorEvidencias.yaSubioPlanActividades(idPracticante)) {
+            btnPlanActividades.setDisable(true);
+        }
+        
+        if (gestorEvidencias.yaSubioOficioAceptacion(idPracticante)) {
+            btnOficioAceptacion.setDisable(true);
+        }
+        
+    }
+
+    private void validarDocumentosSeguimiento(int idPracticante, GestorEvidenciasPracticas gestorEvidencias) 
+    throws OperacionesDeDaoExcepcion {
+        
+        if (!gestorEvidencias.puedeSubirDocumentosSeguimiento(idPracticante)) {
+            
+            bloquearBotonesSeguimiento();
+            
+        } else {
+            
+            if (gestorEvidencias.yaSubioLimitesParciales(idPracticante)) {
+                btnReporteParcial.setDisable(true);
+            }
+            
+            if (gestorEvidencias.yaSubioLimitesMensuales(idPracticante)) {
+                btnReporteMensual.setDisable(true);
+            }
+            
+            if (!gestorEvidencias.puedeSubirReporteFinal(idPracticante) || 
+                 gestorEvidencias.yaSubioReporteFinal(idPracticante)) {
+                 
+                btnReporteFinal.setDisable(true);
+                
+            }
+            
+            if (gestorEvidencias.yaSubioBitacoraPSP(idPracticante)) {
+                btnBitacoraPSP.setDisable(true);
+            }
+            
+        }
+        
+    }
+
+    private void validarEvaluacion(int idPracticante, GestorEvidenciasPracticas gestorEvidencias) 
+    throws OperacionesDeDaoExcepcion {
+        
+        if (!gestorEvidencias.puedeSubirAutoevaluacion(idPracticante) || 
+             gestorEvidencias.yaSubioAutoevaluacion(idPracticante)) {
+            
+            btnAutoevaluacion.setDisable(true);
+            
+        }
+        
+    }
+
+    private void bloquearTodaLaInterfaz() {
+        
+        btnHorario.setDisable(true);
+        btnPlanActividades.setDisable(true);
+        btnOficioAceptacion.setDisable(true);
+        bloquearBotonesSeguimiento();
+        btnAutoevaluacion.setDisable(true);
         
     }
 
@@ -150,4 +218,5 @@ public class ControladorSubirEvidenciaPracticas {
         CerradorVentana.cerrarVentana(evento);
         
     }
+    
 }

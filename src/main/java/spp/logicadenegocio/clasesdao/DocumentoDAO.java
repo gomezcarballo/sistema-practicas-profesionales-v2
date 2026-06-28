@@ -302,4 +302,44 @@ public class DocumentoDAO implements IDocumentoDAO {
         return existeDocumento;
     }
     
+    @Override
+    public int contarDocumentosCalificadosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+        
+        int cantidadCalificados = 0;
+
+        String consultaSQL = "SELECT COUNT(d.idDocumento) FROM documento d " +
+                             "INNER JOIN evaluacion e ON d.idDocumento = e.Documento_idDocumento " +
+                             "WHERE d.Usuario_idUsuario = ? AND d.tipo = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, tipoDocumento.getDescripcion());
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                if (resultadosConsulta.next()) {
+                    cantidadCalificados = resultadosConsulta.getInt(1);
+                }
+                
+            }
+
+        } catch(SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al contar documentos calificados. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo", e);
+            
+        } catch(SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al contar documentos calificados. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("No se pudieron verificar las calificaciones, intente de nuevo", e);
+            
+        }
+
+        return cantidadCalificados;
+    }
+    
 }

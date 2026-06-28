@@ -49,4 +49,5 @@ public interface IDocumentoDAO {
     public boolean eliminarDocumento(String nombre) throws OperacionesDeDaoExcepcion;
     public int contarDocumentosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
     public boolean verificarExistenciaDocumento(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
+    public int contarDocumentosCalificadosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
 }

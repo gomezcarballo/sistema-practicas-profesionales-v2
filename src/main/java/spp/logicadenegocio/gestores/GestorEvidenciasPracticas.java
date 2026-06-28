@@ -33,18 +33,75 @@ public class GestorEvidenciasPracticas {
         
     }
 
+    public boolean puedeSubirReporteFinal(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        boolean puedeSubir = false;
+        DocumentoDAO documentoDAO = new DocumentoDAO();
+        
+        int mensualesCalificados = documentoDAO.contarDocumentosCalificadosPorTipo(idPracticante, TipoDocumento.REPORTE_MENSUAL);
+        int parcialesCalificados = documentoDAO.contarDocumentosCalificadosPorTipo(idPracticante, TipoDocumento.REPORTE_PARCIAL);
+        
+        if (mensualesCalificados >= MINIMO_MENSUALES && parcialesCalificados >= MINIMO_PARCIALES) {
+            
+            puedeSubir = true;
+            
+        }
+        
+        return puedeSubir;
+        
+    }
+
     public boolean puedeSubirAutoevaluacion(int idPracticante) throws OperacionesDeDaoExcepcion {
         
-        DocumentoDAO documentoDAO = new DocumentoDAO();
+        boolean puedeSubir = false;
+        
+        if (puedeSubirReporteFinal(idPracticante)) {
+            
+            DocumentoDAO documentoDAO = new DocumentoDAO();
+            int finalesCalificados = documentoDAO.contarDocumentosCalificadosPorTipo(idPracticante, TipoDocumento.REPORTE_FINAL);
+            
+            if (finalesCalificados >= MINIMO_FINALES) {
+                
+                puedeSubir = true;
+                
+            }
+            
+        }
 
-        int totalMensuales = documentoDAO.contarDocumentosPorTipo(idPracticante, TipoDocumento.REPORTE_MENSUAL);
-        int totalParciales = documentoDAO.contarDocumentosPorTipo(idPracticante, TipoDocumento.REPORTE_PARCIAL);
-        int totalFinales = documentoDAO.contarDocumentosPorTipo(idPracticante, TipoDocumento.REPORTE_FINAL);
+        return puedeSubir;
+        
+    }
+    
+    public boolean yaSubioHorario(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.HORARIO);
+    }
 
-        return (totalMensuales >= MINIMO_MENSUALES) && 
-               (totalParciales >= MINIMO_PARCIALES) && 
-               (totalFinales >= MINIMO_FINALES);
-               
+    public boolean yaSubioPlanActividades(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
+    }
+
+    public boolean yaSubioOficioAceptacion(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
+    }
+
+    public boolean yaSubioLimitesMensuales(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().contarDocumentosPorTipo(idPracticante, TipoDocumento.REPORTE_MENSUAL) >= MINIMO_MENSUALES;
+    }
+
+    public boolean yaSubioLimitesParciales(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().contarDocumentosPorTipo(idPracticante, TipoDocumento.REPORTE_PARCIAL) >= MINIMO_PARCIALES;
+    }
+
+    public boolean yaSubioReporteFinal(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.REPORTE_FINAL);
+    }
+
+    public boolean yaSubioBitacoraPSP(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.BITACORA_PSP);
+    }
+
+    public boolean yaSubioAutoevaluacion(int idPracticante) throws OperacionesDeDaoExcepcion {
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.AUTOEVALUACION);
     }
     
 }
