@@ -97,48 +97,84 @@ public class ControladorGestionProyecto {
     @FXML
     private void leerDatosDeProyecto(ActionEvent evento) {
         
+        if (validarCamposDeInterfaz()) {
+            
+            boolean esActualizacion = (proyecto != null && proyecto.getIdProyecto() > 0);
+            
+            if (verificarContinuacionPorCambios(esActualizacion)) {
+                
+                ejecutarGuardado(esActualizacion, evento);
+                
+            }
+            
+        }
+        
+    }
+
+    private boolean validarCamposDeInterfaz() {
+        
+        boolean sonValidos = false;
+
         if (!sonCamposValidos() || !esCupoMenorADigitosMaximos()) {
             
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
             "Por favor verifica que todos los campos estén llenos y el cupo sea un número válido.");
-            return; 
+            
+        } else {
+            
+            sonValidos = true;
+            
+        }
+
+        return sonValidos;
         
-        }
+    }
 
-        boolean esActualizacion = (proyecto != null && proyecto.getIdProyecto() > 0);
-        boolean necesitaGuardar = true;
+    private boolean verificarContinuacionPorCambios(boolean esActualizacion) {
+        
+        boolean continuar = true;
 
-        if (esActualizacion && !huboCambios()) {
+        if (esActualizacion) {
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
-            "No ha cambiado nada de los datos del proyecto.");
-            necesitaGuardar = false; 
-       
-        }
-
-        if (necesitaGuardar) {
-            
-            if (proyecto == null) {
-                proyecto = new Proyecto();
+            if (!huboCambios()) {
+                
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
+                "No ha cambiado nada de los datos del proyecto.");
+                continuar = false; 
+                
             }
             
-            mapearDatosAProyecto(proyecto);
+        }
 
-            GestorProyectos gestor = new GestorProyectos();
-            List<String> listaErrores = gestor.validarCamposProyecto(proyecto);
+        return continuar;
+        
+    }
 
-            if (listaErrores.isEmpty()) {
-                
-                if (esActualizacion) {
-                    actualizarProyecto(proyecto, evento);
-                } else {
-                    registrarProyecto(proyecto, evento);
-                
-                }
+    private void ejecutarGuardado(boolean esActualizacion, ActionEvent evento) {
+        
+        if (proyecto == null) {
+            proyecto = new Proyecto();
+        }
+        
+        mapearDatosAProyecto(proyecto);
+
+        GestorProyectos gestor = new GestorProyectos();
+        List<String> listaErrores = gestor.validarCamposProyecto(proyecto);
+
+        if (listaErrores.isEmpty()) {
+            
+            if (esActualizacion) {
+                actualizarProyecto(proyecto, evento);
             } else {
-                VentanaMensaje.mostrarVentanaErrores(listaErrores);
+                registrarProyecto(proyecto, evento);
             }
+            
+        } else {
+            
+            VentanaMensaje.mostrarVentanaErrores(listaErrores);
+            
         }
+        
     }
     
     @FXML

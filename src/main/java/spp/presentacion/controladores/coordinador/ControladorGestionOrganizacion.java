@@ -65,44 +65,117 @@ public class ControladorGestionOrganizacion {
         
     }
     
+    
     @FXML
     private void leerDatosDeOrganizacion(ActionEvent evento) {
+        
+        if (validarCamposDeInterfaz()) {
+            
+            if (organizacion == null) {
+                organizacion = new Organizacion();
+            }
+
+            boolean esActualizacion = (organizacion.getIdOrganizacion() > 0);
+            
+            if (verificarContinuacionPorCambios(esActualizacion)) {
+                
+                ejecutarGuardado(esActualizacion, evento);
+                
+            }
+            
+        }
+        
+    }
+    
+    private boolean validarCamposDeInterfaz() {
+        
+        boolean sonValidos = false;
+
         if (!camposValidos()) {
+            
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos faltantes", 
             "Faltan datos por agregar. Por favor ingreselos.");
-            return; 
-        }
-    
-        if (organizacion == null) {
-            organizacion = new Organizacion();
+            
+        } else {
+            
+            sonValidos = true;
+            
         }
 
-        boolean esActualizacion = (organizacion.getIdOrganizacion() > 0);
-        boolean necesitaGuardar = true;
+        return sonValidos;
+        
+    }
+
+    private boolean verificarContinuacionPorCambios(boolean esActualizacion) {
+        
+        boolean continuar = true;
 
         if (esActualizacion && !huboCambios()) {
+            
             VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Sin cambios", 
             "No se detectaron modificaciones en los datos de la organización.");
-            necesitaGuardar = false; 
-        }
-
-        if (necesitaGuardar) {
-            mapearDatosAOrganizacion(organizacion); 
-
-            GestorOrganizaciones gestor = new GestorOrganizaciones();
-            List<String> listaErrores = gestor.validarCamposOrganizacion(organizacion);
+            continuar = false; 
             
-            if (listaErrores.isEmpty()) {
-                if (esActualizacion) {
-                    actualizarOrganizacion(organizacion, evento);
-                } else {
-                    registrarOrganizacion(organizacion, evento);
-                }
-            } else {
-                VentanaMensaje.mostrarVentanaErrores(listaErrores);
-            }
         }
+
+        return continuar;
+        
     }
+
+    private void ejecutarGuardado(boolean esActualizacion, ActionEvent evento) {
+        
+        mapearDatosAOrganizacion(organizacion); 
+
+        GestorOrganizaciones gestor = new GestorOrganizaciones();
+        List<String> listaErrores = gestor.validarCamposOrganizacion(organizacion);
+        
+        if (listaErrores.isEmpty()) {
+            
+            if (esActualizacion) {
+                actualizarOrganizacion(organizacion, evento);
+            } else {
+                registrarOrganizacion(organizacion, evento);
+            }
+            
+        } else {
+            
+            VentanaMensaje.mostrarVentanaErrores(listaErrores);
+            
+        }
+        
+    }
+
+    private boolean huboCambios() {
+        
+        boolean cambio = true;
+
+        if (this.organizacion != null) {
+            
+            cambio = !this.organizacion.getNombre().equals(txtNombre.getText().trim()) ||
+                     !this.organizacion.getDireccion().equals(txtDireccion.getText().trim()) ||
+                     !this.organizacion.getSector().equals(cbOpcionesSector.getValue());
+                     
+        }
+        
+        return cambio;
+        
+    }
+    
+    private boolean camposValidos(){
+        
+        boolean sonCamposValidos = true; 
+        
+        if(txtNombre.getText().isBlank() || txtDireccion.getText().isBlank() || 
+            cbOpcionesSector.getValue() == null){
+           
+            sonCamposValidos = false; 
+            
+        }
+        
+        return sonCamposValidos; 
+        
+    }
+
     
     private void registrarOrganizacion(Organizacion organizacion, ActionEvent evento) {
        
@@ -118,7 +191,8 @@ public class ControladorGestionOrganizacion {
             
         } catch (OperacionesDeDaoExcepcion e) {
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", "Ocurrió un error al registrar la organización. Intente más tarde.");                      
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Registro fallido", 
+                    "Ocurrió un error al registrar la organización. Intente más tarde.");                      
         
         }
     }
@@ -137,7 +211,8 @@ public class ControladorGestionOrganizacion {
 
         } catch (OperacionesDeDaoExcepcion e) {
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Actualización fallida", "Ocurrió un error al actualizar la organización. Intente más tarde.");
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Actualización fallida", 
+                    "Ocurrió un error al actualizar la organización. Intente más tarde.");
         
         }
         
@@ -150,26 +225,6 @@ public class ControladorGestionOrganizacion {
         organizacion.setSector(cbOpcionesSector.getValue());
         
     }   
-
-    private boolean huboCambios() {
-        return !this.organizacion.getNombre().equals(txtNombre.getText().trim()) ||
-               !this.organizacion.getDireccion().equals(txtDireccion.getText().trim()) ||
-               !this.organizacion.getSector().equals(cbOpcionesSector.getValue());
-    }
-    
-    private boolean camposValidos(){
-        
-        boolean sonCamposValidos = true; 
-        
-        if(txtNombre.getText().isBlank() ||  txtDireccion.getText().isBlank() || 
-            cbOpcionesSector.getValue() == null){
-           
-            sonCamposValidos = false; 
-            
-        }
-        return sonCamposValidos; 
-    }
-    
     
     @FXML
     public void cancelar(ActionEvent evento) {

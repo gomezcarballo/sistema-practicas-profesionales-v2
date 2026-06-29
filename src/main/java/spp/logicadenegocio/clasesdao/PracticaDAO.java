@@ -137,7 +137,7 @@ public class PracticaDAO implements IPracticaDAO{
                 + "a.fechaLimite "
                 + "FROM practicante pr "
                 + "INNER JOIN profesor p "
-                + "ON pr.nrcAsignado = p.nrcAsignado "
+                + "ON pr.idExperienciaEducativa = p.idExperienciaEducativa "
                 + "INNER JOIN practica a "
                 + "ON a.Profesor_idUsuario = p.idUsuario "
                 + "WHERE pr.idUsuario = ?";

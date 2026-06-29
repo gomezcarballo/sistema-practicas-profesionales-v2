@@ -26,35 +26,11 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
  */
 public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
     
-    @FXML
-    private ComboBox<String> cbOpcionesNrc;
-    
-    @FXML
-    public void initialize(){
-        
-        cbOpcionesNrc.setItems(FXCollections.observableArrayList("17141", "12345"));
-        
-    }
-    
-    @FXML
-    private boolean esNrcAsignadoValido(){
-        
-        boolean esNrcValido = true;
-        
-        if(cbOpcionesNrc.getValue() == null){
-            
-            esNrcValido = false;
-            
-        }
-        
-        return esNrcValido;
-        
-    }
     
     @FXML
     private void leerDatosDelProfesor(ActionEvent evento){
         
-        if(camposValidos() && esNrcAsignadoValido()){
+        if(camposValidos()){
             
             Profesor profesor = crearProfesor();
 
@@ -74,7 +50,6 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         String apellidoMaterno = txtApellidoMaterno.getText();
         String correoInstitucional = txtCorreo.getText();
         String numeroPersonal = txtNumeroPersonal.getText();
-        String nrcAsignado = cbOpcionesNrc.getValue();
 
         Profesor profesor = new Profesor();
         profesor.setNombre(nombre);
@@ -82,7 +57,6 @@ public class ControladorRegistroProfesor extends ControladorRegistroPersonal{
         profesor.setApellidoMaterno(apellidoMaterno);
         profesor.setCorreoInstitucional(correoInstitucional);
         profesor.setNumeroDePersonal(numeroPersonal);
-        profesor.setNrcAsignado(nrcAsignado);
         
         return profesor;
         

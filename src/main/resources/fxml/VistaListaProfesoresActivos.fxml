@@ -30,7 +30,7 @@ fx:controller="spp.presentacion.controladores.administrador.ControladorListaProf
 
                 </VBox>
 
-                <TableView fx:id="tblProfesoresActivos" prefHeight="230.0" prefWidth="500.0" styleClass="tabla-estandar">
+                <TableView fx:id="tblListaProfesores" prefHeight="230.0" prefWidth="500.0" styleClass="tabla-estandar">
 
                     <columns>
 

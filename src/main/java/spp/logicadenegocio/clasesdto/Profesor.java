@@ -11,13 +11,12 @@ package spp.logicadenegocio.clasesdto;
 public class Profesor extends Usuario{
     
     private String numeroDePersonal;
-    private String nrcAsignado;
 
     public Profesor() {
     }
 
     public Profesor(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno,
-           String correoInstitucional, String contraseña, boolean esActivo,String numeroDePersonal, String nrcAsignado) {
+           String correoInstitucional, String contraseña, boolean esActivo,String numeroDePersonal) {
         
         super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, contraseña, esActivo);
         this.numeroDePersonal = numeroDePersonal;
@@ -30,14 +29,6 @@ public class Profesor extends Usuario{
 
     public void setNumeroDePersonal(String numeroDePersonal) {
         this.numeroDePersonal = numeroDePersonal;
-    }
-
-    public String getNrcAsignado() {
-        return nrcAsignado;
-    }
-
-    public void setNrcAsignado(String nrcAsignado) {
-        this.nrcAsignado = nrcAsignado;
     }
     
 }

@@ -284,5 +284,116 @@ public class ExperienciaEducativaDAO implements IExperienciaEducativaDAO{
         return asignacionExitosa; 
     }
 
+    public boolean asignarExperienciaEducativaAProfesor(int idExperiencia, String numeroPersonal) throws OperacionesDeDaoExcepcion {
+         
+        boolean asignacionExitosa = false; 
+
+        String consultaSQL = "UPDATE experienciaeducativa " +
+                             "SET idUsuarioProfesor = (SELECT idUsuario FROM profesor WHERE noPersonal = ?) " +
+                             "WHERE idExperienciaEducativa = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setString(1, numeroPersonal);
+            consultaPreparada.setInt(2, idExperiencia);
+
+            if (consultaPreparada.executeUpdate() > 0) {
+                asignacionExitosa = true;
+            }
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "\nViolación de integridad al asignar profesor a experiencia educativa. " +
+                "ID_EE: " + idExperiencia + 
+                ", No. Personal: " + numeroPersonal, e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo asignar el profesor a la EE debido a un conflicto de datos", e);
+            
+        } catch(SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "\nTimeout al asignar profesor a experiencia educativa. ID_EE : " + idExperiencia + 
+                " , No. Personal : " + numeroPersonal, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError al asignar profesor a experiencia educativa. " +
+                "ID_EE: " + idExperiencia + 
+                ", No. Personal: " + numeroPersonal + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al asignar la EE, " + 
+                "intente de nuevo más tarde", e);
+                
+        }
+        
+        return asignacionExitosa; 
+        
+    }
+    
+    public List<ExperienciaEducativa> consultarExperienciasEducativasSinProfesor() throws OperacionesDeDaoExcepcion {
+        
+        List<ExperienciaEducativa> listaExperiencias = new ArrayList<>();
+
+        String consultaSQL = "SELECT idExperienciaEducativa, nombre, periodo, cupo, idReferenciaCurso, estado " +
+                             "FROM experienciaeducativa " +
+                             "WHERE idUsuarioProfesor IS NULL";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+            while (resultadosConsulta.next()) {
+
+                ExperienciaEducativa experienciaEducativa = new ExperienciaEducativa();
+
+                experienciaEducativa.setIdExperienciaEducativa(resultadosConsulta.getInt("idExperienciaEducativa"));
+                experienciaEducativa.setNombreExperienciaEducativa(resultadosConsulta.getString("nombre"));
+                experienciaEducativa.setPeriodo(resultadosConsulta.getString("periodo"));
+                experienciaEducativa.setCupo(resultadosConsulta.getInt("cupo"));
+                experienciaEducativa.setIdReferenciaCurso(resultadosConsulta.getInt("idReferenciaCurso"));
+                
+                listaExperiencias.add(experienciaEducativa);
+                
+            }
+
+        } catch(SQLSyntaxErrorException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError de sintaxis al consultar experiencias educativas sin profesor. " +
+                "Verificar tabla: experienciaeducativa", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "\nTimeout al consultar experiencias educativas sin profesor.", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError al consultar experiencias educativas sin profesor. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los grupos disponibles, " + 
+                "intente de nuevo", e);
+                
+        }
+
+        return listaExperiencias;
+        
+    }
     
 }

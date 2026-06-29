@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.gestores.GestorPracticantes;
 import spp.presentacion.controladores.practicante.ControladorBaseListaPracticantes;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -37,8 +38,10 @@ public class ControladorPracticantesConDocumentos extends ControladorBaseListaPr
     protected void cargarDatosEspecificos() {
 
         try {
+            
+            SesionUsuario sesionUsuario = SesionUsuario.getInstancia();
 
-            List<Practicante> practicantes = gestorPracticantes.recuperarPracticantesActivos();
+            List<Practicante> practicantes = gestorPracticantes.recuperarPracticantesAsignados(sesionUsuario.getIdUsuario());
 
             tblListaPracticantes.getItems().clear();
 

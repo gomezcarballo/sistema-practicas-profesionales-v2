@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="500.0" prefWidth="650.0" spacing="20.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorAsignacionProfesorAEE">
+    <children>
+        <VBox fx:id="vbTarjetaAsignacionEE" alignment="CENTER" maxWidth="600.0" spacing="15.0" styleClass="tarjeta-blanca">
+            <children>
+                <Label fx:id="lblTituloAsignarEE" styleClass="etiqueta-titulo" text="Asignación de Profesor a Grupo" />
+                
+                <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" text="Seleccione un grupo (EE) para asignarlo al profesor" />
+                
+                <TableView fx:id="tblListaExperiencias" prefHeight="250.0" prefWidth="550.0" styleClass="tabla-estandar">
+                    <columns>
+                        <TableColumn fx:id="colNombre" prefWidth="188.8" text="Nombre" />
+                        <TableColumn fx:id="colPeriodo" prefWidth="159.2" text="Periodo" />
+                        <TableColumn fx:id="colNRC" prefWidth="192.8" text="NRC" />
+                    </columns>
+                </TableView>
+                
+                <Region prefHeight="10.0" />
+
+                <HBox alignment="CENTER" spacing="15.0">
+                    <children>
+                        <Button fx:id="btnAsignar" onAction="#asignarProfesorAEE" prefWidth="140.0" styleClass="boton-accion" text="Asignar" />
+                        
+                        <Region HBox.hgrow="ALWAYS" />
+                        
+                        <Button fx:id="btnRegresar" onAction="#regresar" prefWidth="140.0" styleClass="boton-cancelar" text="Regresar" />
+                    </children>
+                </HBox>
+                
+            </children>
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+        </VBox>
+    </children>
+</VBox>

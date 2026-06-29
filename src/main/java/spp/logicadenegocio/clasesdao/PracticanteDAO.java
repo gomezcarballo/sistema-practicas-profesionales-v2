@@ -634,4 +634,77 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
         
     }
     
+    public List<Practicante> consultarPracticantesPorProfesor(int idUsuarioProfesor) throws OperacionesDeDaoExcepcion {
+
+        List<Practicante> practicantesConsultados = new ArrayList<>();
+
+        String consultaSQL = "SELECT u.idUsuario, u.nombre, u.apellidoPaterno, "
+            + "u.apellidoMaterno, u.correoInstitucional, "
+            + "p.matricula, p.genero, p.lenguaIndigena, "
+            + "p.fechaNacimiento "
+            + "FROM Practicante p "
+            + "INNER JOIN Usuario u ON p.idUsuario = u.idUsuario "
+            + "INNER JOIN Profesor prof ON p.idExperienciaEducativa = prof.idExperienciaEducativa "
+            + "WHERE prof.idUsuario = ? AND u.estado = 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuarioProfesor);
+            
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                while(resultadosConsulta.next()) {
+
+                    Practicante practicante = new Practicante();
+                    practicante.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                    practicante.setNombre(resultadosConsulta.getString("nombre"));
+                    practicante.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                    practicante.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                    practicante.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
+                    practicante.setMatricula(resultadosConsulta.getString("matricula"));
+                    practicante.setGenero(resultadosConsulta.getString("genero"));
+                    practicante.setHablaLenguaIndigena(resultadosConsulta.getBoolean("lenguaIndigena"));
+                    
+                    java.sql.Date fechaBd = resultadosConsulta.getDate("fechaNacimiento");
+                    if (fechaBd != null) {
+                        practicante.setFechaNacimiento(fechaBd.toLocalDate());
+                    }
+                    
+                    practicantesConsultados.add(practicante);
+                }
+                
+            }
+
+        } catch(SQLSyntaxErrorException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de sintaxis al consultar practicantes asignados. " +
+                "Verificar tablas: Practicante, Usuario, Profesor y sus columnas", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar practicantes por profesor", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al consultar practicantes por profesor. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los practicantes asignados, " + 
+                "intente de nuevo", e);
+        }
+
+        return practicantesConsultados;
+    
+    }
+    
 }

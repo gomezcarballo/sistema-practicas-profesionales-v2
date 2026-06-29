@@ -127,7 +127,6 @@ public class PruebaProfesorDAO {
         Profesor profesor = new Profesor();
         profesor.setIdUsuario(idUsuario);
         profesor.setNumeroDePersonal("87654");
-        profesor.setNrcAsignado("NRC01");
         return profesor;
         
     }

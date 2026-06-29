@@ -47,6 +47,14 @@
                         text="Organizaciones y Proyectos"
                         styleClass="boton-accion"/>
 
+                <Button fx:id="btnAsignacionProfesores"
+                        mnemonicParsing="false"
+                        onAction="#abrirAsignacionProfesores"
+                        prefWidth="260.0"
+                        prefHeight="40.0"
+                        text="Asignación de Profesores"
+                        styleClass="boton-accion"/>
+
                 <Button fx:id="btnGestionNRC"
                         mnemonicParsing="false"
                         onAction="#abrirListaReferenciaCurso"

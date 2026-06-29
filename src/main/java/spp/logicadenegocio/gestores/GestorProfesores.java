@@ -7,6 +7,7 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import java.util.logging.Level;
+import spp.logicadenegocio.clasesdao.ExperienciaEducativaDAO;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
@@ -146,5 +147,12 @@ public class GestorProfesores {
         return profesorDAO.obtenerPracticantesPorExperienciaEducativa(idExperienciaEducativa);
         
     }
+    
+    public List<Profesor> recuperarProfesoresParaAsignacionEE() throws OperacionesDeDaoExcepcion {
+
+        ProfesorDAO profesorDAO = new ProfesorDAO();
+        return profesorDAO.consultarProfesoresParaAsignacionEE();
+
+    } 
     
 }

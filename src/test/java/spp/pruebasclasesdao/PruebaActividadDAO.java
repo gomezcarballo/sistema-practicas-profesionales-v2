@@ -58,7 +58,6 @@ public class PruebaActividadDAO {
         Profesor p = new Profesor();
         p.setIdUsuario(idUsuarioFalso);
         p.setNumeroDePersonal("44569");
-        p.setNrcAsignado("NRC01");
         profesorDAO.insertarProfesor(p);
 
         Actividad actividadBase = new Actividad();

@@ -34,14 +34,13 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal, nrcAsignado) VALUES (?, ?, ?)";
+        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
 
             consultaPreparada.setInt(1, profesor.getIdUsuario());
             consultaPreparada.setString(2, profesor.getNumeroDePersonal());
-            consultaPreparada.setString(3, profesor.getNrcAsignado());
             
             registroExitoso = consultaPreparada.executeUpdate() > 0;
            
@@ -65,8 +64,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
             RegistroErrores.registrarError(Level.SEVERE, 
                 "Datos inválidos al insertar profesor. " +
                 "ID Usuario: " + profesor.getIdUsuario() + 
-                ", No. Personal: " + profesor.getNumeroDePersonal() + 
-                ", NRC: " + profesor.getNrcAsignado(), e);
+                ", No. Personal: " + profesor.getNumeroDePersonal(), e);
             
             throw new OperacionesDeDaoExcepcion("Los datos del profesor no son válidos, " + 
                 "revise la información", e);
@@ -92,8 +90,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
         String consultaSQL = """
             SELECT p.noPersonal as numeroDePersonal,
-            p.idUsuario,
-            p.nrcAsignado,                                 
+            p.idUsuario,                                 
             u.nombre,
             u.apellidoPaterno,
             u.apellidoMaterno,
@@ -114,7 +111,6 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
                 profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
                 profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
-                profesor.setNrcAsignado(resultadoConsulta.getString("nrcAsignado"));
                 profesor.setNombre(resultadoConsulta.getString("nombre"));
                 profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
                 profesor.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));
@@ -160,7 +156,6 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         String consultaSQL = """
             SELECT p.noPersonal,
             p.idUsuario,
-            p.nrcAsignado,
             u.nombre,
             u.apellidoPaterno,
             u.apellidoMaterno,
@@ -181,7 +176,6 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
                 profesor.setNumeroDePersonal(resultadoConsulta.getString("numeroDePersonal"));
                 profesor.setIdUsuario(resultadoConsulta.getInt("idUsuario"));
-                profesor.setNrcAsignado(resultadoConsulta.getString("nrcAsignado"));
                 profesor.setNombre(resultadoConsulta.getString("nombre"));
                 profesor.setApellidoPaterno(resultadoConsulta.getString("apellidoPaterno"));
                 profesor.setApellidoMaterno(resultadoConsulta.getString("apellidoMaterno"));
@@ -522,6 +516,62 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
 
         return profesorEncontrado;
         
+    }
+    
+    public List<Profesor> consultarProfesoresParaAsignacionEE() throws OperacionesDeDaoExcepcion {
+        
+        List<Profesor> listaProfesores = new ArrayList<>();
+
+        String consultaSQL = "CALL ListarProfesoresParaAsignarEE()";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);
+             ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+            while (resultadosConsulta.next()) {
+
+                Profesor profesor = new Profesor();
+
+                profesor.setIdUsuario(resultadosConsulta.getInt("idUsuario"));
+                profesor.setNumeroDePersonal(resultadosConsulta.getString("noPersonal")); 
+                profesor.setNombre(resultadosConsulta.getString("nombre"));
+                profesor.setApellidoPaterno(resultadosConsulta.getString("apellidoPaterno"));
+                profesor.setApellidoMaterno(resultadosConsulta.getString("apellidoMaterno"));
+                profesor.setCorreoInstitucional(resultadosConsulta.getString("correoInstitucional"));
+
+                listaProfesores.add(profesor);
+                
+            }
+
+        } catch(SQLSyntaxErrorException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError de sintaxis al consultar profesores para asignación de una experiencia educativa. " +
+                "Verificar tablas: Profesor, Usuario", e);
+            
+            throw new OperacionesDeDaoExcepcion("Error en el sistema, contacte al administrador", e);
+            
+        } catch(SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "\nTimeout al consultar profesores para asignación de una experiencia educativa. ", e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError al consultar profesores para asignación de una experiencia educativa. " +
+                "SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudieron consultar los profesores, " + 
+                "intente de nuevo", e);
+                
+        }
+
+        return listaProfesores;
     }
     
 }

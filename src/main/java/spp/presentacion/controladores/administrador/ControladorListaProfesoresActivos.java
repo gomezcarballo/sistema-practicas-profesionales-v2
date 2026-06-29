@@ -10,11 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.gestores.GestorProfesores;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
@@ -26,36 +21,17 @@ import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
  *
  * @author gomes
  */
-public class ControladorListaProfesoresActivos {
+public class ControladorListaProfesoresActivos extends ControladorBaseListaProfesores{
     
-    @FXML
-    private TableView<Profesor> tblProfesoresActivos;
-    
-    @FXML
-    private TableColumn<Profesor, String> colNombre;
-
-    @FXML
-    private TableColumn<Profesor, String> colApellidoPaterno;
-    
-    @FXML
-    private TableColumn<Profesor, String> colApellidoMaterno;
-    
-    @FXML
-    private TableColumn<Profesor, String> colCorreoinstitucional;
-
     private Profesor profesorNuevo;
-
+    private GestorProfesores gestorProfesores;
 
     @FXML
+    @Override
     public void initialize(){
 
-        tblProfesoresActivos.setPlaceholder(new Label("No hay profesores activos"));
-
-        tblProfesoresActivos.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        configurarColumnas();
-
-        cargarProfesoresActivos();
+        gestorProfesores = new GestorProfesores();
+        super.initialize();
 
     }
 
@@ -65,49 +41,23 @@ public class ControladorListaProfesoresActivos {
 
     }
 
-    private void configurarColumnas(){
+    @Override
+    protected void cargarDatosEspecificos() {
 
-        
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
-        colApellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
-        colCorreoinstitucional.setCellValueFactory(new PropertyValueFactory<>("correoInstitucional"));
-
-    }
-
-    private void cargarProfesoresActivos(){
-
-        try{
+        try {
             
-            GestorProfesores gestorProfesores = new GestorProfesores();
             List<Profesor> profesores = gestorProfesores.obtenerProfesoresActivos();
+            tblListaProfesores.getItems().clear();
+            tblListaProfesores.setItems(FXCollections.observableArrayList(profesores));
 
-            tblProfesoresActivos.getItems().clear();
+        } catch (OperacionesDeDaoExcepcion e) {
 
-            tblProfesoresActivos.setItems(FXCollections.observableArrayList(profesores));
-
-        }catch(OperacionesDeDaoExcepcion e){
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,"Error",e.getMessage());
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error", e.getMessage());
 
         }
 
     }
 
-    private Profesor obtenerProfesorSeleccionado(){
-
-        Profesor profesorSeleccionado = tblProfesoresActivos.getSelectionModel().getSelectedItem();
-
-        if(profesorSeleccionado == null){
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING,"Profesor no seleccionado",
-            "Debe seleccionar un profesor.");
-
-        }
-
-        return profesorSeleccionado;
-
-    }
 
     @FXML
     private void inactivarProfesor(ActionEvent evento){

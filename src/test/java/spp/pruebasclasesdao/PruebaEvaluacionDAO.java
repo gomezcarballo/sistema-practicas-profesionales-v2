@@ -56,7 +56,6 @@ public class PruebaEvaluacionDAO {
         Profesor profesor = new Profesor();
         profesor.setIdUsuario(idUsuarioProfesor);
         profesor.setNumeroDePersonal("45239");
-        profesor.setNrcAsignado("NRC01");
         profesorDAO.insertarProfesor(profesor);
 
         Usuario usuarioPracticante = new Usuario();

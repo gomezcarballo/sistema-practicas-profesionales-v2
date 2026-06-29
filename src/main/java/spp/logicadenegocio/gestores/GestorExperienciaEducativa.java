@@ -7,6 +7,7 @@ import spp.logicadenegocio.clasesdao.ExperienciaEducativaDAO;
 import spp.logicadenegocio.clasesdao.ReferenciaCursoDAO;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.ReferenciaCurso;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -15,7 +16,6 @@ public class GestorExperienciaEducativa {
     public List<ExperienciaEducativa> buscarExperienciasEducativasActivas() throws OperacionesDeDaoExcepcion{
 
         List<ExperienciaEducativa> listaDeExperiencia = new ArrayList<>(); 
-        listaDeExperiencia = null;
         ExperienciaEducativaDAO experienciaDao = new ExperienciaEducativaDAO();
         listaDeExperiencia = experienciaDao.consultarExperienciasEducativasActivas();
         
@@ -46,7 +46,7 @@ public class GestorExperienciaEducativa {
         return nrcReferenciado;
     }
 
-    public boolean asignarExperienciaAlPracticante(Practicante practicante, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
+    public boolean asignarProfesorAEE(Practicante practicante, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
         
         boolean asignacionExitosa = false; 
         ExperienciaEducativaDAO experienciaDao = new ExperienciaEducativaDAO();
@@ -58,5 +58,26 @@ public class GestorExperienciaEducativa {
         return asignacionExitosa;
 
     }
+    
+    public boolean asignarProfesorAEE(Profesor profesor, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
+        
+        boolean asignacionExitosa = false; 
+        ExperienciaEducativaDAO experienciaDao = new ExperienciaEducativaDAO();
+        String numeroPersonal = profesor.getNumeroDePersonal();
+        int idExperienciaEducativa = experiencia.getIdExperienciaEducativa();
 
+        asignacionExitosa = experienciaDao.asignarExperienciaEducativaAProfesor(idExperienciaEducativa, numeroPersonal);
+
+        return asignacionExitosa;
+
+    }
+
+    public List<ExperienciaEducativa> buscarExperienciasEducativasSinProfesor() throws OperacionesDeDaoExcepcion {
+        
+        ExperienciaEducativaDAO experienciaEducativaDAO = new ExperienciaEducativaDAO();
+        
+        return experienciaEducativaDAO.consultarExperienciasEducativasSinProfesor();
+        
+    }
+    
 }

@@ -139,7 +139,7 @@ public class ControladorAsignacionExperienciaEducativa {
 
             try{
 
-                asignacionExitosa = gestor.asignarExperienciaAlPracticante(practicanteSeleccionado, experiencia);
+                asignacionExitosa = gestor.asignarProfesorAEE(practicanteSeleccionado, experiencia);
 
             }catch(OperacionesDeDaoExcepcion e){
 
@@ -151,7 +151,8 @@ public class ControladorAsignacionExperienciaEducativa {
             if(asignacionExitosa){
 
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
-                "Se a realizado la asignación correctamente.");
+                "Se ha realizado la asignación correctamente.");
+                regresar(evento);
 
             }else{
 
@@ -159,7 +160,9 @@ public class ControladorAsignacionExperienciaEducativa {
                  "Intente de nuevo más tarde. Hubo un error al asignar la EE.");
 
             }
+            
         }
+        
     }
 
     @FXML
@@ -172,6 +175,7 @@ public class ControladorAsignacionExperienciaEducativa {
             
             ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
             controlador.configurarTipoDocumento(tipoDocumento, practicanteSeleccionado);
+
         } 
     }
 
@@ -214,4 +218,5 @@ public class ControladorAsignacionExperienciaEducativa {
         CerradorVentana.cerrarVentana(evento);
         
     }
+    
 }

@@ -43,6 +43,13 @@ public class ControladorMenuPrincipalCoordinador extends ControladorMenus{
     }
     
     @FXML
+    private void abrirAsignacionProfesores(ActionEvent evento){
+        
+        cambiarVentana("/fxml/VistaListaProfesoresAsignacionEE.fxml", "Asignación de Profesores", evento);
+        
+    }
+    
+    @FXML
     private void abrirReporteIndicadores(ActionEvent evento) {
         
         cambiarVentana("/fxml/VistaReporteIndicadores.fxml", "Reporte de Indicadores", evento);

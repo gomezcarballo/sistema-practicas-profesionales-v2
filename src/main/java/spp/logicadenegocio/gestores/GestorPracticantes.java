@@ -113,12 +113,20 @@ public class GestorPracticantes {
     
     }
     
+    public List<Practicante> recuperarPracticantesAsignados (int idProfesor) throws OperacionesDeDaoExcepcion {
+    
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        return practicanteDAO.consultarPracticantesPorProfesor(idProfesor);
+        
+    }
+    
     public List<Practicante> obtenerPracticantesConSolicitudes() throws OperacionesDeDaoExcepcion {
         
         PracticanteDAO practicanteDAO = new PracticanteDAO();
         return practicanteDAO.consultarPracticantesConSolicitudes();
     
     }
+    
 
     public List<Practicante> recuperarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion {
 
