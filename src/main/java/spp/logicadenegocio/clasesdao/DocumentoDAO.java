@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package spp.logicadenegocio.clasesdao;
 
 import java.sql.Connection;
@@ -341,5 +337,169 @@ public class DocumentoDAO implements IDocumentoDAO {
 
         return cantidadCalificados;
     }
+
+    @Override
+    public boolean verificarDocumentoAprobado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+        
+        boolean estaAprobado = false;
+        
+        String consultaSQL = "SELECT 1 FROM documento WHERE Usuario_idUsuario = ? AND tipo = ? AND estado = 'Aprobado' LIMIT 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, tipoDocumento.getDescripcion());
+
+            try (ResultSet resultados = consultaPreparada.executeQuery()) {
+                if (resultados.next()) {
+                    estaAprobado = true;
+                }
+            }
+
+        } catch (SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, "Timeout al verificar aprobación de documento. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch (SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Error al verificar aprobación de documento. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("No se pudo verificar el estado del documento", e);
+            
+        }
+
+        return estaAprobado;
+        
+    }
+
+    @Override
+    public boolean actualizarEstadoDocumento(Documento documento) throws OperacionesDeDaoExcepcion {
+        
+        boolean actualizacionExitosa = false;
+        
+        String consultaSQL = "UPDATE Documento SET estado = ? WHERE idDocumento = ?";
+        
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+                        
+            consultaPreparada.setString(1, documento.getEstadoDocumento());
+            consultaPreparada.setInt(2,documento.getIdDocumento());
+
+            actualizacionExitosa = consultaPreparada.executeUpdate() > 0;
+        
+        } catch (SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, 
+                "\nTimeout al actualizar el documento. IdDocumento: " + documento.getIdDocumento(), e);
+
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+        
+        } catch (SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "\nError de base de datos al actualizar el estado del documento. " + 
+                "idDocumento: " + documento.getIdDocumento() +
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al inactivar el administrador, " + 
+                "intente de nuevo más tarde", e);
+        }
+        
+         return actualizacionExitosa;
+    }
+
+    @Override 
+    public Documento buscarDocumentoPorUsuarioYTipo(int idUsuario, String tipo) throws OperacionesDeDaoExcepcion {
+        
+        Documento documentoEncontrado = null;
+
+        String consultaSQL = "SELECT idDocumento, nombre, tipo, ruta, Usuario_idUsuario, estado " +
+                    "FROM Documento WHERE Usuario_idUsuario = ? AND tipo = ? LIMIT 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+            
+            consultaPreparada.setInt(1, idUsuario);
+            consultaPreparada.setString(2, tipo);
+
+            ResultSet resultadosConsulta = consultaPreparada.executeQuery();
+
+            if (resultadosConsulta.next()) {
+
+                documentoEncontrado = new Documento();
+
+                documentoEncontrado.setIdDocumento(resultadosConsulta.getInt("idDocumento"));
+                documentoEncontrado.setNombre(resultadosConsulta.getString("nombre"));
+                documentoEncontrado.setTipo(resultadosConsulta.getString("tipo"));
+                documentoEncontrado.setRuta(resultadosConsulta.getString("ruta")); 
+                documentoEncontrado.setIdUsuario(resultadosConsulta.getInt("Usuario_idUsuario"));
+            }
+
+            return documentoEncontrado;
+
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al consultar el docuemnto por idUsuario y tipo. idUsuario:  " + idUsuario + " ,el tipo: " + tipo , e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error de base de datos al consultar el documento. El idUsuario: " + 
+                idUsuario + " ,tipo del documento: " + tipo + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al consultar el documento, intente de nuevo más tarde", e);
+        }
+
+    }     
     
+    @Override
+    public boolean eliminarDocumentoPorId(int idDocumento) throws OperacionesDeDaoExcepcion {
+        
+        boolean eliminacionExitosa = false;
+
+        String consultaSQL = "DELETE FROM Documento WHERE idDocumento = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+            PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idDocumento);
+
+            eliminacionExitosa = consultaPreparada.executeUpdate() > 0;
+            
+        } catch(SQLIntegrityConstraintViolationException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Violación de integridad al eliminar documento. " +
+                "ID Documento: " + idDocumento + 
+                " - Posiblemente tiene registros relacionados (aprobaciones, etc.)", e);
+            
+            throw new OperacionesDeDaoExcepcion("No se puede eliminar el documento porque " +    
+                "tiene información asociada", e);
+            
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al eliminar documento. ID: " + idDocumento, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al eliminar documento. " +
+                "ID: " + idDocumento + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("Error al eliminar el documento, " +  
+                "intente de nuevo más tarde", e);
+        }
+
+        return eliminacionExitosa;
+    }
+
 }

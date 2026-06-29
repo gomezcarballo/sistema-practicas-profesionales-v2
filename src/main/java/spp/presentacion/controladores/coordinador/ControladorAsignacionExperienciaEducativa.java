@@ -4,6 +4,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.gestores.GestorExperienciaEducativa;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
@@ -45,6 +47,26 @@ public class ControladorAsignacionExperienciaEducativa {
         tblListaExperiencias.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         configurarColumnas();
+        
+    }
+
+    public void cargarDatosDesdeBD(Practicante practicante) {
+
+        this.practicanteSeleccionado = practicante;
+
+        gestor = new GestorExperienciaEducativa();
+
+        try {
+
+            List<ExperienciaEducativa> lista = gestor.buscarExperienciasEducativasActivas();
+            cargarExperienciasEducativas(lista);
+
+        } catch (OperacionesDeDaoExcepcion e) {
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al cargar experiencias", 
+                e.getMessage());
+
+        }
         
     }
 
@@ -142,28 +164,42 @@ public class ControladorAsignacionExperienciaEducativa {
     }
 
     @FXML
-    private void verHorario(){
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
-        "Ahorita queda");
+    private void verHorario(ActionEvent evento){
+        abrirAprobacionDocumento(TipoDocumento.HORARIO, evento);
     }
 
     @FXML
-    private void  verPlanActividades(){
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
-        "Ahorita queda");
+    private  void  verPlanActividades(ActionEvent evento){
+        abrirAprobacionDocumento(TipoDocumento.PLAN_ACTIVIDADES, evento);
     }
 
     @FXML
-    private void  verOficioAceptacion(){
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
-        "Ahorita queda");
+    private void  verOficioAceptacion(ActionEvent evento){
+        abrirAprobacionDocumento(TipoDocumento.OFICIO_ACEPTACION, evento);
+    }
+
+    private void abrirAprobacionDocumento(TipoDocumento tipo, ActionEvent evento) {
+
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador(
+            "/fxml/VistaAprobacionDocumentosIniciales.fxml",
+            "Aprobación Documentos Iniciales"
+        );
+
+        if (cargador != null) {
+
+            ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
+            controlador.configurarTipoDocumento(tipo, practicanteSeleccionado, evento);
+            CerradorVentana.cerrarVentana(evento);
+
+        }
+
     }
 
     @FXML
     public void regresar(ActionEvent evento) {
         
-        CargadorVentana.cargarVentanaConControlador("/fxml/VistaSubMenuPracticantes.fxml", 
-        "Menu de Practicantes");
+        CargadorVentana.cargarVentanaConControlador("/fxml/VistaListaPracticantesParaAsignacionEE.fxml", 
+        "Lista Practicantes");
         CerradorVentana.cerrarVentana(evento);
         
     }

@@ -15,6 +15,7 @@ public class Documento {
     private String tipo;
     private String ruta;
     private int idUsuario;
+    private String estadoDocumento;
 
     public Documento() {
     }
@@ -69,4 +70,11 @@ public class Documento {
         this.idUsuario = idUsuario;
     }
         
+    public String getEstadoDocumento() {
+        return estadoDocumento;
+    }
+
+    public void setEstadoDocumento(String estadoDocumento) {
+        this.estadoDocumento = estadoDocumento;
+    }
 }
