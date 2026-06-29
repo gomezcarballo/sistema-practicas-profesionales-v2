@@ -10,160 +10,68 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbRaiz"
-      alignment="CENTER"
-      prefHeight="432.0"
-      prefWidth="600.0"
-      styleClass="panel-raiz"
-      stylesheets="@../css/estilos.css"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="spp.presentacion.controladores.coordinador.ControladorDetallePracticante">
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="432.0" prefWidth="600.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.coordinador.ControladorDetallePracticante">
 
    <children>
 
-      <VBox fx:id="vbTarjetaDetalle"
-            alignment="CENTER"
-            maxWidth="560.0"
-            spacing="25.0"
-            styleClass="tarjeta-blanca">
+      <VBox fx:id="vbTarjetaDetalle" alignment="CENTER" maxWidth="560.0" spacing="25.0" styleClass="tarjeta-blanca">
 
          <children>
 
-            <Label fx:id="lblTituloDetallesPracticante"
-                   text="Detalles del Practicante"
-                   styleClass="etiqueta-titulo" />
+            <Label fx:id="lblTituloDetallesPracticante" styleClass="etiqueta-titulo" text="Detalles del Practicante" />
 
             <GridPane hgap="15.0" vgap="12.0">
 
                <columnConstraints>
-                  <ColumnConstraints halignment="RIGHT"
-                                     prefWidth="220.0" />
-                  <ColumnConstraints hgrow="ALWAYS"
-                                     prefWidth="300.0" />
+                  <ColumnConstraints halignment="RIGHT" prefWidth="220.0" />
+                  <ColumnConstraints hgrow="ALWAYS" prefWidth="300.0" />
                </columnConstraints>
 
                <rowConstraints>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
-                  <RowConstraints prefHeight="30.0"/>
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
+                  <RowConstraints prefHeight="30.0" />
                </rowConstraints>
 
                <children>
 
-                  <Label fx:id="lblNombre"
-                         text="Nombre del practicante:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="0"/>
+                  <Label fx:id="lblNombre" styleClass="etiqueta-campo" text="Nombre del practicante:" GridPane.rowIndex="0" />
 
-                  <TextField fx:id="txtNombre"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="0"/>
+                  <TextField fx:id="txtNombre" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                  <Label fx:id="lblApellidoPaterno"
-                         text="Apellido paterno del practicante:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="1"/>
+                  <Label fx:id="lblApellidoPaterno" styleClass="etiqueta-campo" text="Apellido paterno del practicante:" GridPane.rowIndex="1" />
 
-                  <TextField fx:id="txtApellidoPaterno"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="1"/>
+                  <TextField fx:id="txtApellidoPaterno" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                  <Label fx:id="lblApellidoMaterno"
-                         text="Apellido materno del practicante:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="2"/>
+                  <Label fx:id="lblApellidoMaterno" styleClass="etiqueta-campo" text="Apellido materno del practicante:" GridPane.rowIndex="2" />
 
-                  <TextField fx:id="txtApellidoMaterno"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="2"/>
+                  <TextField fx:id="txtApellidoMaterno" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                  <Label fx:id="lblMatricula"
-                         text="Matrícula:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="3"/>
+                  <Label fx:id="lblMatricula" styleClass="etiqueta-campo" text="Matrícula:" GridPane.rowIndex="3" />
 
-                  <TextField fx:id="txtMatricula"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="3"/>
+                  <TextField fx:id="txtMatricula" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                  <Label fx:id="lblCorreo"
-                         text="Correo institucional:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="4"/>
+                  <Label fx:id="lblCorreo" styleClass="etiqueta-campo" text="Correo institucional:" GridPane.rowIndex="4" />
 
-                  <TextField fx:id="txtCorreoInstitucional"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="4"/>
+                  <TextField fx:id="txtCorreoInstitucional" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                  <Label fx:id="lblGenero"
-                         text="Género:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="5"/>
+                  <Label fx:id="lblGenero" styleClass="etiqueta-campo" text="Género:" GridPane.rowIndex="5" />
 
-                  <TextField fx:id="txtGenero"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="5"/>
+                  <TextField fx:id="txtGenero" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                  <Label fx:id="lblFechaNacimiento"
-                         text="Fecha de nacimiento:"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="6"/>
+                  <Label fx:id="lblFechaNacimiento" styleClass="etiqueta-campo" text="Fecha de nacimiento:" GridPane.rowIndex="6" />
 
-                  <TextField fx:id="txtFechaNacimiento"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="6"/>
+                  <TextField fx:id="txtFechaNacimiento" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                  <Label fx:id="lblLenguaIndigena"
-                         text="¿Habla alguna lengua indígena?"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="7"/>
+                  <Label fx:id="lblLenguaIndigena" styleClass="etiqueta-campo" text="¿Habla alguna lengua indígena?" GridPane.rowIndex="7" />
 
-                  <TextField fx:id="txtHablaLenguaIndigena"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="7"/>
-
-                  <Label fx:id="lblNrc"
-                         text="Grupo (NRC):"
-                         styleClass="etiqueta-campo"
-                         GridPane.rowIndex="8"/>
-
-                  <TextField fx:id="txtNrcAsignado"
-                             editable="false"
-                             styleClass="campo-entrada"
-                             maxWidth="1.7976931348623157E308"
-                             GridPane.columnIndex="1"
-                             GridPane.rowIndex="8"/>
+                  <TextField fx:id="txtHablaLenguaIndigena" editable="false" maxWidth="1.7976931348623157E308" styleClass="campo-entrada" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                </children>
 
@@ -171,22 +79,14 @@
 
             <BorderPane>
                <center>
-                  <Button fx:id="btnRegresar"
-                          mnemonicParsing="false"
-                          onAction="#regresar"
-                          text="Regresar"
-                          styleClass="boton-cancelar"
-                          BorderPane.alignment="CENTER"/>
+                  <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" styleClass="boton-cancelar" text="Regresar" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
 
          </children>
 
          <padding>
-            <Insets top="30.0"
-                    right="30.0"
-                    bottom="30.0"
-                    left="30.0"/>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
          </padding>
 
       </VBox>

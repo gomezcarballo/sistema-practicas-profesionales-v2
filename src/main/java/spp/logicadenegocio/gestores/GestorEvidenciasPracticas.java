@@ -17,18 +17,27 @@ public class GestorEvidenciasPracticas {
 
     public boolean puedeSubirDocumentosSeguimiento(int idPracticante) throws OperacionesDeDaoExcepcion {
         
+        boolean puedeSubir = false;
+        
         DocumentoDAO documentoDAO = new DocumentoDAO();
         PracticanteDAO practicanteDAO = new PracticanteDAO();
 
-        boolean tieneHorario = documentoDAO.verificarExistenciaDocumento(idPracticante, TipoDocumento.HORARIO);
-        boolean tienePlan = documentoDAO.verificarExistenciaDocumento(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
-        boolean tieneOficio = documentoDAO.verificarExistenciaDocumento(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
+        boolean horarioAprobado = documentoDAO.verificarDocumentoAprobado(idPracticante, TipoDocumento.HORARIO);
+        boolean planAprobado = documentoDAO.verificarDocumentoAprobado(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
+        boolean oficioAprobado = documentoDAO.verificarDocumentoAprobado(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
+        
         boolean tieneAsignacion = practicanteDAO.tieneProyectoYGrupoAsignado(idPracticante);
 
-        return tieneHorario && tienePlan && tieneOficio && tieneAsignacion;
+        if (horarioAprobado && planAprobado && oficioAprobado && tieneAsignacion) {
+            
+            puedeSubir = true;
+            
+        }
+
+        return puedeSubir;
         
     }
-
+    
     public boolean puedeSubirReporteFinal(int idPracticante) throws OperacionesDeDaoExcepcion {
         
         boolean puedeSubir = false;

@@ -5,7 +5,9 @@
 package spp.logicadenegocio.interfacesdao;
 
 import java.util.List;
+import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -97,4 +99,7 @@ public interface IPracticanteDAO {
      */
     public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion;
     public boolean tieneProyectoYGrupoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion;
+    public Proyecto obtenerProyectoAsignado(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion;
+    public ExperienciaEducativa obtenerExperienciaEducativaAsignada(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion;
+    public List<Practicante> consultarPracticantesAsignados()throws OperacionesDeDaoExcepcion;
 }

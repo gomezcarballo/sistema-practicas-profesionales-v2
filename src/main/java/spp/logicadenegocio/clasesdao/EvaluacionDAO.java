@@ -31,20 +31,19 @@ public class EvaluacionDAO implements IEvaluacionDAO{
         
         int idGenerado = 0;
         
-        String consultaSQL = "INSERT INTO evaluacion (nrc, calificacionFinal, Profesor_idUsuario, "
-                + "Practicante_idUsuario, observaciones, Documento_idDocumento) VALUES (?, ?, ?, ?, ?, ?)";   
+        String consultaSQL = "INSERT INTO evaluacion (calificacionFinal, Profesor_idUsuario, "
+                + "Practicante_idUsuario, observaciones, Documento_idDocumento) VALUES (?, ?, ?, ?, ?)";   
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL, 
             Statement.RETURN_GENERATED_KEYS);){
             
-            consultaPreparada.setString(1, evaluacion.getNrc());
-            consultaPreparada.setDouble(2, evaluacion.getCalificacionFinal());
-            consultaPreparada.setInt(3, evaluacion.getIdProfesor());
-            consultaPreparada.setInt(4, evaluacion.getPracticante().getIdUsuario());
-            consultaPreparada.setString(5, evaluacion.getObservaciones());
+            consultaPreparada.setDouble(1, evaluacion.getCalificacionFinal());
+            consultaPreparada.setInt(2, evaluacion.getIdProfesor());
+            consultaPreparada.setInt(3, evaluacion.getPracticante().getIdUsuario());
+            consultaPreparada.setString(4, evaluacion.getObservaciones());
         
-            consultaPreparada.setInt(6, evaluacion.getDocumento().getIdDocumento());
+            consultaPreparada.setInt(5, evaluacion.getDocumento().getIdDocumento());
 
             consultaPreparada.executeUpdate();
             
@@ -62,7 +61,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Violación de integridad al insertar la evaluacion. " +
                 "El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el NRC : " + evaluacion.getNrc() + 
                 ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
             
@@ -73,7 +71,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Timeout al insertar coordinador." +
                 "El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el NRC : " + evaluacion.getNrc() + 
                 ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
             
@@ -85,7 +82,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Datos inválidos al insertar el coordinador." +
                 " El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el NRC : " + evaluacion.getNrc() + 
                 ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
             
@@ -97,7 +93,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Error de base de datos al insertar el coordinador. " +
                 " El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el NRC : " + evaluacion.getNrc() + 
                 ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() + 
                 ".SQL State: " + e.getSQLState() + 
@@ -128,7 +123,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
             if (resultadosConsulta.next()) {
                 evaluacion = new Evaluacion();
 
-                evaluacion.setNrc(resultadosConsulta.getString("nrc"));
                 evaluacion.setPeriodo(resultadosConsulta.getString("periodo"));
                 evaluacion.setCalificacionFinal(resultadosConsulta.getDouble("calificacionFinal"));;
                 evaluacion.setIdProfesor(resultadosConsulta.getInt("Profesor_idUsuario"));
@@ -196,17 +190,16 @@ public class EvaluacionDAO implements IEvaluacionDAO{
         return eliminacionExitosa;
     }
     
-    public boolean existeEvaluacion(int idPracticante, String nrc, int idDocumento) throws OperacionesDeDaoExcepcion {
+    public boolean existeEvaluacion(int idPracticante, int idDocumento) throws OperacionesDeDaoExcepcion {
     
         boolean existe = false;
-        String consultaSQL = "SELECT COUNT(*) FROM evaluacion WHERE Practicante_idUsuario = ? AND nrc = ? AND Documento_idDocumento = ?";
+        String consultaSQL = "SELECT COUNT(*) FROM evaluacion WHERE Practicante_idUsuario = ? AND Documento_idDocumento = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
             consultaPreparada.setInt(1, idPracticante);
-            consultaPreparada.setString(2, nrc);
-            consultaPreparada.setInt(3, idDocumento);
+            consultaPreparada.setInt(2, idDocumento);
 
             try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
                 if (resultadosConsulta.next()) {

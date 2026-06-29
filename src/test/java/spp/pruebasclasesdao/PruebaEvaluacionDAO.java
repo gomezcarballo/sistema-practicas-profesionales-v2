@@ -72,11 +72,9 @@ public class PruebaEvaluacionDAO {
         practicante.setIdUsuario(idUsuarioPracticante);
         practicante.setMatricula("S22013256"); 
         practicante.setFechaNacimiento(java.time.LocalDate.now());
-        practicante.setNrcAsignado("NRC01");
         practicanteDAO.insertarPracticante(practicante);
 
         Evaluacion evaluacion = new Evaluacion();
-        evaluacion.setNrc("NRC01");
         evaluacion.setPeriodo("FEB-JUL 26");
         evaluacion.setCalificacionFinal(9.5);
         evaluacion.setIdProfesor(profesor.getIdUsuario());
@@ -105,7 +103,6 @@ public class PruebaEvaluacionDAO {
     public void pruebaInsertarEvaluacionExitoso() throws OperacionesDeDaoExcepcion {
         
         Evaluacion nuevaEvaluacion = new Evaluacion();
-        nuevaEvaluacion.setNrc("NRC01");
         nuevaEvaluacion.setPeriodo("AGO-DIC 26");
         nuevaEvaluacion.setCalificacionFinal(10.0);
         nuevaEvaluacion.setObservaciones("Sin observaciones para esta prueba");

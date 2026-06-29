@@ -167,7 +167,6 @@ public class PruebaSolicitudProyectoDAO {
         practicante.setGenero("Masculino");
         practicante.setFechaNacimiento(LocalDate.of(2000, 1, 1));
         practicante.setHablaLenguaIndigena(false);
-        practicante.setNrcAsignado("12345");
 
         return practicante;
     }
