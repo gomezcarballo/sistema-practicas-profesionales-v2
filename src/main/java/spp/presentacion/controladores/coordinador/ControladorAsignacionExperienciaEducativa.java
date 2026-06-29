@@ -4,6 +4,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.gestores.GestorExperienciaEducativa;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
@@ -105,7 +107,6 @@ public class ControladorAsignacionExperienciaEducativa {
         return experienciaSeleccionada;
     }
 
-    
     @FXML 
     void asignarExperienciaAPracticante(ActionEvent evento){
         
@@ -141,22 +142,31 @@ public class ControladorAsignacionExperienciaEducativa {
         }
     }
 
+    private void verDocumento(TipoDocumento tipoDocumento){
+
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaAprobacionDocumentosIniciales.fxml",
+        "Aprobación Documentos Iniciales");
+        
+        if(cargador != null){
+            
+            ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
+            controlador.configurarTipoDocumento(tipoDocumento);
+        } 
+    }
+
     @FXML
-    private void verHorario(){
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
-        "Ahorita queda");
+    private void verHorario(ActionEvent evento){
+        verDocumento(TipoDocumento.HORARIO);
     }
 
     @FXML
     private void  verPlanActividades(){
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
-        "Ahorita queda");
+       verDocumento(TipoDocumento.PLAN_ACTIVIDADES);
     }
 
     @FXML
     private void  verOficioAceptacion(){
-        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
-        "Ahorita queda");
+        verDocumento(TipoDocumento.OFICIO_ACEPTACION);
     }
 
     @FXML
