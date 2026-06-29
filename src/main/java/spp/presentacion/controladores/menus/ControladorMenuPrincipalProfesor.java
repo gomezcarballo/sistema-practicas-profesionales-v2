@@ -58,6 +58,13 @@ public class ControladorMenuPrincipalProfesor extends ControladorMenus {
     }
     
     @FXML
+    private void abrirMisGrupos(ActionEvent evento) {
+        
+        cambiarVentana("/fxml/VistaListaExperienciasEducativas.fxml", "Mis Grupos Asignados", evento);
+        
+    }
+    
+    @FXML
     private void cerrarSesion(ActionEvent evento) {
 
         CerradorSesion.cerrarSesion(evento);

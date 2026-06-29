@@ -270,7 +270,7 @@ public class DocumentoDAO implements IDocumentoDAO {
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
 
             consultaPreparada.setInt(1, idPracticante);
-            consultaPreparada.setString(2, tipoDocumento.getDescripcion());
+            consultaPreparada.setString(2, tipoDocumento.toString());
 
             try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
 

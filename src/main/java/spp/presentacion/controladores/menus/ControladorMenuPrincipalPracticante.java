@@ -104,6 +104,21 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
         
     }
     
+    
+    @FXML
+    private void abrirMiProyecto(ActionEvent evento) {
+        
+        cambiarVentana("/fxml/VistaMiProyecto.fxml", "Mi Proyecto Asignado", evento);
+    
+    }
+
+    @FXML
+    private void abrirMiEE(ActionEvent evento) {
+        
+        cambiarVentana("/fxml/VistaMiExperienciaEducativa.fxml", "Mi Experiencia Educativa", evento);
+    
+    }
+    
     @FXML
     private void cerrarSesion(ActionEvent evento) {
 

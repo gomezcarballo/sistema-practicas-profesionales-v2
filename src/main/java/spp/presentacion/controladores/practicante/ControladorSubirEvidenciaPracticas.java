@@ -43,7 +43,8 @@ public class ControladorSubirEvidenciaPracticas {
     @FXML 
     private Button btnBitacoraPSP;
     
-    @FXML private Button btnAutoevaluacion;
+    @FXML 
+    private Button btnAutoevaluacion;
     
     public void initialize() {
         

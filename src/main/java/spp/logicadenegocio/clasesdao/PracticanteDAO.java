@@ -13,7 +13,9 @@ import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.UsuarioEncontrado;
 import spp.logicadenegocio.interfacesdao.IPracticanteDAO;
 import spp.utilerias.bitacora.RegistroErrores;
@@ -484,4 +486,90 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
 
         return tieneAsignaciones;
     }
+    
+    public Proyecto obtenerProyectoAsignado(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion {
+        
+        Proyecto proyectoAsignado = null;
+
+        String consultaSQL = "SELECT p.idProyecto, p.nombre, p.nombreResponsable, p.objetivoGeneral " +
+                             "FROM proyecto p " +
+                             "INNER JOIN practicante prac ON p.idProyecto = prac.Proyecto_idProyecto " +
+                             "WHERE prac.idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuarioPracticante);
+
+            try (ResultSet resultados = consultaPreparada.executeQuery()) {
+                
+                if (resultados.next()) {
+                    proyectoAsignado = new Proyecto();
+                    proyectoAsignado.setIdProyecto(resultados.getInt("idProyecto"));
+                    proyectoAsignado.setNombre(resultados.getString("nombre"));
+                    proyectoAsignado.setNombreResponsable(resultados.getString("nombreResponsable"));
+                    proyectoAsignado.setObjetivoGeneral(resultados.getString("objetivoGeneral"));
+                }
+                
+            }
+
+        } catch (SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, "Timeout al recuperar proyecto del practicante: " + idUsuarioPracticante, e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch (SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Error al recuperar proyecto del practicante: " + idUsuarioPracticante, e);
+            throw new OperacionesDeDaoExcepcion("No se pudo cargar la información del proyecto asignado", e);
+            
+        }
+
+        return proyectoAsignado;
+        
+    }
+
+    public ExperienciaEducativa obtenerExperienciaEducativaAsignada(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion {
+        
+        ExperienciaEducativa experienciaAsignada = null;
+
+        String consultaSQL = "SELECT ee.idExperienciaEducativa, ee.nombre, ee.periodo, ee.idReferenciaCurso, ee.idUsuarioProfesor " +
+                             "FROM experienciaeducativa ee " +
+                             "INNER JOIN practicante p ON ee.idExperienciaEducativa = p.idExperienciaEducativa " +
+                             "WHERE p.idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idUsuarioPracticante);
+
+            try (ResultSet resultados = consultaPreparada.executeQuery()) {
+                
+                if (resultados.next()) {
+                    experienciaAsignada = new ExperienciaEducativa();
+                    experienciaAsignada.setIdExperienciaEducativa(resultados.getInt("idExperienciaEducativa"));
+                    experienciaAsignada.setNombreExperienciaEducativa(resultados.getString("nombre"));
+                    experienciaAsignada.setPeriodo(resultados.getString("periodo"));
+                    experienciaAsignada.setIdReferenciaCurso(resultados.getInt("idReferenciaCurso"));
+                    experienciaAsignada.setIdProfesorAsignado(resultados.getInt("idUsuarioProfesor"));
+                }
+                
+            }
+
+        } catch (SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, "Timeout al recuperar EE del practicante: " + idUsuarioPracticante, e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch (SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Error al recuperar EE del practicante: " + idUsuarioPracticante, e);
+            throw new OperacionesDeDaoExcepcion("No se pudo cargar la información de la Experiencia Educativa", e);
+            
+        }
+
+        return experienciaAsignada;
+        
+    }
+    
 }
