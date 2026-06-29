@@ -1,6 +1,5 @@
 package spp.presentacion.controladores.coordinador;
 
-import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -34,9 +33,6 @@ public class ControladorAsignacionExperienciaEducativa {
     @FXML
     private TableColumn<ExperienciaEducativa, String> colNRC;
 
-    @FXML
-    private TableColumn<ExperienciaEducativa, String> colProfesor;
-
     private Practicante practicanteSeleccionado;
 
     private GestorExperienciaEducativa gestor;
@@ -52,47 +48,47 @@ public class ControladorAsignacionExperienciaEducativa {
         
     }
 
-    public void inicializarDatos(Practicante practicante) {
+    public void inicializarDatos(Practicante practicante, List<ExperienciaEducativa> listaExperienciaEducativas) {
 
         this.practicanteSeleccionado = practicante;
-        
-        cargarExperienciasEducativas();
 
+        if(listaExperienciaEducativas != null && !listaExperienciaEducativas.isEmpty()){
+
+            cargarExperienciasEducativas(listaExperienciaEducativas);
+
+        }else{
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Error cargar experiencias educativas",
+                "Error mostrar las experiencias educativas. Intentelo más tarde.");
+        
+        }
+        
     }
 
     private void configurarColumnas() {
 
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreExperienciaEducativa"));
         
         colPeriodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
 
         colNRC.setCellValueFactory(new PropertyValueFactory<>("nrc"));
 
-        colProfesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));
-
     }
 
-    private void cargarExperienciasEducativas(){
+    private void cargarExperienciasEducativas(List<ExperienciaEducativa> listaExperienciaEducativas){
 
-        try{
-            
-            gestor = new GestorExperienciaEducativa();
-            
-            List<ExperienciaEducativa> listaExperienciasActivas = new ArrayList<>();
-
-            listaExperienciasActivas = gestor.buscarExperienciasEducativasActivas();
+        if(listaExperienciaEducativas != null && !listaExperienciaEducativas.isEmpty()){
 
             tblListaExperiencias.getItems().clear();
 
-            tblListaExperiencias.setItems(FXCollections.observableArrayList(listaExperienciasActivas));
+            tblListaExperiencias.setItems(FXCollections.observableArrayList(listaExperienciaEducativas));
 
-        }catch (OperacionesDeDaoExcepcion e){
-                
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al recuperar la información",
-            e.getMessage());
+        }else{
 
-            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Error cargar experiencias educativas",
+                "Error mostrar las experiencias educativas. Intentelo más tarde.");
         }
+       
     }
 
     private ExperienciaEducativa obtenerExperienciaSeleccionada(){
@@ -143,6 +139,24 @@ public class ControladorAsignacionExperienciaEducativa {
 
             }
         }
+    }
+
+    @FXML
+    private void verHorario(){
+        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
+        "Ahorita queda");
+    }
+
+    @FXML
+    private void  verPlanActividades(){
+        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
+        "Ahorita queda");
+    }
+
+    @FXML
+    private void  verOficioAceptacion(){
+        VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Perame",
+        "Ahorita queda");
     }
 
     @FXML

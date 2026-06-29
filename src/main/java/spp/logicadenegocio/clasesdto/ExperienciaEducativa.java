@@ -9,6 +9,7 @@ public class ExperienciaEducativa {
     private boolean estado;
     private int idReferenciaCurso;
     private int idProfesorAsignado;
+    private String nrc;
     
 
     public ExperienciaEducativa() {
@@ -80,5 +81,13 @@ public class ExperienciaEducativa {
 
     public void setIdProfesorAsignado(int idProfesorAsignado){
         this.idProfesorAsignado = idProfesorAsignado; 
+    }
+
+     public String getNrc(){
+        return nrc;
+    }
+
+    public void setNrc(String nrc){
+        this.nrc = nrc; 
     }
 }
