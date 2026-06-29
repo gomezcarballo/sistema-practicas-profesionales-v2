@@ -1,6 +1,5 @@
 package spp.presentacion.controladores.coordinador;
 
-
 import java.io.File;
 
 import javafx.event.ActionEvent;
@@ -37,16 +36,16 @@ public class ControladorAprobacionDocumentosIniciales {
     private Documento documentoActual;
 
     
-    public void configurarTipoDocumento(TipoDocumento tipoDocumento, Practicante practicanteSeleccionado, ActionEvent evento){
+    public void configurarTipoDocumento(TipoDocumento tipoDocumento, Practicante practicanteSeleccionado){
 
         this.tipoDocumento = tipoDocumento;
         this.practicanteSeleccionado = practicanteSeleccionado;
 
-        cargarDocumento(practicanteSeleccionado, tipoDocumento, evento);
+        cargarDocumento(practicanteSeleccionado, tipoDocumento);
 
     }
 
-    private Documento cargarDocumento(Practicante practicante, TipoDocumento tipo, ActionEvent evento) {
+    private Documento cargarDocumento(Practicante practicante, TipoDocumento tipo) {
 
         gestor = new GestorDocumentosIniciales();
         documentoActual = null;

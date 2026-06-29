@@ -67,7 +67,7 @@ public class ControladorAsignacionExperienciaEducativa {
                 e.getMessage());
 
         }
-        
+
     }
 
     public void inicializarDatos(Practicante practicante, List<ExperienciaEducativa> listaExperienciaEducativas) {
@@ -127,7 +127,6 @@ public class ControladorAsignacionExperienciaEducativa {
         return experienciaSeleccionada;
     }
 
-    
     @FXML 
     void asignarExperienciaAPracticante(ActionEvent evento){
         
@@ -164,6 +163,19 @@ public class ControladorAsignacionExperienciaEducativa {
     }
 
     @FXML
+    private void verDocumento(TipoDocumento tipoDocumento){
+
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaAprobacionDocumentosIniciales.fxml",
+        "Aprobación Documentos Iniciales");
+        
+        if(cargador != null){
+            
+            ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
+            controlador.configurarTipoDocumento(tipoDocumento, practicanteSeleccionado);
+        } 
+    }
+
+    @FXML
     private void verHorario(ActionEvent evento){
         abrirAprobacionDocumento(TipoDocumento.HORARIO, evento);
     }
@@ -188,11 +200,10 @@ public class ControladorAsignacionExperienciaEducativa {
         if (cargador != null) {
 
             ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
-            controlador.configurarTipoDocumento(tipo, practicanteSeleccionado, evento);
+            controlador.configurarTipoDocumento(tipo, practicanteSeleccionado);
             CerradorVentana.cerrarVentana(evento);
 
         }
-
     }
 
     @FXML
