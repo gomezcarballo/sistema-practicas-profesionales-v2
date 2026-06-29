@@ -43,7 +43,7 @@ public class ControladorListaExperienciasEducativas {
     @FXML
     public void initialize() {
         
-        gestorProfesor = new GestorProfesores();
+        this.gestorProfesor = new GestorProfesores();
 
         tblListaExperiencias.setPlaceholder(new Label("No hay grupos asignados para mostrar"));
         tblListaExperiencias.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

@@ -31,6 +31,8 @@ public class ControladorPracticantesConDocumentos extends ControladorBaseListaPr
         gestorPracticantes = new GestorPracticantes();
 
         super.initialize();
+        
+        cargarDatosEspecificos();
 
     }
     

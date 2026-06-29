@@ -42,7 +42,6 @@ public abstract class ControladorBaseListaProfesores {
         tblListaProfesores.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         configurarColumnas();
-        cargarDatosEspecificos();
 
     }
 

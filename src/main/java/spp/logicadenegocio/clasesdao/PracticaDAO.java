@@ -130,17 +130,10 @@ public class PracticaDAO implements IPracticaDAO{
 
         List<Actividad> practicasConsultadas = new ArrayList<>();
 
-        String consultaSQL = "SELECT "
-                + "a.idActividad, "
-                + "a.titulo, "
-                + "a.descripcion, "
-                + "a.fechaLimite "
-                + "FROM practicante pr "
-                + "INNER JOIN profesor p "
-                + "ON pr.idExperienciaEducativa = p.idExperienciaEducativa "
-                + "INNER JOIN practica a "
-                + "ON a.Profesor_idUsuario = p.idUsuario "
-                + "WHERE pr.idUsuario = ?";
+        String consultaSQL = "SELECT a.idActividad, a.titulo, a.descripcion, a.fechaLimite FROM practicante pr "+
+                "INNER JOIN experienciaeducativa ee  ON pr.idExperienciaEducativa = ee.idExperienciaEducativa "+
+                "INNER JOIN profesor p  ON ee.idUsuarioProfesor = p.idUsuario INNER JOIN practica a "+
+                "ON a.Profesor_idUsuario = p.idUsuario WHERE pr.idUsuario = ?";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {

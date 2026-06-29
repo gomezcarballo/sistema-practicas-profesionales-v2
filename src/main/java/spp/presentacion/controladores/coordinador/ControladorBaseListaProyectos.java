@@ -36,9 +36,7 @@ public abstract class ControladorBaseListaProyectos {
         tblListaProyectos.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         configurarColumnasBase();
-        
-        configurarColumnasEspecificas();
-        
+                
     }
     
     private void configurarColumnasBase() {

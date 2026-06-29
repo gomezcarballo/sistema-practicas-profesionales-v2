@@ -59,6 +59,8 @@ public class ControladorAsignacionProyecto extends ControladorBaseListaProyectos
         super.initialize();
         
         tblListaProyectos.setEditable(true);
+        
+        configurarColumnasEspecificas();
     
     }
     

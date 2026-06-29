@@ -45,6 +45,8 @@ public class ControladorListaProyectos extends ControladorBaseListaProyectos{
         gestorProyectos = new GestorProyectos();
 
         super.initialize();
+        
+        configurarColumnasEspecificas();
 
     }
 

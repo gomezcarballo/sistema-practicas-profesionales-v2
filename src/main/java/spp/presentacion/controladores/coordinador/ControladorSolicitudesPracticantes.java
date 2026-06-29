@@ -34,6 +34,8 @@ public class ControladorSolicitudesPracticantes extends ControladorBaseListaPrac
 
         super.initialize();
         
+        cargarDatosEspecificos();
+        
     }
   
     

@@ -32,6 +32,7 @@ public class ControladorListaProfesoresActivos extends ControladorBaseListaProfe
 
         gestorProfesores = new GestorProfesores();
         super.initialize();
+        cargarDatosEspecificos();
 
     }
 

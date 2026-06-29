@@ -34,6 +34,8 @@ public class ControladorListaPracticantes extends ControladorBaseListaPracticant
 
         super.initialize();
     
+        cargarDatosEspecificos();
+        
     }
     
     @Override

@@ -30,6 +30,8 @@ public class ControladorListaPracticantesAsignacionExperiencia extends Controlad
         gestorPracticantes = new GestorPracticantes();
 
         super.initialize();
+        
+        cargarDatosEspecificos();
 
     }
     

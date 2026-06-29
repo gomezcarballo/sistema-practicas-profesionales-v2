@@ -39,9 +39,7 @@ public abstract class ControladorBaseListaPracticantes {
         tblListaPracticantes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
         configurarColumnas();
-        
-        cargarDatosEspecificos(); 
-        
+                        
     }
 
     private void configurarColumnas() {

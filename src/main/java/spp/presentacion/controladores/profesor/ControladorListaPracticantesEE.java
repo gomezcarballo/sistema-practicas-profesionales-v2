@@ -34,10 +34,12 @@ public class ControladorListaPracticantesEE extends ControladorBaseListaPractica
     
     public void inicializarDatos(ExperienciaEducativa experienciaEducativa) {
         
+        this.gestorProfesor = new GestorProfesores();
         this.experienciaRecibida = experienciaEducativa;
         lblTituloPracticantes.setText("Alumnos de: " + experienciaRecibida.getNombreExperienciaEducativa());
+        
         cargarDatosEspecificos();
-
+        
     }
 
     @Override
