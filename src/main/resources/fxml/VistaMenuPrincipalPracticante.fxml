@@ -6,9 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" styleClass="panel-raiz" 
-stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" 
-fx:controller="spp.presentacion.controladores.menus.ControladorMenuPrincipalPracticante">
+<VBox fx:id="vbRaiz" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" styleClass="panel-raiz" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spp.presentacion.controladores.menus.ControladorMenuPrincipalPracticante">
 
     <children>
 
@@ -28,13 +26,17 @@ fx:controller="spp.presentacion.controladores.menus.ControladorMenuPrincipalPrac
 
                 <Button fx:id="btnMensajes" mnemonicParsing="false" onAction="#abrirSubMenuMensajes" prefHeight="40.0" prefWidth="280.0" styleClass="boton-accion" text="Mensajes" />
 
-                <HBox alignment="CENTER" spacing="15.0">
+                <HBox alignment="CENTER" spacing="10.0">
 
                     <children>
 
-                        <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="36.0" prefWidth="146.0" styleClass="boton-accion" text="Perfil" />
+                        <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="36.0" prefWidth="110.0" styleClass="boton-accion" text="Perfil" />
 
-                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" prefWidth="120.0" styleClass="boton-cancelar" text="Cerrar sesión" />
+                        <Button fx:id="btnMiProyecto" mnemonicParsing="false" onAction="#abrirMiProyecto" prefHeight="36.0" prefWidth="130.0" styleClass="boton-accion" text="Mi Proyecto" />
+
+                        <Button fx:id="btnMiEE" mnemonicParsing="false" onAction="#abrirMiEE" prefHeight="36.0" prefWidth="110.0" styleClass="boton-accion" text="Mi EE" />
+
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" prefHeight="36.0" prefWidth="140.0" styleClass="boton-cancelar" text="Cerrar sesión" />
 
                     </children>
 

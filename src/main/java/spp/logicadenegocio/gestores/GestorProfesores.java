@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
+import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
+import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionProfesor;
@@ -127,6 +129,22 @@ public class GestorProfesores {
         ProfesorDAO profesorDao = new ProfesorDAO();
         profesorDao.reactivarProfesor(idUsuario);
     
+    }
+    
+    public List<ExperienciaEducativa> recuperarExperienciasEducativasPorProfesor(int idUsuarioProfesor) throws OperacionesDeDaoExcepcion {
+        
+        ProfesorDAO profesorDAO = new ProfesorDAO();
+        
+        return profesorDAO.obtenerExperienciasEducativasPorProfesor(idUsuarioProfesor);
+        
+    }
+
+    public List<Practicante> recuperarPracticantesPorExperienciaEducativa(int idExperienciaEducativa) throws OperacionesDeDaoExcepcion {
+        
+        ProfesorDAO profesorDAO = new ProfesorDAO();
+        
+        return profesorDAO.obtenerPracticantesPorExperienciaEducativa(idExperienciaEducativa);
+        
     }
     
 }

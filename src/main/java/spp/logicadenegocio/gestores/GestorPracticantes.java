@@ -3,8 +3,12 @@ package spp.logicadenegocio.gestores;
 import java.util.List;
 import java.util.logging.Level;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
+import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
+import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
+import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.Usuario;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionPracticante;
 import spp.utilerias.bitacora.RegistroErrores;
@@ -121,6 +125,29 @@ public class GestorPracticantes {
         PracticanteDAO practicanteDAO = new PracticanteDAO();
         return practicanteDAO.consultarPracticantesParaAsignacionEE();
 
+    }
+    
+    public Proyecto recuperarProyectoAsignado(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        
+        return practicanteDAO.obtenerProyectoAsignado(idUsuarioPracticante);
+        
+    }
+
+    public ExperienciaEducativa recuperarExperienciaEducativaAsignada(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        
+        return practicanteDAO.obtenerExperienciaEducativaAsignada(idUsuarioPracticante);
+        
+    }
+    
+    public Profesor recuperarProfesorPorId(int idUsuarioProfesor) throws OperacionesDeDaoExcepcion {
+        
+        ProfesorDAO profesorDAO = new ProfesorDAO();
+        return profesorDAO.obtenerProfesorPorIdUsuario(idUsuarioProfesor);
+        
     }
     
 }

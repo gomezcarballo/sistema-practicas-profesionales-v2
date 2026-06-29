@@ -30,9 +30,11 @@ fx:controller="spp.presentacion.controladores.menus.ControladorMenuPrincipalProf
 
                     <children>
 
-                        <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="36.0" prefWidth="143.0" styleClass="boton-accion" text="Perfil" />
+                        <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#abrirVerPerfil" prefHeight="36.0" prefWidth="130.0" styleClass="boton-accion" text="Perfil" />
 
-                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" prefWidth="120.0" styleClass="boton-cancelar" text="Cerrar sesión" />
+                        <Button fx:id="btnMisGrupos" mnemonicParsing="false" onAction="#abrirMisGrupos" prefHeight="36.0" prefWidth="130.0" styleClass="boton-accion" text="Mis Grupos" />
+
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" prefHeight="36.0" prefWidth="130.0" styleClass="boton-cancelar" text="Cerrar sesión" />
 
                     </children>
 
