@@ -50,16 +50,12 @@ public class ControladorRegistroPracticante {
     
     @FXML
     private ComboBox<String> cbOpcionesLenguaIndigena;
-    
-    @FXML
-    private ComboBox<String> cbOpcionesNrc;
              
     @FXML
     public void initialize() {
         
         cbOpcionesGenero.setItems(FXCollections.observableArrayList("Masculino", "Femenino", "Prefiero no decirlo"));
         cbOpcionesLenguaIndigena.setItems(FXCollections.observableArrayList("Sí", "No"));
-        cbOpcionesNrc.setItems(FXCollections.observableArrayList("17141", "12345"));
         dpFechaNacimiento.setEditable(false);
         
     }
@@ -91,7 +87,6 @@ public class ControladorRegistroPracticante {
         String genero = cbOpcionesGenero.getValue();
         LocalDate fechaNacimiento = dpFechaNacimiento.getValue();
         String hablaLenguaIndigena = cbOpcionesLenguaIndigena.getValue();
-        String nrcAsignado = cbOpcionesNrc.getValue();
         boolean lenguaIndigena = "sí".equalsIgnoreCase(hablaLenguaIndigena);
 
 
@@ -105,7 +100,6 @@ public class ControladorRegistroPracticante {
         practicante.setGenero(genero);
         practicante.setFechaNacimiento(fechaNacimiento);
         practicante.setHablaLenguaIndigena(lenguaIndigena);
-        practicante.setNrcAsignado(nrcAsignado);
         
         return practicante;
         
@@ -119,8 +113,7 @@ public class ControladorRegistroPracticante {
 
         if(txtNombre.getText().isBlank() ||  txtApellidoPaterno.getText().isBlank() || 
             txtMatricula.getText().isBlank() ||dpFechaNacimiento.getValue() == null ||
-            txtCorreo.getText().isBlank() || cbOpcionesLenguaIndigena.getValue() == null ||
-            cbOpcionesNrc.getValue() == null){
+            txtCorreo.getText().isBlank() || cbOpcionesLenguaIndigena.getValue() == null){
             
             sonCamposValidos = false; 
 

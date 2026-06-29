@@ -42,9 +42,6 @@ public class ControladorDetallePracticante {
     private TextField txtHablaLenguaIndigena;
     
     @FXML
-    private TextField txtNrcAsignado;
-
-    @FXML
     public void initialize() {
 
         txtNombre.setEditable(false);
@@ -62,9 +59,7 @@ public class ControladorDetallePracticante {
         txtFechaNacimiento.setEditable(false);
 
         txtHablaLenguaIndigena.setEditable(false);
-        
-        txtNrcAsignado.setEditable(false);
-        
+                
     }
 
     public void cargarPracticante(Practicante practicante) {
@@ -75,7 +70,6 @@ public class ControladorDetallePracticante {
         txtCorreoInstitucional.setText(practicante.getCorreoInstitucional());
         txtMatricula.setText(practicante.getMatricula());
         txtGenero.setText(practicante.getGenero());
-        txtNrcAsignado.setText(practicante.getNrcAsignado());
         txtFechaNacimiento.setText(FormatoFechas.formatearFecha(practicante.getFechaNacimiento()));
         
         if (practicante.getHablaLenguaIndigena()) {

@@ -342,4 +342,39 @@ public class DocumentoDAO implements IDocumentoDAO {
         return cantidadCalificados;
     }
     
+    @Override
+    public boolean verificarDocumentoAprobado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+        
+        boolean estaAprobado = false;
+        
+        String consultaSQL = "SELECT 1 FROM documento WHERE Usuario_idUsuario = ? AND tipo = ? AND estado = 'Aprobado' LIMIT 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, tipoDocumento.getDescripcion());
+
+            try (ResultSet resultados = consultaPreparada.executeQuery()) {
+                if (resultados.next()) {
+                    estaAprobado = true;
+                }
+            }
+
+        } catch (SQLTimeoutException e) {
+            
+            RegistroErrores.registrarError(Level.WARNING, "Timeout al verificar aprobación de documento. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+            
+        } catch (SQLException e) {
+            
+            RegistroErrores.registrarError(Level.SEVERE, "Error al verificar aprobación de documento. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("No se pudo verificar el estado del documento", e);
+            
+        }
+
+        return estaAprobado;
+        
+    }
+    
 }

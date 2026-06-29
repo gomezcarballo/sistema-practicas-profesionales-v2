@@ -13,9 +13,8 @@ import java.time.LocalDate;
 public class Evaluacion {
     
     private int idEvaluacion;
-    private String nrc;
-    private String periodo;
     private double calificacionFinal;
+    private String periodo;
     private String observaciones;
     private int idProfesor;
     private Practicante practicante;
@@ -24,11 +23,9 @@ public class Evaluacion {
     public Evaluacion() {
     }
 
-    public Evaluacion(int idEvaluacion, String nrc, String periodo, double calificacionFinal, 
+    public Evaluacion(int idEvaluacion, double calificacionFinal, 
            String observaciones, int idProfesor, Practicante practicante) {
         this.idEvaluacion = idEvaluacion;
-        this.nrc = nrc;
-        this.periodo = periodo;
         this.calificacionFinal = calificacionFinal;
         this.idProfesor = idProfesor;
         this.practicante = practicante;
@@ -44,13 +41,6 @@ public class Evaluacion {
         this.idEvaluacion = idEvaluacion;
     }
 
-    public String getNrc() {
-        return nrc;
-    }
-
-    public void setNrc(String nrc) {
-        this.nrc = nrc;
-    }
 
     public void calcularPeriodoEscolar() {
         LocalDate fechaActual = LocalDate.now();

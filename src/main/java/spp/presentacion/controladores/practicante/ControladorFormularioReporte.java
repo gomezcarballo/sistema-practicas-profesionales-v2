@@ -33,7 +33,7 @@ import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
  * @author Luz Fernanda H J
  */
 public class ControladorFormularioReporte {
-    /*
+    
     @FXML private TextField txtPeriodo;
     @FXML private TextField txtHoras;
 
@@ -362,5 +362,5 @@ public class ControladorFormularioReporte {
                 
         
     }
-   */
+   
 }

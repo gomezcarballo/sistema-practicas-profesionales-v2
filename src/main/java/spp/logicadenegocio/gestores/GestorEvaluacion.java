@@ -39,7 +39,7 @@ public class GestorEvaluacion {
     public boolean evaluacionYaExiste(Practicante practicante, Documento documento) throws OperacionesDeDaoExcepcion {
         EvaluacionDAO dao = new EvaluacionDAO(); 
         
-        return dao.existeEvaluacion(practicante.getIdUsuario(), practicante.getNrcAsignado(), documento.getIdDocumento());
+        return dao.existeEvaluacion(practicante.getIdUsuario(), documento.getIdDocumento());
     }
     
 }

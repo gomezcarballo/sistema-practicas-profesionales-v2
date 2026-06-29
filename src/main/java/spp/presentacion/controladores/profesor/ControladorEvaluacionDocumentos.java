@@ -145,7 +145,6 @@ public class ControladorEvaluacionDocumentos {
             evaluacion.setCalificacionFinal(calificacionFinal);
             evaluacion.setObservaciones(observaciones);
             evaluacion.setPracticante(practicanteSeleccionado);
-            evaluacion.setNrc(practicanteSeleccionado.getNrcAsignado());
             evaluacion.setDocumento(documentoSeleccionado);
             
         } catch (NumberFormatException e) {
