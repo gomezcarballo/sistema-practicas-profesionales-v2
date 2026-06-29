@@ -28,14 +28,11 @@ public class ControladorAprobacionDocumentosIniciales {
     @FXML
     private Button btnRechazarDocumento;
 
-
-    
     private TipoDocumento tipoDocumento;
     private Practicante practicanteSeleccionado;
     private GestorDocumentosIniciales gestor;
     private Documento documentoActual;
 
-    
     public void configurarTipoDocumento(TipoDocumento tipoDocumento, Practicante practicanteSeleccionado){
 
         this.tipoDocumento = tipoDocumento;
@@ -53,7 +50,24 @@ public class ControladorAprobacionDocumentosIniciales {
         try {
         
             documentoActual = gestor.obtenerDocumentoInicial(practicante.getIdUsuario(), tipo);
-        
+            String estadoDocumentoActual = documentoActual.getEstadoDocumento();
+
+            String estadoEsperado = "Aprobado";
+
+            if(estadoDocumentoActual != null && estadoDocumentoActual.equals(estadoEsperado)){
+                bloquearAccionesInterfaz();
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Documento aprobado",
+                        "Este documento ya ha sido aprobado previamente. Solo puedes consultarlo.");
+            }
+
+            estadoEsperado = "Rechazado";
+
+            if(estadoDocumentoActual != null && estadoDocumentoActual.equals(estadoEsperado)){
+                bloquearAccionesInterfaz();
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Documento rechazado",
+                        "Este documento ya ha sido rechazado previamente. Solo puedes consultarlo.");
+            }
+
         } catch (OperacionesDeDaoExcepcion e) {
         
             VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al obtener documento", 
@@ -70,36 +84,143 @@ public class ControladorAprobacionDocumentosIniciales {
     @FXML
     private void aprobarDocumento() {
 
-        if (documentoActual != null){
+        String estadoDocumentoActualizar = "Aprobado";
+
+        try {
+
+            if (actualizarEstadoDocumento(estadoDocumentoActualizar)) {
+
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito",
+                        "Documento se aprobado correctamente.");
+
+                bloquearAccionesInterfaz();
+
+            } else {
+
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error",
+                        "No se pudo actualizar el Documento a estado aprobado.");
+            }
+
+        }catch (OperacionesDeDaoExcepcion e){
+
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al actualizar", e.getMessage());
+
+        }
+
+    }
+
+    @FXML
+    private void  rechazarDocumento(){
+
+        String estadoDocumentoActualizar = "Rechazado";
+
+        try{
+
+            if(actualizarEstadoDocumento(estadoDocumentoActualizar)) {
+
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito",
+                        "Documento rechazado correctamente.");
+                bloquearAccionesInterfaz();
+
+                gestor = new GestorDocumentosIniciales();
+                gestor.notificarPracticante(practicanteSeleccionado, tipoDocumento );
+
+            }else {
+
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error",
+                        "No se pudo rechazar el documento.");
+            }
+
+        }catch (OperacionesDeDaoExcepcion e){
+
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al actualizar", e.getMessage());
+        }
+
+    }
+
+    private boolean actualizarEstadoDocumento(String estadoDocumentoActualizar) throws OperacionesDeDaoExcepcion{
+
+        boolean esDocumentoActualizadoCorrectamente = false;
+        if (documentoActual != null) {
+            gestor = new GestorDocumentosIniciales();
+            if (gestor.actualizarEstadoDocumento(documentoActual, estadoDocumentoActualizar)) {
+                esDocumentoActualizadoCorrectamente = true;
+
+            }
+        }
+        return  esDocumentoActualizadoCorrectamente;
+    }
+
+    @FXML
+    private void verDocumento(){
+
+        File archivo = new File(documentoActual.getRuta());
+
+        if (documentoActual != null) {
 
             gestor = new GestorDocumentosIniciales();
 
             try {
 
-                if (gestor.aprobarDocumento(documentoActual)) {
+                if (archivo.exists()) {
 
+                    gestor.abrirDocumento(documentoActual);
 
-                    VentanaMensaje.mostrarVentanaMensaje(AlertType.INFORMATION, "Éxito", 
-                        "Documento aprobado correctamente.");
-                    
-                    bloquearAccionesInterfaz();
+                }else{
 
-
-                } else {
-
-                    VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error", 
-                        "No se pudo aprobar el documento.");
+                    VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Error",
+                            "Error al abrir el documento. La ruta no es valida.");
 
                 }
 
-            } catch (OperacionesDeDaoExcepcion e) {
+            } catch (ProcesamientoSistemaExcepcion e) {
 
-                VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al actualizar", e.getMessage());
+                VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al abrir", e.getMessage());
+
             }
+
+        }else{
+
+            VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Sin documento",
+                    "No hay documento cargado.");
+
         }
-        
     }
 
+    @FXML
+    public void regresar(ActionEvent evento) {
+
+        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador(
+                "/fxml/VistaAsignacionExperienciaEducativa.fxml",
+                "Asignación Experiencia Educativa"
+        );
+
+        if (cargador != null) {
+
+            ControladorAsignacionExperienciaEducativa controlador = cargador.getController();
+            controlador.cargarDatosDesdeBD(practicanteSeleccionado);
+
+        }
+
+        CerradorVentana.cerrarVentana(evento);
+    }
+
+    private void bloquearTodaLaInterfaz(){
+
+        btnVerDocumento.setDisable(true);
+        btnAprobarDocumento.setDisable(true);
+        btnRechazarDocumento.setDisable(true);
+
+    }
+
+    private void bloquearAccionesInterfaz(){
+
+        btnAprobarDocumento.setDisable(true);
+        btnRechazarDocumento.setDisable(true);
+
+    }
+
+    /*
     @FXML
     private void rechazarDocumento() {
 
@@ -146,76 +267,6 @@ public class ControladorAprobacionDocumentosIniciales {
         }
 
     }
-
-
-    @FXML 
-    private void verDocumento(){
-
-        File archivo = new File(documentoActual.getRuta());
-
-        if (documentoActual != null) {
-
-            gestor = new GestorDocumentosIniciales();
-
-            try {
-
-                if (archivo.exists()) {
-
-                    gestor.abrirDocumento(documentoActual);
-
-                }else{
-
-                    VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Error", 
-                        "Error al abrir el documento. La ruta no es valida.");
-                
-                    }
-
-            } catch (ProcesamientoSistemaExcepcion e) {
-                
-                VentanaMensaje.mostrarVentanaMensaje(AlertType.ERROR, "Error al abrir", e.getMessage());
-            
-            }
-        
-        }else{
-
-            VentanaMensaje.mostrarVentanaMensaje(AlertType.WARNING, "Sin documento", 
-            "No hay documento cargado.");
-
-        }
-    }
-
-   @FXML
-    public void regresar(ActionEvent evento) {
-
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador(
-            "/fxml/VistaAsignacionExperienciaEducativa.fxml",
-            "Asignación Experiencia Educativa"
-        );
-
-        if (cargador != null) {
-
-            ControladorAsignacionExperienciaEducativa controlador = cargador.getController();
-            controlador.cargarDatosDesdeBD(practicanteSeleccionado);
-
-        }
-
-        CerradorVentana.cerrarVentana(evento);
-    }
-
-    private void bloquearTodaLaInterfaz(){
-
-        btnVerDocumento.setDisable(true);
-        btnAprobarDocumento.setDisable(true);
-        btnRechazarDocumento.setDisable(true);
-
-    }
-
-    private void bloquearAccionesInterfaz(){
-
-        btnAprobarDocumento.setDisable(true);
-        btnRechazarDocumento.setDisable(true);
-
-    }
-
+    */
 
 }

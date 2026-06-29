@@ -12,3 +12,4 @@ nb-build-private/
 .DS_Store
 /Documentos_SPP/
 /logs/
+.idea/

@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.ReferenciaCurso;
-import spp.logicadenegocio.gestores.GestorExperienciasEducativas;
+import spp.logicadenegocio.gestores.GestorExperienciaEducativa;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.validadorsoloenteros.ValidadorEnteros;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
@@ -118,7 +118,7 @@ public class ControladorNuevaExperienciaEducativa {
         
         try {
             
-            GestorExperienciasEducativas gestor = new GestorExperienciasEducativas();
+            GestorExperienciaEducativa gestor = new GestorExperienciaEducativa();
             
             if (validarExperienciaEducativa(experienciaEducativa)) {
                 
@@ -144,7 +144,7 @@ public class ControladorNuevaExperienciaEducativa {
         
         try {
             
-            GestorExperienciasEducativas gestor = new GestorExperienciasEducativas();
+            GestorExperienciaEducativa gestor = new GestorExperienciaEducativa();
             List<String> listaValidaciones = gestor.validarCamposDeEE(experienciaEducativa);
 
             if (listaValidaciones.isEmpty()) {

@@ -9,6 +9,7 @@ import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.ReferenciaCurso;
+import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionExperienciaEducativa;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
 public class GestorExperienciaEducativa {
@@ -46,7 +47,7 @@ public class GestorExperienciaEducativa {
         return nrcReferenciado;
     }
 
-    public boolean asignarProfesorAEE(Practicante practicante, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
+    public boolean asignarPracticanteAEE(Practicante practicante, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
         
         boolean asignacionExitosa = false; 
         ExperienciaEducativaDAO experienciaDao = new ExperienciaEducativaDAO();
@@ -79,5 +80,33 @@ public class GestorExperienciaEducativa {
         return experienciaEducativaDAO.consultarExperienciasEducativasSinProfesor();
         
     }
-    
+
+    public List<String> validarCamposDeEE(ExperienciaEducativa experienciaEducativa) throws OperacionesDeDaoExcepcion {
+
+        ValidacionExperienciaEducativa validacion = new ValidacionExperienciaEducativa();
+
+        List<String> listaValidaciones = new ArrayList<>();
+
+        listaValidaciones = validacion.validarRegistroEE(experienciaEducativa);
+
+        return listaValidaciones;
+
+    }
+
+    public boolean ingresarExperienciaEducativa(ExperienciaEducativa experienciaEducativa) throws OperacionesDeDaoExcepcion {
+
+        ExperienciaEducativaDAO experienciaEducativaDAO = new ExperienciaEducativaDAO();
+
+        boolean registroExitoso = false;
+
+        experienciaEducativa.setEstado(true);
+
+        experienciaEducativaDAO.insertarExperienciaEducativa(experienciaEducativa);
+
+        registroExitoso = true;
+
+        return registroExitoso;
+
+    }
+
 }

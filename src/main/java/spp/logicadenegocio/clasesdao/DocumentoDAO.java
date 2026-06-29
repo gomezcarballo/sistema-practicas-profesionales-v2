@@ -436,6 +436,7 @@ public class DocumentoDAO implements IDocumentoDAO {
                 documentoEncontrado.setTipo(resultadosConsulta.getString("tipo"));
                 documentoEncontrado.setRuta(resultadosConsulta.getString("ruta")); 
                 documentoEncontrado.setIdUsuario(resultadosConsulta.getInt("Usuario_idUsuario"));
+                documentoEncontrado.setEstadoDocumento(resultadosConsulta.getString("estado"));
             }
 
             return documentoEncontrado;

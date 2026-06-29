@@ -37,7 +37,7 @@ public class ControladorAsignacionExperienciaEducativa {
 
     private Practicante practicanteSeleccionado;
 
-    private GestorExperienciaEducativa gestor;
+    private GestorExperienciaEducativa gestorExperiencia;
 
     @FXML
     public void initialize() {
@@ -54,11 +54,11 @@ public class ControladorAsignacionExperienciaEducativa {
 
         this.practicanteSeleccionado = practicante;
 
-        gestor = new GestorExperienciaEducativa();
+        gestorExperiencia = new GestorExperienciaEducativa();
 
         try {
 
-            List<ExperienciaEducativa> lista = gestor.buscarExperienciasEducativasActivas();
+            List<ExperienciaEducativa> lista = gestorExperiencia.buscarExperienciasEducativasActivas();
             cargarExperienciasEducativas(lista);
 
         } catch (OperacionesDeDaoExcepcion e) {
@@ -129,17 +129,18 @@ public class ControladorAsignacionExperienciaEducativa {
 
     @FXML 
     void asignarExperienciaAPracticante(ActionEvent evento){
-        
+
+        //
         ExperienciaEducativa experiencia = obtenerExperienciaSeleccionada();
         boolean asignacionExitosa = false;
          
         if(experiencia != null){
 
-            gestor = new GestorExperienciaEducativa();
+            gestorExperiencia = new GestorExperienciaEducativa();
 
             try{
 
-                asignacionExitosa = gestor.asignarProfesorAEE(practicanteSeleccionado, experiencia);
+                asignacionExitosa = gestorExperiencia.asignarExperienciaAlPracticante(practicanteSeleccionado, experiencia);
 
             }catch(OperacionesDeDaoExcepcion e){
 
@@ -151,8 +152,7 @@ public class ControladorAsignacionExperienciaEducativa {
             if(asignacionExitosa){
 
                 VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
-                "Se ha realizado la asignación correctamente.");
-                regresar(evento);
+                "Se a realizado la asignación correctamente.");
 
             }else{
 
@@ -160,11 +160,16 @@ public class ControladorAsignacionExperienciaEducativa {
                  "Intente de nuevo más tarde. Hubo un error al asignar la EE.");
 
             }
-            
         }
-        
     }
+/*
+    private boolean sonDocumentosAprobados(){
 
+        boolean sonDocumentosAprobados = false;
+        GestorDocumentosIniciales gestorDocumentosIniciales= new GestorDocumentosIniciales();
+
+    }
+*/
     @FXML
     private void verDocumento(TipoDocumento tipoDocumento){
 
@@ -175,12 +180,12 @@ public class ControladorAsignacionExperienciaEducativa {
             
             ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
             controlador.configurarTipoDocumento(tipoDocumento, practicanteSeleccionado);
-
         } 
     }
 
     @FXML
     private void verHorario(ActionEvent evento){
+
         abrirAprobacionDocumento(TipoDocumento.HORARIO, evento);
     }
 
@@ -218,5 +223,4 @@ public class ControladorAsignacionExperienciaEducativa {
         CerradorVentana.cerrarVentana(evento);
         
     }
-    
 }

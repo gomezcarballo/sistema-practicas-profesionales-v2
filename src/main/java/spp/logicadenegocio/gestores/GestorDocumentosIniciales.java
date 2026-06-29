@@ -29,15 +29,15 @@ public class GestorDocumentosIniciales {
         
     }
 
-    public boolean aprobarDocumento(Documento documento) throws OperacionesDeDaoExcepcion {
+    public boolean actualizarEstadoDocumento(Documento documento, String estadoDocumentoActualizar) throws OperacionesDeDaoExcepcion {
         
-        boolean esDocumentoAprobado;
+        boolean esDocumentoActualizado;
         documentoDao = new DocumentoDAO();
 
-        documento.setEstadoDocumento("Aprobado");
-        esDocumentoAprobado = documentoDao.actualizarEstadoDocumento(documento);
+        documento.setEstadoDocumento(estadoDocumentoActualizar);
+        esDocumentoActualizado = documentoDao.actualizarEstadoDocumento(documento);
 
-        return esDocumentoAprobado;
+        return esDocumentoActualizado;
     }
 
     public boolean eliminarDocumento(int idDocumento) throws OperacionesDeDaoExcepcion {
@@ -48,56 +48,6 @@ public class GestorDocumentosIniciales {
         esDocumentoEliminado = documentoDao.eliminarDocumentoPorId(idDocumento);
 
         return esDocumentoEliminado;
-    }
-
-    public boolean rechazarDocumento(Documento documento, Practicante practicante) throws OperacionesDeDaoExcepcion {
-
-        boolean esArchivoEliminado = false;
-        boolean esArchivoEliminadoEnSistema = eliminarDocumentoEnSistema(documento); 
-        boolean esArchivoEliminadoEnBaseDatos = eliminarDocumentoEnBaseDatos(documento);
-        
-        if(esArchivoEliminadoEnBaseDatos && esArchivoEliminadoEnSistema){
-            esArchivoEliminado = true;
-        }
-
-        return esArchivoEliminado;
-        
-    }
-
-    private boolean eliminarDocumentoEnSistema(Documento documento){
-        
-        boolean esArchivoEliminado = false;
-
-        if (documento != null){
-
-            File archivo = new File(documento.getRuta());
-
-            if (archivo.exists() && !archivo.delete()) {
-
-                esArchivoEliminado = false;
-                
-            }else{
-                
-                esArchivoEliminado = true;
-            }
-
-        }
-        return esArchivoEliminado;
-
-    }
-
-    private boolean eliminarDocumentoEnBaseDatos(Documento documento) throws OperacionesDeDaoExcepcion{
-        
-        boolean esArchivoEliminado = false; 
-
-        if (eliminarDocumento(documento.getIdDocumento())) {
-
-            esArchivoEliminado = true;
-
-        }
-
-        return esArchivoEliminado;
-
     }
 
     public boolean notificarPracticante(Practicante practicante, TipoDocumento tipo)  throws OperacionesDeDaoExcepcion{
@@ -151,4 +101,75 @@ public class GestorDocumentosIniciales {
         }
     }
 
+    public boolean rechazarDocumento(Documento documento, Practicante practicante) throws OperacionesDeDaoExcepcion {
+
+        boolean esArchivoEliminado = false;
+        boolean esArchivoEliminadoEnSistema = eliminarDocumentoEnSistema(documento);
+        boolean esArchivoEliminadoEnBaseDatos = eliminarDocumentoEnBaseDatos(documento);
+
+        if(esArchivoEliminadoEnBaseDatos && esArchivoEliminadoEnSistema){
+            esArchivoEliminado = true;
+        }
+        if(esArchivoEliminadoEnSistema){
+            RegistroErrores.registrarMensaje(Level.SEVERE,"\nEl documento: " + documento.getIdDocumento() +
+                    " no se pudo eliminar del sistema.");
+        }
+        if(esArchivoEliminadoEnBaseDatos){
+            RegistroErrores.registrarMensaje(Level.SEVERE, "\nEl documento: " + documento.getIdDocumento() +
+                    " no se pudo eliminar de la base de datos");
+        }
+
+        return esArchivoEliminado;
+
+    }
+
+    private boolean eliminarDocumentoEnSistema(Documento documento){
+
+        boolean esArchivoEliminado = false;
+
+        if (documento != null){
+
+            File archivo = new File(documento.getRuta());
+
+            if (archivo.exists() && !archivo.delete()) {
+
+                esArchivoEliminado = false;
+
+            }else{
+
+                esArchivoEliminado = true;
+            }
+
+        }
+        return esArchivoEliminado;
+
+    }
+
+    private boolean eliminarDocumentoEnBaseDatos(Documento documento) throws OperacionesDeDaoExcepcion{
+
+        boolean esArchivoEliminado = false;
+
+        if (eliminarDocumento(documento.getIdDocumento())) {
+
+            esArchivoEliminado = true;
+
+        }
+
+        return esArchivoEliminado;
+
+    }
+/*
+    public void verificarDocumentosInicialesAprobados(int idPracticante){
+
+        DocumentoDAO documentoDao = new DocumentoDAO();
+        boolean documentoInicialValido = false;
+
+        while (!documentoInicialValido){
+            documentoDao.verificarDocumentoAprobado(idPracticante, tipoDocumento);
+        }
+
+
+    }
+
+ */
 }
