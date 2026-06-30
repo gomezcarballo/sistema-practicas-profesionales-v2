@@ -26,7 +26,7 @@ public class ExperienciaEducativaDAO implements IExperienciaEducativaDAO{
         int idInsertado = 0; 
 
         String consultaSQL = "INSERT INTO ExperienciaEducativa (nombre, periodo, cupo, estado, idReferenciaCurso) " +
-                             "VALUES (?, ?, ?, ?)";
+                             "VALUES (?, ?, ?, ?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement

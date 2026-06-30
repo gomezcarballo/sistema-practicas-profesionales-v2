@@ -55,6 +55,8 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
         gestorSolicitudes = new GestorSolicitudesProyectos();
         
         super.initialize();
+
+        configurarColumnasEspecificas();
         
         tblListaProyectos.setEditable(true);
         
@@ -92,14 +94,16 @@ public class ControladorSolicitudProyectos extends ControladorBaseListaProyectos
     }
 
     @Override
-    protected void  configurarColumnasEspecificas() {
-        
+    protected void configurarColumnasEspecificas() {
+
         colNombreOrganizacion.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
-        
+
         colSeleccionar.setCellValueFactory(new SeleccionProyecto());
-        colSeleccionar.setCellFactory(CheckBoxTableCell.forTableColumn(colSeleccionar));
+
+        colSeleccionar.setCellFactory(CheckBoxTableCell.<Proyecto>forTableColumn(colSeleccionar));
+
         colSeleccionar.setEditable(true);
-        
+
     }
 
     @FXML
