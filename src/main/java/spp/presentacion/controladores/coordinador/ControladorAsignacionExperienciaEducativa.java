@@ -5,15 +5,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.enums.TipoDocumento;
+import spp.logicadenegocio.gestores.GestorDocumentosIniciales;
 import spp.logicadenegocio.gestores.GestorExperienciaEducativa;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
@@ -35,6 +32,9 @@ public class ControladorAsignacionExperienciaEducativa {
     @FXML
     private TableColumn<ExperienciaEducativa, String> colNRC;
 
+    @FXML
+    private Button btnAsignar;
+
     private Practicante practicanteSeleccionado;
 
     private GestorExperienciaEducativa gestorExperiencia;
@@ -47,7 +47,7 @@ public class ControladorAsignacionExperienciaEducativa {
         tblListaExperiencias.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         configurarColumnas();
-        
+
     }
 
     public void cargarDatosDesdeBD(Practicante practicante) {
@@ -130,57 +130,66 @@ public class ControladorAsignacionExperienciaEducativa {
     @FXML 
     void asignarExperienciaAPracticante(ActionEvent evento){
 
-        //
-        ExperienciaEducativa experiencia = obtenerExperienciaSeleccionada();
-        boolean asignacionExitosa = false;
-         
-        if(experiencia != null){
+        if(tieneDocumentosInicialesAprobados()){
 
-            gestorExperiencia = new GestorExperienciaEducativa();
+            ExperienciaEducativa experiencia = obtenerExperienciaSeleccionada();
+            boolean asignacionExitosa = false;
 
-            try{
+            if(experiencia != null){
 
-                asignacionExitosa = gestorExperiencia.asignarPracticanteAEE(practicanteSeleccionado, experiencia);
+                gestorExperiencia = new GestorExperienciaEducativa();
 
-            }catch(OperacionesDeDaoExcepcion e){
+                try{
 
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al asignar la EE. ",
-                e.getMessage());
-                
+                    asignacionExitosa = gestorExperiencia.asignarPracticanteAExperiencia(practicanteSeleccionado, experiencia);
+
+                }catch(OperacionesDeDaoExcepcion e){
+
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al asignar la EE. ",
+                            e.getMessage());
+
+                }
+
+                if(asignacionExitosa){
+
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
+                            "Se a realizado la asignación correctamente.");
+                    regresar(evento);
+
+                }else{
+
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Error al asignar",
+                            "Intente de nuevo más tarde. Hubo un error al asignar la EE.");
+
+                }
             }
 
-            if(asignacionExitosa){
-
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Asignación exitosa",
-                "Se a realizado la asignación correctamente.");
-
-            }else{
-
-                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Error al asignar",
-                 "Intente de nuevo más tarde. Hubo un error al asignar la EE.");
-
-            }
+        }else {
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "¡Advertencia!",
+                    "Los documentos iniciales deben estar validados, para asignar al Practicante.");
+            btnAsignar.setDisable(true);
         }
-    }
-/*
-    private boolean sonDocumentosAprobados(){
-
-        boolean sonDocumentosAprobados = false;
-        GestorDocumentosIniciales gestorDocumentosIniciales= new GestorDocumentosIniciales();
 
     }
-*/
-    @FXML
-    private void verDocumento(TipoDocumento tipoDocumento){
 
-        FXMLLoader cargador = CargadorVentana.cargarVentanaConControlador("/fxml/VistaAprobacionDocumentosIniciales.fxml",
-        "Aprobación Documentos Iniciales");
-        
-        if(cargador != null){
-            
-            ControladorAprobacionDocumentosIniciales controlador = cargador.getController();
-            controlador.configurarTipoDocumento(tipoDocumento, practicanteSeleccionado);
-        } 
+    private boolean tieneDocumentosInicialesAprobados(){
+
+        boolean documentosInicialesAprobados = true;
+
+        GestorDocumentosIniciales gestorDocumentosIniciales = new GestorDocumentosIniciales();
+        int idPracticante = practicanteSeleccionado.getIdUsuario();
+
+        try{
+
+            documentosInicialesAprobados = gestorDocumentosIniciales.verificarDocumentosInicialesAprobados(idPracticante);
+
+        }catch (OperacionesDeDaoExcepcion e){
+
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR, "Error al verifica documentos", e.getMessage());
+
+        }
+        return  documentosInicialesAprobados;
+
     }
 
     @FXML

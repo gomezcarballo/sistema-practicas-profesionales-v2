@@ -77,16 +77,37 @@ public class GestorEvidenciasPracticas {
         
     }
     
-    public boolean yaSubioHorario(int idPracticante) throws OperacionesDeDaoExcepcion {
-        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.HORARIO);
+    public boolean yaSubioHorarioAprobado(int idPracticante) throws OperacionesDeDaoExcepcion {
+        DocumentoDAO documentoDao = new DocumentoDAO();
+        boolean bloqueado = false;
+        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, TipoDocumento.HORARIO);
+        if (existe) {
+            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, TipoDocumento.HORARIO);
+            bloqueado = !rechazado;
+        }
+        return bloqueado;
     }
 
     public boolean yaSubioPlanActividades(int idPracticante) throws OperacionesDeDaoExcepcion {
-        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
+        DocumentoDAO documentoDao = new DocumentoDAO();
+        boolean bloqueado = false;
+        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
+        if (existe) {
+            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
+            bloqueado = !rechazado;
+        }
+        return bloqueado;
     }
 
     public boolean yaSubioOficioAceptacion(int idPracticante) throws OperacionesDeDaoExcepcion {
-        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
+        DocumentoDAO documentoDao = new DocumentoDAO();
+        boolean bloqueado = false;
+        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
+        if (existe) {
+            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
+            bloqueado = !rechazado;
+        }
+        return bloqueado;
     }
 
     public boolean yaSubioLimitesMensuales(int idPracticante) throws OperacionesDeDaoExcepcion {

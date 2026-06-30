@@ -158,18 +158,29 @@ public class GestorDocumentosIniciales {
         return esArchivoEliminado;
 
     }
-/*
-    public void verificarDocumentosInicialesAprobados(int idPracticante){
+
+    public boolean verificarDocumentosInicialesAprobados(int idPracticante) throws OperacionesDeDaoExcepcion {
 
         DocumentoDAO documentoDao = new DocumentoDAO();
-        boolean documentoInicialValido = false;
 
-        while (!documentoInicialValido){
-            documentoDao.verificarDocumentoAprobado(idPracticante, tipoDocumento);
+        TipoDocumento[] documentosIniciales = {
+                TipoDocumento.HORARIO,
+                TipoDocumento.PLAN_ACTIVIDADES,
+                TipoDocumento.OFICIO_ACEPTACION
+        };
+
+        boolean todosAprobados = true;
+
+        for (TipoDocumento tipo : documentosIniciales) {
+            boolean estaAprobado = documentoDao.verificarDocumentoAprobado(idPracticante, tipo);
+            if (!estaAprobado) {
+                todosAprobados = false;
+
+            }
         }
 
+        return todosAprobados;
 
     }
 
- */
 }
