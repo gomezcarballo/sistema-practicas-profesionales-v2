@@ -23,7 +23,7 @@ public class ValidacionReporteFinal {
         String observaciones = reporte.getObservaciones();
 
         if(!esTamañoObservacionesValido(observaciones)){
-            mensajeAlerta = "Las observaciones generales exceden de" + MAX_OBSERVACIONES_GENERALES + " caracteres";
+            mensajeAlerta = "Las observaciones generales exceden de " + MAX_OBSERVACIONES_GENERALES + " caracteres";
             listaValidaciones.add(mensajeAlerta);
             
         }
@@ -31,38 +31,42 @@ public class ValidacionReporteFinal {
         List<ActividadReporteFinal> entregables = reporte.getEntregables();
         List<ActividadReporteFinal> actividades = reporte.getActividades();
 
-        if(!entregables.isEmpty()){
+        if(entregables != null  && !entregables.isEmpty()){
 
             for (ActividadReporteFinal entregable : entregables) {
                 
                 if(!esTamañoValidoObservacionesActividadValido(entregable)){
-                    mensajeAlerta = "Las observaciones de la actividad " + entregable.getNombreActividad() + " exceden de" + MAX_OBSERVACION_FILA + " caracteres";
+                    mensajeAlerta = "Las observaciones de la actividad " + entregable.getNombreActividad() + " exceden de " + MAX_OBSERVACION_FILA + " caracteres";
                     listaValidaciones.add(mensajeAlerta);
                 }
 
                 if(!esPorcentajeValido(entregable)){
                     mensajeAlerta = "El porcentaje de la " + entregable.getNombreActividad() + 
-                    "debe estar en el rango de" + MIN_PORCENTAJE_ACTIVIDAD + " y " + MAX_PORCENTAJE_ACTIVIDAD;
+                    "debe estar en el rango de " + MIN_PORCENTAJE_ACTIVIDAD + " y " + MAX_PORCENTAJE_ACTIVIDAD;
                     listaValidaciones.add(mensajeAlerta);
                 }
 
             }
+            
+            if(actividades != null && !actividades.isEmpty()){
+                
+                for (ActividadReporteFinal actividad : actividades) {
 
-            for (ActividadReporteFinal actividad : actividades) {
+                    if(!esTamañoValidoObservacionesActividadValido(actividad)){
+                        mensajeAlerta = "Las observaciones de la actividad " + actividad.getNombreActividad() +
+                        " exceden de" + MAX_OBSERVACION_FILA + " caracteres";
+                        listaValidaciones.add(mensajeAlerta);
+                    }
 
-                if(!esTamañoValidoObservacionesActividadValido(actividad)){
-                    mensajeAlerta = "Las observaciones de la actividad " + actividad.getNombreActividad() +
-                    " exceden de" + MAX_OBSERVACION_FILA + " caracteres";
-                    listaValidaciones.add(mensajeAlerta);
+                    if(!esPorcentajeValido(actividad)){
+                        mensajeAlerta = "El porcentaje de la " + actividad.getNombreActividad() + 
+                        "debe estar en el rango de" + MIN_PORCENTAJE_ACTIVIDAD + " y " + MAX_PORCENTAJE_ACTIVIDAD;
+                        listaValidaciones.add(mensajeAlerta);
+                    }
+
                 }
-
-                if(!esPorcentajeValido(actividad)){
-                    mensajeAlerta = "El porcentaje de la " + actividad.getNombreActividad() + 
-                    "debe estar en el rango de" + MIN_PORCENTAJE_ACTIVIDAD + " y " + MAX_PORCENTAJE_ACTIVIDAD;
-                    listaValidaciones.add(mensajeAlerta);
-                }
-
-            }
+                
+            }    
 
         }
 
@@ -73,7 +77,7 @@ public class ValidacionReporteFinal {
     public boolean esTamañoObservacionesValido(String observaciones) {
         
         boolean esTamañoValido = false; 
-        if (observaciones != null && !observaciones.isBlank() && observaciones.length() > MAX_OBSERVACIONES_GENERALES) {
+        if (observaciones != null && !observaciones.isBlank() && observaciones.length() <= MAX_OBSERVACIONES_GENERALES) {
             esTamañoValido = true; 
         }
 
@@ -104,7 +108,7 @@ public class ValidacionReporteFinal {
 
                 porcentajeActividad = Integer.parseInt(procentajeDigitos);
                 
-                if (porcentajeActividad > MIN_PORCENTAJE_ACTIVIDAD && porcentajeActividad < MAX_PORCENTAJE_ACTIVIDAD) {
+                if (porcentajeActividad >= MIN_PORCENTAJE_ACTIVIDAD && porcentajeActividad <= MAX_PORCENTAJE_ACTIVIDAD) {
                     
                     esPorcentajeValido = true;
                 

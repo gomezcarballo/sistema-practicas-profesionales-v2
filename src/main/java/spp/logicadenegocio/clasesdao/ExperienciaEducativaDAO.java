@@ -160,6 +160,7 @@ public class ExperienciaEducativaDAO implements IExperienciaEducativaDAO{
                 experiencia.setIdExperienciaEducativa(resultadosConsulta.getInt("idExperienciaEducativa"));
                 experiencia.setNombreExperienciaEducativa(resultadosConsulta.getString("nombre"));
                 experiencia.setIdReferenciaCurso(resultadosConsulta.getInt("idReferenciaCurso"));
+                experiencia.setPeriodo(resultadosConsulta.getString("periodo"));
                 experiencia.setCupo(resultadosConsulta.getInt("cupo"));
                 experiencia.setIdProfesorAsignado(resultadosConsulta.getInt("idUsuarioProfesor"));
 
