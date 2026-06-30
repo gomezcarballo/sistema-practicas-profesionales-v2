@@ -36,6 +36,7 @@ public class ControladorListaProfesoresAsignacionEE extends ControladorBaseLista
 
         gestorProfesor = new GestorProfesores();
         super.initialize();
+        cargarDatosEspecificos();
         
     }
     
