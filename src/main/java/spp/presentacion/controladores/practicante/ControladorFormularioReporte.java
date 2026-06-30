@@ -94,21 +94,30 @@ public class ControladorFormularioReporte {
         
         if (sonCamposDeActividadValidos()) {
             
-            ActividadReporteParcial actividad = crearActividad();
-             
-            ValidacionReporteParcial validacion = new ValidacionReporteParcial();
-            List<String> listaValidaciones;
-            listaValidaciones = validacion.validarTamañoActividad(actividad);
-            
-            if(!listaValidaciones.isEmpty()){
+            try{
                 
-                registrarActividad(actividad);
             
-            }else{
+                ActividadReporteParcial actividad = crearActividad();
 
-                mostrarVentanaErrores(listaValidaciones);
+                ValidacionReporteParcial validacion = new ValidacionReporteParcial();
+                List<String> listaValidaciones;
+                listaValidaciones = validacion.validarTamañoActividad(actividad);
+
+                if(listaValidaciones.isEmpty()){
+
+                    registrarActividad(actividad);
+
+                }else{
+
+                    mostrarVentanaErrores(listaValidaciones);
+                }
+            
+            }catch(NumberFormatException e){
+                    
+                VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Cantidad inválida", 
+                "El número de horas ingresado es demasiado grande. Por favor, ingrese un valor válido.");
+                
             }
-
                 
         } else {
 
@@ -232,8 +241,17 @@ public class ControladorFormularioReporte {
             
             if(listaValidaciones.isEmpty()){
                 
-                ReporteParcial reporte = crearReporte();
-                guardarReporte (reporte, evento);
+                try {
+                    
+                    ReporteParcial reporte = crearReporte();
+                    guardarReporte(reporte, evento);
+
+                } catch (NumberFormatException e) {
+                    
+                    VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Cantidad de horas inválida", 
+                    "El número de horas cubiertas es inválido. Por favor, ingrese un valor válido.");
+                    
+                }
 
             }else{
 

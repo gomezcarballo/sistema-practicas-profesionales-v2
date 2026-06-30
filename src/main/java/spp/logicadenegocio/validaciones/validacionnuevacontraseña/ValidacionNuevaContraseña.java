@@ -24,15 +24,17 @@ public class ValidacionNuevaContraseña {
         List<String> listaErrores = new ArrayList<>();
 
         if (!esContraseñaActualValida(credenciales)) {
+            
             listaErrores.add("La contraseña actual no es correcta.");
-        }
-
-        if (!coincidenContraseñasNuevas(credenciales)) {
+            
+        } else if (!coincidenContraseñasNuevas(credenciales)) {
+            
             listaErrores.add("Las contraseñas nuevas no coinciden.");
-        }
-    
-        if (!esLongitudNuevaContraseñaValida(credenciales)) {
+            
+        } else if (!esLongitudNuevaContraseñaValida(credenciales)) {
+            
             listaErrores.add("La nueva contraseña debe tener al menos " + LONGITUD_MINIMA_CONTRASENA + " caracteres.");
+            
         }
         
         return listaErrores;

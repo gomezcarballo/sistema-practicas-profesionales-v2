@@ -115,10 +115,15 @@ public class ControladorGestionProyecto {
         
         boolean sonValidos = false;
 
-        if (!sonCamposValidos() || !esCupoMenorADigitosMaximos()) {
+        if (!sonCamposValidos()) {
             
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Datos incorrectos", 
-            "Por favor verifica que todos los campos estén llenos y el cupo sea un número válido.");
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Campos incompletos o inválidos", 
+            "Por favor, asegúrate de llenar todos los campos de texto correctamente antes de continuar.");
+            
+        } else if (!esCupoMenorADigitosMaximos()) {
+            
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Cupo inválido", 
+            "El número ingresado para el cupo excede el límite máximo permitido. Ingresa una cantidad válida.");
             
         } else {
             

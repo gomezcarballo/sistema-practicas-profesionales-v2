@@ -140,7 +140,7 @@ public class ControladorAsignacionExperienciaEducativa {
 
             try{
 
-                asignacionExitosa = gestorExperiencia.asignarExperienciaAlPracticante(practicanteSeleccionado, experiencia);
+                asignacionExitosa = gestorExperiencia.asignarPracticanteAEE(practicanteSeleccionado, experiencia);
 
             }catch(OperacionesDeDaoExcepcion e){
 

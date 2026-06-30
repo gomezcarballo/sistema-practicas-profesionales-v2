@@ -275,7 +275,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                 ", SQL State: " + e.getSQLState() + 
                 ", Error Code: " + e.getErrorCode(), e);
             
-            throw new OperacionesDeDaoExcepcion("No se pudo iniciar sesión, intente de nuevo", e);
+            throw new OperacionesDeDaoExcepcion("No se pudo iniciar sesión, intente de nuevo ", e);
         }
 
         return usuarioEncontrado; 

@@ -644,8 +644,8 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
             + "p.fechaNacimiento "
             + "FROM Practicante p "
             + "INNER JOIN Usuario u ON p.idUsuario = u.idUsuario "
-            + "INNER JOIN Profesor prof ON p.idExperienciaEducativa = prof.idExperienciaEducativa "
-            + "WHERE prof.idUsuario = ? AND u.estado = 1";
+            + "INNER JOIN experienciaeducativa ee ON p.idExperienciaEducativa = ee.idExperienciaEducativa "
+            + "WHERE ee.idUsuarioProfesor = ? AND u.estado = 1";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
