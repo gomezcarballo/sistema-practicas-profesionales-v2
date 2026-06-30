@@ -1,13 +1,17 @@
 package spp.presentacion.controladores.practicante;
 
+import java.io.File;
 import java.util.logging.Level;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
 import spp.logicadenegocio.enums.TipoDocumento;
+import spp.logicadenegocio.gestores.GestorDocumentosIniciales;
 import spp.logicadenegocio.gestores.GestorEvidenciasPracticas;
 import spp.presentacion.controladores.documentos.ControladorDocumentos;
 import spp.utilerias.bitacora.RegistroErrores;
@@ -88,7 +92,7 @@ public class ControladorSubirEvidenciaPracticas {
     private void validarDocumentosIniciales(int idPracticante, GestorEvidenciasPracticas gestorEvidencias) 
     throws OperacionesDeDaoExcepcion {
         
-        if (gestorEvidencias.yaSubioHorario(idPracticante)) {
+        if (gestorEvidencias.yaSubioHorarioAprobado(idPracticante)) {
             btnHorario.setDisable(true);
         }
         
@@ -194,16 +198,19 @@ public class ControladorSubirEvidenciaPracticas {
     
     @FXML
     private void agregarHorario() {
-        abrirDocumento(TipoDocumento.HORARIO);  
+        limpiarDocumentoRechazado(TipoDocumento.HORARIO);
+        abrirDocumento(TipoDocumento.HORARIO);
     }
 
     @FXML
     private void agregarPlanActividades() {
+        limpiarDocumentoRechazado(TipoDocumento.PLAN_ACTIVIDADES);
         abrirDocumento(TipoDocumento.PLAN_ACTIVIDADES);
     }
 
     @FXML
     private void agregarOficioAceptacion() {
+        limpiarDocumentoRechazado(TipoDocumento.OFICIO_ACEPTACION);
         abrirDocumento(TipoDocumento.OFICIO_ACEPTACION);
     }
 
@@ -227,7 +234,6 @@ public class ControladorSubirEvidenciaPracticas {
         abrirDocumento(TipoDocumento.BITACORA_PSP);
     }
 
-
     @FXML
     private void agregarAutoevaluacion() {
         abrirDocumento(TipoDocumento.AUTOEVALUACION);
@@ -238,6 +244,27 @@ public class ControladorSubirEvidenciaPracticas {
         abrirDocumento(TipoDocumento.OFICIO_LIBERACION);
     }
 
+    private void limpiarDocumentoRechazado(TipoDocumento tipo) {
+
+        try {
+            int idPracticante = SesionUsuario.getInstancia().getIdUsuario();
+            GestorDocumentosIniciales gestor = new GestorDocumentosIniciales();
+            Documento documentoExistente = gestor.obtenerDocumentoInicial(idPracticante, tipo);
+
+            if (documentoExistente != null && "Rechazado".equals(documentoExistente.getEstadoDocumento())) {
+
+                File archivo = new File(documentoExistente.getRuta());
+                if (archivo.exists()) {
+                    archivo.delete();
+                }
+
+                gestor.eliminarDocumento(documentoExistente.getIdDocumento());
+            }
+        } catch (OperacionesDeDaoExcepcion e) {
+            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.ERROR,
+                    "Error al limpiar documento anterior", e.getMessage());
+        }
+    }
     
     @FXML
     private void cancelar(ActionEvent evento){

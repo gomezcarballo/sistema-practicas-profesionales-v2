@@ -374,6 +374,41 @@ public class DocumentoDAO implements IDocumentoDAO {
     }
 
     @Override
+    public boolean verificarDocumentoRechazado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+
+        boolean estaAprobado = false;
+
+        String consultaSQL = "SELECT 1 FROM documento WHERE Usuario_idUsuario = ? AND tipo = ? AND estado = 'Rechazado' LIMIT 1";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+            consultaPreparada.setString(2, tipoDocumento.toString());
+
+            try (ResultSet resultados = consultaPreparada.executeQuery()) {
+                if (resultados.next()) {
+                    estaAprobado = true;
+                }
+            }
+
+        } catch (SQLTimeoutException e) {
+
+            RegistroErrores.registrarError(Level.WARNING, "Timeout al verificar el estado rechazado del documento. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
+
+        } catch (SQLException e) {
+
+            RegistroErrores.registrarError(Level.SEVERE, "Error al verificar el estado rechazado del documento. ID: " + idPracticante, e);
+            throw new OperacionesDeDaoExcepcion("No se pudo verificar el estado del documento", e);
+
+        }
+
+        return estaAprobado;
+
+    }
+
+    @Override
     public boolean actualizarEstadoDocumento(Documento documento) throws OperacionesDeDaoExcepcion {
         
         boolean actualizacionExitosa = false;

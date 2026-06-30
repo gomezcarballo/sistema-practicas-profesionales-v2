@@ -51,7 +51,7 @@ public class ControladorAsignacionProfesorAEE extends ControladorBaseAsignacionE
 
             try {
 
-                asignacionExitosa = gestor.asignarProfesorAEE(profesorSeleccionado, experiencia);
+                asignacionExitosa = gestor.asignarProfesorAExperiencia(profesorSeleccionado, experiencia);
 
             } catch (OperacionesDeDaoExcepcion e) {
 

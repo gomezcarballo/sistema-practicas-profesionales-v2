@@ -18,6 +18,8 @@
             <children>
                 <Label fx:id="lblTituloAsignarEE" styleClass="etiqueta-titulo" text="Asignación Experiencia Educativa" />
                 <Label fx:id="lblInstruccion" styleClass="etiqueta-instruccion" text="Seleccione una EE para asignarla al practicante" />
+                <Label fx:id="lblNotaDocumentos" styleClass="etiqueta-instruccion"
+                       text="Para realizar la asignación deben estar aprobados los documentos iniciales" />
                 <TableView fx:id="tblListaExperiencias" prefHeight="250.0" prefWidth="550.0" styleClass="tabla-estandar">
                     <columns>
                         <TableColumn fx:id="colNombre" prefWidth="188.8" text="Nombre" />

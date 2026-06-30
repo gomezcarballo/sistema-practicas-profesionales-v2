@@ -70,7 +70,8 @@ public interface IDocumentoDAO {
      */
     public int contarDocumentosCalificadosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
 
-    public boolean verificarDocumentoAprobado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;    
+    public boolean verificarDocumentoAprobado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
+    public boolean verificarDocumentoRechazado(int idPracticante, TipoDocumento tipoDocumento) throws  OperacionesDeDaoExcepcion;
     /**
      * 
      * @param documento Objeto que contiene la información necesaria para actualizar el estado del documento.

@@ -47,7 +47,7 @@ public class GestorExperienciaEducativa {
         return nrcReferenciado;
     }
 
-    public boolean asignarPracticanteAEE(Practicante practicante, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
+    public boolean asignarPracticanteAExperiencia(Practicante practicante, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
         
         boolean asignacionExitosa = false; 
         ExperienciaEducativaDAO experienciaDao = new ExperienciaEducativaDAO();
@@ -60,7 +60,7 @@ public class GestorExperienciaEducativa {
 
     }
     
-    public boolean asignarProfesorAEE(Profesor profesor, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
+    public boolean asignarProfesorAExperiencia(Profesor profesor, ExperienciaEducativa experiencia) throws OperacionesDeDaoExcepcion{
         
         boolean asignacionExitosa = false; 
         ExperienciaEducativaDAO experienciaDao = new ExperienciaEducativaDAO();
