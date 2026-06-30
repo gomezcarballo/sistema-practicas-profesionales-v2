@@ -67,64 +67,6 @@ public class GestorDocumentosIniciales {
         }
     }
 
-    public boolean rechazarDocumento(Documento documento, Practicante practicante) throws OperacionesDeDaoExcepcion {
-
-        boolean esArchivoEliminado = false;
-        boolean esArchivoEliminadoEnSistema = eliminarDocumentoEnSistema(documento);
-        boolean esArchivoEliminadoEnBaseDatos = eliminarDocumentoEnBaseDatos(documento);
-
-        if(esArchivoEliminadoEnBaseDatos && esArchivoEliminadoEnSistema){
-            esArchivoEliminado = true;
-        }
-        if(esArchivoEliminadoEnSistema){
-            RegistroErrores.registrarMensaje(Level.SEVERE,"\nEl documento: " + documento.getIdDocumento() +
-                    " no se pudo eliminar del sistema.");
-        }
-        if(esArchivoEliminadoEnBaseDatos){
-            RegistroErrores.registrarMensaje(Level.SEVERE, "\nEl documento: " + documento.getIdDocumento() +
-                    " no se pudo eliminar de la base de datos");
-        }
-
-        return esArchivoEliminado;
-
-    }
-
-    private boolean eliminarDocumentoEnSistema(Documento documento){
-
-        boolean esArchivoEliminado = false;
-
-        if (documento != null){
-
-            File archivo = new File(documento.getRuta());
-
-            if (archivo.exists() && !archivo.delete()) {
-
-                esArchivoEliminado = false;
-
-            }else{
-
-                esArchivoEliminado = true;
-            }
-
-        }
-        return esArchivoEliminado;
-
-    }
-
-    private boolean eliminarDocumentoEnBaseDatos(Documento documento) throws OperacionesDeDaoExcepcion{
-
-        boolean esArchivoEliminado = false;
-
-        if (eliminarDocumento(documento.getIdDocumento())) {
-
-            esArchivoEliminado = true;
-
-        }
-
-        return esArchivoEliminado;
-
-    }
-
     public boolean verificarDocumentosInicialesAprobados(int idPracticante) throws OperacionesDeDaoExcepcion {
 
         DocumentoDAO documentoDao = new DocumentoDAO();
