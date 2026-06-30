@@ -4,6 +4,7 @@
  */
 package spp.presentacion.controladores.coordinador;
 
+import java.time.LocalDate;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,10 +76,12 @@ public class ControladorNuevaExperienciaEducativa {
         String nombre = txtNombre.getText().trim();
         String periodo = cbPeriodo.getValue();
         int cupo = Integer.parseInt(txtCupo.getText().trim());
+        LocalDate fechaActual = LocalDate.now();
+        int añoParaPeriodo = fechaActual.getYear();
 
         ExperienciaEducativa experienciaEducativa = new ExperienciaEducativa();
         experienciaEducativa.setNombreExperienciaEducativa(nombre);
-        experienciaEducativa.setPeriodo(periodo);
+        experienciaEducativa.setPeriodo(periodo + " " + añoParaPeriodo);
         experienciaEducativa.setIdReferenciaCurso(nrcSeleccionado.getIdReferenciaCurso());
         experienciaEducativa.setCupo(cupo);
 
