@@ -66,24 +66,59 @@ public interface IDocumentoDAO {
      * @param idPracticante Id del Practicante al que esta asignado el documento.
      * @param tipoDocumento Tipo de documento que se quiere encontar para contar la cantidad de ellos.
      * @return Valor {@code int} que indica la cantidad encontrada de documentos calificados. Comenzando desde 0.
-     * @throws OperacionesDeDaoExcepcion
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la base de datos.
      */
     public int contarDocumentosCalificadosPorTipo(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
-
+    /**
+     * Verifica si un documento de un tipo específico ha sido aprobado para un practicante.
+     *
+     * @param idPracticante Identificador del practicante asociado al documento.
+     * @param tipoDocumento Tipo de documento que se desea verificar.
+     * @return {@code true} si existe un documento de ese tipo y su estado es "Aprobado";
+     *         {@code false} en caso contrario (no existe o no está aprobado).
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la base de datos.
+     */
     public boolean verificarDocumentoAprobado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion;
+    /**
+     * Verifica si un documento de un tipo específico ha sido rechazado para un practicante.
+     *
+     * @param idPracticante Identificador del practicante asociado al documento.
+     * @param tipoDocumento Tipo de documento que se desea verificar.
+     * @return {@code true} si existe un documento de ese tipo y su estado es "Rechazado";
+     *         {@code false} en caso contrario.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la base de datos.
+     */
     public boolean verificarDocumentoRechazado(int idPracticante, TipoDocumento tipoDocumento) throws  OperacionesDeDaoExcepcion;
     /**
-     * 
+     * Actualiza el estado de un documento para conocer en que parte del proceso se encuentra.
+     *
      * @param documento Objeto que contiene la información necesaria para actualizar el estado del documento.
      * @return {@code true} si el documento se acualizo el estado del documento correctamente 
      * {@code false} en caso de que no se haya actualizado el estado.
-     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la operación
-     * de acceso a datos.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la operació de acceso a datos.
      */
     public boolean actualizarEstadoDocumento(Documento documento) throws OperacionesDeDaoExcepcion;
-
+    /**
+     *Recupera el primer documento que coincida exactamente con el usuario y el tipo especificados.
+     *
+     * @param idUsuario Identificador del usuario (practicante) dueño del documento.
+     * @param tipo      Cadena que representa el tipo de documento (debe coincidir con
+     *                  el valor almacenado en la base de datos, por ejemplo "HORARIO").
+     * @return Objeto {@code Documento} con los datos completos del primer documento que encuentre con la condición,
+     * o {@code null} si no existe ningún registro con ese filtro.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta.
+     *
+     */
     public Documento buscarDocumentoPorUsuarioYTipo(int idUsuario, String tipo) throws OperacionesDeDaoExcepcion;
-
+    /**
+     * Elimina un documento de la base de datos utilizando su identificador único.
+     *
+     * @param idDocumento Identificador del documento que se desea eliminar.
+     * @return {@code true} si el documento fue eliminado exitosamente;
+     *         {@code false} si no se encontró ningún registro con ese ID.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la eliminación
+     *         (por ejemplo, violación de integridad referencial o timeout).
+     */
     public boolean eliminarDocumentoPorId(int idDocumento) throws OperacionesDeDaoExcepcion; 
 
 }

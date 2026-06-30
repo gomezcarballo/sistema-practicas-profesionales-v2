@@ -98,8 +98,56 @@ public interface IPracticanteDAO {
      * de acceso a datos.
      */
     public List<Practicante> consultarPracticantesParaAsignacionEE() throws OperacionesDeDaoExcepcion;
+    /**
+     * Verifica si un practicante tiene un proyecto y un grupo asignados actualmente.
+     *
+     * Esta verificación es necesaria como requisito previo para poder asignarle una
+     * experiencia educativa.
+     *
+     * @param idPracticante Identificador del practicante que se desea verificar.
+     * @return {@code true} si el practicante tiene tanto proyecto como grupo asignados;
+     *         {@code false} en caso contrario.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la
+     *         base de datos.
+     */
     public boolean tieneProyectoYGrupoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion;
+    /**
+     * Obtiene el proyecto que tiene asignado un practicante en el periodo actual.
+     *
+     * Este método recupera el proyecto activo asociado al usuario practicante, el cual
+     * define el contexto en el que realizará sus prácticas profesionales.
+     *
+     * @param idUsuarioPracticante Identificador del usuario con rol de practicante.
+     * @return Objeto {@code Proyecto} con los datos completos del proyecto asignado,
+     *         o {@code null} si no tiene ningún proyecto activo en ese momento.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la
+     *         base de datos.
+     */
     public Proyecto obtenerProyectoAsignado(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion;
+    /**
+     * Obtiene la experiencia educativa que tiene asignada actualmente un practicante.
+     * <p>
+     * La experiencia educativa representa la materia o curso específico que el
+     * practicante cursa como parte de su formación.
+     *
+     * @param idUsuarioPracticante Identificador del usuario con rol de practicante.
+     * @return Objeto {@code ExperienciaEducativa} con los datos de la experiencia
+     *         asignada, o {@code null} si no tiene ninguna experiencia educativa asignada.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la
+     *         base de datos.
+     */
     public ExperienciaEducativa obtenerExperienciaEducativaAsignada(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion;
+    /**
+     * Recupera la lista de todos los practicantes que ya cuentan con una asignación
+     * completa (experiencia educativa asignada) en el sistema.
+     * <p>
+     * Este método es útil para la supervisión y gestión del coordinador, permitiendo
+     * visualizar rápidamente qué practicantes ya están formalmente colocados.
+     *
+     * @return Lista de objetos {@code Practicante} que ya tienen una experiencia
+     *         educativa asignada, o una lista vacía si no hay practicantes asignados.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta a la
+     *         base de datos.
+     */
     public List<Practicante> consultarPracticantesAsignados()throws OperacionesDeDaoExcepcion;
 }

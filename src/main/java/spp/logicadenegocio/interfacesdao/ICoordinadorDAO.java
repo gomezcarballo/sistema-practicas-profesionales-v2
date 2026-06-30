@@ -74,5 +74,16 @@ public interface ICoordinadorDAO {
      * de acceso a datos.
      */
     public boolean eliminarCoordinador(int idUsuario) throws OperacionesDeDaoExcepcion;
+    /**
+     * Recupera el coordinador que se encuentra activo en el sistema.
+     *
+     * Normalmente existe un único coordinador activo encargado de la gestión
+     * de practicantes y asignaciones.
+     *
+     * @return Objeto {@code Coordinador} con la información del coordinador activo,
+     *         o {@code null} si no existe ningún coordinador activo.
+     * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la consulta
+     *         a la base de datos.
+     */
     public Coordinador consultarCoordinadorActivo() throws OperacionesDeDaoExcepcion;
 }

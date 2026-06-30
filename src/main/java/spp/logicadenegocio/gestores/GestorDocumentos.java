@@ -75,10 +75,12 @@ public class GestorDocumentos {
         try {
 
             Path direccionFinalArchivo = crearDireccionArchivo(tipoDocumento, archivoSeleccionado);
+
             if(direccionFinalArchivo != null){
                 Files.copy(archivoSeleccionado.toPath(), direccionFinalArchivo, StandardCopyOption.REPLACE_EXISTING);
                
             }
+
             return direccionFinalArchivo;
             
         } catch (IOException e ) {
