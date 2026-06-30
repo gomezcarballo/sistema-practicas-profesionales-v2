@@ -27,6 +27,15 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
     
     @FXML
     private Button btnVerActividades;
+    
+    @FXML 
+    private Button btnSolicitarProyecto;
+    
+    @FXML 
+    private Button btnMiProyecto;
+    
+    @FXML 
+    private Button btnMiEE;
             
     public void initialize() {
         
@@ -49,6 +58,21 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
         GestorPracticantes gestor = new GestorPracticantes();
     
         int idUsuarioActual = SesionUsuario.getInstancia().getIdUsuario(); 
+        
+        boolean cursoTerminado = gestor.verificarFinDeCurso(idUsuarioActual);
+        
+        if (cursoTerminado) {
+            
+            btnGenerarReportes.setDisable(true);
+            btnSubirEvidenciaPracticas.setDisable(true);
+            btnVerActividades.setDisable(true);
+            
+            if (btnSolicitarProyecto != null) btnSolicitarProyecto.setDisable(true);
+            if (btnMiProyecto != null) btnMiProyecto.setDisable(true);
+            if (btnMiEE != null) btnMiEE.setDisable(true);
+            
+            return; 
+        }
         
         boolean tieneProyecto = gestor.verificarAsignacionProyecto(idUsuarioActual);
         

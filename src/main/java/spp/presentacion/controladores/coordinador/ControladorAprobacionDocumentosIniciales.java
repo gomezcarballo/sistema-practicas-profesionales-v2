@@ -11,6 +11,7 @@ import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.gestores.GestorDocumentosIniciales;
+import spp.logicadenegocio.gestores.GestorNotificaciones;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 import spp.utilerias.excepciones.ProcesamientoSistemaExcepcion;
 import spp.utilerias.ventanas.cargadordeventanas.CargadorVentana;
@@ -122,8 +123,8 @@ public class ControladorAprobacionDocumentosIniciales {
                         "Documento rechazado correctamente.");
                 bloquearAccionesInterfaz();
 
-                gestor = new GestorDocumentosIniciales();
-                gestor.notificarPracticante(practicanteSeleccionado, tipoDocumento );
+                GestorNotificaciones gestorNotificaciones = new GestorNotificaciones();
+                gestorNotificaciones.notificarPracticante(practicanteSeleccionado, tipoDocumento );
 
             }else {
 

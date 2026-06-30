@@ -2,6 +2,7 @@ package spp.logicadenegocio.gestores;
 
 import java.util.List;
 import java.util.logging.Level;
+import spp.logicadenegocio.clasesdao.DocumentoDAO;
 import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.clasesdao.ProfesorDAO;
 import spp.logicadenegocio.clasesdao.UsuarioDAO;
@@ -10,6 +11,7 @@ import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.Profesor;
 import spp.logicadenegocio.clasesdto.Proyecto;
 import spp.logicadenegocio.clasesdto.Usuario;
+import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionPracticante;
 import spp.utilerias.bitacora.RegistroErrores;
 import spp.utilerias.enviodecorreo.EnvioCorreo;
@@ -61,6 +63,23 @@ public class GestorPracticantes {
         
         practicanteDAO.insertarPracticante(practicante);
     
+    }
+    
+    public boolean verificarFinDeCurso(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        boolean cursoTerminado = false;
+        DocumentoDAO documentoDAO = new DocumentoDAO();
+        
+        int oficiosCalificados = documentoDAO.contarDocumentosCalificadosPorTipo(idPracticante, TipoDocumento.OFICIO_LIBERACION);
+        
+        if (oficiosCalificados > 0) {
+            
+            cursoTerminado = true;
+            
+        }
+        
+        return cursoTerminado;
+        
     }
 
     private void enviarContraseñaPorCorreo(String correoDestino, String contrasenaPlana) throws ProcesamientoSistemaExcepcion {

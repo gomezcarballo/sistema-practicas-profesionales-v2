@@ -157,6 +157,10 @@ public class GestorDocumentos {
             case PLAN_ACTIVIDADES:
                 carpeta = "PlanActividades";
                 break;
+                
+            case OFICIO_LIBERACION:
+                carpeta = "OficioLiberacion";
+                break;
 
             default:
                 carpeta = "";

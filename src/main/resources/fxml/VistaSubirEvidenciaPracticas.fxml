@@ -40,6 +40,9 @@
                 <Label fx:id="lblEvaluacion" styleClass="etiqueta-campo" text="Evaluación" style="-fx-font-weight: bold;" />
                 <Button fx:id="btnAutoevaluacion" mnemonicParsing="false" onAction="#agregarAutoevaluacion" prefHeight="40.0" prefWidth="180.0" styleClass="boton-accion" text="Autoevaluación" />
 
+                <Label fx:id="lblDocumentosFinales" styleClass="etiqueta-campo" text="Documentos finales" style="-fx-font-weight: bold;" />
+                <Button fx:id="btnOficioLiberacion" mnemonicParsing="false" onAction="#agregarOficioLiberacion" prefHeight="40.0" prefWidth="180.0" styleClass="boton-accion" text="Oficio de Liberación" />
+
                 <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" prefWidth="140.0" styleClass="boton-cancelar" text="Cancelar">
                     <VBox.margin>
                         <Insets top="20.0" />

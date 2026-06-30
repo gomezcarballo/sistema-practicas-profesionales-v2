@@ -19,6 +19,7 @@ public enum TipoDocumento {
     AUTOEVALUACION("Autoevaluación"),
     CALENDARIZACION("Calendarización"),
     OFICIO_ACEPTACION("Oficio de aceptación"),
+    OFICIO_LIBERACION("Oficio de liberación"),
     PLAN_ACTIVIDADES("Plan de Actividades");
     
     private final String descripcion;

@@ -1,16 +1,10 @@
 package spp.presentacion.controladores.coordinador;
 
 import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import spp.logicadenegocio.clasesdto.ExperienciaEducativa;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.enums.TipoDocumento;
@@ -21,34 +15,11 @@ import spp.utilerias.ventanas.cerradordeventanas.CerradorVentana;
 import spp.utilerias.ventanas.ventanademensajes.VentanaMensaje;
 
 
-public class ControladorAsignacionExperienciaEducativa {
-
-    @FXML 
-    private TableView<ExperienciaEducativa> tblListaExperiencias;
-
-    @FXML
-    private TableColumn<ExperienciaEducativa, String> colNombre;
-
-    @FXML
-    private TableColumn<ExperienciaEducativa, String> colPeriodo;
-    
-    @FXML
-    private TableColumn<ExperienciaEducativa, String> colNRC;
+public class ControladorAsignacionExperienciaEducativa extends ControladorBaseAsignacionEE{
 
     private Practicante practicanteSeleccionado;
 
     private GestorExperienciaEducativa gestorExperiencia;
-
-    @FXML
-    public void initialize() {
-
-        tblListaExperiencias.setPlaceholder(new Label("No hay experiencias educativas registradas."));
-
-        tblListaExperiencias.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        configurarColumnas();
-        
-    }
 
     public void cargarDatosDesdeBD(Practicante practicante) {
 
@@ -87,50 +58,10 @@ public class ControladorAsignacionExperienciaEducativa {
         
     }
 
-    private void configurarColumnas() {
-
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreExperienciaEducativa"));
-        
-        colPeriodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
-
-        colNRC.setCellValueFactory(new PropertyValueFactory<>("nrc"));
-
-    }
-
-    private void cargarExperienciasEducativas(List<ExperienciaEducativa> listaExperienciaEducativas){
-
-        if(listaExperienciaEducativas != null && !listaExperienciaEducativas.isEmpty()){
-
-            tblListaExperiencias.getItems().clear();
-
-            tblListaExperiencias.setItems(FXCollections.observableArrayList(listaExperienciaEducativas));
-
-        }else{
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.INFORMATION, "Error cargar experiencias educativas",
-                "Error mostrar las experiencias educativas. Intentelo más tarde.");
-        }
-       
-    }
-
-    private ExperienciaEducativa obtenerExperienciaSeleccionada(){
-        
-        ExperienciaEducativa experienciaSeleccionada = tblListaExperiencias.getSelectionModel().getSelectedItem();
-        
-        if(experienciaSeleccionada == null){
-
-            VentanaMensaje.mostrarVentanaMensaje(Alert.AlertType.WARNING, "Sin selección",
-            "Debe seleccionar una experiencia educativa");
-
-        }
-
-        return experienciaSeleccionada;
-    }
-
     @FXML 
     void asignarExperienciaAPracticante(ActionEvent evento){
 
-        //
+        
         ExperienciaEducativa experiencia = obtenerExperienciaSeleccionada();
         boolean asignacionExitosa = false;
          
@@ -162,14 +93,7 @@ public class ControladorAsignacionExperienciaEducativa {
             }
         }
     }
-/*
-    private boolean sonDocumentosAprobados(){
 
-        boolean sonDocumentosAprobados = false;
-        GestorDocumentosIniciales gestorDocumentosIniciales= new GestorDocumentosIniciales();
-
-    }
-*/
     @FXML
     private void verDocumento(TipoDocumento tipoDocumento){
 

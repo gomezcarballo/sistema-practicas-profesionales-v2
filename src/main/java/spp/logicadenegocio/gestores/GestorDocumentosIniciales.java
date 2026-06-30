@@ -50,40 +50,6 @@ public class GestorDocumentosIniciales {
         return esDocumentoEliminado;
     }
 
-    public boolean notificarPracticante(Practicante practicante, TipoDocumento tipo)  throws OperacionesDeDaoExcepcion{
-        
-        SesionUsuario sesion = SesionUsuario.getInstancia();
-        String correoRemitente = sesion.getIdentificador();
-        String correoDestinatario = practicante.getCorreoInstitucional();
-
-        Mensaje mensaje = new Mensaje();
-        mensaje.setAsunto("Documento rechazado: " + tipo.getDescripcion());
-       
-        mensaje.setCuerpo(
-            "El documento " + tipo.getDescripcion() +
-            " que enviaste ha sido rechazado por el coordinador. " +
-            "Por favor, revisa los requisitos y súbelo nuevamente."
-        );
-
-        mensaje.setFecha(LocalDateTime.now());
-        mensaje.setCorreoRemitente(correoRemitente);
-        mensaje.setCorreoDestinatario(correoDestinatario);
-
-        MensajeDAO mensajeDAO = new MensajeDAO();
-        EnvioMensajeDAO envioMensajeDAO = new EnvioMensajeDAO();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-        int idDestinatario = usuarioDAO.buscarIdPorCorreo(correoDestinatario);
-        int idMensaje = mensajeDAO.insertarMensaje(mensaje);
-
-        boolean envioExitoso;
-        envioExitoso =  envioMensajeDAO.insertarEnvioMensaje(
-            idMensaje, sesion.getIdUsuario(), idDestinatario);
-
-        return envioExitoso;
-
-    }
-
     public void abrirDocumento(Documento documento) throws ProcesamientoSistemaExcepcion {
 
         File archivo = new File(documento.getRuta());

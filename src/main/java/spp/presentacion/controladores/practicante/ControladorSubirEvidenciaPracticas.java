@@ -46,6 +46,9 @@ public class ControladorSubirEvidenciaPracticas {
     @FXML 
     private Button btnAutoevaluacion;
     
+    @FXML 
+    private Button btnOficioLiberacion;
+    
     public void initialize() {
         
         aplicarReglasDeNegocio();
@@ -69,7 +72,9 @@ public class ControladorSubirEvidenciaPracticas {
             validarDocumentosIniciales(idPracticante, gestorEvidencias);
             validarDocumentosSeguimiento(idPracticante, gestorEvidencias);
             validarEvaluacion(idPracticante, gestorEvidencias);
-
+            
+            validarDocumentosFinales(idPracticante, gestorEvidencias);
+            
         } catch (OperacionesDeDaoExcepcion e) {
             
             bloquearTodaLaInterfaz();
@@ -140,6 +145,18 @@ public class ControladorSubirEvidenciaPracticas {
         }
         
     }
+    
+    private void validarDocumentosFinales(int idPracticante, GestorEvidenciasPracticas gestorEvidencias) 
+    throws OperacionesDeDaoExcepcion {
+        
+        if (!gestorEvidencias.puedeSubirOficioLiberacion(idPracticante) || 
+             gestorEvidencias.yaSubioOficioLiberacion(idPracticante)) {
+            
+            btnOficioLiberacion.setDisable(true);
+            
+        }
+        
+    }
 
     private void bloquearTodaLaInterfaz() {
         
@@ -148,6 +165,7 @@ public class ControladorSubirEvidenciaPracticas {
         btnOficioAceptacion.setDisable(true);
         bloquearBotonesSeguimiento();
         btnAutoevaluacion.setDisable(true);
+        btnOficioLiberacion.setDisable(true);
         
     }
 
@@ -213,6 +231,11 @@ public class ControladorSubirEvidenciaPracticas {
     @FXML
     private void agregarAutoevaluacion() {
         abrirDocumento(TipoDocumento.AUTOEVALUACION);
+    }
+    
+    @FXML
+    private void agregarOficioLiberacion() {
+        abrirDocumento(TipoDocumento.OFICIO_LIBERACION);
     }
 
     

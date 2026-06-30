@@ -10,6 +10,7 @@ import spp.logicadenegocio.clasesdto.Documento;
 import spp.logicadenegocio.clasesdto.Evaluacion;
 import spp.logicadenegocio.clasesdto.Practicante;
 import spp.logicadenegocio.clasesdto.SesionUsuario;
+import spp.logicadenegocio.enums.TipoDocumento;
 import spp.logicadenegocio.validaciones.validacionesinsercion.ValidacionEvaluacion;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -33,7 +34,8 @@ public class GestorEvaluacion {
         evaluacion.setIdProfesor(sesionUsuario.getIdUsuario());
 
         evaluacionDAO.insertarEvaluacion(evaluacion);
- 
+
+        
     }
     
     public boolean evaluacionYaExiste(Practicante practicante, Documento documento) throws OperacionesDeDaoExcepcion {

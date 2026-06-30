@@ -109,4 +109,27 @@ public class GestorEvidenciasPracticas {
         return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.AUTOEVALUACION);
     }
     
+    public boolean puedeSubirOficioLiberacion(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        boolean puedeSubir = false;
+        DocumentoDAO documentoDAO = new DocumentoDAO();
+        
+        int autoevaluacionesCalificadas = documentoDAO.contarDocumentosCalificadosPorTipo(idPracticante, TipoDocumento.AUTOEVALUACION);
+        
+        if (autoevaluacionesCalificadas > 0) {
+            
+            puedeSubir = true;
+            
+        }
+        
+        return puedeSubir;
+        
+    }
+    
+    public boolean yaSubioOficioLiberacion(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        return new DocumentoDAO().verificarExistenciaDocumento(idPracticante, TipoDocumento.OFICIO_LIBERACION);
+        
+    }
+    
 }

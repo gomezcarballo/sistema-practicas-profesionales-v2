@@ -39,7 +39,7 @@ public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
             int idPracticante = sesionUsuario.getIdUsuario();
             GestorGeneracionEvidencias gestorGeneracion = new GestorGeneracionEvidencias();
 
-            //validarReporteFinal(idPracticante, gestorGeneracion);
+            validarReporteFinal(idPracticante, gestorGeneracion);
             validarAutoevaluacion(idPracticante, gestorGeneracion);
 
         } catch (OperacionesDeDaoExcepcion e) {
@@ -50,7 +50,7 @@ public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
         }
         
     }
-/*
+
     private void validarReporteFinal(int idPracticante, GestorGeneracionEvidencias gestor) throws OperacionesDeDaoExcepcion {
         
         if (!gestor.puedeGenerarReporteFinal(idPracticante) || gestor.yaSubioReporteFinal(idPracticante)) {
@@ -60,7 +60,7 @@ public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
         }
         
     }
-*/
+
     private void validarAutoevaluacion(int idPracticante, GestorGeneracionEvidencias gestor) throws OperacionesDeDaoExcepcion {
         
         if (!gestor.puedeGenerarAutoevaluacion(idPracticante) || gestor.yaSubioAutoevaluacion(idPracticante)) {
