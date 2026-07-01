@@ -34,7 +34,7 @@ public class ProfesorDAO extends UsuarioDAO implements IProfesorDAO{
         
         boolean registroExitoso = false;
         
-        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?, ?)";
+        String consultaSQL = "INSERT INTO Profesor (idUsuario, noPersonal) VALUES (?, ?)";
         
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {

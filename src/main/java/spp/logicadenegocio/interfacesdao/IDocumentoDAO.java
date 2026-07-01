@@ -26,13 +26,13 @@ public interface IDocumentoDAO {
     /**
      * Consulta un documento a partir de su nombre.
      *
-     * @param nombre Nombre del documento que se desea consultar.
+     * @param idDocumento id del documento que se desea consultar.
      * @return Objeto {@code Documento} con la información encontrada o
      * {@code null} si no existe un documento con el nombre proporcionado.
      * @throws OperacionesDeDaoExcepcion Si ocurre un error durante la operación
      * de acceso a datos.
      */
-    public Documento consultarDocumento(String nombre)throws OperacionesDeDaoExcepcion;
+    public Documento consultarDocumento(int idDocumento)throws OperacionesDeDaoExcepcion;
     /**
      * Elimina un documento del sistema.
      *

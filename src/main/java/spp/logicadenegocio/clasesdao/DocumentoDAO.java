@@ -89,16 +89,16 @@ public class DocumentoDAO implements IDocumentoDAO {
     }
 
     @Override
-    public Documento consultarDocumento(String nombreDocumento) throws OperacionesDeDaoExcepcion{
+    public Documento consultarDocumento(int idDocumento) throws OperacionesDeDaoExcepcion{
         
         Documento documento = null;
         
-        String consultaSQL = "SELECT * FROM Documento WHERE nombre = ?";
+        String consultaSQL = "SELECT * FROM Documento WHERE idDocumento = ?";
 
         try(Connection conexion = ConexionBD.getConexion();
             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL);) {
           
-            consultaPreparada.setString(1, nombreDocumento);
+            consultaPreparada.setInt(1, idDocumento);
 
             ResultSet resultadosConsulta = consultaPreparada.executeQuery();
 
@@ -115,14 +115,14 @@ public class DocumentoDAO implements IDocumentoDAO {
 
          } catch(SQLTimeoutException e) {
             RegistroErrores.registrarError(Level.WARNING, 
-                "Timeout al consultar el docuemnto. Nombre del documento: " + nombreDocumento , e);
+                "Timeout al consultar el docuemnto. idDocumento del documento: " + idDocumento , e);
             
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo por favor", e);
             
         } catch(SQLException e) {
             RegistroErrores.registrarError(Level.SEVERE, 
-                "Error de base de datos al consultar el documento. Nombre del documento: " + 
-                nombreDocumento + 
+                "Error de base de datos al consultar el documento. id del documento: " + 
+                idDocumento + 
                 ", SQL State: " + e.getSQLState() + 
                 ", Error Code: " + e.getErrorCode(), e);
             
@@ -372,6 +372,48 @@ public class DocumentoDAO implements IDocumentoDAO {
         return estaAprobado;
         
     }
+    
+    public boolean verificarDocumentoCalificado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+    
+    boolean estaCalificado = false;
+
+    String consultaSQL = "SELECT COUNT(d.idDocumento) FROM documento d " +
+                         "INNER JOIN evaluacion e ON d.idDocumento = e.Documento_idDocumento " +
+                         "WHERE d.Usuario_idUsuario = ? AND d.tipo = ?";
+
+    try (Connection conexion = ConexionBD.getConexion();
+         PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+        consultaPreparada.setInt(1, idPracticante);
+        consultaPreparada.setString(2, tipoDocumento.toString());
+
+        try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+            if (resultadosConsulta.next()) {
+                int cantidad = resultadosConsulta.getInt(1);
+                if (cantidad > 0) {
+                    estaCalificado = true;
+                }
+            }
+            
+        }
+
+    } catch(SQLTimeoutException e) {
+        
+        RegistroErrores.registrarError(Level.WARNING, 
+            "Timeout al verificar si el documento está calificado. ID: " + idPracticante, e);
+        throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, intente de nuevo", e);
+        
+    } catch(SQLException e) {
+        
+        RegistroErrores.registrarError(Level.SEVERE, 
+            "Error al verificar documento calificado. ID: " + idPracticante, e);
+        throw new OperacionesDeDaoExcepcion("No se pudo verificar la calificación, intente de nuevo", e);
+        
+    }
+
+    return estaCalificado;
+}
 
     @Override
     public boolean verificarDocumentoRechazado(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {

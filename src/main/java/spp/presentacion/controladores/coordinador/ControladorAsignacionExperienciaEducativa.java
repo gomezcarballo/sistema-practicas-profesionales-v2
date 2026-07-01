@@ -68,8 +68,6 @@ public class ControladorAsignacionExperienciaEducativa extends ControladorBaseAs
     @FXML 
     void asignarExperienciaAPracticante(ActionEvent evento){
 
-
-
         if(tieneDocumentosInicialesAprobados()){
 
             ExperienciaEducativa experiencia = obtenerExperienciaSeleccionada();

@@ -61,7 +61,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Violación de integridad al insertar la evaluacion. " +
                 "El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
             
             throw new OperacionesDeDaoExcepcion("Ya existe un registro con la misma información", e);
@@ -71,7 +70,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Timeout al insertar coordinador." +
                 "El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
             
             throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
@@ -82,7 +80,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Datos inválidos al insertar el coordinador." +
                 " El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() , e);
             
             throw new OperacionesDeDaoExcepcion("Los datos ingresados no son válidos, " + 
@@ -93,7 +90,6 @@ public class EvaluacionDAO implements IEvaluacionDAO{
                 "Error de base de datos al insertar el coordinador. " +
                 " El ID del profesor: " + evaluacion.getIdProfesor() +
                 ", el ID del practicante: " + evaluacion.getPracticante().getIdUsuario() +
-                ", el perido: " + evaluacion.getPeriodo() + 
                 ", la calificacion: " + evaluacion.getCalificacionFinal() + 
                 ".SQL State: " + e.getSQLState() + 
                 ", Error Code: " + e.getErrorCode(), e);

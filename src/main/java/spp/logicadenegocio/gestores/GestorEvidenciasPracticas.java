@@ -77,54 +77,38 @@ public class GestorEvidenciasPracticas {
         
     }
     
-    public boolean yaSubioHorarioAprobado(int idPracticante) throws OperacionesDeDaoExcepcion {
-
+    private boolean verificarSiExisteDocumento(int idPracticante, TipoDocumento tipoDocumento) throws OperacionesDeDaoExcepcion {
+        
         DocumentoDAO documentoDao = new DocumentoDAO();
         boolean bloqueado = false;
-        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, TipoDocumento.HORARIO);
+        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, tipoDocumento);
 
         if (existe) {
-
-            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, TipoDocumento.HORARIO);
+            
+            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, tipoDocumento);
             bloqueado = !rechazado;
-
+            
         }
 
         return bloqueado;
+        
+    }
+    
+    public boolean yaSubioHorarioAprobado(int idPracticante) throws OperacionesDeDaoExcepcion {
+
+        return verificarSiExisteDocumento(idPracticante, TipoDocumento.HORARIO);
 
     }
 
     public boolean yaSubioPlanActividades(int idPracticante) throws OperacionesDeDaoExcepcion {
 
-        DocumentoDAO documentoDao = new DocumentoDAO();
-        boolean bloqueado = false;
-        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
-
-        if (existe) {
-
-            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
-            bloqueado = !rechazado;
-
-        }
-
-        return bloqueado;
+        return verificarSiExisteDocumento(idPracticante, TipoDocumento.PLAN_ACTIVIDADES);
 
     }
 
     public boolean yaSubioOficioAceptacion(int idPracticante) throws OperacionesDeDaoExcepcion {
 
-        DocumentoDAO documentoDao = new DocumentoDAO();
-        boolean bloqueado = false;
-        boolean existe = documentoDao.verificarExistenciaDocumento(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
-
-        if (existe) {
-
-            boolean rechazado = documentoDao.verificarDocumentoRechazado(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
-            bloqueado = !rechazado;
-
-        }
-
-        return bloqueado;
+        return verificarSiExisteDocumento(idPracticante, TipoDocumento.OFICIO_ACEPTACION);
 
     }
 

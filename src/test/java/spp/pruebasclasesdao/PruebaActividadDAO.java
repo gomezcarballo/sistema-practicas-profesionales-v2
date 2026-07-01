@@ -1,0 +1,140 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package spp.pruebasclasesdao;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import java.time.LocalDateTime;
+import java.util.List;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import spp.logicadenegocio.clasesdao.PracticaDAO;
+import spp.logicadenegocio.clasesdao.ProfesorDAO;
+import spp.logicadenegocio.clasesdao.UsuarioDAO;
+import spp.logicadenegocio.clasesdto.Actividad;
+import spp.logicadenegocio.clasesdto.Profesor;
+import spp.logicadenegocio.clasesdto.Usuario;
+import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
+/**
+ *
+ * @author gomes
+ */
+public class PruebaActividadDAO {
+    
+    private PracticaDAO actividadDAO;
+    private UsuarioDAO usuarioDAO;
+    private ProfesorDAO profesorDAO;
+
+    private int idUsuarioFalso;
+    private String tituloActividad;
+
+    @Before
+    public void inicializarDatosPrueba() throws OperacionesDeDaoExcepcion {
+        
+        actividadDAO = new PracticaDAO();
+        usuarioDAO = new UsuarioDAO();
+        profesorDAO = new ProfesorDAO();
+
+        tituloActividad = "Ensayo";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Jose Guillermo");
+        usuario.setApellidoPaterno("Hernandez");
+        usuario.setApellidoMaterno("Calderon");
+        usuario.setCorreoInstitucional("memo@uv.mx");
+        usuario.setContraseña("123");
+        usuario.setEsActivo(true);
+        idUsuarioFalso = usuarioDAO.insertarUsuario(usuario);
+
+        Profesor p = new Profesor();
+        p.setIdUsuario(idUsuarioFalso);
+        p.setNumeroDePersonal("44569");
+        profesorDAO.insertarProfesor(p);
+
+        Actividad actividadBase = new Actividad();
+        actividadBase.setTitulo(tituloActividad);
+        actividadBase.setDescripcion("Descripción inicial de prueba");
+        actividadBase.setFechaLimite(LocalDateTime.now().plusDays(5));
+        actividadBase.setIdProfesor(idUsuarioFalso);
+
+        actividadDAO.insertarActividad(actividadBase);
+    }
+
+    @After
+    public void eliminarDatosPrueba() throws OperacionesDeDaoExcepcion {
+        actividadDAO.eliminarActividad(tituloActividad);
+        profesorDAO.eliminarProfesor(idUsuarioFalso);
+        usuarioDAO.eliminarUsuario(idUsuarioFalso);
+    }
+
+    @Test
+    public void pruebaInsertarActividadExitoso() throws OperacionesDeDaoExcepcion {
+        
+        String tituloNuevo = "Exposicion Tema 2";
+        Actividad nuevaActividad = new Actividad();
+        nuevaActividad.setTitulo(tituloNuevo);
+        nuevaActividad.setDescripcion("Otra práctica insertada desde el test");
+        nuevaActividad.setFechaLimite(LocalDateTime.now().plusDays(3));
+        nuevaActividad.setIdProfesor(idUsuarioFalso);
+
+        boolean resultado = actividadDAO.insertarActividad(nuevaActividad);
+        
+        actividadDAO.eliminarActividad(tituloNuevo);
+
+        assertTrue(resultado);
+    }
+
+    @Test
+    public void pruebaConsultarActividadExistente() throws OperacionesDeDaoExcepcion {
+        
+        Actividad resultado = actividadDAO.consultarActividad(tituloActividad);
+        assertNotNull(resultado);
+    }
+
+    @Test
+    public void pruebaConsultarActividadesAsignadasNoNulo() throws OperacionesDeDaoExcepcion {
+
+        List<Actividad> lista = actividadDAO.consultarActividadesAsignadas(idUsuarioFalso);
+        assertNotNull(lista);
+    }
+
+    @Test
+    public void pruebaActualizarActividadExitoso() throws OperacionesDeDaoExcepcion {
+        
+        Actividad actividadModificada = new Actividad();
+        actividadModificada.setTitulo(tituloActividad); 
+        actividadModificada.setDescripcion("Descripción editada durante la prueba");
+        actividadModificada.setFechaLimite(LocalDateTime.now().plusDays(10));
+        actividadModificada.setIdProfesor(idUsuarioFalso);
+
+        boolean resultado = actividadDAO.actualizarActividad(actividadModificada);
+        assertTrue(resultado);
+    }
+
+    @Test
+    public void pruebaEliminarActividadExistente() throws OperacionesDeDaoExcepcion {
+        
+        boolean resultado = actividadDAO.eliminarActividad(tituloActividad);
+        assertTrue(resultado);
+    }
+
+    @Test
+    public void pruebaConsultarActividadNoExistente() throws OperacionesDeDaoExcepcion {
+        
+        Actividad resultado = actividadDAO.consultarActividad("Titulo_Que_No_Existe_123");
+        assertNull(resultado);
+    }
+
+    @Test
+    public void pruebaEliminarActividadNoExistente() throws OperacionesDeDaoExcepcion {
+        
+        boolean resultado = actividadDAO.eliminarActividad("Titulo_Que_No_Existe_123");
+        assertFalse(resultado);
+    }
+    
+}

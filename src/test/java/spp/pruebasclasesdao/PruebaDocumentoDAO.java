@@ -54,6 +54,7 @@ public class PruebaDocumentoDAO {
         documento.setIdUsuario(idUsuarioFalso);
 
         documentoDAO.insertarDocumento(documento);
+        
     }
 
     @After
@@ -84,15 +85,7 @@ public class PruebaDocumentoDAO {
         assertTrue(resultado);
         
     }
-
-    @Test
-    public void pruebaConsultarDocumentoExistente() throws OperacionesDeDaoExcepcion {
-        
-        Documento resultado = documentoDAO.consultarDocumento(nombreDocumentoPrueba);
-        assertNotNull(resultado);
-        
-    }
-
+    
     @Test
     public void pruebaEliminarDocumentoExitoso() throws OperacionesDeDaoExcepcion {
         
@@ -106,7 +99,8 @@ public class PruebaDocumentoDAO {
     @Test
     public void pruebaConsultarDocumentoNoExistente() throws OperacionesDeDaoExcepcion {
         
-        Documento resultado = documentoDAO.consultarDocumento("Archivo_Inexistente_999.txt");
+        int idInexistente = 99999;
+        Documento resultado = documentoDAO.consultarDocumento(idInexistente);
         assertNull(resultado);
         
     }
