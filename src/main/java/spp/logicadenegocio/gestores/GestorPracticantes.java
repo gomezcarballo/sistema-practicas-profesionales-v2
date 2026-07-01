@@ -124,6 +124,13 @@ public class GestorPracticantes {
         return practicanteDao.tieneProyectoAsignado(idUsuario);
     
     }
+    
+    public boolean verificarAccesoGenerarEvidencias(int idUsuario) throws OperacionesDeDaoExcepcion {
+        
+        PracticanteDAO practicanteDao = new PracticanteDAO();
+        return practicanteDao.tieneProyectoYGrupoAsignado(idUsuario);
+    
+    }
 
     public List<Practicante> recuperarPracticantesActivos() throws OperacionesDeDaoExcepcion {
         

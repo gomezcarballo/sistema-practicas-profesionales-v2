@@ -39,6 +39,7 @@ public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
             int idPracticante = sesionUsuario.getIdUsuario();
             GestorGeneracionEvidencias gestorGeneracion = new GestorGeneracionEvidencias();
 
+            validarReporteParcial(idPracticante, gestorGeneracion);
             validarReporteFinal(idPracticante, gestorGeneracion);
             validarAutoevaluacion(idPracticante, gestorGeneracion);
 
@@ -46,6 +47,16 @@ public class ControladorGenerarEvidenciaPracticas extends ControladorMenus{
             
             bloquearTodaLaInterfaz();
             RegistroErrores.registrarError(Level.SEVERE, "Fallo al validar permisos de generación", e);
+            
+        }
+        
+    }
+    
+    private void validarReporteParcial(int idPracticante, GestorGeneracionEvidencias gestor) throws OperacionesDeDaoExcepcion {
+        
+        if (!gestor.puedeGenerarReporteParcial(idPracticante)) {
+            
+            btnReporteParcial.setDisable(true);
             
         }
         

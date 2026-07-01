@@ -546,6 +546,49 @@ public class PracticanteDAO extends UsuarioDAO implements IPracticanteDAO{
 
         return tieneAsignaciones;
     }
+
+    
+    public boolean tieneGrupoAsignado(int idPracticante) throws OperacionesDeDaoExcepcion {
+        
+        boolean tieneAsignacion = false;
+
+        String consultaSQL = "SELECT idExperienciaEducativa FROM practicante WHERE idUsuario = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement consultaPreparada = conexion.prepareStatement(consultaSQL)) {
+
+            consultaPreparada.setInt(1, idPracticante);
+
+            try (ResultSet resultadosConsulta = consultaPreparada.executeQuery()) {
+
+                if (resultadosConsulta.next() && 
+                    resultadosConsulta.getObject("idExperienciaEducativa") != null) {
+
+                    tieneAsignacion = true;
+                    
+                }
+            }
+
+        } catch(SQLTimeoutException e) {
+            RegistroErrores.registrarError(Level.WARNING, 
+                "Timeout al verificar el grupo asignado. ID Practicante: " + idPracticante, e);
+            
+            throw new OperacionesDeDaoExcepcion("El sistema está tardando demasiado, " + 
+                "intente de nuevo por favor", e);
+            
+        } catch(SQLException e) {
+            RegistroErrores.registrarError(Level.SEVERE, 
+                "Error al verificar grupo asignado. " +
+                "ID Practicante: " + idPracticante + 
+                ", SQL State: " + e.getSQLState() + 
+                ", Error Code: " + e.getErrorCode(), e);
+            
+            throw new OperacionesDeDaoExcepcion("No se pudo verificar la asignación, " + 
+                "intente de nuevo", e);
+        }
+
+        return tieneAsignacion;
+    }
     
     @Override
     public Proyecto obtenerProyectoAsignado(int idUsuarioPracticante) throws OperacionesDeDaoExcepcion {

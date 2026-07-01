@@ -5,6 +5,7 @@
 package spp.logicadenegocio.gestores;
 
 import spp.logicadenegocio.clasesdao.DocumentoDAO;
+import spp.logicadenegocio.clasesdao.PracticanteDAO;
 import spp.logicadenegocio.enums.TipoDocumento;
 import spp.utilerias.excepciones.OperacionesDeDaoExcepcion;
 
@@ -18,6 +19,17 @@ public class GestorGeneracionEvidencias {
     private final int MINIMO_PARCIALES = 2;
     private final int MINIMO_FINALES = 1;
 
+    
+    public boolean puedeGenerarReporteParcial(int idPracticante)throws OperacionesDeDaoExcepcion {
+
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+
+        boolean tieneGrupo = practicanteDAO.tieneGrupoAsignado(idPracticante);
+
+        return tieneGrupo;
+        
+    }
+    
     public boolean puedeGenerarReporteFinal(int idPracticante) throws OperacionesDeDaoExcepcion {
         
         boolean puedeGenerar = false;

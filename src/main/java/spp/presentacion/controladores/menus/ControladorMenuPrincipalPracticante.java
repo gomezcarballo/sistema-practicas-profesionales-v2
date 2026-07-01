@@ -77,6 +77,7 @@ public class ControladorMenuPrincipalPracticante extends ControladorMenus{
         boolean tieneProyecto = gestor.verificarAsignacionProyecto(idUsuarioActual);
         
         if (!tieneProyecto) {
+            
             btnGenerarReportes.setDisable(true);
             btnSubirEvidenciaPracticas.setDisable(true);
             btnVerActividades.setDisable(true);
